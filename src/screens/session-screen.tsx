@@ -1,5 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
-import { Box, Button, Icon, Input, Text } from "native-base";
 import React, { useContext, useState } from "react";
 import { LayoutChangeEvent } from "react-native";
 import ScreenWrapper from "../components/common/screen-wrapper";
@@ -19,12 +17,12 @@ const SessionScreen: React.FC = () => {
     setParentHeight(height);
   };
 
-  const marginTopPercentage = 0.07;
+  const marginTopPercentage = 0.079;
   const marginBottomPercentage = 0.2;
 
   return (
     <ScreenWrapper backgroundColor='#296879' onLayout={onLayout}>
-      <Box bg='#296879' height='100%'>
+      {/* <Box bg='#296879' height='100%'>
         <Box
           flex={1}
           px={30}
@@ -34,10 +32,23 @@ const SessionScreen: React.FC = () => {
           borderRadius={20}
           alignItems='center'
         >
-          <Text fontSize='5xl' fontWeight='bold' color='#296879' mt={45}>
+          <Text
+            fontSize='5xl'
+            fontWeight='bold'
+            color='#296879'
+            borderColor='black'
+            borderWidth={1}
+          >
             ROUTINE
           </Text>
-          <Text fontSize={25} fontWeight='medium' color='#296879' mt={70}>
+          <Text
+            fontSize={25}
+            fontWeight='medium'
+            color='#296879'
+            mt={70}
+            borderColor='black'
+            borderWidth={1}
+          >
             WILKOMMEN ZURÜCK
           </Text>
           <Box
@@ -118,7 +129,7 @@ const SessionScreen: React.FC = () => {
             </Text>
           </Button>
         </Box>
-      </Box>
+      </Box> */}
     </ScreenWrapper>
   );
 };

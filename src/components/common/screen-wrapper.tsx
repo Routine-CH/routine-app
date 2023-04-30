@@ -1,12 +1,6 @@
 // src/components/ScreenWrapper.tsx
 import React from "react";
-import {
-  LayoutChangeEvent,
-  Platform,
-  SafeAreaView,
-  StatusBar,
-  ViewStyle,
-} from "react-native";
+import { LayoutChangeEvent, SafeAreaView, ViewStyle } from "react-native";
 
 type ScreenWrapperProps = {
   backgroundColor?: string;
@@ -21,12 +15,12 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   children,
   onLayout,
 }) => {
-  const statusBarHeight =
-    Platform.OS === "android" ? StatusBar.currentHeight : 0;
+  // const statusBarHeight =
+  //   Platform.OS === "android" ? StatusBar.currentHeight : 0;
 
   return (
     <SafeAreaView
-      style={[{ flex: 1, backgroundColor, paddingTop: statusBarHeight }, style]}
+      style={[{ flex: 1, backgroundColor }, style]}
       onLayout={onLayout}
     >
       {children}
