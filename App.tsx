@@ -3,10 +3,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApplicationProvider } from "@ui-kitten/components";
-import { useFonts } from "expo-font";
 import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import React, { useEffect, useMemo, useState } from "react";
 import AuthContext from "./src/contexts/auth-context";
+import useUbuntuFont from "./src/hooks/use-fonts";
 import HomeScreen from "./src/screens/home-screen";
 import SessionScreen from "./src/screens/session-screen";
 
@@ -21,22 +21,11 @@ const App: React.FC = () => {
   const [userToken, setUserToken] = useState<string | null>(null);
   const [appIsReady, setAppIsReady] = useState(false);
 
-  // load fonts
-  const [fontsLoaded] = useFonts({
-    UbuntuLight: require("./src/assets/fonts/Ubuntu-Light.ttf"),
-    UbuntuLightItalic: require("./src/assets/fonts/Ubuntu-LightItalic.ttf"),
-    Ubuntu: require("./src/assets/fonts/Ubuntu-Regular.ttf"),
-    UbuntuItalic: require("./src/assets/fonts/Ubuntu-Italic.ttf"),
-    UbuntuMedium: require("./src/assets/fonts/Ubuntu-Medium.ttf"),
-    UbuntuMediumItalic: require("./src/assets/fonts/Ubuntu-MediumItalic.ttf"),
-    UbuntuBold: require("./src/assets/fonts/Ubuntu-Bold.ttf"),
-    UbuntuBoldItalic: require("./src/assets/fonts/Ubuntu-BoldItalic.ttf"),
-  });
-
   useEffect(() => {
     async function prepare() {
       try {
         await preventAutoHideAsync();
+        await useUbuntuFont();
         const token = await AsyncStorage.getItem("user_token");
         setUserToken(token);
       } catch (error) {
@@ -47,10 +36,8 @@ const App: React.FC = () => {
       }
     }
 
-    if (fontsLoaded) {
-      prepare();
-    }
-  }, [fontsLoaded]);
+    prepare();
+  }, []);
 
   const authContextValue = useMemo(
     () => ({

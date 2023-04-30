@@ -3,7 +3,7 @@ import { TextStyle } from "react-native/types";
 
 interface AppTextProps extends TextProps {
   size?: number;
-  weight?: "bold" | "semi-bold" | "regular" | "light";
+  weight?: "bold" | "medium" | "regular" | "light";
   color?: string;
 }
 
@@ -15,10 +15,14 @@ const AppText: React.FC<AppTextProps> = ({
   ...props
 }) => {
   const fontWeights: { [key: string]: TextStyle } = {
-    light: { fontFamily: "Ubuntu-Light", fontWeight: "300" },
-    regular: { fontFamily: "Ubuntu-Regular", fontWeight: "400" },
-    medium: { fontFamily: "Ubuntu-Medium", fontWeight: "500" },
-    bold: { fontFamily: "Ubuntu-Bold", fontWeight: "700" },
+    light: { fontFamily: "Ubuntu_300Light", fontWeight: "300" },
+    lightItalic: { fontFamily: "Ubuntu_300Light_Italic", fontWeight: "300" },
+    regular: { fontFamily: "Ubuntu_400Regular", fontWeight: "400" },
+    italic: { fontFamily: "Ubuntu_400Regular_Italic", fontWeight: "400" },
+    medium: { fontFamily: "Ubuntu_500Medium", fontWeight: "500" },
+    mediumItalic: { fontFamily: "Ubuntu_500Medium_Italic", fontWeight: "500" },
+    bold: { fontFamily: "Ubuntu_700Bold", fontWeight: "700" },
+    boldItalic: { fontFamily: "Ubuntu_700Bold_Italic", fontWeight: "700" },
   };
 
   const customStyle = {

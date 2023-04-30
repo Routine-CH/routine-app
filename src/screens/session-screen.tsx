@@ -1,5 +1,14 @@
 import React, { useContext, useState } from "react";
-import { LayoutChangeEvent } from "react-native";
+import {
+  Image,
+  LayoutChangeEvent,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  View,
+} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import AppText from "../components/common/app-text";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import AuthContext from "../contexts/auth-context";
 
@@ -22,116 +31,145 @@ const SessionScreen: React.FC = () => {
 
   return (
     <ScreenWrapper backgroundColor='#296879' onLayout={onLayout}>
-      {/* <Box bg='#296879' height='100%'>
-        <Box
-          flex={1}
-          px={30}
-          mt={`${marginTopPercentage * 100}%`}
-          //   mb={`${marginBottomPercentage * 100}%`}
-          bgColor='#fff'
-          borderRadius={20}
-          alignItems='center'
-        >
-          <Text
-            fontSize='5xl'
-            fontWeight='bold'
+      <View style={styles.container}>
+        <View style={styles.loginContainer}>
+          <Image
+            source={require("../assets/logo/logo.png")}
+            style={{ width: 270, height: 41, marginTop: 94 }}
+          />
+          <AppText
+            size={25}
+            weight='bold'
             color='#296879'
-            borderColor='black'
-            borderWidth={1}
+            style={{ marginTop: 88 }}
           >
-            ROUTINE
-          </Text>
-          <Text
-            fontSize={25}
-            fontWeight='medium'
-            color='#296879'
-            mt={70}
-            borderColor='black'
-            borderWidth={1}
-          >
-            WILKOMMEN ZURÜCK
-          </Text>
-          <Box
-            backgroundColor='rgba(185, 209, 217, 0.2);'
-            borderRadius={10}
-            w='100%'
-            flexDir='row'
-            alignItems='center'
-            mt='30px'
-          >
-            <Icon as={Ionicons} name='person' size={22} ml='18px' mr='5px' />
-            <Input
-              placeholder='Benutzername'
-              flex={1}
-              borderColor='transparent'
-              py='16px'
-              fontSize='18px'
-              color='rgba(0,0,0,0.7))'
-              mr='20px'
-              placeholderTextColor='rgba(0,0,0,0.7)'
-            />
-          </Box>
-          <Box
-            backgroundColor='rgba(185, 209, 217, 0.2);'
-            borderRadius={10}
-            w='100%'
-            flexDir='row'
-            alignItems='center'
-            mt='30px'
-          >
-            <Icon
-              as={Ionicons}
-              name='lock-closed'
-              size={22}
-              ml='18px'
-              mr='5px'
-            />
-            <Input
-              placeholder='Passwort'
-              flex={1}
-              borderColor='transparent'
-              py='16px'
-              fontSize='18px'
-              color='rgba(0,0,0,0.7))'
-              mr='20px'
-              placeholderTextColor='rgba(0,0,0,0.7)'
-            />
-          </Box>
-          <Button
-            w='100%'
-            backgroundColor='#296879'
-            mt='60px'
-            borderRadius={13}
-          >
-            <Text color='#fff' fontWeight='bold' fontSize='18px'>
+            WILLKOMMEN ZURÜCK
+          </AppText>
+          <View style={styles.formContainer}>
+            <View style={styles.emailContainer}>
+              <Icon
+                name='person'
+                size={24}
+                color='rgba(0, 0, 0, 0.6)'
+                style={{ marginLeft: 18, marginRight: 20 }}
+              />
+              <TextInput style={styles.textInput} placeholder='Benutzername' />
+            </View>
+            <View style={styles.passwordContainer}>
+              <Icon
+                name='lock-closed'
+                size={24}
+                color='rgba(0, 0, 0, 0.6)'
+                style={{ marginLeft: 18, marginRight: 20 }}
+              />
+              <TextInput style={styles.textInput} placeholder='Passwort' />
+            </View>
+          </View>
+          <Pressable style={styles.loginButton}>
+            <AppText
+              size={18}
+              color='#fff'
+              weight='medium'
+              style={{ paddingVertical: 12, paddingHorizontal: 16 }}
+            >
               LOGIN
-            </Text>
-          </Button>
-          <Button variant='ghost' mt={13}>
-            <Text color='#296879' fontWeight='medium' fontSize='18px'>
+            </AppText>
+          </Pressable>
+          <Pressable style={styles.forgotPwButton}>
+            <AppText
+              color='#296879'
+              size={18}
+              weight='medium'
+              style={{ lineHeight: 25 }}
+            >
               Passwort vergessen?
-            </Text>
-          </Button>
-        </Box>
-        <Box
-          mt={30}
-          mb={20}
-          flexDir='row'
-          alignItems='center'
-          justifyContent='center'
-        >
-          <Text color='#fff' fontSize='18px'>
-            Noch kein Account?
-          </Text>
-          <Button variant='ghost'>
-            <Text color='#fff' fontSize='18px' fontWeight='bold' ml='-5px'>
-              Registriere dich!
-            </Text>
-          </Button>
-        </Box>
-      </Box> */}
+            </AppText>
+          </Pressable>
+        </View>
+        <View style={styles.registerContainer}>
+          <AppText
+            color='#fff'
+            size={18}
+            weight='medium'
+            style={{ lineHeight: 30 }}
+          >
+            Noch kein account?
+          </AppText>
+          <Pressable>
+            <AppText
+              color='#fff'
+              size={18}
+              weight='medium'
+              style={{ marginLeft: 5, lineHeight: 30 }}
+            >
+              Registrier dich!
+            </AppText>
+          </Pressable>
+        </View>
+      </View>
     </ScreenWrapper>
   );
 };
 
 export default SessionScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loginContainer: {
+    width: "100%",
+    backgroundColor: "#fff",
+    paddingHorizontal: 30,
+    alignItems: "center",
+    borderRadius: 20,
+  },
+  formContainer: {
+    marginTop: 30,
+    width: "100%",
+    marginBottom: 60,
+  },
+  emailContainer: {
+    backgroundColor: "rgba(185, 209, 217, 0.2);",
+    borderRadius: 10,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  passwordContainer: {
+    backgroundColor: "rgba(185, 209, 217, 0.2);",
+    borderRadius: 10,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 30,
+  },
+  textInput: {
+    flex: 1,
+    borderColor: "transparent",
+    paddingVertical: 16,
+    fontSize: 18,
+    fontFamily: "Ubuntu_400Regular",
+    color: "rgba(0,0,0,0.7))",
+    marginRight: 20,
+    placeholderTextColor: "rgba(0,0,0,0.7))",
+  },
+  loginButton: {
+    backgroundColor: "#296879",
+    width: "100%",
+    alignItems: "center",
+    borderRadius: 13,
+    marginBottom: 27.5,
+  },
+  forgotPwButton: {
+    marginBottom: 65.5,
+  },
+  registerContainer: {
+    width: "100%",
+    marginTop: 21,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+});
