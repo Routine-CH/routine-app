@@ -1,19 +1,12 @@
 import React, { useContext } from "react";
-import {
-  Image,
-  Platform,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import AppText from "../components/common/app-text";
-import ScreenWrapper, {
-  StatusBarColor,
-} from "../components/common/screen-wrapper";
+import { Image, Platform, StyleSheet, View } from "react-native";
+import FlatButton from "../components/common/buttons/flat-button";
+import IconInputField from "../components/common/input/icon-input-field";
+import ScreenWrapper from "../components/common/screen-wrapper";
+import AppText from "../components/common/typography/app-text";
 import AuthContext from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
+import { StatusBarColor } from "../utils/types/enums";
 
 const SessionScreen: React.FC = () => {
   const { signIn } = useContext(AuthContext)!;
@@ -43,53 +36,37 @@ const SessionScreen: React.FC = () => {
           WILLKOMMEN ZURÜCK
         </AppText>
         <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <Icon
-              name='person'
-              size={24}
-              color='rgba(0, 0, 0, 0.6)'
-              style={{ marginLeft: 18, marginRight: 20 }}
-            />
-            <TextInput
-              style={styles.textInput}
-              placeholder='Benutzername'
-              placeholderTextColor='rgba(0,0,0,0.7))'
-            />
-          </View>
-          <View style={[styles.inputContainer, { marginTop: 30 }]}>
-            <Icon
-              name='lock-closed'
-              size={24}
-              color='rgba(0, 0, 0, 0.6)'
-              style={{ marginLeft: 18, marginRight: 20 }}
-            />
-            <TextInput
-              style={styles.textInput}
-              placeholder='Passwort'
-              placeholderTextColor='rgba(0,0,0,0.7))'
-            />
-          </View>
-          <Pressable style={styles.loginButton}>
-            <AppText
-              fontStyle='bodyMedium'
-              colorStyle='white'
-              fontSize={18}
-              style={{ paddingVertical: 12, paddingHorizontal: 16 }}
-            >
-              LOGIN
-            </AppText>
-          </Pressable>
-        </View>
-        <Pressable>
-          <AppText
+          <IconInputField
+            containerStyle={styles.inputContainer}
+            iconName='person'
+            size={24}
+            placeholder='Benutzername'
+            inputStyle={styles.textInput}
+          />
+          <IconInputField
+            containerStyle={[styles.inputContainer, { marginTop: 30 }]}
+            iconName='lock-closed'
+            size={24}
+            placeholder='Passwort'
+            inputStyle={styles.textInput}
+          />
+          <FlatButton
             fontStyle='bodyMedium'
-            colorStyle='blue100'
+            colorStyle='white'
             fontSize={18}
-            style={{ lineHeight: 25 }}
+            buttonStyle={styles.loginButton}
           >
-            Passwort vergessen?
-          </AppText>
-        </Pressable>
+            LOGIN
+          </FlatButton>
+        </View>
+        <FlatButton
+          fontStyle='bodyMedium'
+          colorStyle='blue100'
+          fontSize={18}
+          style={{ lineHeight: 25 }}
+        >
+          Passwort vergessen?
+        </FlatButton>
       </View>
       <View style={styles.outerContainer}>
         <View style={styles.registerContainer}>
@@ -101,16 +78,14 @@ const SessionScreen: React.FC = () => {
           >
             Noch kein account?
           </AppText>
-          <Pressable>
-            <AppText
-              fontStyle='bodyMedium'
-              colorStyle='white'
-              fontSize={18}
-              style={{ marginLeft: 5, lineHeight: 30 }}
-            >
-              Registrier dich!
-            </AppText>
-          </Pressable>
+          <FlatButton
+            fontStyle='bodyMedium'
+            colorStyle='white'
+            fontSize={18}
+            style={{ marginLeft: 5, lineHeight: 30 }}
+          >
+            Registrier dich!
+          </FlatButton>
         </View>
       </View>
     </ScreenWrapper>
@@ -152,11 +127,13 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   loginButton: {
-    backgroundColor: "#296879",
+    backgroundColor: AppColors.blue100,
     width: "100%",
     alignItems: "center",
     borderRadius: 13,
     marginTop: 60,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
   },
   registerContainer: {
     width: "100%",

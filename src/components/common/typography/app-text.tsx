@@ -1,8 +1,8 @@
 import { Text, TextProps } from "@ui-kitten/components";
-import AppColors from "../../utils/constants/colors";
-import AppFontStyle from "../../utils/constants/font-style";
+import AppColors from "../../../utils/constants/colors";
+import AppFontStyle from "../../../utils/constants/font-style";
 
-interface AppTextProps extends TextProps {
+export interface AppTextProps extends TextProps {
   fontStyle?: keyof typeof AppFontStyle;
   colorStyle?: keyof typeof AppColors;
   fontSize?: number;
