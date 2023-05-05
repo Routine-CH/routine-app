@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   Image,
-  LayoutChangeEvent,
+  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -9,97 +9,103 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppText from "../components/common/app-text";
-import ScreenWrapper from "../components/common/screen-wrapper";
+import ScreenWrapper, {
+  StatusBarColor,
+} from "../components/common/screen-wrapper";
 import AuthContext from "../contexts/auth-context";
+import AppColors from "../utils/constants/colors";
 
 const SessionScreen: React.FC = () => {
   const { signIn } = useContext(AuthContext)!;
-  const [parentHeight, setParentHeight] = useState(0);
 
   const handleLogin = async () => {
     const token = "your_jwt_token";
     await signIn(token);
   };
 
-  const onLayout = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout;
-    setParentHeight(height);
-  };
-
-  const marginTopPercentage = 0.079;
-  const marginBottomPercentage = 0.2;
-
   return (
-    <ScreenWrapper backgroundColor='#296879' onLayout={onLayout}>
-      <View style={styles.container}>
-        <View style={styles.loginContainer}>
-          <Image
-            source={require("../assets/logo/logo.png")}
-            style={{ width: 270, height: 41, marginTop: 94 }}
-          />
-          <AppText
-            size={25}
-            weight='bold'
-            color='#296879'
-            style={{ marginTop: 88 }}
-          >
-            WILLKOMMEN ZURÜCK
-          </AppText>
-          <View style={styles.formContainer}>
-            <View style={styles.emailContainer}>
-              <Icon
-                name='person'
-                size={24}
-                color='rgba(0, 0, 0, 0.6)'
-                style={{ marginLeft: 18, marginRight: 20 }}
-              />
-              <TextInput style={styles.textInput} placeholder='Benutzername' />
-            </View>
-            <View style={styles.passwordContainer}>
-              <Icon
-                name='lock-closed'
-                size={24}
-                color='rgba(0, 0, 0, 0.6)'
-                style={{ marginLeft: 18, marginRight: 20 }}
-              />
-              <TextInput style={styles.textInput} placeholder='Passwort' />
-            </View>
+    <ScreenWrapper
+      backgroundColor={AppColors.blue100}
+      statusBarColor={StatusBarColor.light}
+    >
+      <View style={styles.outerContainer} />
+      <View style={styles.innerContainer}>
+        <Image
+          source={require("../assets/logo/logo.png")}
+          style={{ width: 270, height: 41 }}
+        />
+        <AppText
+          fontStyle='headingBold'
+          colorStyle='blue100'
+          fontSize={25}
+          style={{ marginTop: 88 }}
+        >
+          WILLKOMMEN ZURÜCK
+        </AppText>
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <Icon
+              name='person'
+              size={24}
+              color='rgba(0, 0, 0, 0.6)'
+              style={{ marginLeft: 18, marginRight: 20 }}
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholder='Benutzername'
+              placeholderTextColor='rgba(0,0,0,0.7))'
+            />
+          </View>
+          <View style={[styles.inputContainer, { marginTop: 30 }]}>
+            <Icon
+              name='lock-closed'
+              size={24}
+              color='rgba(0, 0, 0, 0.6)'
+              style={{ marginLeft: 18, marginRight: 20 }}
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholder='Passwort'
+              placeholderTextColor='rgba(0,0,0,0.7))'
+            />
           </View>
           <Pressable style={styles.loginButton}>
             <AppText
-              size={18}
-              color='#fff'
-              weight='medium'
+              fontStyle='bodyMedium'
+              colorStyle='white'
+              fontSize={18}
               style={{ paddingVertical: 12, paddingHorizontal: 16 }}
             >
               LOGIN
             </AppText>
           </Pressable>
-          <Pressable style={styles.forgotPwButton}>
-            <AppText
-              color='#296879'
-              size={18}
-              weight='medium'
-              style={{ lineHeight: 25 }}
-            >
-              Passwort vergessen?
-            </AppText>
-          </Pressable>
         </View>
+        <Pressable>
+          <AppText
+            fontStyle='bodyMedium'
+            colorStyle='blue100'
+            fontSize={18}
+            style={{ lineHeight: 25 }}
+          >
+            Passwort vergessen?
+          </AppText>
+        </Pressable>
+      </View>
+      <View style={styles.outerContainer}>
         <View style={styles.registerContainer}>
           <AppText
-            color='#fff'
-            size={18}
-            weight='medium'
+            fontStyle='bodyMedium'
+            colorStyle='white'
+            fontSize={18}
             style={{ lineHeight: 30 }}
           >
             Noch kein account?
           </AppText>
           <Pressable>
             <AppText
-              color='#fff'
-              size={18}
-              weight='medium'
+              fontStyle='bodyMedium'
+              colorStyle='white'
+              fontSize={18}
               style={{ marginLeft: 5, lineHeight: 30 }}
             >
               Registrier dich!
@@ -114,37 +120,27 @@ const SessionScreen: React.FC = () => {
 export default SessionScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loginContainer: {
-    width: "100%",
-    backgroundColor: "#fff",
-    paddingHorizontal: 30,
-    alignItems: "center",
+  outerContainer: { backgroundColor: AppColors.blue100, flex: 1 },
+  innerContainer: {
+    backgroundColor: AppColors.white,
+    flex: Platform.OS === "ios" ? 10 : 8,
     borderRadius: 20,
+    paddingHorizontal: 30,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   formContainer: {
     marginTop: 30,
     width: "100%",
-    marginBottom: 60,
+    marginBottom: 27.5,
   },
-  emailContainer: {
+  inputContainer: {
     backgroundColor: "rgba(185, 209, 217, 0.2);",
     borderRadius: 10,
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-  },
-  passwordContainer: {
-    backgroundColor: "rgba(185, 209, 217, 0.2);",
-    borderRadius: 10,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 30,
   },
   textInput: {
     flex: 1,
@@ -154,17 +150,13 @@ const styles = StyleSheet.create({
     fontFamily: "Ubuntu_400Regular",
     color: "rgba(0,0,0,0.7))",
     marginRight: 20,
-    placeholderTextColor: "rgba(0,0,0,0.7))",
   },
   loginButton: {
     backgroundColor: "#296879",
     width: "100%",
     alignItems: "center",
     borderRadius: 13,
-    marginBottom: 27.5,
-  },
-  forgotPwButton: {
-    marginBottom: 65.5,
+    marginTop: 60,
   },
   registerContainer: {
     width: "100%",

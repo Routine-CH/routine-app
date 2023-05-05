@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApplicationProvider } from "@ui-kitten/components";
 import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import React, { useEffect, useMemo, useState } from "react";
+import { Text } from "react-native";
 import AuthContext from "./src/contexts/auth-context";
 import useUbuntuFont from "./src/hooks/use-fonts";
 import HomeScreen from "./src/screens/home-screen";
@@ -54,7 +55,7 @@ const App: React.FC = () => {
   );
 
   if (!appIsReady) {
-    return null;
+    return <Text>LOADING</Text>;
   }
 
   return (

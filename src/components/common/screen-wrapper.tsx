@@ -1,8 +1,17 @@
 // src/components/ScreenWrapper.tsx
+import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { LayoutChangeEvent, SafeAreaView, ViewStyle } from "react-native";
 
+export enum StatusBarColor {
+  light = "light",
+  dark = "dark",
+  auto = "auto",
+  inverted = "inverted",
+}
+
 type ScreenWrapperProps = {
+  statusBarColor?: StatusBarColor;
   backgroundColor?: string;
   style?: ViewStyle;
   children: React.ReactNode;
@@ -10,21 +19,22 @@ type ScreenWrapperProps = {
 };
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
+  statusBarColor,
   backgroundColor = "white",
   style,
   children,
   onLayout,
 }) => {
-  // const statusBarHeight =
-  //   Platform.OS === "android" ? StatusBar.currentHeight : 0;
-
   return (
-    <SafeAreaView
-      style={[{ flex: 1, backgroundColor }, style]}
-      onLayout={onLayout}
-    >
-      {children}
-    </SafeAreaView>
+    <>
+      <StatusBar style={statusBarColor} />
+      <SafeAreaView
+        style={[{ flex: 1, backgroundColor }, style]}
+        onLayout={onLayout}
+      >
+        {children}
+      </SafeAreaView>
+    </>
   );
 };
 
