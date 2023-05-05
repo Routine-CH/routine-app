@@ -1,0 +1,9 @@
+{
+  "login": {
+    "welcome": "WILLKOMMEN ZURÜCK",
+    "login": "LOGIN",
+    "forgotPw": "Passwort vergessen?",
+    "noAccount": "Noch kein Account?",
+    "signUp": "Registrier dich!"
+  }
+}

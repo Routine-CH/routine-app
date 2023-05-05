@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { Image, Platform, StyleSheet, View } from "react-native";
 import FlatButton from "../components/common/buttons/flat-button";
 import IconInputField from "../components/common/input/icon-input-field";
@@ -10,6 +11,9 @@ import { StatusBarColor } from "../utils/types/enums";
 
 const SessionScreen: React.FC = () => {
   const { signIn } = useContext(AuthContext)!;
+  const { t } = useTranslation();
+
+  console.log(JSON.stringify(t("login")));
 
   const handleLogin = async () => {
     const token = "your_jwt_token";
@@ -33,22 +37,19 @@ const SessionScreen: React.FC = () => {
           fontSize={25}
           style={{ marginTop: 88 }}
         >
-          WILLKOMMEN ZURÜCK
+          {t("login.welcome")}
         </AppText>
         <View style={styles.formContainer}>
           <IconInputField
-            containerStyle={styles.inputContainer}
             iconName='person'
             size={24}
             placeholder='Benutzername'
-            inputStyle={styles.textInput}
           />
           <IconInputField
-            containerStyle={[styles.inputContainer, { marginTop: 30 }]}
+            style={{ marginTop: 30 }}
             iconName='lock-closed'
             size={24}
             placeholder='Passwort'
-            inputStyle={styles.textInput}
           />
           <FlatButton
             fontStyle='bodyMedium'
@@ -109,22 +110,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: "100%",
     marginBottom: 27.5,
-  },
-  inputContainer: {
-    backgroundColor: "rgba(185, 209, 217, 0.2);",
-    borderRadius: 10,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  textInput: {
-    flex: 1,
-    borderColor: "transparent",
-    paddingVertical: 16,
-    fontSize: 18,
-    fontFamily: "Ubuntu_400Regular",
-    color: "rgba(0,0,0,0.7))",
-    marginRight: 20,
   },
   loginButton: {
     backgroundColor: AppColors.blue100,
