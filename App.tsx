@@ -1,9 +1,13 @@
+import * as eva from "@eva-design/eva";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NativeBaseProvider, extendTheme } from "native-base";
+import { ApplicationProvider } from "@ui-kitten/components";
+import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import React, { useEffect, useMemo, useState } from "react";
+import { Text } from "react-native";
 import AuthContext from "./src/contexts/auth-context";
+import useUbuntuFont from "./src/hooks/use-fonts";
 import HomeScreen from "./src/screens/home-screen";
 import SessionScreen from "./src/screens/session-screen";
 
@@ -12,24 +16,28 @@ type RootStackParamList = {
   Login: undefined;
 };
 
-const theme = extendTheme({});
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App: React.FC = () => {
   const [userToken, setUserToken] = useState<string | null>(null);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
-    const loadToken = async () => {
+    async function prepare() {
       try {
+        await preventAutoHideAsync();
+        await useUbuntuFont();
         const token = await AsyncStorage.getItem("user_token");
         setUserToken(token);
       } catch (error) {
         console.error("Error loading token:", error);
+      } finally {
+        setAppIsReady(true);
+        await hideAsync();
       }
-    };
+    }
 
-    loadToken();
+    prepare();
   }, []);
 
   const authContextValue = useMemo(
@@ -46,9 +54,13 @@ const App: React.FC = () => {
     []
   );
 
+  if (!appIsReady) {
+    return <Text>LOADING</Text>;
+  }
+
   return (
     <AuthContext.Provider value={authContextValue}>
-      <NativeBaseProvider theme={theme}>
+      <ApplicationProvider {...eva} theme={eva.light}>
         <NavigationContainer>
           <Stack.Navigator>
             {userToken ? (
@@ -66,7 +78,7 @@ const App: React.FC = () => {
             )}
           </Stack.Navigator>
         </NavigationContainer>
-      </NativeBaseProvider>
+      </ApplicationProvider>
     </AuthContext.Provider>
   );
 };
