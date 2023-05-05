@@ -2,13 +2,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { LayoutChangeEvent, SafeAreaView, ViewStyle } from "react-native";
-
-export enum StatusBarColor {
-  light = "light",
-  dark = "dark",
-  auto = "auto",
-  inverted = "inverted",
-}
+import { StatusBarColor } from "../../utils/types/enums";
 
 type ScreenWrapperProps = {
   statusBarColor?: StatusBarColor;
