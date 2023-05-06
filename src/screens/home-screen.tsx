@@ -1,11 +1,10 @@
 import { Calendar } from "@ui-kitten/components";
 import React, { useContext } from "react";
 import { Button, StyleSheet, View } from "react-native";
-import AppText from "../components/common/app-text";
-import ScreenWrapper, {
-  StatusBarColor,
-} from "../components/common/screen-wrapper";
+import ScreenWrapper from "../components/common/screen-wrapper";
+import AppText from "../components/common/typography/app-text";
 import AuthContext from "../contexts/auth-context";
+import { StatusBarColor } from "../utils/types/enums";
 
 const HomeScreen: React.FC = () => {
   const { signOut } = useContext(AuthContext)!;
@@ -18,7 +17,7 @@ const HomeScreen: React.FC = () => {
   return (
     <ScreenWrapper backgroundColor='white' statusBarColor={StatusBarColor.dark}>
       <View style={{ paddingTop: 20 }}>
-        <AppText fontStyle='headingBold' colorStyle='red' fontSize={30}>
+        <AppText fontStyle='heading1' colorStyle='red' fontSize={30}>
           Home Screen
         </AppText>
         <Button title='Logout' onPress={handleLogout} />

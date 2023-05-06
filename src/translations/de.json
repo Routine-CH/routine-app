@@ -1,0 +1,28 @@
+{
+  "shared-auth": {
+    "forgot-pw": "Passwort vergessen?",
+    "no-account": "Noch kein Account?",
+    "register": "Registrier dich!",
+    "username": "Benutzername",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "repeat-password": "Passwort wiederholden"
+  },
+  "login": {
+    "welcome": "WILLKOMMEN ZURÜCK",
+    "login": "LOGIN"
+  },
+  "forgot-pw": {
+    "dont-worry": "Keine Sorge!",
+    "description": "Wir schicken dir eine E-Mail, um dein Passwort zurückzusetzen.",
+    "send-email": "E-Mail schicken"
+  },
+  "register": {
+    "register": "Registriere",
+    "yourself": "dich",
+    "terms-of-use": "Benutzerbestimmungen",
+    "create-account": "Konto erstellen",
+    "welcome-1": "Schön, dass du",
+    "welcome-2": "hier bist!"
+  }
+}
