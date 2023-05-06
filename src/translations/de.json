@@ -21,6 +21,8 @@
     "register": "Registriere",
     "yourself": "dich",
     "terms-of-use": "Benutzerbestimmungen",
-    "create-account": "Konto erstellen"
+    "create-account": "Konto erstellen",
+    "welcome-1": "Schön, dass du",
+    "welcome-2": "hier bist!"
   }
 }

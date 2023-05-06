@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { ImageBackground, Platform, StyleSheet, View } from "react-native";
 import BackButton from "../components/common/buttons/back-button";
 import FlatButton from "../components/common/buttons/flat-button";
 import CheckBox from "../components/common/checkbox/checkbox";
@@ -28,6 +28,24 @@ const RegisterScreen: React.FC = () => {
       backgroundColor={AppColors.white}
       statusBarColor={StatusBarColor.dark}
     >
+      <ImageBackground
+        source={require("../assets/misc/ellipse.png")}
+        style={styles.splatterContainer}
+        resizeMode='contain'
+      >
+        <View style={styles.textPlacement}>
+          <AppText fontStyle='bodyMedium' colorStyle='white'>
+            {t("register.welcome-1")}
+          </AppText>
+          <AppText
+            fontStyle='bodyMedium'
+            colorStyle='white'
+            style={{ marginTop: 5 }}
+          >
+            {t("register.welcome-2")}
+          </AppText>
+        </View>
+      </ImageBackground>
       <View style={styles.container}>
         <BackButton />
         <View style={{ marginTop: 26 }}>
@@ -88,6 +106,18 @@ const RegisterScreen: React.FC = () => {
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
+  splatterContainer: {
+    position: "absolute",
+    width: 237,
+    height: 223,
+    right: 0,
+    top: Platform.OS === "ios" ? -20 : -60,
+  },
+  textPlacement: {
+    position: "relative",
+    top: 90,
+    left: 55,
+  },
   container: {
     flex: 1,
     marginVertical: 20,
