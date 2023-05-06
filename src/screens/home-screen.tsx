@@ -17,7 +17,7 @@ const HomeScreen: React.FC = () => {
   return (
     <ScreenWrapper backgroundColor='white' statusBarColor={StatusBarColor.dark}>
       <View style={{ paddingTop: 20 }}>
-        <AppText fontStyle='headingBold' colorStyle='red' fontSize={30}>
+        <AppText fontStyle='heading1' colorStyle='red' fontSize={30}>
           Home Screen
         </AppText>
         <Button title='Logout' onPress={handleLogout} />

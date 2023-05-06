@@ -1,5 +1,6 @@
 import * as eva from "@eva-design/eva";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApplicationProvider } from "@ui-kitten/components";
@@ -11,20 +12,47 @@ import AuthContext from "./src/contexts/auth-context";
 import useUbuntuFont from "./src/hooks/use-fonts";
 import "./src/i18n/config";
 import i18n from "./src/i18n/config";
+import ForgotPasswordScreen from "./src/screens/forgot-password-screen";
 import HomeScreen from "./src/screens/home-screen";
-import SessionScreen from "./src/screens/session-screen";
+import LoginScreen from "./src/screens/login-screen";
+import RegisterScreen from "./src/screens/register-screen";
 
-type RootStackParamList = {
-  Home: undefined;
-  Login: undefined;
-};
+// initialize navigation stacks
+const UnauthenticatedStack = createNativeStackNavigator();
+const AutnehticatedStack = createBottomTabNavigator();
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+// initialize navigation screens for unauthenticated users
+const UnauthenticatedNavigator = () => (
+  <UnauthenticatedStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <UnauthenticatedStack.Screen name='Login' component={LoginScreen} />
+    <UnauthenticatedStack.Screen name='Register' component={RegisterScreen} />
+    <UnauthenticatedStack.Screen
+      name='ForgotPw'
+      component={ForgotPasswordScreen}
+    />
+  </UnauthenticatedStack.Navigator>
+);
+
+// initialize navigation screens for authenticated users
+const AuthenticatedNavigator = () => (
+  <AutnehticatedStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <AutnehticatedStack.Screen name='Home' component={HomeScreen} />
+  </AutnehticatedStack.Navigator>
+);
 
 const App: React.FC = () => {
   const [userToken, setUserToken] = useState<string | null>(null);
   const [appIsReady, setAppIsReady] = useState(false);
 
+  // useEffect to load user token from AsyncStorage and load fonts
   useEffect(() => {
     async function prepare() {
       try {
@@ -43,6 +71,7 @@ const App: React.FC = () => {
     prepare();
   }, []);
 
+  // useMemo to memoize authContextValue
   const authContextValue = useMemo(
     () => ({
       signIn: async (token: string) => {
@@ -57,6 +86,7 @@ const App: React.FC = () => {
     []
   );
 
+  // if app is not ready, return loading screen
   if (!appIsReady) {
     return <Text>LOADING</Text>;
   }
@@ -66,21 +96,11 @@ const App: React.FC = () => {
       <AuthContext.Provider value={authContextValue}>
         <ApplicationProvider {...eva} theme={eva.light}>
           <NavigationContainer>
-            <Stack.Navigator>
-              {userToken ? (
-                <Stack.Screen
-                  name='Home'
-                  component={HomeScreen}
-                  options={{ headerShown: false }}
-                />
-              ) : (
-                <Stack.Screen
-                  name='Login'
-                  component={SessionScreen}
-                  options={{ headerShown: false }}
-                />
-              )}
-            </Stack.Navigator>
+            {userToken ? (
+              <AuthenticatedNavigator />
+            ) : (
+              <UnauthenticatedNavigator />
+            )}
           </NavigationContainer>
         </ApplicationProvider>
       </AuthContext.Provider>
