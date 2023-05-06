@@ -13,8 +13,6 @@ const SessionScreen: React.FC = () => {
   const { signIn } = useContext(AuthContext)!;
   const { t } = useTranslation();
 
-  console.log(JSON.stringify(t("login")));
-
   const handleLogin = async () => {
     const token = "your_jwt_token";
     await signIn(token);
@@ -25,7 +23,7 @@ const SessionScreen: React.FC = () => {
       backgroundColor={AppColors.blue100}
       statusBarColor={StatusBarColor.light}
     >
-      <View style={styles.outerContainer} />
+      <View style={styles.outerContainer1} />
       <View style={styles.innerContainer}>
         <Image
           source={require("../assets/logo/logo.png")}
@@ -57,7 +55,7 @@ const SessionScreen: React.FC = () => {
             fontSize={18}
             buttonStyle={styles.loginButton}
           >
-            LOGIN
+            {t("login.login")}
           </FlatButton>
         </View>
         <FlatButton
@@ -66,10 +64,10 @@ const SessionScreen: React.FC = () => {
           fontSize={18}
           style={{ lineHeight: 25 }}
         >
-          Passwort vergessen?
+          {t("login.forgotPw")}
         </FlatButton>
       </View>
-      <View style={styles.outerContainer}>
+      <View style={styles.outerContainer2}>
         <View style={styles.registerContainer}>
           <AppText
             fontStyle='bodyMedium'
@@ -77,7 +75,7 @@ const SessionScreen: React.FC = () => {
             fontSize={18}
             style={{ lineHeight: 30 }}
           >
-            Noch kein account?
+            {t("login.noAccount")}
           </AppText>
           <FlatButton
             fontStyle='bodyMedium'
@@ -85,7 +83,7 @@ const SessionScreen: React.FC = () => {
             fontSize={18}
             style={{ marginLeft: 5, lineHeight: 30 }}
           >
-            Registrier dich!
+            {t("login.register")}
           </FlatButton>
         </View>
       </View>
@@ -96,7 +94,8 @@ const SessionScreen: React.FC = () => {
 export default SessionScreen;
 
 const styles = StyleSheet.create({
-  outerContainer: { backgroundColor: AppColors.blue100, flex: 1 },
+  outerContainer1: { backgroundColor: AppColors.blue100, flex: 1 },
+  outerContainer2: { backgroundColor: AppColors.blue100, flex: 2 },
   innerContainer: {
     backgroundColor: AppColors.white,
     flex: Platform.OS === "ios" ? 10 : 8,
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
   },
   registerContainer: {
     width: "100%",
-    marginTop: 21,
+    marginTop: 30,
     flexDirection: "row",
     justifyContent: "center",
   },
