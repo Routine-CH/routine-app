@@ -57,7 +57,7 @@ const ForgotPasswordScreen: React.FC = () => {
         </View>
         <IconInputField
           iconName='mail'
-          placeholder='E-Mail *'
+          placeholder={t("shared-auth.email")}
           size={24}
           style={{ backgroundColor: AppColors.white, marginTop: 60 }}
         />

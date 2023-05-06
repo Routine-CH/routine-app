@@ -54,14 +54,14 @@ const LoginScreen: React.FC = () => {
           <IconInputField
             iconName='person'
             size={24}
-            placeholder='Benutzername'
+            placeholder={t("shared-auth.username")}
             style={{ backgroundColor: AppColors.blueMuted20 }}
           />
           <IconInputField
             style={{ marginTop: 30, backgroundColor: AppColors.blueMuted20 }}
             iconName='lock-closed'
             size={24}
-            placeholder='Passwort'
+            placeholder={t("shared-auth.password")}
           />
           <FlatButton
             fontStyle='bodyMedium'
