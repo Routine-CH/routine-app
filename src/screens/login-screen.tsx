@@ -1,3 +1,5 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Platform, StyleSheet, View } from "react-native";
@@ -8,14 +10,26 @@ import AppText from "../components/common/typography/app-text";
 import AuthContext from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
+import { AuthStackParamList } from "../utils/types/types";
 
-const SessionScreen: React.FC = () => {
+const LoginScreen: React.FC = () => {
   const { signIn } = useContext(AuthContext)!;
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const { t } = useTranslation();
 
+  // submit login credentials
   const handleLogin = async () => {
     const token = "your_jwt_token";
     await signIn(token);
+  };
+
+  const navigateToRegisterScreen = () => {
+    navigation.navigate("Register");
+  };
+
+  const navigateToForgotPasswordScreen = () => {
+    navigation.navigate("ForgotPw");
   };
 
   return (
@@ -30,9 +44,8 @@ const SessionScreen: React.FC = () => {
           style={{ width: 270, height: 41 }}
         />
         <AppText
-          fontStyle='headingBold'
+          fontStyle='heading3'
           colorStyle='blue100'
-          fontSize={25}
           style={{ marginTop: 88 }}
         >
           {t("login.welcome")}
@@ -42,9 +55,10 @@ const SessionScreen: React.FC = () => {
             iconName='person'
             size={24}
             placeholder='Benutzername'
+            style={{ backgroundColor: AppColors.blueMuted20 }}
           />
           <IconInputField
-            style={{ marginTop: 30 }}
+            style={{ marginTop: 30, backgroundColor: AppColors.blueMuted20 }}
             iconName='lock-closed'
             size={24}
             placeholder='Passwort'
@@ -52,8 +66,8 @@ const SessionScreen: React.FC = () => {
           <FlatButton
             fontStyle='bodyMedium'
             colorStyle='white'
-            fontSize={18}
             buttonStyle={styles.loginButton}
+            onPress={handleLogin}
           >
             {t("login.login")}
           </FlatButton>
@@ -61,29 +75,28 @@ const SessionScreen: React.FC = () => {
         <FlatButton
           fontStyle='bodyMedium'
           colorStyle='blue100'
-          fontSize={18}
           style={{ lineHeight: 25 }}
+          onPress={navigateToForgotPasswordScreen}
         >
-          {t("login.forgotPw")}
+          {t("shared-auth.forgot-pw")}
         </FlatButton>
       </View>
       <View style={styles.outerContainer2}>
         <View style={styles.registerContainer}>
           <AppText
-            fontStyle='bodyMedium'
+            fontStyle='body'
             colorStyle='white'
-            fontSize={18}
             style={{ lineHeight: 30 }}
           >
-            {t("login.noAccount")}
+            {t("shared-auth.no-account")}
           </AppText>
           <FlatButton
             fontStyle='bodyMedium'
             colorStyle='white'
-            fontSize={18}
             style={{ marginLeft: 5, lineHeight: 30 }}
+            onPress={navigateToRegisterScreen}
           >
-            {t("login.register")}
+            {t("shared-auth.register")}
           </FlatButton>
         </View>
       </View>
@@ -91,14 +104,14 @@ const SessionScreen: React.FC = () => {
   );
 };
 
-export default SessionScreen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   outerContainer1: { backgroundColor: AppColors.blue100, flex: 1 },
   outerContainer2: { backgroundColor: AppColors.blue100, flex: 2 },
   innerContainer: {
     backgroundColor: AppColors.white,
-    flex: Platform.OS === "ios" ? 10 : 8,
+    flex: Platform.OS === "ios" ? 12 : 10,
     borderRadius: 20,
     paddingHorizontal: 30,
     width: "100%",
@@ -106,7 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   formContainer: {
-    marginTop: 30,
+    marginTop: 60,
     width: "100%",
     marginBottom: 27.5,
   },

@@ -6,6 +6,8 @@ import {
   ViewStyle,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import AppColors from "../../../utils/constants/colors";
+import AppFontStyle from "../../../utils/constants/font-style";
 
 type IconInputFieldProps = {
   iconName: string;
@@ -18,6 +20,7 @@ const IconInputField: React.FC<IconInputFieldProps> = ({
   iconName,
   placeholder,
   size,
+
   style,
 }) => {
   return (
@@ -25,13 +28,13 @@ const IconInputField: React.FC<IconInputFieldProps> = ({
       <Icon
         name={iconName}
         size={size}
-        color='rgba(0, 0, 0, 0.6)'
+        color={AppColors.black60}
         style={{ marginLeft: 18, marginRight: 20 }}
       />
       <TextInput
         style={styles.inputStyle}
         placeholder={placeholder}
-        placeholderTextColor='rgba(0,0,0,0.7))'
+        placeholderTextColor={AppColors.black70}
       />
     </View>
   );
@@ -41,7 +44,6 @@ export default IconInputField;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    backgroundColor: "rgba(185, 209, 217, 0.2);",
     borderRadius: 10,
     width: "100%",
     flexDirection: "row",
@@ -51,9 +53,9 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: "transparent",
     paddingVertical: 16,
-    fontSize: 18,
-    fontFamily: "Ubuntu_400Regular",
-    color: "rgba(0,0,0,0.7))",
+    fontSize: AppFontStyle.body.fontSize,
+    fontFamily: AppFontStyle.body.fontFamily,
+    color: AppColors.black70,
     marginRight: 20,
   },
 });

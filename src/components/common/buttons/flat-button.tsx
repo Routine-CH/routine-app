@@ -3,6 +3,7 @@ import AppText, { AppTextProps } from "../typography/app-text";
 
 interface FlatButtonProps extends AppTextProps {
   buttonStyle?: StyleProp<ViewStyle>;
+  onPress: () => void;
 }
 
 const FlatButton: React.FC<FlatButtonProps> = ({
@@ -12,10 +13,11 @@ const FlatButton: React.FC<FlatButtonProps> = ({
   fontSize,
   style,
   buttonStyle,
+  onPress,
   ...props
 }) => {
   return (
-    <Pressable style={buttonStyle}>
+    <Pressable style={buttonStyle} onPress={onPress}>
       <AppText
         fontStyle={fontStyle}
         colorStyle={colorStyle}

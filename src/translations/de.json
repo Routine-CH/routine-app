@@ -1,9 +1,16 @@
 {
+  "shared-auth": {
+    "forgot-pw": "Passwort vergessen?",
+    "no-account": "Noch kein Account?",
+    "register": "Registrier dich!"
+  },
   "login": {
     "welcome": "WILLKOMMEN ZURÜCK",
-    "login": "LOGIN",
-    "forgotPw": "Passwort vergessen?",
-    "noAccount": "Noch kein Account?",
-    "register": "Registrier dich!"
+    "login": "LOGIN"
+  },
+  "forgot-pw": {
+    "dont-worry": "Keine Sorge!",
+    "description": "Wir schicken dir eine E-Mail, um dein Passwort zurückzusetzen.",
+    "send-email": "E-Mail schicken"
   }
 }

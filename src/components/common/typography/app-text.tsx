@@ -18,9 +18,8 @@ const AppText: React.FC<AppTextProps> = ({
   ...props
 }) => {
   const customStyle = {
-    ...AppFontStyle[fontStyle],
+    ...AppFontStyle[fontStyle as keyof typeof AppFontStyle],
     color: AppColors[colorStyle],
-    fontSize,
   };
 
   return (
