@@ -1,17 +1,15 @@
 import { Calendar } from "@ui-kitten/components";
-import React, { useContext } from "react";
+import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
-import AuthContext from "../contexts/auth-context";
 import { StatusBarColor } from "../utils/types/enums";
 
 const HomeScreen: React.FC = () => {
-  const { signOut } = useContext(AuthContext)!;
   const [date, setDate] = React.useState(new Date());
 
   const handleLogout = async () => {
-    await signOut();
+    console.log("logout");
   };
 
   return (
