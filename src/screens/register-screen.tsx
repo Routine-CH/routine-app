@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, Platform, StyleSheet, View } from "react-native";
 import BackButton from "../components/common/buttons/back-button";
@@ -7,16 +7,31 @@ import CheckBox from "../components/common/checkbox/checkbox";
 import IconInputField from "../components/common/input/icon-input-field";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
+import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 
 const RegisterScreen: React.FC = () => {
+  const { register } = useContext(AuthContext);
   const [isChecked, setIsChecked] = useState(false);
   const { t } = useTranslation();
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
 
   // submit register credentials
-  const handleRegisterUser = async () => {
-    const token = "your_jwt_token";
+  const handleRegisterUser = async (
+    username: string,
+    email: string,
+    password: string,
+    repeatPassword: string
+  ) => {
+    if (password === repeatPassword) {
+      register(username, email, password);
+    } else {
+      console.error("Passwords do not match");
+    }
   };
 
   const handleToggle = (checked: boolean) => {
@@ -60,24 +75,30 @@ const RegisterScreen: React.FC = () => {
           iconName='person'
           size={24}
           placeholder={t("shared-auth.username")}
+          onChangeText={(text) => setUsername(text)}
           style={{ backgroundColor: AppColors.blueMuted20, marginTop: 60 }}
         />
         <IconInputField
           iconName='mail'
           size={24}
           placeholder={t("shared-auth.email")}
+          onChangeText={(text) => setEmail(text)}
           style={{ backgroundColor: AppColors.blueMuted20, marginTop: 30 }}
         />
         <IconInputField
           iconName='lock-closed'
           size={24}
           placeholder={t("shared-auth.password")}
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
           style={{ backgroundColor: AppColors.blueMuted20, marginTop: 30 }}
         />
         <IconInputField
           iconName='lock-closed'
           size={24}
           placeholder={t("shared-auth.repeat-password")}
+          secureTextEntry={true}
+          onChangeText={(text) => setRepeatPassword(text)}
           style={{ backgroundColor: AppColors.blueMuted20, marginTop: 30 }}
         />
         <View style={styles.checkboxContainer}>
@@ -94,7 +115,9 @@ const RegisterScreen: React.FC = () => {
           fontStyle='bodyMedium'
           colorStyle='white'
           buttonStyle={styles.registerButton}
-          onPress={handleRegisterUser}
+          onPress={() => {
+            handleRegisterUser(username, email, password, repeatPassword);
+          }}
         >
           {t("register.create-account")}
         </FlatButton>

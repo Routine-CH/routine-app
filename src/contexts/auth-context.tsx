@@ -1,13 +1,19 @@
 // auth-context.tsx
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import { API_BASE_URL } from "../utils/config/config";
 
 type AuthContextType = {
   userIsAuthenticated: boolean;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
+  register: (
+    username: string,
+    email: string,
+    password: string
+  ) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
 };
 
 const defaultAuthContext: AuthContextType = {
@@ -60,18 +66,37 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const register = async (email: string, password: string) => {
-    // Add your registration logic here
-    // Example:
-    // const response = await api.register(email, password);
-    // signIn(response.data.token);
+  const register = async (
+    username: string,
+    email: string,
+    password: string
+  ) => {
+    try {
+      const signUpResponse = await axios.post(`${API_BASE_URL}auth/signup`, {
+        username,
+        email,
+        password,
+      });
+
+      if (signUpResponse) {
+        login(username, password);
+      }
+    } catch (error) {}
   };
 
-  const login = async (email: string, password: string) => {
-    // Add your login logic here
-    // Example:
-    // const response = await api.login(email, password);
-    // signIn(response.data.token);
+  const login = async (username: string, password: string) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}auth/login`, {
+        username,
+        password,
+      });
+
+      const data = response.data;
+      // save token to AsyncStorage
+      await signIn(data.access_token);
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   const authContextValue: AuthContextType = {
