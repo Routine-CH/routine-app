@@ -2,6 +2,7 @@ import {
   StyleProp,
   StyleSheet,
   TextInput,
+  TextInputProps,
   View,
   ViewStyle,
 } from "react-native";
@@ -14,14 +15,14 @@ type IconInputFieldProps = {
   placeholder: string;
   size: number;
   style?: StyleProp<ViewStyle>;
-};
+} & TextInputProps;
 
 const IconInputField: React.FC<IconInputFieldProps> = ({
   iconName,
   placeholder,
   size,
-
   style,
+  ...textInputProps
 }) => {
   return (
     <View style={[styles.inputContainer, style]}>
@@ -35,6 +36,7 @@ const IconInputField: React.FC<IconInputFieldProps> = ({
         style={styles.inputStyle}
         placeholder={placeholder}
         placeholderTextColor={AppColors.black70}
+        {...textInputProps}
       />
     </View>
   );

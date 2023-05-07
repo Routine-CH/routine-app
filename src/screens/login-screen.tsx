@@ -1,27 +1,29 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Platform, StyleSheet, View } from "react-native";
 import FlatButton from "../components/common/buttons/flat-button";
 import IconInputField from "../components/common/input/icon-input-field";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
-import AuthContext from "../contexts/auth-context";
+
+import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthStackParamList } from "../utils/types/types";
 
 const LoginScreen: React.FC = () => {
-  const { signIn } = useContext(AuthContext)!;
+  const { login } = useContext(AuthContext);
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const { t } = useTranslation();
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   // submit login credentials
-  const handleLogin = async () => {
-    const token = "your_jwt_token";
-    await signIn(token);
+  const handleLogin = async (username: string, password: string) => {
+    login(username, password);
   };
 
   const navigateToRegisterScreen = () => {
@@ -56,18 +58,23 @@ const LoginScreen: React.FC = () => {
             size={24}
             placeholder={t("shared-auth.username")}
             style={{ backgroundColor: AppColors.blueMuted20 }}
+            onChangeText={(text) => setUsername(text)}
           />
           <IconInputField
             style={{ marginTop: 30, backgroundColor: AppColors.blueMuted20 }}
             iconName='lock-closed'
             size={24}
             placeholder={t("shared-auth.password")}
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
           />
           <FlatButton
             fontStyle='bodyMedium'
             colorStyle='white'
             buttonStyle={styles.loginButton}
-            onPress={handleLogin}
+            onPress={() => {
+              handleLogin(username, password);
+            }}
           >
             {t("login.login")}
           </FlatButton>
