@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Platform, StyleSheet, View } from "react-native";
@@ -10,13 +9,12 @@ import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 
 import { AuthContext } from "../contexts/auth-context";
-import { API_BASE_URL } from "../utils/config/config";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthStackParamList } from "../utils/types/types";
 
 const LoginScreen: React.FC = () => {
-  const { signIn } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const { t } = useTranslation();
@@ -24,20 +22,8 @@ const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState<string>("");
 
   // submit login credentials
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}auth/login`, {
-        username,
-        password,
-      });
-
-      const data = response.data;
-      console.log(response.data.access_token);
-      // save token to AsyncStorage
-      await signIn(data.access_token);
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+  const handleLogin = async (username: string, password: string) => {
+    login(username, password);
   };
 
   const navigateToRegisterScreen = () => {
@@ -86,7 +72,9 @@ const LoginScreen: React.FC = () => {
             fontStyle='bodyMedium'
             colorStyle='white'
             buttonStyle={styles.loginButton}
-            onPress={handleLogin}
+            onPress={() => {
+              handleLogin(username, password);
+            }}
           >
             {t("login.login")}
           </FlatButton>
