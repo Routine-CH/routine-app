@@ -12,7 +12,6 @@ const HomeScreen: React.FC = () => {
 
   const handleLogout = async () => {
     await signOut();
-    console.log("logout");
   };
 
   return (

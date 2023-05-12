@@ -77,8 +77,6 @@ const MainApp: React.FC = () => {
     );
   }
 
-  console.log(userIsAuthenticated);
-
   return (
     <I18nextProvider i18n={i18n}>
       <ApplicationProvider {...eva} theme={eva.light}>

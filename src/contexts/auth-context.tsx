@@ -1,12 +1,12 @@
 // auth-context.tsx
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import apiClient from "../utils/config/api-client";
 import { API_BASE_URL } from "../utils/config/config";
 
 type AuthContextType = {
   userIsAuthenticated: boolean;
-  signIn: (token: string) => Promise<void>;
+  signIn: (access_token: string, refresh_token: string) => Promise<void>;
   signOut: () => Promise<void>;
   register: (
     username: string,
@@ -36,7 +36,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     async function restoreSession() {
       try {
-        const token = await AsyncStorage.getItem("token");
+        const token = await AsyncStorage.getItem("access_token");
         if (token) {
           setUserIsAuthenticated(true);
         }
@@ -48,9 +48,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     restoreSession();
   }, []);
 
-  const signIn = async (token: string) => {
+  const signIn = async (access_token: string, refresh_token: string) => {
     try {
-      await AsyncStorage.setItem("token", token);
+      await AsyncStorage.multiSet([
+        ["access_token", access_token],
+        ["refresh_token", refresh_token],
+      ]);
       setUserIsAuthenticated(true);
     } catch (error) {
       console.error("Failed to store token", error);
@@ -59,7 +62,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signOut = async () => {
     try {
-      await AsyncStorage.removeItem("token");
+      await AsyncStorage.multiRemove(["access_token", "refresh_token"]);
       setUserIsAuthenticated(false);
     } catch (error) {
       console.error("Failed to remove token", error);
@@ -72,13 +75,16 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     password: string
   ) => {
     try {
-      const signUpResponse = await axios.post(`${API_BASE_URL}auth/signup`, {
-        username,
-        email,
-        password,
-      });
+      const signUpResponse = await apiClient.post(
+        `${API_BASE_URL}auth/signup`,
+        {
+          username,
+          email,
+          password,
+        }
+      );
 
-      if (signUpResponse) {
+      if (signUpResponse.status === 201) {
         login(username, password);
       }
     } catch (error) {}
@@ -86,14 +92,16 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}auth/login`, {
+      const response = await apiClient.post(`${API_BASE_URL}auth/login`, {
         username,
         password,
       });
 
-      const data = response.data;
-      // save token to AsyncStorage
-      await signIn(data.access_token);
+      if (response.status === 200) {
+        const data = response.data.data;
+        // save token to AsyncStorage
+        await signIn(data.access_token, data.refresh_token);
+      }
     } catch (error) {
       console.error("Login failed:", error);
     }
