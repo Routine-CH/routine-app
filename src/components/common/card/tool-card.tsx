@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         bottom: 10,
     },
     textPlacement: {
-        position: "absolute",
         bottom: 15,
+        position: "absolute",
     },
 });

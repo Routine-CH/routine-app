@@ -9,8 +9,8 @@ import TodoIcon from "./tools-svg/todo-icon";
 
 const ToolsContainer: React.FC = () => {
     return (
-        <View style={styles.test}>
-            <View style={styles.container}>
+        <View style={styles.outerContainer}>
+            <View style={styles.innerContainer}>
                 <View style={styles.toolContainer}>
                     <ToolCard title="Timer">
                         <TimerIcon />
@@ -44,12 +44,12 @@ const ToolsContainer: React.FC = () => {
 export default ToolsContainer;
 
 const styles = StyleSheet.create({
-    test: {
+    outerContainer: {
+        paddingHorizontal: 30,
         width: "100%",
         alignItems: "center",
-        paddingHorizontal: 30,
     },
-    container: {
+    innerContainer: {
         justifyContent: "space-between",
         flexDirection: "row",
         flexWrap: "wrap",
@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
     toolContainer: {
         height: 157.5,
         width: 157.5,
-        backgroundColor: AppColors.blue100,
         borderRadius: 13,
+        marginVertical: 7.5,
+        backgroundColor: AppColors.blue100,
         position: "relative",
         alignItems: "center",
         justifyContent: "center",
-        marginVertical: 7.5,
     },
 });
