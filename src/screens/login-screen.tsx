@@ -7,7 +7,6 @@ import FlatButton from "../components/common/buttons/flat-button";
 import IconInputField from "../components/common/input/icon-input-field";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
-
 import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";

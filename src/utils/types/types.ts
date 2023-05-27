@@ -8,6 +8,14 @@ export type AuthStackParamList = {
 // types for Main Stack Navigation
 export type AuthenticatedStackParamList = {
   Home: undefined;
+  Calendar: undefined;
+  Discover: undefined;
+  Profile: undefined;
+  Timer: undefined;
+  Journals: undefined;
+  Todos: undefined;
+  Notes: undefined;
+  Goals: undefined;
 };
 
 interface UserBadges {

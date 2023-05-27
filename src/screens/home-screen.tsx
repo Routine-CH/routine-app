@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
@@ -9,9 +9,9 @@ const HomeScreen: React.FC = () => {
   const { signOut } = useContext(AuthContext);
   const [date, setDate] = React.useState(new Date());
 
-    const handleLogout = async () => {
-        await signOut();
-    };
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
     <ScreenWrapper backgroundColor='white' statusBarColor={StatusBarColor.dark}>
@@ -20,8 +20,6 @@ const HomeScreen: React.FC = () => {
           <AppText fontStyle='heading1' colorStyle='red' fontSize={30}>
             Home Screen
           </AppText>
-          <Button title='Logout' onPress={handleLogout} />
-          <Calendar date={date} onSelect={(nextDate) => setDate(nextDate)} />
         </View>
       </ScrollView>
     </ScreenWrapper>
@@ -31,9 +29,9 @@ const HomeScreen: React.FC = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    textContainer: {
-        borderColor: "black",
-        borderWidth: 1,
-        fontSize: 30,
-    },
+  textContainer: {
+    borderColor: "black",
+    borderWidth: 1,
+    fontSize: 30,
+  },
 });

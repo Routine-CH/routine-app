@@ -1,7 +1,19 @@
-import { Text } from "react-native";
+import { useContext } from "react";
+import { Button, Text } from "react-native";
+import { AuthContext } from "../contexts/auth-context";
 
 const ProfileScreen: React.FC = () => {
-  return <Text>Profile</Text>;
+  const { signOut } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    await signOut();
+  };
+  return (
+    <>
+      <Text>Profile</Text>
+      <Button title='Logout' onPress={handleLogout} />
+    </>
+  );
 };
 
 export default ProfileScreen;
