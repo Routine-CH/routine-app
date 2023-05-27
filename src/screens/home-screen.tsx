@@ -1,4 +1,3 @@
-import { Calendar } from "@ui-kitten/components";
 import React, { useContext } from "react";
 import { Button, ScrollView, StyleSheet, View } from "react-native";
 import ScreenWrapper from "../components/common/screen-wrapper";
@@ -10,9 +9,9 @@ const HomeScreen: React.FC = () => {
   const { signOut } = useContext(AuthContext);
   const [date, setDate] = React.useState(new Date());
 
-  const handleLogout = async () => {
-    await signOut();
-  };
+    const handleLogout = async () => {
+        await signOut();
+    };
 
   return (
     <ScreenWrapper backgroundColor='white' statusBarColor={StatusBarColor.dark}>
@@ -32,9 +31,9 @@ const HomeScreen: React.FC = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  textContainer: {
-    borderColor: "black",
-    borderWidth: 1,
-    fontSize: 30,
-  },
+    textContainer: {
+        borderColor: "black",
+        borderWidth: 1,
+        fontSize: 30,
+    },
 });
