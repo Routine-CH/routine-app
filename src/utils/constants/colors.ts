@@ -4,6 +4,7 @@ const AppColors = {
   blue300: "#B9D1D9",
   blueMuted20: "#b9d1d933",
   blueMuted30: "#b9d1d94d",
+  blueMuted40: "#DDE7EA",
   green200: "#78B09D",
   black: "#000000",
   black60: "rgba(0, 0, 0, 0.60)",
