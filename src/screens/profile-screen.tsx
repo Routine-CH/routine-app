@@ -1,32 +1,20 @@
-import { useContext } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import { AuthContext } from "../contexts/auth-context";
-import useCurrentFullUser from "../hooks/use-current-full-user";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import IconButton from "../components/common/buttons/icon-button";
 
-const ProfileScreen: React.FC = () => {
-  const { signOut } = useContext(AuthContext);
-
-  const handleLogout = async () => {
-    await signOut();
-  };
-
-  const { currentUser } = useCurrentFullUser();
-
-  return (
-    <View style={styles.outerContainer}>
-      <Text>Profile</Text>
-      <Button title='Logout' onPress={handleLogout} />
-    </View>
-  );
+const ProfileScreen = () => {
+    return (
+        <View style={styles.wrapper}>
+            <IconButton iconName="pencil" />
+        </View>
+    );
 };
 
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  outerContainer: {
-    marginTop: 50,
-    paddingHorizontal: 30,
-    width: "100%",
-    alignItems: "center",
-  },
+    wrapper: {
+        paddingTop: 60,
+        paddingHorizontal: 20,
+    },
 });
