@@ -35,7 +35,6 @@ export default Badge;
 const styles = StyleSheet.create({
     badgesContainer: {
         flexDirection: "row",
-        flex: 1,
     },
     image: {
         height: 90,

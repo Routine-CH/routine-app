@@ -4,28 +4,21 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
 import AppText from "../components/common/typography/app-text";
 import AchievementCard from "../components/profile/achievement-card";
+import Badge from "../components/profile/badge";
 import BadgesView from "../components/profile/badges-view";
+import WeekView from "../components/profile/week-view";
+import YearCard from "../components/profile/year-card";
 import AppColors from "../utils/constants/colors";
 
 const ProfileScreen = () => {
     const { t } = useTranslation();
 
-    /*     const { currentUser, loading } = useUserMe();
-
-    useEffect(() => {
-        if (!loading && currentUser) {
-            console.log(currentUser);
-        }
-    }, [currentUser, loading]);
-
-    if (loading) {
-        console.log("Fail");
-        return <AppText>Loading...</AppText>;
-    } */
+    //     const currentUser = useUserMe();
+    //     console.log(currentUser);
 
     return (
-        <View style={styles.wrapper}>
-            <ScrollView>
+        <ScrollView>
+            <View style={styles.wrapper}>
                 <View style={styles.iconContainer}>
                     <IconButton iconName="pencil" />
                 </View>
@@ -57,8 +50,13 @@ const ProfileScreen = () => {
                 </View>
                 <AchievementCard />
                 <BadgesView />
-            </ScrollView>
-        </View>
+            </View>
+            <Badge />
+            <View style={styles.wrapper}>
+                <YearCard />
+                <WeekView />
+            </View>
+        </ScrollView>
     );
 };
 
@@ -71,7 +69,8 @@ const styles = StyleSheet.create({
     },
     iconContainer: {
         position: "absolute",
-        right: 0,
+        right: 20,
+        top: 60,
     },
     userInformation: {
         alignItems: "center",

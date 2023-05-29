@@ -4,7 +4,6 @@ import { StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
-import Badge from "./badge";
 
 const BadgesView = () => {
     const { t } = useTranslation();
@@ -26,7 +25,6 @@ const BadgesView = () => {
                     />
                 </View>
             </View>
-            <Badge />
         </View>
     );
 };
