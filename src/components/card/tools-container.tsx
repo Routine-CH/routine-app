@@ -12,28 +12,26 @@ import TodoIcon from "./tools-svg/todo-icon";
 
 const ToolsContainer: React.FC = () => {
   const navigation =
-    useNavigation<
-      BottomTabNavigationProp<AuthenticatedStackParamList, "Timer">
-    >();
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
   const navigateToTimerScreen = () => {
-    navigation.navigate("Timer");
+    navigation.navigate("Discover", { screen: "Timer" });
   };
 
   const navigateToJournalsScreen = () => {
-    navigation.navigate("Journals");
+    navigation.navigate("Discover", { screen: "Journals" });
   };
 
   const navigateToTodosScreen = () => {
-    navigation.navigate("Todos");
+    navigation.navigate("Discover", { screen: "Todos" });
   };
 
   const navigateToNotesScreen = () => {
-    navigation.navigate("Notes");
+    navigation.navigate("Discover", { screen: "Notes" });
   };
 
   const navigateToGoalsScreen = () => {
-    navigation.navigate("Goals");
+    navigation.navigate("Discover", { screen: "Goals" });
   };
 
   return (
@@ -47,22 +45,34 @@ const ToolsContainer: React.FC = () => {
             <TimerIcon />
           </ToolCard>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.toolContainer}>
+        <TouchableOpacity
+          style={styles.toolContainer}
+          onPress={navigateToJournalsScreen}
+        >
           <ToolCard title='Journal'>
             <JournalIcon />
           </ToolCard>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.toolContainer}>
+        <TouchableOpacity
+          style={styles.toolContainer}
+          onPress={navigateToTodosScreen}
+        >
           <ToolCard title='Todo'>
             <TodoIcon />
           </ToolCard>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.toolContainer}>
+        <TouchableOpacity
+          style={styles.toolContainer}
+          onPress={navigateToNotesScreen}
+        >
           <ToolCard title='Notizen'>
             <NotizIcon />
           </ToolCard>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.toolContainer}>
+        <TouchableOpacity
+          style={styles.toolContainer}
+          onPress={navigateToGoalsScreen}
+        >
           <ToolCard title='Ziele'>
             <GoalsIcon />
           </ToolCard>

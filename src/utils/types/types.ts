@@ -9,13 +9,17 @@ export type AuthStackParamList = {
 export type AuthenticatedStackParamList = {
   Home: undefined;
   Calendar: undefined;
-  Discover: undefined;
+  Discover: {
+    screen?: string;
+    params?: {
+      Timer: undefined;
+      Journals: undefined;
+      Todos: undefined;
+      Notes: undefined;
+      Goals: undefined;
+    };
+  };
   Profile: undefined;
-  Timer: undefined;
-  Journals: undefined;
-  Todos: undefined;
-  Notes: undefined;
-  Goals: undefined;
 };
 
 interface UserBadges {
