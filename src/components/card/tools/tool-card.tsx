@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
-import AppText from "../common/typography/app-text";
+import AppText from "../../common/typography/app-text";
 
 interface ToolCardProps {
   title: string;

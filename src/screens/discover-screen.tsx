@@ -1,5 +1,5 @@
 import { Text } from "react-native";
-import ToolsContainer from "../components/card/tools-container";
+import ToolsContainer from "../components/card/tools/tools-container";
 
 const DiscoverScreen: React.FC = () => {
   return (
