@@ -9,12 +9,12 @@ import { I18nextProvider } from "react-i18next";
 import { Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import Icon from "react-native-vector-icons/Ionicons";
+import DiscoverStackNavigator from "./src/components/common/navigation-stacks/discover-stack-navigator";
 import AuthProvider, { AuthContext } from "./src/contexts/auth-context";
 import useUbuntuFont from "./src/hooks/use-fonts";
 import "./src/i18n/config";
 import i18n from "./src/i18n/config";
 import CalendarScreen from "./src/screens/calendar-screen";
-import DiscoverScreen from "./src/screens/discover-screen";
 import ForgotPasswordScreen from "./src/screens/forgot-password-screen";
 import HomeScreen from "./src/screens/home-screen";
 import LoginScreen from "./src/screens/login-screen";
@@ -98,7 +98,7 @@ const AuthenticatedNavigator = () => (
     />
     <AutnehticatedStack.Screen
       name='Discover'
-      component={DiscoverScreen}
+      component={DiscoverStackNavigator}
       options={{
         tabBarIcon: ({ focused, color }) => (
           <Icon

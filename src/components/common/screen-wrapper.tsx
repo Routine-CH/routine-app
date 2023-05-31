@@ -9,6 +9,7 @@ type ScreenWrapperProps = {
   statusBarColor?: StatusBarColor;
   backgroundColor?: string;
   style?: ViewStyle;
+  defaultPadding?: boolean;
   children: React.ReactNode;
   onLayout?: (event: LayoutChangeEvent) => void;
 };
@@ -17,6 +18,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   statusBarColor,
   backgroundColor = "white",
   style,
+  defaultPadding,
   children,
   onLayout,
 }) => {
@@ -24,7 +26,14 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
     <>
       <StatusBar style={statusBarColor} />
       <SafeAreaView
-        style={[{ flex: 1, backgroundColor }, style]}
+        style={[
+          {
+            flex: 1,
+            backgroundColor,
+            paddingHorizontal: defaultPadding ? 30 : 0,
+          },
+          style,
+        ]}
         onLayout={onLayout}
       >
         {children}

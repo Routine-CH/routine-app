@@ -24,5 +24,12 @@
     "create-account": "Konto erstellen",
     "welcome-1": "Schön, dass du",
     "welcome-2": "hier bist!"
+  },
+  "tool-cards": {
+    "timer": "Timer",
+    "journal": "Journal",
+    "todos": "Todos",
+    "notes": "Notizen",
+    "goals": "Ziele"
   }
 }
