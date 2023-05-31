@@ -55,6 +55,12 @@ interface UserGoals {
   todos: UserTodo[];
 }
 
+interface UserTool {
+  id: string;
+  screenName: string;
+  titleKey: string;
+}
+
 interface UserTodo {
   id: string;
   goalId?: string;
@@ -107,4 +113,7 @@ export interface UserMe {
   id: string;
   email: string;
   username: string;
+  avatarUrl?: string;
+  userGoals: UserGoals[];
+  userTools: { tool: UserTool }[];
 }

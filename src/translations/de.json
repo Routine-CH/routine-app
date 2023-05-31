@@ -27,7 +27,7 @@
   },
   "tool-cards": {
     "timer": "Timer",
-    "journal": "Journal",
+    "journals": "Journal",
     "todos": "Todos",
     "notes": "Notizen",
     "goals": "Ziele"

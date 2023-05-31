@@ -11,7 +11,7 @@ export const routineTools = [
     IconComponent: TimerIcon,
   },
   {
-    titleKey: "tool-cards.journal",
+    titleKey: "tool-cards.journas",
     screenName: "Journals",
     IconComponent: JournalIcon,
   },
