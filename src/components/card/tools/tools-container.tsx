@@ -36,7 +36,6 @@ export default ToolsContainer;
 
 const styles = StyleSheet.create({
   outerContainer: {
-    paddingHorizontal: 30,
     width: "100%",
     alignItems: "center",
   },
