@@ -15,6 +15,7 @@ export type AuthenticatedStackParamList = {
       Todos: undefined;
       Notes: undefined;
       Goals: undefined;
+      EditTools: undefined;
     };
   };
   Calendar: undefined;
@@ -64,7 +65,7 @@ interface UserGoals {
   todos: UserTodo[];
 }
 
-interface UserTool {
+export interface UserTool {
   id: string;
   screenName: string;
   titleKey: string;

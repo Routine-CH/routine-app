@@ -5,17 +5,24 @@ import ToolCard from "./tool-card";
 
 type RoutineToolProps = {
   title: string;
-  navigateTo: () => void;
+  navigateTo?: () => void;
+  isFavourite?: boolean;
+  favouriteOnPress?: () => void;
   children: ReactNode;
 };
 
 const RoutineTool: React.FC<RoutineToolProps> = ({
   title,
   navigateTo,
+  isFavourite,
+  favouriteOnPress,
   children,
 }) => {
   return (
-    <TouchableOpacity style={styles.toolContainer} onPress={navigateTo}>
+    <TouchableOpacity
+      style={[styles.toolContainer, isFavourite ? styles.favouriteTool : {}]}
+      onPress={isFavourite ? favouriteOnPress : navigateTo}
+    >
       <ToolCard title={title}>{children}</ToolCard>
     </TouchableOpacity>
   );
@@ -33,5 +40,9 @@ const styles = StyleSheet.create({
     position: "relative",
     alignItems: "center",
     justifyContent: "center",
+  },
+  favouriteTool: {
+    borderColor: AppColors.blue200,
+    borderWidth: 2,
   },
 });

@@ -93,7 +93,11 @@ const HomeScreen: React.FC = () => {
                 })}
               </View>
               <View style={styles.editToolsContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Home", { screen: "EditTools" })
+                  }
+                >
                   <AppText fontStyle='body' colorStyle='black64'>
                     {t("general.edit")}
                   </AppText>
@@ -101,7 +105,12 @@ const HomeScreen: React.FC = () => {
               </View>
             </>
           ) : (
-            <TouchableOpacity style={styles.noToolsContainer}>
+            <TouchableOpacity
+              style={styles.noToolsContainer}
+              onPress={() =>
+                navigation.navigate("Home", { screen: "EditTools" })
+              }
+            >
               <LinearGradient
                 colors={["#296879", "#6F99A5"]}
                 style={styles.linearGradient}
