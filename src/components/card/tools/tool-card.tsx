@@ -4,16 +4,21 @@ import AppText from "../../common/typography/app-text";
 
 interface ToolCardProps {
   title: string;
+  isFavourite?: boolean;
   children: ReactNode;
 }
 
-const ToolCard: React.FC<ToolCardProps> = ({ title, children }) => {
+const ToolCard: React.FC<ToolCardProps> = ({
+  title,
+  children,
+  isFavourite,
+}) => {
   return (
     <>
       <View style={styles.iconPlacement}>{children}</View>
       <AppText
         fontStyle='bodyMedium'
-        colorStyle='white'
+        colorStyle={isFavourite ? "blue100" : "white"}
         style={styles.textPlacement}
       >
         {title}

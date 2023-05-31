@@ -1,12 +1,13 @@
 import * as React from "react";
 import Svg, { Defs, G, Path } from "react-native-svg";
+import AppColors from "../../../../../utils/constants/colors";
 /* SVGR has dropped some elements not supported by react-native-svg: style, title */
-const GoalsIcon = (props: any) => (
+const FavGoalsIcon = (props: any) => (
   <Svg
     xmlns='http://www.w3.org/2000/svg'
     width={100}
     height={100}
-    fill='#ffffff'
+    fill={AppColors.blue100}
     viewBox='0 0 112 133'
     {...props}
   >
@@ -24,4 +25,4 @@ const GoalsIcon = (props: any) => (
   </Svg>
 );
 
-export default GoalsIcon;
+export default FavGoalsIcon;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import RoutineTool from "../components/card/tools/routine-tool";
@@ -15,6 +15,10 @@ const EditToolsScreen: React.FC = () => {
     currentUser?.userTools || []
   );
 
+  useEffect(() => {
+    setFavouriteTools(currentUser?.userTools || []);
+  }, [currentUser]);
+
   const handleToolPress = (tool: any) => {
     setFavouriteTools((prevFavourites) => {
       if (prevFavourites.includes(tool)) {
@@ -27,8 +31,6 @@ const EditToolsScreen: React.FC = () => {
     });
   };
 
-  console.log(currentUser?.userTools);
-
   return currentUser ? (
     <ScreenWrapper defaultPadding>
       <AppText fontStyle='heading3' colorStyle='black64'>
@@ -39,18 +41,26 @@ const EditToolsScreen: React.FC = () => {
       </AppText>
       <BackButton />
       <View style={styles.innerContainer}>
-        {routineTools.map((tool) => (
-          <RoutineTool
-            key={tool.titleKey}
-            title={t(tool.titleKey)}
-            isFavourite={favouriteTools.some(
-              (favourite) => favourite.tool.id === tool.id
-            )}
-            favouriteOnPress={() => handleToolPress(tool)}
-          >
-            <tool.IconComponent />
-          </RoutineTool>
-        ))}
+        {routineTools.map((tool) => {
+          const isFavourite = favouriteTools.some(
+            (favourite) => favourite.tool.id === tool.id
+          );
+          const IconComponent = isFavourite
+            ? tool.favIconComponent
+            : tool.IconComponent;
+          return (
+            <RoutineTool
+              key={tool.titleKey}
+              title={t(tool.titleKey)}
+              isFavourite={favouriteTools.some(
+                (favourite) => favourite.tool.id === tool.id
+              )}
+              favouriteOnPress={() => handleToolPress(tool)}
+            >
+              <IconComponent />
+            </RoutineTool>
+          );
+        })}
       </View>
     </ScreenWrapper>
   ) : (

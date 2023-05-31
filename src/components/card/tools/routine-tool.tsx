@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { ReactNode } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import AppColors from "../../../utils/constants/colors";
@@ -18,12 +19,31 @@ const RoutineTool: React.FC<RoutineToolProps> = ({
   favouriteOnPress,
   children,
 }) => {
-  return (
+  return isFavourite ? (
     <TouchableOpacity
-      style={[styles.toolContainer, isFavourite ? styles.favouriteTool : {}]}
+      style={[styles.toolContainer, styles.favouriteTool]}
       onPress={isFavourite ? favouriteOnPress : navigateTo}
     >
-      <ToolCard title={title}>{children}</ToolCard>
+      <LinearGradient
+        colors={["rgba(41, 104, 121, 0.3)", "transparent"]}
+        locations={[0.1, 1]}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.gradient}
+      >
+        <ToolCard title={title} isFavourite={isFavourite}>
+          {children}
+        </ToolCard>
+      </LinearGradient>
+    </TouchableOpacity>
+  ) : (
+    <TouchableOpacity
+      style={styles.toolContainer}
+      onPress={isFavourite ? favouriteOnPress : navigateTo}
+    >
+      <ToolCard title={title} isFavourite={isFavourite}>
+        {children}
+      </ToolCard>
     </TouchableOpacity>
   );
 };
@@ -42,7 +62,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   favouriteTool: {
-    borderColor: AppColors.blue200,
-    borderWidth: 2,
+    backgroundColor: AppColors.blue300,
+  },
+  gradient: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 13,
   },
 });
