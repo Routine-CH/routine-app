@@ -1,21 +1,20 @@
 {
-  "shared-auth": {
-    "forgot-pw": "Passwort vergessen?",
-    "no-account": "Noch kein Account?",
-    "register": "Registrier dich!",
-    "username": "Benutzername",
-    "email": "E-Mail",
-    "password": "Passwort",
-    "repeat-password": "Passwort wiederholden"
+  "forgot-pw": {
+    "dont-worry": "Keine Sorge!",
+    "description": "Wir schicken dir eine E-Mail, um dein Passwort zurückzusetzen.",
+    "send-email": "E-Mail schicken"
+  },
+  "general": {
+    "edit": "Bearbeiten"
   },
   "login": {
     "welcome": "WILLKOMMEN ZURÜCK",
     "login": "LOGIN"
   },
-  "forgot-pw": {
-    "dont-worry": "Keine Sorge!",
-    "description": "Wir schicken dir eine E-Mail, um dein Passwort zurückzusetzen.",
-    "send-email": "E-Mail schicken"
+  "my-day": {
+    "hey": "Hey",
+    "your-goals": "Deine Ziele",
+    "your-tools": "Deine Tools"
   },
   "register": {
     "register": "Registriere",
@@ -24,6 +23,15 @@
     "create-account": "Konto erstellen",
     "welcome-1": "Schön, dass du",
     "welcome-2": "hier bist!"
+  },
+  "shared-auth": {
+    "forgot-pw": "Passwort vergessen?",
+    "no-account": "Noch kein Account?",
+    "register": "Registrier dich!",
+    "username": "Benutzername",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "repeat-password": "Passwort wiederholden"
   },
   "tool-cards": {
     "timer": "Timer",

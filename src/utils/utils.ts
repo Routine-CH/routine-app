@@ -7,27 +7,27 @@ import TodoIcon from "../components/card/tools/tools-svg/todo-icon";
 export const routineTools = [
   {
     titleKey: "tool-cards.timer",
-    screenName: "Timer",
+    screenName: "DiscoverTimer",
     IconComponent: TimerIcon,
   },
   {
-    titleKey: "tool-cards.journas",
-    screenName: "Journals",
+    titleKey: "tool-cards.journals",
+    screenName: "DiscoverJournals",
     IconComponent: JournalIcon,
   },
   {
     titleKey: "tool-cards.todos",
-    screenName: "Todos",
+    screenName: "DiscoverTodos",
     IconComponent: TodoIcon,
   },
   {
     titleKey: "tool-cards.notes",
-    screenName: "Notes",
+    screenName: "DiscoverNotes",
     IconComponent: NotesIcon,
   },
   {
     titleKey: "tool-cards.goals",
-    screenName: "Goals",
+    screenName: "DiscoverGoals",
     IconComponent: GoalsIcon,
   },
 ];

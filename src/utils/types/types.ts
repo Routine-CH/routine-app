@@ -7,9 +7,7 @@ export type AuthStackParamList = {
 
 // types for Main Stack Navigation
 export type AuthenticatedStackParamList = {
-  Home: undefined;
-  Calendar: undefined;
-  Discover: {
+  Home: {
     screen?: string;
     params?: {
       Timer: undefined;
@@ -17,6 +15,17 @@ export type AuthenticatedStackParamList = {
       Todos: undefined;
       Notes: undefined;
       Goals: undefined;
+    };
+  };
+  Calendar: undefined;
+  Discover: {
+    screen?: string;
+    params?: {
+      DiscoverTimer: undefined;
+      DiscoverJournals: undefined;
+      DiscoverTodos: undefined;
+      DiscoverNotes: undefined;
+      DiscoverGoals: undefined;
     };
   };
   Profile: undefined;

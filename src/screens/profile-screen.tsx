@@ -12,7 +12,6 @@ const ProfileScreen: React.FC = () => {
 
   const { currentUser } = useCurrentFullUser();
 
-  console.log(currentUser);
   return (
     <View style={styles.outerContainer}>
       <Text>Profile</Text>

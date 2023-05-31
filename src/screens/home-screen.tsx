@@ -44,7 +44,7 @@ const HomeScreen: React.FC = () => {
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
   const navigateToScreen = (screenName: string) => {
-    navigation.navigate("Discover", { screen: screenName });
+    navigation.navigate("Home", { screen: screenName });
   };
 
   return currentUser ? (
@@ -57,7 +57,7 @@ const HomeScreen: React.FC = () => {
         <View style={{ paddingTop: 10 }}>
           <View>
             <AppText fontStyle='heading1' colorStyle='black64'>
-              Hey
+              {t("my-day.hey")}
             </AppText>
             <AppText style={styles.userName} colorStyle='black64'>
               {currentUser.username} 😊
@@ -65,14 +65,14 @@ const HomeScreen: React.FC = () => {
           </View>
           <View style={styles.goalsContainer}>
             <AppText fontStyle='heading3' colorStyle='black64'>
-              Deine Ziele
+              {t("my-day.your-goals")}
             </AppText>
             <Text>Goals Container here</Text>
           </View>
         </View>
         <View style={styles.toolsContainer}>
           <AppText fontStyle='heading3' colorStyle='black64'>
-            Deine Tools
+            {t("my-day.your-tools")}
           </AppText>
           <View style={styles.favouriteToolsContainer}>
             {currentUser.userTools.map((tool) => {
@@ -91,7 +91,7 @@ const HomeScreen: React.FC = () => {
         <View style={styles.editToolsContainer}>
           <TouchableOpacity>
             <AppText fontStyle='body' colorStyle='black64'>
-              Bearbeiten
+              {t("general.edit")}
             </AppText>
           </TouchableOpacity>
         </View>
