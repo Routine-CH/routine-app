@@ -14,7 +14,8 @@
   "my-day": {
     "hey": "Hey",
     "your-goals": "Deine Ziele",
-    "your-tools": "Deine Tools"
+    "your-tools": "Deine Tools",
+    "add-tools": "Füge jetzt deine Lieblingstools hinzu"
   },
   "register": {
     "register": "Registriere",
