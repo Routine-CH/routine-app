@@ -54,8 +54,8 @@ const ProfileScreen = () => {
             <Badge />
             <View style={styles.wrapper}>
                 <YearCard />
-                <WeekView />
             </View>
+            <WeekView />
         </ScrollView>
     );
 };
