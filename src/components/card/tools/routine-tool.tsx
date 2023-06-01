@@ -22,7 +22,7 @@ const RoutineTool: React.FC<RoutineToolProps> = ({
   return isFavourite ? (
     <TouchableOpacity
       style={[styles.toolContainer, styles.favouriteTool]}
-      onPress={isFavourite ? favouriteOnPress : navigateTo}
+      onPress={favouriteOnPress}
     >
       <LinearGradient
         colors={["rgba(41, 104, 121, 0.3)", "transparent"]}
@@ -39,7 +39,7 @@ const RoutineTool: React.FC<RoutineToolProps> = ({
   ) : (
     <TouchableOpacity
       style={styles.toolContainer}
-      onPress={isFavourite ? favouriteOnPress : navigateTo}
+      onPress={favouriteOnPress ? favouriteOnPress : navigateTo}
     >
       <ToolCard title={title} isFavourite={isFavourite}>
         {children}

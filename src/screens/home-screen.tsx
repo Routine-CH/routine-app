@@ -1,7 +1,7 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ScrollView,
@@ -42,13 +42,20 @@ const getIconComponent = (titleKey: string) => {
 };
 
 const HomeScreen: React.FC = () => {
-  const { currentUser } = useUserMe();
+  const { currentUser, refetch } = useUserMe();
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
   const navigateToScreen = (screenName: string) => {
     navigation.navigate("Home", { screen: screenName });
   };
+
+  // refetching of data when changing tabs, so that favourite tools are updated
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
 
   return currentUser ? (
     <ScreenWrapper

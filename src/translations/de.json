@@ -5,7 +5,9 @@
     "send-email": "E-Mail schicken"
   },
   "general": {
-    "edit": "Bearbeiten"
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "back": "Zurück"
   },
   "login": {
     "welcome": "WILLKOMMEN ZURÜCK",
@@ -15,7 +17,9 @@
     "hey": "Hey",
     "your-goals": "Deine Ziele",
     "your-tools": "Deine Tools",
-    "add-tools": "Füge jetzt deine Lieblingstools hinzu"
+    "add-tools": "Füge jetzt deine Lieblingstools hinzu",
+    "choose-your": "Wähle deine",
+    "favourite-tools": "Lieblings-Tools an"
   },
   "register": {
     "register": "Registriere",
