@@ -58,10 +58,11 @@ const styles = StyleSheet.create({
         backgroundColor: AppColors.blueMuted40,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-around",
+        justifyContent: "center",
     },
     achievementContent: {
         alignItems: "center",
+        marginHorizontal: 15,
     },
     textColor: {
         color: AppColors.black64,
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
     verticalLine: {
         height: "80%",
         width: 1,
-        backgroundColor: "white",
+        backgroundColor: AppColors.white,
+        marginHorizontal: 15,
     },
 });

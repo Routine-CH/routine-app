@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
+import JournalCard from "./journal-card";
 import WeekCard from "./week-card";
 
 const WeekView = () => {
@@ -42,6 +43,13 @@ const WeekView = () => {
                     </View>
                 </View>
             </ScrollView>
+            <View style={{ marginHorizontal: 20, marginTop: 30 }}>
+                <AppText fontStyle="heading4" style={styles.textColor}>
+                    {t("profile.gamification.written")}{" "}
+                    {t("profile.gamification.journal-entries")}
+                </AppText>
+                <JournalCard />
+            </View>
         </View>
     );
 };
