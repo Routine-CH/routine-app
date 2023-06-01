@@ -6,10 +6,10 @@ import NotesScreen from "../../../screens/notes-screen";
 import TimerScreen from "../../../screens/timer-screen";
 import TodosScreen from "../../../screens/todos-screen";
 
-// Declare your stack navigator
+// declare stack navigator
 const DiscoverStack = createNativeStackNavigator();
 
-// Wrap your DiscoverScreen and the other screens in the stack navigator
+//
 const DiscoverStackNavigator: React.FC = () => {
   return (
     <DiscoverStack.Navigator
@@ -17,11 +17,14 @@ const DiscoverStackNavigator: React.FC = () => {
       screenOptions={{ headerShown: false }}
     >
       <DiscoverStack.Screen name='DiscoverHome' component={DiscoverScreen} />
-      <DiscoverStack.Screen name='Timer' component={TimerScreen} />
-      <DiscoverStack.Screen name='Journals' component={JournalsScreen} />
-      <DiscoverStack.Screen name='Todos' component={TodosScreen} />
-      <DiscoverStack.Screen name='Notes' component={NotesScreen} />
-      <DiscoverStack.Screen name='Goals' component={GoalsScreen} />
+      <DiscoverStack.Screen name='DiscoverTimer' component={TimerScreen} />
+      <DiscoverStack.Screen
+        name='DiscoverJournals'
+        component={JournalsScreen}
+      />
+      <DiscoverStack.Screen name='DiscoverTodos' component={TodosScreen} />
+      <DiscoverStack.Screen name='DiscoverNotes' component={NotesScreen} />
+      <DiscoverStack.Screen name='DiscoverGoals' component={GoalsScreen} />
     </DiscoverStack.Navigator>
   );
 };

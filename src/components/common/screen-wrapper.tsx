@@ -1,6 +1,6 @@
 // src/components/ScreenWrapper.tsx
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import { ReactNode } from "react";
 import { LayoutChangeEvent, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBarColor } from "../../utils/types/enums";
@@ -10,7 +10,7 @@ type ScreenWrapperProps = {
   backgroundColor?: string;
   style?: ViewStyle;
   defaultPadding?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   onLayout?: (event: LayoutChangeEvent) => void;
 };
 

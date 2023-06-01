@@ -1,12 +1,13 @@
 import * as React from "react";
 import Svg, { Defs, G, Path } from "react-native-svg";
+import AppColors from "../../../../../utils/constants/colors";
 /* SVGR has dropped some elements not supported by react-native-svg: style, title */
-const TodoIcon = (props: any) => (
+const FavTodoIcon = (props: any) => (
   <Svg
     xmlns='http://www.w3.org/2000/svg'
     width={100}
     height={100}
-    fill='#ffffff'
+    fill={AppColors.blue100}
     viewBox='0 0 128 138'
     {...props}
   >
@@ -24,4 +25,4 @@ const TodoIcon = (props: any) => (
   </Svg>
 );
 
-export default TodoIcon;
+export default FavTodoIcon;
