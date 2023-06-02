@@ -1,3 +1,4 @@
+
 // types for Authentication Stack Navigation
 export type AuthStackParamList = {
   Login: undefined;
@@ -126,4 +127,5 @@ export interface UserMe {
   avatarUrl?: string;
   userGoals: UserGoals[];
   userTools: { tool: UserTool }[];
+  createdAt: string|undefined;
 }
