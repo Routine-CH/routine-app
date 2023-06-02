@@ -5,7 +5,7 @@ export enum StatusBarColor {
   inverted = "inverted",
 }
 
-export enum ToastStyle {
+export enum ToastType {
   info = "infoToast",
   deletion = "successDeleteToast",
   success = "successToast",

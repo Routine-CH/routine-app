@@ -2,11 +2,15 @@ import { StyleSheet, View } from "react-native";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
+import { ToastType } from "../../../utils/types/enums";
 import AppText from "../typography/app-text";
 
 const RoutineToast: React.FC = () => {
-  const toastConfig = {
-    infoToast: ({ props }: { props: { message: string } }) => (
+  const toastConfig: Record<
+    ToastType,
+    ({ props }: { props: { message: string } }) => JSX.Element
+  > = {
+    infoToast: ({ props }) => (
       <View style={styles.toastContainer}>
         <View style={styles.innerContainer}>
           <Icon
@@ -19,7 +23,7 @@ const RoutineToast: React.FC = () => {
         </View>
       </View>
     ),
-    successDeleteToast: ({ props }: { props: { message: string } }) => (
+    successDeleteToast: ({ props }) => (
       <View style={styles.toastContainer}>
         <View style={styles.innerContainer}>
           <Icon
@@ -32,7 +36,7 @@ const RoutineToast: React.FC = () => {
         </View>
       </View>
     ),
-    successToast: ({ props }: { props: { message: string } }) => (
+    successToast: ({ props }) => (
       <View style={styles.toastContainer}>
         <View style={styles.innerContainer}>
           <Icon
@@ -45,7 +49,7 @@ const RoutineToast: React.FC = () => {
         </View>
       </View>
     ),
-    errorToast: ({ props }: { props: { message: string } }) => (
+    errorToast: ({ props }) => (
       <View style={styles.toastContainer}>
         <View style={styles.innerContainer}>
           <Icon
@@ -67,7 +71,6 @@ export default RoutineToast;
 
 const styles = StyleSheet.create({
   toastContainer: {
-    height: 60,
     width: "95%",
     backgroundColor: AppColors.white,
     borderRadius: 10,
@@ -84,5 +87,6 @@ const styles = StyleSheet.create({
   innerContainer: {
     flexDirection: "row",
     alignItems: "center",
+    paddingRight: 25,
   },
 });

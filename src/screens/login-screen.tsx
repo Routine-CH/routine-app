@@ -3,15 +3,15 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Image, Platform, StyleSheet, View } from "react-native";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
 import FlatButton from "../components/common/buttons/flat-button";
 import IconInputField from "../components/common/input/icon-input-field";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
+import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
-import { StatusBarColor, ToastStyle } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthStackParamList } from "../utils/types/types";
 
 const LoginScreen: React.FC = () => {
@@ -24,7 +24,12 @@ const LoginScreen: React.FC = () => {
 
   // submit login credentials
   const handleLogin = async (username: string, password: string) => {
-    login(username, password);
+    const response = await login(username, password);
+    if (response.status !== 200) {
+      showToast(ToastType.error, response.data.message);
+    } else {
+      console.log(response);
+    }
   };
 
   const navigateToRegisterScreen = () => {
@@ -35,11 +40,9 @@ const LoginScreen: React.FC = () => {
     navigation.navigate("ForgotPw");
   };
 
-  const showToast = () => {
-    Toast.show({
-      type: ToastStyle.error,
-      props: { message: "Your custom text" },
-    });
+  // TODO: Change toast message to take from the backend
+  const showToastHandler = () => {
+    showToast(ToastType.success, "success");
   };
 
   return (
@@ -115,7 +118,7 @@ const LoginScreen: React.FC = () => {
           </FlatButton>
         </View>
       </View>
-      <Button title='Show toast' onPress={showToast} />
+      <Button title='Show toast' onPress={showToastHandler} />
       <RoutineToast />
     </ScreenWrapper>
   );
