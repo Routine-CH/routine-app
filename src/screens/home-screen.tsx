@@ -3,13 +3,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RoutineTool from "../components/card/tools/routine-tool";
 import GoalsIcon from "../components/card/tools/tools-svg/goals-icon";
 import JournalIcon from "../components/card/tools/tools-svg/journal-icon";
@@ -17,7 +11,7 @@ import NotesIcon from "../components/card/tools/tools-svg/notes-icon";
 import SelectIcon from "../components/card/tools/tools-svg/select-icon";
 import TimerIcon from "../components/card/tools/tools-svg/timer-icon";
 import TodoIcon from "../components/card/tools/tools-svg/todo-icon";
-import ScreenWrapper from "../components/common/screen-wrapper";
+import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import useUserMe from "../hooks/use-user-me";
 import AppColors from "../utils/constants/colors";
@@ -58,82 +52,78 @@ const HomeScreen: React.FC = () => {
   );
 
   return currentUser ? (
-    <ScreenWrapper
+    <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <ScrollView>
-        <View style={{ paddingTop: 10 }}>
-          <View>
-            <AppText fontStyle='heading1' colorStyle='black64'>
-              {t("my-day.hey")}
-            </AppText>
-            <AppText style={styles.userName} colorStyle='black64'>
-              {currentUser.username} 😊
-            </AppText>
-          </View>
-          <View style={styles.goalsContainer}>
-            <AppText fontStyle='heading3' colorStyle='black64'>
-              {t("my-day.your-goals")}
-            </AppText>
-            <Text>Goals Container here</Text>
-          </View>
-        </View>
-        <View style={styles.toolsContainer}>
-          <AppText fontStyle='heading3' colorStyle='black64'>
-            {t("my-day.your-tools")}
+      <View style={{ paddingTop: 10 }}>
+        <View>
+          <AppText fontStyle='heading1' colorStyle='black64'>
+            {t("my-day.hey")}
           </AppText>
-          {currentUser.userTools.length != 0 ? (
-            <>
-              <View style={styles.favouriteToolsContainer}>
-                {currentUser.userTools.map((tool) => {
-                  return (
-                    <RoutineTool
-                      key={tool.tool.titleKey}
-                      title={t(tool.tool.titleKey)}
-                      navigateTo={() => navigateToScreen(tool.tool.screenName)}
-                    >
-                      {getIconComponent(tool.tool.screenName)}
-                    </RoutineTool>
-                  );
-                })}
-              </View>
-              <View style={styles.editToolsContainer}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("Home", { screen: "EditTools" })
-                  }
-                >
-                  <AppText fontStyle='body' colorStyle='black64'>
-                    {t("general.edit")}
-                  </AppText>
-                </TouchableOpacity>
-              </View>
-            </>
-          ) : (
-            <TouchableOpacity
-              style={styles.noToolsContainer}
-              onPress={() =>
-                navigation.navigate("Home", { screen: "EditTools" })
-              }
-            >
-              <LinearGradient
-                colors={["#296879", "#6F99A5"]}
-                style={styles.linearGradient}
-              >
-                <SelectIcon style={styles.iconPlacement} />
-              </LinearGradient>
-              <View style={styles.textPlacement}>
-                <AppText fontStyle='body' colorStyle='black70'>
-                  {t("my-day.add-tools")}
-                </AppText>
-              </View>
-            </TouchableOpacity>
-          )}
+          <AppText style={styles.userName} colorStyle='black64'>
+            {currentUser.username} 😊
+          </AppText>
         </View>
-      </ScrollView>
-    </ScreenWrapper>
+        <View style={styles.goalsContainer}>
+          <AppText fontStyle='heading3' colorStyle='black64'>
+            {t("my-day.your-goals")}
+          </AppText>
+          <Text>Goals Container here</Text>
+        </View>
+      </View>
+      <View style={styles.toolsContainer}>
+        <AppText fontStyle='heading3' colorStyle='black64'>
+          {t("my-day.your-tools")}
+        </AppText>
+        {currentUser.userTools.length != 0 ? (
+          <>
+            <View style={styles.favouriteToolsContainer}>
+              {currentUser.userTools.map((tool) => {
+                return (
+                  <RoutineTool
+                    key={tool.tool.titleKey}
+                    title={t(tool.tool.titleKey)}
+                    navigateTo={() => navigateToScreen(tool.tool.screenName)}
+                  >
+                    {getIconComponent(tool.tool.screenName)}
+                  </RoutineTool>
+                );
+              })}
+            </View>
+            <View style={styles.editToolsContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Home", { screen: "EditTools" })
+                }
+              >
+                <AppText fontStyle='body' colorStyle='black64'>
+                  {t("general.edit")}
+                </AppText>
+              </TouchableOpacity>
+            </View>
+          </>
+        ) : (
+          <TouchableOpacity
+            style={styles.noToolsContainer}
+            onPress={() => navigation.navigate("Home", { screen: "EditTools" })}
+          >
+            <LinearGradient
+              colors={["#296879", "#6F99A5"]}
+              style={styles.linearGradient}
+            >
+              <SelectIcon style={styles.iconPlacement} />
+            </LinearGradient>
+            <View style={styles.textPlacement}>
+              <AppText fontStyle='body' colorStyle='black70'>
+                {t("my-day.add-tools")}
+              </AppText>
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
+    </ScrollViewScreenWrapper>
   ) : null;
 };
 

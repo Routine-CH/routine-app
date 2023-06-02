@@ -1,10 +1,10 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import RoutineTool from "../components/card/tools/routine-tool";
 import FlatButton from "../components/common/buttons/flat-button";
-import ScreenWrapper from "../components/common/screen-wrapper";
+import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import { setFavouriteToolsRequest } from "../data/edit-favourite-tools.ts/requests";
 import useUserMe from "../hooks/use-user-me";
@@ -67,57 +67,55 @@ const EditToolsScreen: React.FC = () => {
   };
 
   return currentUser ? (
-    <ScreenWrapper defaultPadding>
-      <ScrollView style={{ flex: 1 }}>
-        <AppText fontStyle='heading3' colorStyle='black64'>
-          {t("my-day.choose-your")}
-        </AppText>
-        <AppText fontStyle='heading3' colorStyle='black64'>
-          {t("my-day.favourite-tools")}
-        </AppText>
-        <View style={styles.innerContainer}>
-          {routineTools.map((tool) => {
-            const isFavourite = favouriteToolIds.includes(tool.id);
-            const IconComponent = isFavourite
-              ? tool.favIconComponent
-              : tool.IconComponent;
-            return (
-              <RoutineTool
-                key={tool.titleKey}
-                title={t(tool.titleKey)}
-                isFavourite={isFavourite}
-                favouriteOnPress={() => handleToolPress(tool)}
-              >
-                <IconComponent />
-              </RoutineTool>
-            );
-          })}
-        </View>
-        {arrayHasChanged ? (
-          <FlatButton
-            fontStyle='bodyMedium'
-            colorStyle='white'
-            buttonStyle={styles.saveButton}
-            onPress={() => {
-              handleChangeFavTools(favouriteToolIds);
-            }}
-          >
-            {t("general.save")}
-          </FlatButton>
-        ) : (
-          <FlatButton
-            fontStyle='bodyMedium'
-            colorStyle='white'
-            buttonStyle={styles.goBackButton}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            {t("general.back")}
-          </FlatButton>
-        )}
-      </ScrollView>
-    </ScreenWrapper>
+    <ScrollViewScreenWrapper defaultPadding>
+      <AppText fontStyle='heading3' colorStyle='black64'>
+        {t("my-day.choose-your")}
+      </AppText>
+      <AppText fontStyle='heading3' colorStyle='black64'>
+        {t("my-day.favourite-tools")}
+      </AppText>
+      <View style={styles.innerContainer}>
+        {routineTools.map((tool) => {
+          const isFavourite = favouriteToolIds.includes(tool.id);
+          const IconComponent = isFavourite
+            ? tool.favIconComponent
+            : tool.IconComponent;
+          return (
+            <RoutineTool
+              key={tool.titleKey}
+              title={t(tool.titleKey)}
+              isFavourite={isFavourite}
+              favouriteOnPress={() => handleToolPress(tool)}
+            >
+              <IconComponent />
+            </RoutineTool>
+          );
+        })}
+      </View>
+      {arrayHasChanged ? (
+        <FlatButton
+          fontStyle='bodyMedium'
+          colorStyle='white'
+          buttonStyle={styles.saveButton}
+          onPress={() => {
+            handleChangeFavTools(favouriteToolIds);
+          }}
+        >
+          {t("general.save")}
+        </FlatButton>
+      ) : (
+        <FlatButton
+          fontStyle='bodyMedium'
+          colorStyle='white'
+          buttonStyle={styles.goBackButton}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          {t("general.back")}
+        </FlatButton>
+      )}
+    </ScrollViewScreenWrapper>
   ) : (
     <Text>Loading...</Text>
   );
