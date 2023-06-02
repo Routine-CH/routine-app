@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -16,12 +15,8 @@ type RegisterFormProps = {
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onErrors, onSubmit }) => {
   const { control, handleSubmit } = useForm<IFormRegisterInputs>();
-  const [isChecked, setIsChecked] = useState(false);
   const { t } = useTranslation();
 
-  const handleToggle = (checked: boolean) => {
-    setIsChecked(checked);
-  };
   return (
     <View style={styles.formContainer}>
       <Controller

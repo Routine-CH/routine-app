@@ -27,13 +27,15 @@ const RegisterScreen: React.FC = () => {
     if (password !== repeatPassword) {
       setErrorMessage("Passwords do not match.");
     } else {
-      register(username, email, password);
+      const response = await register(username, email, password);
+      if (response.status !== 201) {
+        showToast(ToastType.error, response.data.message);
+      }
     }
   };
 
   // onErrors is a function passed to the LoginForm component
   const onErrors = (errors: any) => {
-    console.log(errors);
     if (
       errors.username ||
       errors.email ||

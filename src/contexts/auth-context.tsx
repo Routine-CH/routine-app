@@ -13,7 +13,7 @@ type AuthContextType = {
     username: string,
     email: string,
     password: string
-  ) => Promise<void>;
+  ) => Promise<{ status: number; data: any }>;
   login: (
     username: string,
     password: string
@@ -24,7 +24,9 @@ const defaultAuthContext: AuthContextType = {
   userIsAuthenticated: false,
   signIn: async () => {},
   signOut: async () => {},
-  register: async () => {},
+  register: async () => {
+    return { status: 0, data: {} }; //placeholder, returns something from the backend
+  },
   login: async () => {
     return { status: 0, data: {} }; //placeholder, returns something from the backend
   },
@@ -89,11 +91,24 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           password,
         }
       );
-
       if (signUpResponse.status === 201) {
-        login(username, password);
+        const data = signUpResponse.data.data;
+        await login(username, password);
+        return { status: signUpResponse.status, data: data };
+      } else {
+        return {
+          status: signUpResponse.status,
+          data: { message: "Unexpected status code." },
+        };
       }
-    } catch (error) {}
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return { status: error.response.status, data: error.response.data };
+      }
+      console.error("Registration failed:", error);
+      // default value return
+      return { status: 500, data: { message: "Unexpected error occurred" } };
+    }
   };
 
   const login = async (username: string, password: string) => {
