@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
@@ -18,6 +19,11 @@ const ProfileScreen = () => {
   const currentUser = useUserMe();
   console.log(currentUser);
   const defaultAvatar = "../assets/misc/stones.jpg";
+  const createdAt = DateTime.fromISO(currentUser.currentUser?.createdAt);
+  const formattedMonth = createdAt.toLocaleString({
+    month: "long",
+    year: "numeric",
+  });
 
   return (
     <ScrollView style={{ backgroundColor: AppColors.white }}>
@@ -39,8 +45,7 @@ const ProfileScreen = () => {
                 {t("profile.hi")} {currentUser.currentUser?.username} 😄
               </AppText>
               <AppText fontStyle="body" style={styles.textColor}>
-                {t("profile.since")} {currentUser.currentUser?.createdAt}
-                {t("profile.here")}
+                {t("profile.since")} {formattedMonth} {t("profile.here")}
               </AppText>
             </View>
           ) : (
