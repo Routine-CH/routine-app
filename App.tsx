@@ -7,6 +7,7 @@ import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import React, { useContext, useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 import { Text, View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import Icon from "react-native-vector-icons/Ionicons";
 import DiscoverStackNavigator from "./src/components/common/navigation-stacks/discover-stack-navigator";
@@ -60,7 +61,6 @@ const AuthenticatedNavigator = () => (
         height: 85,
         paddingTop: 20,
         paddingHorizontal: 20,
-        borderTopWidth: 0,
         shadowColor: "#959DA5",
         shadowOffset: { width: 0, height: 9 } as {
           width: number;
@@ -158,13 +158,15 @@ const MainApp: React.FC = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <ApplicationProvider {...eva} theme={eva.light}>
-        <NavigationContainer>
-          {userIsAuthenticated ? (
-            <AuthenticatedNavigator />
-          ) : (
-            <UnauthenticatedNavigator />
-          )}
-        </NavigationContainer>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            {userIsAuthenticated ? (
+              <AuthenticatedNavigator />
+            ) : (
+              <UnauthenticatedNavigator />
+            )}
+          </NavigationContainer>
+        </SafeAreaProvider>
       </ApplicationProvider>
     </I18nextProvider>
   );

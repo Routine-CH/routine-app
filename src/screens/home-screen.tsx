@@ -57,7 +57,7 @@ const HomeScreen: React.FC = () => {
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <View style={{ paddingTop: 10 }}>
+      <View style={{ paddingTop: 10, flex: 1 }}>
         <View>
           <AppText fontStyle='heading1' colorStyle='black64'>
             {t("my-day.hey")}

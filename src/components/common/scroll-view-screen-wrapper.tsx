@@ -1,7 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { ReactNode } from "react";
-import { LayoutChangeEvent, ScrollView, ViewStyle } from "react-native";
+import React, { ReactNode } from "react";
+import { ScrollView, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 import { StatusBarColor } from "../../utils/types/enums";
 
 type ScrollViewScreenWrapperProps = {
@@ -10,7 +11,6 @@ type ScrollViewScreenWrapperProps = {
   style?: ViewStyle;
   defaultPadding?: boolean;
   children: ReactNode;
-  onLayout?: (event: LayoutChangeEvent) => void;
 };
 
 const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
@@ -19,25 +19,32 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
   style,
   defaultPadding,
   children,
-  onLayout,
 }) => {
+  // get current status bar height of device to add it as a padding in the view
+  const statusBarHeight = getStatusBarHeight();
+
   return (
-    <ScrollView>
-      <StatusBar style={statusBarColor} />
-      <SafeAreaView
-        style={[
-          {
-            flex: 1,
-            backgroundColor,
-            paddingHorizontal: defaultPadding ? 30 : 0,
-          },
-          style,
-        ]}
-        onLayout={onLayout}
+    <View
+      style={{
+        flex: 1,
+        backgroundColor,
+        paddingTop: statusBarHeight,
+      }}
+    >
+      <StatusBar style={statusBarColor ? statusBarColor : "auto"} />
+      <ScrollView
+        style={{
+          flex: 1,
+          paddingHorizontal: defaultPadding ? 30 : 0,
+          ...style,
+        }}
       >
-        {children}
-      </SafeAreaView>
-    </ScrollView>
+        {/* implement safeareview to respect the safearea without the padding top  */}
+        <SafeAreaView edges={["right", "bottom", "left"]}>
+          {children}
+        </SafeAreaView>
+      </ScrollView>
+    </View>
   );
 };
 
