@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
+import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import AchievementCard from "../components/profile/achievement-card";
 import Badge from "../components/profile/badge";
@@ -20,38 +21,41 @@ const ProfileScreen = () => {
 
     return (
         <ScrollView style={{ backgroundColor: AppColors.white }}>
-            <View style={styles.wrapper}>
-                <View style={styles.iconContainer}>
-                    <IconButton iconName="pencil" />
-                </View>
-                {currentUser ? (
-                    <View style={styles.userInformation}>
-                        <Image
-                            source={require(defaultAvatar)}
-                            style={styles.profilePicture}
-                        />
-                        <AppText
-                            fontStyle="bodyMedium"
-                            style={[styles.textColor, { marginBottom: 10 }]}
-                        >
-                            {t("profile.hi")}{" "}
-                            {currentUser.currentUser?.username} 😄
-                        </AppText>
-                        <AppText fontStyle="body" style={styles.textColor}>
-                            {t("profile.since")} Juni 2023 {t("profile.here")}
-                        </AppText>
+            <ScreenWrapper>
+                <View style={{ paddingHorizontal: 20 }}>
+                    <View style={styles.iconContainer}>
+                        <IconButton iconName="pencil" />
                     </View>
-                ) : (
-                    <AppText> {t("shared-auth.no-user-data")} </AppText>
-                )}
-                <AchievementCard />
-                <BadgesView />
-            </View>
-            <Badge />
-            <View style={styles.wrapper}>
-                <YearCard currentUser={currentUser} />
-            </View>
-            <WeekView />
+                    {currentUser ? (
+                        <View style={styles.userInformation}>
+                            <Image
+                                source={require(defaultAvatar)}
+                                style={styles.profilePicture}
+                            />
+                            <AppText
+                                fontStyle="bodyMedium"
+                                style={[styles.textColor, { marginBottom: 10 }]}
+                            >
+                                {t("profile.hi")}{" "}
+                                {currentUser.currentUser?.username} 😄
+                            </AppText>
+                            <AppText fontStyle="body" style={styles.textColor}>
+                                {t("profile.since")} Juni 2023{" "}
+                                {t("profile.here")}
+                            </AppText>
+                        </View>
+                    ) : (
+                        <AppText> {t("shared-auth.no-user-data")} </AppText>
+                    )}
+                    <AchievementCard />
+                    <BadgesView />
+                </View>
+                <Badge />
+                <View style={styles.wrapper}>
+                    <YearCard currentUser={currentUser} />
+                </View>
+                <WeekView />
+            </ScreenWrapper>
         </ScrollView>
     );
 };
@@ -66,7 +70,6 @@ const styles = StyleSheet.create({
     iconContainer: {
         position: "absolute",
         right: 20,
-        top: 60,
     },
     userInformation: {
         alignItems: "center",
