@@ -2,17 +2,18 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
-import { IFormInputs } from "../../utils/types/types";
+
+import { IFormLoginInputs } from "../../utils/types/types";
 import FlatButton from "../common/buttons/flat-button";
 import IconInputField from "../common/input/icon-input-field";
 
 type LoginFormProps = {
   onErrors: (errors: any) => void;
-  onSubmit: (data: IFormInputs) => void;
+  onSubmit: (data: IFormLoginInputs) => void;
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ onErrors, onSubmit }) => {
-  const { control, handleSubmit } = useForm<IFormInputs>();
+  const { control, handleSubmit } = useForm<IFormLoginInputs>();
   const { t } = useTranslation();
 
   return (

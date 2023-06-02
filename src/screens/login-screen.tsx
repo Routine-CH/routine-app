@@ -13,7 +13,7 @@ import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import { AuthStackParamList, IFormInputs } from "../utils/types/types";
+import { AuthStackParamList, IFormLoginInputs } from "../utils/types/types";
 
 const LoginScreen: React.FC = () => {
   const { login } = useContext(AuthContext);
@@ -23,12 +23,10 @@ const LoginScreen: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   // submit login credentials
-  const onSubmit = async ({ username, password }: IFormInputs) => {
+  const onSubmit = async ({ username, password }: IFormLoginInputs) => {
     const response = await login(username, password);
     if (response.status !== 200) {
       showToast(ToastType.error, response.data.message);
-    } else {
-      console.log(response);
     }
   };
 

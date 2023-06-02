@@ -133,10 +133,18 @@ export interface UserMe {
   avatarUrl?: string;
   userGoals: UserGoals[];
   userTools: { tool: UserTool }[];
-  createdAt: any;
+  createdAt: string | undefined;
 }
 
-export interface IFormInputs {
+export interface IFormLoginInputs {
   username: string;
   password: string;
+}
+
+export interface IFormRegisterInputs {
+  username: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+  agreeTerms: boolean;
 }
