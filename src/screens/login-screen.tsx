@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Button, Image, Platform, StyleSheet, View } from "react-native";
+import { Image, Platform, StyleSheet, View } from "react-native";
 import FlatButton from "../components/common/buttons/flat-button";
 import IconInputField from "../components/common/input/icon-input-field";
 import ScreenWrapper from "../components/common/screen-wrapper";
@@ -14,16 +15,21 @@ import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthStackParamList } from "../utils/types/types";
 
+interface IFormInputs {
+  username: string;
+  password: string;
+}
+
 const LoginScreen: React.FC = () => {
   const { login } = useContext(AuthContext);
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const { t } = useTranslation();
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { handleSubmit, control } = useForm<IFormInputs>();
+  const [errorMessage, setErrorMessage] = useState("");
 
   // submit login credentials
-  const handleLogin = async (username: string, password: string) => {
+  const onSubmit = async ({ username, password }: IFormInputs) => {
     const response = await login(username, password);
     if (response.status !== 200) {
       showToast(ToastType.error, response.data.message);
@@ -32,17 +38,30 @@ const LoginScreen: React.FC = () => {
     }
   };
 
+  const onErrors = (errors: any) => {
+    if (errors.username && errors.password) {
+      setErrorMessage("Both username and password are required.");
+    } else if (errors.username) {
+      setErrorMessage(errors.username.message);
+    } else if (errors.password) {
+      setErrorMessage(errors.password.message);
+    }
+  };
+
+  // Then in our render method, we check if there's an error message. If there is, we display a toast and clear the error message
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
+
   const navigateToRegisterScreen = () => {
     navigation.navigate("Register");
   };
 
   const navigateToForgotPasswordScreen = () => {
     navigation.navigate("ForgotPw");
-  };
-
-  // TODO: Change toast message to take from the backend
-  const showToastHandler = () => {
-    showToast(ToastType.success, "success");
   };
 
   return (
@@ -64,28 +83,47 @@ const LoginScreen: React.FC = () => {
           {t("login.welcome")}
         </AppText>
         <View style={styles.formContainer}>
-          <IconInputField
-            iconName='person'
-            size={24}
-            placeholder={t("shared-auth.username")}
-            style={{ backgroundColor: AppColors.blueMuted20 }}
-            onChangeText={(text) => setUsername(text)}
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <IconInputField
+                iconName='person'
+                size={24}
+                placeholder={t("shared-auth.username")}
+                onBlur={onBlur}
+                style={{ backgroundColor: AppColors.blueMuted20 }}
+                onChangeText={(value) => onChange(value)}
+                value={value}
+              />
+            )}
+            name='username'
+            rules={{ required: "Username is required." }}
           />
-          <IconInputField
-            style={{ marginTop: 30, backgroundColor: AppColors.blueMuted20 }}
-            iconName='lock-closed'
-            size={24}
-            placeholder={t("shared-auth.password")}
-            secureTextEntry={true}
-            onChangeText={(text) => setPassword(text)}
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <IconInputField
+                style={{
+                  marginTop: 30,
+                  backgroundColor: AppColors.blueMuted20,
+                }}
+                iconName='lock-closed'
+                size={24}
+                placeholder={t("shared-auth.password")}
+                onBlur={onBlur}
+                secureTextEntry={true}
+                onChangeText={(value) => onChange(value)}
+                value={value}
+              />
+            )}
+            name='password'
+            rules={{ required: "Password is required." }}
           />
           <FlatButton
             fontStyle='bodyMedium'
             colorStyle='white'
             buttonStyle={styles.loginButton}
-            onPress={() => {
-              handleLogin(username, password);
-            }}
+            onPress={handleSubmit(onSubmit, onErrors)}
           >
             {t("login.login")}
           </FlatButton>
@@ -118,7 +156,6 @@ const LoginScreen: React.FC = () => {
           </FlatButton>
         </View>
       </View>
-      <Button title='Show toast' onPress={showToastHandler} />
       <RoutineToast />
     </ScreenWrapper>
   );
