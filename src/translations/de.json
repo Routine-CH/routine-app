@@ -7,7 +7,8 @@
   "general": {
     "edit": "Bearbeiten",
     "save": "Speichern",
-    "back": "Zurück"
+    "back": "Zurück",
+    "no-user-data": "Keine Nutzerdaten"
   },
   "login": {
     "welcome": "WILLKOMMEN ZURÜCK",
@@ -20,6 +21,35 @@
     "add-tools": "Füge jetzt deine Lieblingstools hinzu",
     "choose-your": "Wähle deine",
     "favourite-tools": "Lieblings-Tools an"
+  },
+  "profile":{
+      "gamification": {
+            "badges": "Badges",
+            "points": "Punkte",
+            "level": "Level",
+            "all": "Alle",
+            "reached": "Erreichte",
+            "completed": "Erledigte",
+            "todos": "Todos",
+            "goals": "Ziele",
+            "meditated": "Meditierte",
+            "minutes": "Minuten",
+            "journal-entries": "Journaleinträge",
+            "your-year-in-numbers": "Dein Jahr in Zahlen",
+            "your": "Deine",
+            "week": "Woche",
+            "written": "Geschriebene",
+            "mon": "MO",
+            "tue": "DI",
+            "wed": "MI",
+            "thu": "DO",
+            "fri": "FR",
+            "sat": "SA",
+            "sun": "SO"
+        },
+        "hi": "Hi,",
+        "here": "dabei",
+        "since": "seit"
   },
   "register": {
     "register": "Registriere",
