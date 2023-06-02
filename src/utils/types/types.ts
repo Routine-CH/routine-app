@@ -135,3 +135,8 @@ export interface UserMe {
   userTools: { tool: UserTool }[];
   createdAt: any;
 }
+
+export interface IFormInputs {
+  username: string;
+  password: string;
+}
