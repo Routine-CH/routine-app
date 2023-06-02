@@ -2,14 +2,16 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Platform, StyleSheet, View } from "react-native";
+import { Button, Image, Platform, StyleSheet, View } from "react-native";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 import FlatButton from "../components/common/buttons/flat-button";
 import IconInputField from "../components/common/input/icon-input-field";
 import ScreenWrapper from "../components/common/screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
 import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastStyle } from "../utils/types/enums";
 import { AuthStackParamList } from "../utils/types/types";
 
 const LoginScreen: React.FC = () => {
@@ -33,6 +35,13 @@ const LoginScreen: React.FC = () => {
     navigation.navigate("ForgotPw");
   };
 
+  const showToast = () => {
+    Toast.show({
+      type: ToastStyle.error,
+      props: { message: "Your custom text" },
+    });
+  };
+
   return (
     <ScreenWrapper
       backgroundColor={AppColors.blue100}
@@ -47,7 +56,7 @@ const LoginScreen: React.FC = () => {
         <AppText
           fontStyle='heading3'
           colorStyle='blue100'
-          style={{ marginTop: 88 }}
+          style={{ marginTop: 60 }}
         >
           {t("login.welcome")}
         </AppText>
@@ -106,6 +115,8 @@ const LoginScreen: React.FC = () => {
           </FlatButton>
         </View>
       </View>
+      <Button title='Show toast' onPress={showToast} />
+      <RoutineToast />
     </ScreenWrapper>
   );
 };
@@ -117,7 +128,7 @@ const styles = StyleSheet.create({
   outerContainer2: { backgroundColor: AppColors.blue100, flex: 2 },
   innerContainer: {
     backgroundColor: AppColors.white,
-    flex: Platform.OS === "ios" ? 12 : 10,
+    flex: Platform.OS === "ios" ? 18 : 10,
     borderRadius: 20,
     paddingHorizontal: 30,
     width: "100%",
