@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Button, Image, ScrollView, StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
@@ -9,10 +9,17 @@ import Badge from "../components/profile/badge";
 import BadgesView from "../components/profile/badges-view";
 import WeekView from "../components/profile/week-view";
 import YearCard from "../components/profile/year-card";
+import { AuthContext } from "../contexts/auth-context";
 import useUserMe from "../hooks/use-user-me";
 import AppColors from "../utils/constants/colors";
 
 const ProfileScreen = () => {
+  // TODO: REMOVE LOGOUT FROM HERE
+  const { signOut } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    await signOut();
+  };
   const { t } = useTranslation();
 
   const currentUser = useUserMe();
@@ -22,6 +29,7 @@ const ProfileScreen = () => {
   return (
     <ScrollView style={{ backgroundColor: AppColors.white }}>
       <ScreenWrapper>
+        <Button title="Logout" onPress={handleLogout} />
         <View style={{ paddingHorizontal: 20 }}>
           <View style={styles.iconContainer}>
             <IconButton iconName="pencil" />
