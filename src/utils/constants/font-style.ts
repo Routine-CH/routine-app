@@ -35,6 +35,10 @@ const AppFontStyle = {
     fontFamily: "Ubuntu_400Regular",
     fontSize: 12,
   },
+  calendarDate: {
+      fontFamily: "Ubuntu_700Bold",
+      fontSize: 22,
+  }
 };
 
 export default AppFontStyle;

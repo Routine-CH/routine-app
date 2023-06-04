@@ -1,7 +1,7 @@
+import { DateTime } from "luxon";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Image, ScrollView, StyleSheet, View } from "react-native";
-import { DateTime } from "luxon";
+import { Button, Image, StyleSheet, View } from "react-native";
 
 import IconButton from "../components/common/buttons/icon-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -14,6 +14,7 @@ import YearCard from "../components/profile/year-card";
 import { AuthContext } from "../contexts/auth-context";
 import useUserMe from "../hooks/use-user-me";
 import AppColors from "../utils/constants/colors";
+import { StatusBarColor } from "../utils/types/enums";
 
 const ProfileScreen = () => {
   // TODO: REMOVE LOGOUT FROM HERE
@@ -34,7 +35,10 @@ const ProfileScreen = () => {
   });
 
   return (
-    <ScrollViewScreenWrapper>
+    <ScrollViewScreenWrapper
+      backgroundColor="white"
+      statusBarColor={StatusBarColor.dark}
+    >
       <Button title="Logout" onPress={handleLogout} />
       <View style={{ paddingHorizontal: 20 }}>
         <View style={styles.iconContainer}>
