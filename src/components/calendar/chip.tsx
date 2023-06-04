@@ -9,7 +9,7 @@ interface ChipProps {
 const Chip: React.FC<ChipProps> = ({ text }) => {
   return (
     <Pressable style={styles.chipContainer}>
-      <AppText fontStyle="filters" style={styles.textStyle}>
+      <AppText fontStyle="filters" colorStyle="black64">
         {text}
       </AppText>
     </Pressable>
@@ -26,8 +26,5 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.blueMuted20,
     justifyContent: "center",
     alignItems: "center",
-  },
-  textStyle: {
-    color: AppColors.black64,
   },
 });

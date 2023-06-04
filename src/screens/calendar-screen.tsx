@@ -39,7 +39,7 @@ const CalendarScreen: React.FC = () => {
       </View>
       {/* IMPLEMENT CALENDAR!! */}
       <Pressable>
-        <AppText fontStyle={"body"} style={[styles.margin, styles.textStyle]}>
+        <AppText fontStyle={"body"} colorStyle="black64" style={styles.margin}>
           {startOfWeekFormatted} - {endOfWeekFormatted}
         </AppText>
       </Pressable>
@@ -96,9 +96,6 @@ const styles = StyleSheet.create({
   },
   margin: {
     marginTop: 30,
-  },
-  textStyle: {
-    color: AppColors.black64,
   },
   calendarContainer: {
     flexDirection: "row",

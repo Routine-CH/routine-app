@@ -35,10 +35,16 @@ const GoalsCard: React.FC<GoalProps> = ({
           </View>
         </Svg>
         <View style={styles.textfields}>
-          <AppText fontStyle="heading4" style={{ marginBottom: 10 }}>
+          <AppText
+            fontStyle="heading4"
+            colorStyle="black64"
+            style={{ marginBottom: 10 }}
+          >
             {title}
           </AppText>
-          <AppText fontStyle="body">{description}</AppText>
+          <AppText fontStyle="body" colorStyle="black64">
+            {description}
+          </AppText>
         </View>
       </View>
     </View>
@@ -50,14 +56,13 @@ export default GoalsCard;
 const styles = StyleSheet.create({
   container: { alignItems: "center" },
   card: {
-    width: 330,
+    width: "100%",
     height: 125,
     backgroundColor: AppColors.blueMuted40,
     borderRadius: 13,
     flexDirection: "row",
     alignItems: "center",
     padding: 20,
-    marginBottom: 30,
   },
   textfields: {
     width: 210,

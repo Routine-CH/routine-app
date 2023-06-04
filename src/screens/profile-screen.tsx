@@ -13,7 +13,6 @@ import WeekView from "../components/profile/week-view";
 import YearCard from "../components/profile/year-card";
 import { AuthContext } from "../contexts/auth-context";
 import useUserMe from "../hooks/use-user-me";
-import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 
 const ProfileScreen = () => {
@@ -41,7 +40,7 @@ const ProfileScreen = () => {
       <Button title="Logout" onPress={handleLogout} />
       <View style={{ paddingHorizontal: 20 }}>
         <View style={styles.iconContainer}>
-          <IconButton iconName='pencil' />
+          <IconButton iconName="pencil" />
         </View>
 
         <View style={styles.userInformation}>
@@ -49,13 +48,10 @@ const ProfileScreen = () => {
             source={require(defaultAvatar)}
             style={styles.profilePicture}
           />
-          <AppText
-            fontStyle='bodyMedium'
-            style={[styles.textColor, { marginBottom: 10 }]}
-          >
+          <AppText fontStyle="bodyMedium" style={{ marginBottom: 10 }}>
             {t("profile.hi")} {currentUser.currentUser?.username} 😄
           </AppText>
-          <AppText fontStyle='body' style={styles.textColor}>
+          <AppText fontStyle="body" colorStyle="black64">
             {t("profile.since")} {formattedMonth} {t("profile.here")}
           </AppText>
         </View>
@@ -68,8 +64,6 @@ const ProfileScreen = () => {
       </View>
       <WeekView />
     </ScrollViewScreenWrapper>
-  ) : (
-    <AppText>Loading</AppText>
   );
 };
 
@@ -86,9 +80,6 @@ const styles = StyleSheet.create({
   },
   userInformation: {
     alignItems: "center",
-  },
-  textColor: {
-    color: AppColors.black64,
   },
   profilePicture: {
     height: 125,
