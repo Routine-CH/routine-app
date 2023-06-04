@@ -133,7 +133,8 @@ export interface UserMe {
   avatarUrl?: string;
   userGoals: UserGoals[];
   userTools: { tool: UserTool }[];
-  createdAt: string | undefined;
+  // TODO: FIX ANY TYPE
+  createdAt: any;
 }
 
 export interface IFormLoginInputs {
