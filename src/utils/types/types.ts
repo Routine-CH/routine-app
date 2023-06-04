@@ -33,13 +33,13 @@ export type AuthenticatedStackParamList = {
   Profile: undefined;
 };
 
-interface UserBadges {
+export type UserBadges = {
   id: string;
   title: string;
   description: string;
   imageUrl?: string;
   activityType: string;
-}
+};
 
 interface UserLogins {
   id: string;
@@ -48,23 +48,23 @@ interface UserLogins {
   lastBonusDate: Date;
 }
 
-interface UserJournals {
+export type UserJournals = {
   id: string;
   title: string;
   mood: string;
   moodDescription: string;
   activity: string;
   toImprove: string;
-}
+};
 
-interface UserGoals {
+export type UserGoals = {
   id: string;
   title: string;
   imageUrl?: string;
   description: string;
   completed: boolean;
   todos: UserTodo[];
-}
+};
 
 export interface UserTool {
   id: string;
@@ -79,19 +79,19 @@ interface UserTodo {
   description: string;
   plannedDate: Date;
   completed: boolean;
-}
+};
 
-interface UserPomodoroTimers {
+export type UserPomodoroTimers = {
   id: string;
   totalDuration: number;
-}
+};
 
-interface UserMeditations {
+export type UserMeditations = {
   id: string;
   totalDuration: number;
-}
+};
 
-interface NotificationSettings {
+export type NotificationSettings = {
   id: string;
   goalsEmailNotification: boolean;
   goalsPushNotification: boolean;
@@ -101,7 +101,7 @@ interface NotificationSettings {
   journalsPushNotification: boolean;
   muteAllEmailNotification: boolean;
   muteGamification: boolean;
-}
+};
 
 export interface FullUserData
   extends UserBadges,
