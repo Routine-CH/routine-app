@@ -1,8 +1,7 @@
+import { DateTime } from "luxon";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Image, ScrollView, StyleSheet, View } from "react-native";
-import { DateTime } from "luxon";
-
+import { Button, Image, StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
@@ -25,7 +24,6 @@ const ProfileScreen = () => {
   const { t } = useTranslation();
 
   const currentUser = useUserMe();
-  console.log(currentUser);
   const defaultAvatar = "../assets/misc/stones.jpg";
   const createdAt = DateTime.fromISO(currentUser.currentUser?.createdAt);
   const formattedMonth = createdAt.toLocaleString({
@@ -33,32 +31,29 @@ const ProfileScreen = () => {
     year: "numeric",
   });
 
-  return (
+  return currentUser ? (
     <ScrollViewScreenWrapper>
-      <Button title="Logout" onPress={handleLogout} />
+      <Button title='Logout' onPress={handleLogout} />
       <View style={{ paddingHorizontal: 20 }}>
         <View style={styles.iconContainer}>
-          <IconButton iconName="pencil" />
+          <IconButton iconName='pencil' />
         </View>
-        {currentUser ? (
-          <View style={styles.userInformation}>
-            <Image
-              source={require(defaultAvatar)}
-              style={styles.profilePicture}
-            />
-            <AppText
-              fontStyle="bodyMedium"
-              style={[styles.textColor, { marginBottom: 10 }]}
-            >
-              {t("profile.hi")} {currentUser.currentUser?.username} 😄
-            </AppText>
-            <AppText fontStyle="body" style={styles.textColor}>
-              {t("profile.since")} {formattedMonth} {t("profile.here")}
-            </AppText>
-          </View>
-        ) : (
-          <AppText> {t("general.no-user-data")} </AppText>
-        )}
+
+        <View style={styles.userInformation}>
+          <Image
+            source={require(defaultAvatar)}
+            style={styles.profilePicture}
+          />
+          <AppText
+            fontStyle='bodyMedium'
+            style={[styles.textColor, { marginBottom: 10 }]}
+          >
+            {t("profile.hi")} {currentUser.currentUser?.username} 😄
+          </AppText>
+          <AppText fontStyle='body' style={styles.textColor}>
+            {t("profile.since")} {formattedMonth} {t("profile.here")}
+          </AppText>
+        </View>
         <AchievementCard />
         <BadgesView />
       </View>
@@ -68,6 +63,8 @@ const ProfileScreen = () => {
       </View>
       <WeekView />
     </ScrollViewScreenWrapper>
+  ) : (
+    <AppText>Loading</AppText>
   );
 };
 

@@ -1,4 +1,3 @@
-
 // types for Authentication Stack Navigation
 export type AuthStackParamList = {
   Login: undefined;
@@ -72,7 +71,7 @@ export interface UserTool {
   titleKey: string;
 }
 
-interface UserTodo {
+export type UserTodo = {
   id: string;
   goalId?: string;
   title: string;
