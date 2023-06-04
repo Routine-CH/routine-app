@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Image, ScrollView, StyleSheet, View } from "react-native";
+import { DateTime } from "luxon";
+
 import IconButton from "../components/common/buttons/icon-button";
-import ScreenWrapper from "../components/common/screen-wrapper";
+import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import AchievementCard from "../components/profile/achievement-card";
 import Badge from "../components/profile/badge";
@@ -25,45 +27,47 @@ const ProfileScreen = () => {
   const currentUser = useUserMe();
   console.log(currentUser);
   const defaultAvatar = "../assets/misc/stones.jpg";
+  const createdAt = DateTime.fromISO(currentUser.currentUser?.createdAt);
+  const formattedMonth = createdAt.toLocaleString({
+    month: "long",
+    year: "numeric",
+  });
 
   return (
-    <ScrollView style={{ backgroundColor: AppColors.white }}>
-      <ScreenWrapper>
-        <Button title="Logout" onPress={handleLogout} />
-        <View style={{ paddingHorizontal: 20 }}>
-          <View style={styles.iconContainer}>
-            <IconButton iconName="pencil" />
+    <ScrollViewScreenWrapper>
+      <Button title="Logout" onPress={handleLogout} />
+      <View style={{ paddingHorizontal: 20 }}>
+        <View style={styles.iconContainer}>
+          <IconButton iconName="pencil" />
+        </View>
+        {currentUser ? (
+          <View style={styles.userInformation}>
+            <Image
+              source={require(defaultAvatar)}
+              style={styles.profilePicture}
+            />
+            <AppText
+              fontStyle="bodyMedium"
+              style={[styles.textColor, { marginBottom: 10 }]}
+            >
+              {t("profile.hi")} {currentUser.currentUser?.username} 😄
+            </AppText>
+            <AppText fontStyle="body" style={styles.textColor}>
+              {t("profile.since")} {formattedMonth} {t("profile.here")}
+            </AppText>
           </View>
-          {currentUser ? (
-            <View style={styles.userInformation}>
-              <Image
-                source={require(defaultAvatar)}
-                style={styles.profilePicture}
-              />
-              <AppText
-                fontStyle="bodyMedium"
-                style={[styles.textColor, { marginBottom: 10 }]}
-              >
-                {t("profile.hi")} {currentUser.currentUser?.username} 😄
-              </AppText>
-              <AppText fontStyle="body" style={styles.textColor}>
-                {t("profile.since")} {currentUser.currentUser?.createdAt}
-                {t("profile.here")}
-              </AppText>
-            </View>
-          ) : (
-            <AppText> {t("general.no-user-data")} </AppText>
-          )}
-          <AchievementCard />
-          <BadgesView />
-        </View>
-        <Badge />
-        <View style={styles.wrapper}>
-          <YearCard currentUser={currentUser} />
-        </View>
-        <WeekView />
-      </ScreenWrapper>
-    </ScrollView>
+        ) : (
+          <AppText> {t("general.no-user-data")} </AppText>
+        )}
+        <AchievementCard />
+        <BadgesView />
+      </View>
+      <Badge />
+      <View style={styles.wrapper}>
+        <YearCard currentUser={currentUser} />
+      </View>
+      <WeekView />
+    </ScrollViewScreenWrapper>
   );
 };
 
@@ -71,8 +75,8 @@ export default ProfileScreen;
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: 60,
-    paddingHorizontal: 20,
+    marginTop: 60,
+    marginHorizontal: 20,
   },
   iconContainer: {
     position: "absolute",

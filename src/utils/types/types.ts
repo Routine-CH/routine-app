@@ -127,5 +127,5 @@ export interface UserMe {
   avatarUrl?: string;
   userGoals: UserGoals[];
   userTools: { tool: UserTool }[];
-  createdAt: string|undefined;
+  createdAt: any;
 }
