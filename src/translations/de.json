@@ -68,6 +68,10 @@
     "password": "Passwort",
     "repeat-password": "Passwort wiederholden"
   },
+  "todos": {
+      "today": "Heutige",
+      "future": "Zukünftige"
+  },
   "tool-cards": {
     "timer": "Timer",
     "journals": "Journal",
