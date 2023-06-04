@@ -26,7 +26,6 @@ const ProfileScreen = () => {
   const { t } = useTranslation();
 
   const currentUser = useUserMe();
-  console.log(currentUser);
   const defaultAvatar = "../assets/misc/stones.jpg";
   const createdAt = DateTime.fromISO(currentUser.currentUser?.createdAt);
   const formattedMonth = createdAt.toLocaleString({
@@ -42,27 +41,24 @@ const ProfileScreen = () => {
       <Button title="Logout" onPress={handleLogout} />
       <View style={{ paddingHorizontal: 20 }}>
         <View style={styles.iconContainer}>
-          <IconButton iconName="pencil" />
+          <IconButton iconName='pencil' />
         </View>
-        {currentUser ? (
-          <View style={styles.userInformation}>
-            <Image
-              source={require(defaultAvatar)}
-              style={styles.profilePicture}
-            />
-            <AppText
-              fontStyle="bodyMedium"
-              style={[styles.textColor, { marginBottom: 10 }]}
-            >
-              {t("profile.hi")} {currentUser.currentUser?.username} 😄
-            </AppText>
-            <AppText fontStyle="body" style={styles.textColor}>
-              {t("profile.since")} {formattedMonth} {t("profile.here")}
-            </AppText>
-          </View>
-        ) : (
-          <AppText> {t("general.no-user-data")} </AppText>
-        )}
+
+        <View style={styles.userInformation}>
+          <Image
+            source={require(defaultAvatar)}
+            style={styles.profilePicture}
+          />
+          <AppText
+            fontStyle='bodyMedium'
+            style={[styles.textColor, { marginBottom: 10 }]}
+          >
+            {t("profile.hi")} {currentUser.currentUser?.username} 😄
+          </AppText>
+          <AppText fontStyle='body' style={styles.textColor}>
+            {t("profile.since")} {formattedMonth} {t("profile.here")}
+          </AppText>
+        </View>
         <AchievementCard />
         <BadgesView />
       </View>
@@ -72,6 +68,8 @@ const ProfileScreen = () => {
       </View>
       <WeekView />
     </ScrollViewScreenWrapper>
+  ) : (
+    <AppText>Loading</AppText>
   );
 };
 
