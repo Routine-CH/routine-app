@@ -16,12 +16,14 @@ const Card: React.FC<ChipProps> = ({ type, title, icon, style }) => {
       <View>
         <AppText
           fontStyle="information"
+          colorStyle="black64"
           style={[styles.textStyle, { marginBottom: 5 }]}
         >
           {type}
         </AppText>
         <AppText
           fontStyle="body"
+          colorStyle="black64"
           style={styles.textStyle}
           numberOfLines={1}
           ellipsizeMode="tail"
@@ -53,7 +55,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   textStyle: {
-    color: AppColors.black64,
     width: 165,
   },
 });

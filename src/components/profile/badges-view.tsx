@@ -11,11 +11,11 @@ const BadgesView = () => {
   return (
     <View style={styles.badgesContainer}>
       <View style={styles.textContainer}>
-        <AppText fontStyle="heading3" style={styles.textColor}>
+        <AppText fontStyle="heading3" colorStyle="black64">
           {t("profile.gamification.badges")}
         </AppText>
         <View style={styles.textContainer}>
-          <AppText fontStyle="body" style={styles.textColor}>
+          <AppText fontStyle="body" colorStyle="black64">
             {t("profile.gamification.all")}
           </AppText>
           <Icon name="chevron-forward" size={20} color={AppColors.black64} />
@@ -35,8 +35,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
-  },
-  textColor: {
-    color: AppColors.black64,
   },
 });
