@@ -29,7 +29,6 @@ const TodosScreen: React.FC = () => {
           });
 
           setUserTodos(response.data.data);
-          console.log(response.data.data);
         }
       } catch (error) {
         console.log("Failed to get user todos", error);
@@ -81,16 +80,11 @@ const TodosScreen: React.FC = () => {
               icon="stop-outline"
               key={index}
               title={todo.title}
-              description={todo.description}
+              //   description={todo.description}
+              description="Beispiel Beschreibung"
               style={{ width: 240 }}
             />
           ))}
-          <Todo
-            icon="stop-outline"
-            title="Beispiel mit Beschreibung"
-            description="Beschreibung"
-            style={{ width: 240 }}
-          />
         </View>
         <AppText
           fontStyle="heading3"
