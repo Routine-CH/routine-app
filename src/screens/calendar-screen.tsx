@@ -26,6 +26,8 @@ const CalendarScreen: React.FC = () => {
     year: "numeric",
   });
 
+  const formattedDateRange = `${startOfWeekFormatted} - ${endOfWeekFormatted}`;
+
   return (
     <ScrollViewScreenWrapper
       backgroundColor="white"
@@ -40,7 +42,7 @@ const CalendarScreen: React.FC = () => {
       {/* IMPLEMENT CALENDAR!! */}
       <Pressable>
         <AppText fontStyle={"body"} colorStyle="black64" style={styles.margin}>
-          {startOfWeekFormatted} - {endOfWeekFormatted}
+          {formattedDateRange}
         </AppText>
       </Pressable>
       <View style={[styles.margin, styles.calendarContainer]}>
@@ -65,7 +67,7 @@ const CalendarScreen: React.FC = () => {
       </View>
       <View style={[styles.margin, styles.calendarContainer]}>
         <View style={{ flex: 1 }}>
-          <DateCard date={8} month={"Juni"} />
+          <DateCard date={8} month={"Juni"} style={styles.dateCard} />
         </View>
         <View style={{ flex: 3 }}>
           <Card
@@ -107,5 +109,10 @@ const styles = StyleSheet.create({
   },
   notReached: {
     color: AppColors.red,
+  },
+  dateCard: {
+    height: 72,
+    width: 72,
+    borderRadius: 6,
   },
 });
