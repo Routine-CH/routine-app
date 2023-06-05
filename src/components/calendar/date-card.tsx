@@ -1,22 +1,23 @@
-import { Pressable, StyleSheet } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
 interface ChipProps {
   date: number;
   month: string;
+  style?: StyleProp<ViewStyle>;
 }
 
-const DateCard: React.FC<ChipProps> = ({ date, month }) => {
+const DateCard: React.FC<ChipProps> = ({ date, month, style }) => {
   return (
-    <Pressable style={styles.dateContainer}>
+    <View style={[styles.dateContainer, style]}>
       <AppText fontStyle="calendarDate" style={styles.textStyle}>
         {date}
       </AppText>
       <AppText fontStyle="body" style={styles.textStyle}>
         {month}
       </AppText>
-    </Pressable>
+    </View>
   );
 };
 

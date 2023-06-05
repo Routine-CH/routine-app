@@ -67,7 +67,7 @@ const CalendarScreen: React.FC = () => {
       </View>
       <View style={[styles.margin, styles.calendarContainer]}>
         <View style={{ flex: 1 }}>
-          <DateCard date={8} month={"Juni"} />
+          <DateCard date={8} month={"Juni"} style={styles.dateCard} />
         </View>
         <View style={{ flex: 3 }}>
           <Card
@@ -109,5 +109,10 @@ const styles = StyleSheet.create({
   },
   notReached: {
     color: AppColors.red,
+  },
+  dateCard: {
+    height: 72,
+    width: 72,
+    borderRadius: 6,
   },
 });

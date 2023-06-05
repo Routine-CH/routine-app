@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
@@ -6,10 +6,11 @@ import AppText from "../common/typography/app-text";
 interface TodoProps {
   icon: string;
   title: string;
-  description: string;
+  description?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
-const Todo: React.FC<TodoProps> = ({ icon, title, description }) => {
+const Todo: React.FC<TodoProps> = ({ icon, title, description, style }) => {
   return (
     <View style={styles.todoContainer}>
       <Icon name={icon} size={40} style={styles.iconStyle} />
@@ -19,19 +20,21 @@ const Todo: React.FC<TodoProps> = ({ icon, title, description }) => {
           colorStyle="black64"
           numberOfLines={1}
           ellipsizeMode="tail"
-          style={[styles.textStyle, { marginBottom: 5 }]}
+          style={[style, description ? { marginBottom: 5 } : null]}
         >
           {title}
         </AppText>
-        <AppText
-          fontStyle="information"
-          colorStyle="black64"
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={styles.textStyle}
-        >
-          {description}
-        </AppText>
+        {description && (
+          <AppText
+            fontStyle="information"
+            colorStyle="black64"
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={style}
+          >
+            {description}
+          </AppText>
+        )}
       </View>
     </View>
   );
@@ -54,9 +57,6 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     color: AppColors.blue200,
-    marginRight: 20,
-  },
-  textStyle: {
-    width: 240,
+    marginRight: 10,
   },
 });
