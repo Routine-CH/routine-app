@@ -9,13 +9,16 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
+import EmptyState from "../components/todos/empty-state";
 import Todo from "../components/todos/todo";
 import { API_BASE_URL } from "../utils/config/config";
+import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const [userTodos, setUserTodos] = useState<UserTodo[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getUserTodos() {
@@ -32,10 +35,12 @@ const TodosScreen: React.FC = () => {
         }
       } catch (error) {
         console.log("Failed to get user todos", error);
+      } finally {
+        setIsLoading(false);
       }
     }
     getUserTodos();
-  }, [userTodos]);
+  }, []);
 
   const { t } = useTranslation();
 
@@ -75,16 +80,26 @@ const TodosScreen: React.FC = () => {
           >
             {t("todos.today")} {t("profile.gamification.todos")}
           </AppText>
-          {userTodos.map((todo, index) => (
-            <Todo
-              icon="stop-outline"
-              key={index}
-              title={todo.title}
-              //   description={todo.description}
-              description="Beispiel Beschreibung"
-              style={{ width: 240 }}
+          {isLoading ? (
+            // IMPLEMENT LOADING SCREEN
+            <AppText>Loading...</AppText>
+          ) : userTodos.length > 0 ? (
+            userTodos.map((todo, index) => (
+              <Todo
+                icon="stop-outline"
+                key={index}
+                title={todo.title}
+                //   description={todo.description}
+                description="Beispiel Beschreibung"
+                style={{ width: 240 }}
+              />
+            ))
+          ) : (
+            <EmptyState
+              description={t("todos.no-todos")}
+              style={{ backgroundColor: AppColors.blueMuted30 }}
             />
-          ))}
+          )}
         </View>
         <AppText
           fontStyle="heading3"
@@ -100,21 +115,31 @@ const TodosScreen: React.FC = () => {
           </AppText>
         </Pressable>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
-          <View style={{ flex: 1 }}>
-            <DateCard date={15} month={"Juni"} style={styles.dateCard} />
-          </View>
-          <View style={{ flex: 3 }}>
-            <Todo
-              icon="stop-outline"
-              title={"Kalender updaten"}
-              style={{ width: 160 }}
+          {isLoading ? (
+            // IMPLEMENT LOADING SCREEN
+            <AppText>Loading...</AppText>
+          ) : userTodos.length > 0 ? (
+            userTodos.map((todo, index) => (
+              <>
+                <View style={{ flex: 1 }}>
+                  <DateCard date={15} month={"Juni"} style={styles.dateCard} />
+                </View>
+                <View style={{ flex: 3 }}>
+                  <Todo
+                    icon="stop-outline"
+                    key={index}
+                    title={todo.title}
+                    style={{ width: 160 }}
+                  />
+                </View>
+              </>
+            ))
+          ) : (
+            <EmptyState
+              description={t("todos.no-future-todos")}
+              style={{ backgroundColor: AppColors.greenMuted30 }}
             />
-            <Todo
-              icon="stop-outline"
-              title={"Einkaufen gehen"}
-              style={{ width: 170 }}
-            />
-          </View>
+          )}
         </View>
       </ScrollViewScreenWrapper>
       <AddButton style={styles.buttonStyle} />
