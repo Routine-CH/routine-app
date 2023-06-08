@@ -48,7 +48,11 @@ const ProfileScreen = () => {
             source={require(defaultAvatar)}
             style={styles.profilePicture}
           />
-          <AppText fontStyle="bodyMedium" style={{ marginBottom: 10 }}>
+          <AppText
+            fontStyle="bodyMedium"
+            colorStyle="black70"
+            style={{ marginBottom: 10 }}
+          >
             {t("profile.hi")} {currentUser.currentUser?.username} 😄
           </AppText>
           <AppText fontStyle="body" colorStyle="black64">
