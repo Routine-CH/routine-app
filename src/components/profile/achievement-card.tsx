@@ -23,7 +23,11 @@ const AchievementCard = () => {
       </View>
       <View style={styles.verticalLine} />
       <View style={styles.achievementContent}>
-        <AppText fontStyle="bodyMedium" style={{ marginBottom: 5 }}>
+        <AppText
+          fontStyle="bodyMedium"
+          colorStyle="black64"
+          style={{ marginBottom: 5 }}
+        >
           80
         </AppText>
         <AppText fontStyle="body" colorStyle="black64">
@@ -32,7 +36,11 @@ const AchievementCard = () => {
       </View>
       <View style={styles.verticalLine} />
       <View style={styles.achievementContent}>
-        <AppText fontStyle="bodyMedium" style={{ marginBottom: 5 }}>
+        <AppText
+          fontStyle="bodyMedium"
+          colorStyle="black64"
+          style={{ marginBottom: 5 }}
+        >
           2
         </AppText>
         <AppText fontStyle="body" colorStyle="black64">

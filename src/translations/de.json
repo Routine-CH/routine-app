@@ -22,6 +22,10 @@
     "choose-your": "Wähle deine",
     "favourite-tools": "Lieblings-Tools an"
   },
+  "notes": {
+      "date": "Datum",
+      "filter": "filtern"
+  },
   "profile":{
       "gamification": {
             "all": "Alle",
