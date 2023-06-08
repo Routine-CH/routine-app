@@ -73,8 +73,11 @@
     "repeat-password": "Passwort wiederholden"
   },
   "todos": {
-      "today": "Heutige",
-      "future": "Zukünftige"
+      "future": "Zukünftige",
+      "no": "Keine",
+      "no-todos": "Du hast heute noch keine Todos",
+      "no-future-todos": "Du hast noch keine zukünftige Todos geplant",
+      "today": "Heutige"
   },
   "tool-cards": {
     "timer": "Timer",
