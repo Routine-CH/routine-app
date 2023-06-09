@@ -41,7 +41,7 @@ const YearCard: React.FC<userProps> = ({ currentUser }) => {
           </AppText>
           <AppText fontStyle="body" colorStyle="black64">
             {t("profile.gamification.meditated")}{" "}
-            {t("profile.gamification.minutes")} 📿
+            {t("profile.gamification.minutes")} 🧘🏽
           </AppText>
         </View>
         <View style={styles.textContainer}>

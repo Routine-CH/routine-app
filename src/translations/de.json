@@ -72,6 +72,10 @@
     "password": "Passwort",
     "repeat-password": "Passwort wiederholden"
   },
+  "timer": {
+      "start-working": "Starte mit deiner Arbeit",
+      "take-a-break": "Mach eine Pause"
+  },
   "todos": {
       "future": "Zukünftige",
       "no": "Keine",
