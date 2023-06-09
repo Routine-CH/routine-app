@@ -40,9 +40,7 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
         }}
       >
         {/* implement safeareview to respect the safearea without the padding top  */}
-        <SafeAreaView edges={["right", "bottom", "left"]}>
-          {children}
-        </SafeAreaView>
+        <SafeAreaView edges={["right", "left"]}>{children}</SafeAreaView>
       </ScrollView>
     </View>
   );
