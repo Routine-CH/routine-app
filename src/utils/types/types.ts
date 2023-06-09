@@ -56,6 +56,9 @@ export type UserJournals = {
   toImprove: string;
 };
 
+export type AllUserJournals = UserJournals[];
+
+
 export type UserGoals = {
   id: string;
   title: string;
@@ -64,7 +67,6 @@ export type UserGoals = {
   completed: boolean;
   todos: UserTodo[];
 };
-
 export interface UserTool {
   id: string;
   screenName: string;

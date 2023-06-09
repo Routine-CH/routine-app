@@ -10,6 +10,13 @@
     "back": "Zurück",
     "no-user-data": "Keine Nutzerdaten"
   },
+  "journal": {
+      "mood": "Wie fühlst du dich heute?",
+      "moodDescription": "Wieso fühlst du dich so?",
+      "activity": "Was hast du daraus gemacht?",
+      "toImprove": "Was hättest du anders machen können?",
+      "past-entries": "Vergangene Einträge"
+  },
   "login": {
     "welcome": "WILLKOMMEN ZURÜCK",
     "login": "LOGIN"
