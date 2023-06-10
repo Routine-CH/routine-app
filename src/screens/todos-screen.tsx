@@ -138,7 +138,7 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
       </ScrollViewScreenWrapper>
-      <AddButton style={styles.buttonStyle} />
+      <AddButton />
     </>
   );
 };
@@ -146,11 +146,6 @@ const TodosScreen: React.FC = () => {
 export default TodosScreen;
 
 const styles = StyleSheet.create({
-  buttonStyle: {
-    position: "absolute",
-    right: 20,
-    bottom: 20,
-  },
   calendarContainer: {
     flexDirection: "row",
     flexWrap: "wrap",

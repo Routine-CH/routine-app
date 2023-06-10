@@ -37,7 +37,7 @@ const NotesScreen: React.FC = () => {
         </View>
       </ScrollViewScreenWrapper>
 
-      <AddButton style={styles.buttonStyle} />
+      <AddButton />
     </>
   );
 };
@@ -45,11 +45,6 @@ const NotesScreen: React.FC = () => {
 export default NotesScreen;
 
 const styles = StyleSheet.create({
-  buttonStyle: {
-    position: "absolute",
-    right: 20,
-    bottom: 20,
-  },
   margin: {
     marginVertical: 30,
   },

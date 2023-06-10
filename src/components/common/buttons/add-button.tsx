@@ -9,7 +9,7 @@ type AddButtonProps = {
 
 const AddButton: React.FC<AddButtonProps> = ({ style }) => {
   return (
-    <Pressable style={style}>
+    <Pressable style={styles.positioning}>
       <Icon name={"add-circle"} size={57} color={AppColors.blue100} />
     </Pressable>
   );
@@ -18,5 +18,9 @@ const AddButton: React.FC<AddButtonProps> = ({ style }) => {
 export default AddButton;
 
 const styles = StyleSheet.create({
-  positioning: {},
+  positioning: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+  },
 });

@@ -34,9 +34,9 @@ const GoalsContainer: React.FC<GoalsContainerProps> = () => {
 
   return (
     <View>
-      {userGoals.map((goal, index) => (
+      {userGoals.map((goal) => (
         <GoalsCard
-          key={index}
+          key={goal.id}
           //     image={}
           title={goal.title}
           description={goal.description}
