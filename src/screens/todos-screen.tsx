@@ -63,7 +63,7 @@ const TodosScreen: React.FC = () => {
   });
 
   const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
-  const shouldDisplayTodoCard = true; // Your condition to determine whether to display the additional card
+  const shouldDisplayTodoCard = true;
 
   return (
     <>
@@ -88,7 +88,7 @@ const TodosScreen: React.FC = () => {
             userTodos.map((todo, index) => (
               <Todo
                 icon="stop-outline"
-                key={index}
+                key={todo.id}
                 title={todo.title}
                 //   description={todo.description}
                 description="Beispiel Beschreibung"
@@ -121,16 +121,14 @@ const TodosScreen: React.FC = () => {
             <AppText>Loading...</AppText>
           ) : userTodos.length > 0 ? (
             userTodos.map((todo) => (
-              <>
-                <Calendar
-                  date={15}
-                  month={"Juni"}
-                  icon="stop-outline"
-                  title={todo.title}
-                  key={todo.id}
-                  displayTodoCard={shouldDisplayTodoCard}
-                />
-              </>
+              <Calendar
+                date={15}
+                month={"Juni"}
+                icon="stop-outline"
+                title={todo.title}
+                key={todo.id}
+                displayTodoCard={shouldDisplayTodoCard}
+              />
             ))
           ) : (
             <EmptyState
@@ -140,7 +138,7 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
       </ScrollViewScreenWrapper>
-      <AddButton style={styles.buttonStyle} />
+      <AddButton />
     </>
   );
 };
@@ -148,11 +146,6 @@ const TodosScreen: React.FC = () => {
 export default TodosScreen;
 
 const styles = StyleSheet.create({
-  buttonStyle: {
-    position: "absolute",
-    right: 20,
-    bottom: 20,
-  },
   calendarContainer: {
     flexDirection: "row",
     flexWrap: "wrap",

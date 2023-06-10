@@ -8,14 +8,21 @@ interface GoalProps {
   //   image: any;
   title: string;
   description: string;
+  displayHorizontalScroll?: boolean;
 }
 
 const GoalsCard: React.FC<GoalProps> = ({
   /*  image,  */ title,
   description,
+  displayHorizontalScroll = false,
 }) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        displayHorizontalScroll ? styles.horizontalCard : styles.cardInRows,
+      ]}
+    >
       <View style={styles.card}>
         <Svg width="72" height="72">
           <LinearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -55,9 +62,15 @@ export default GoalsCard;
 
 const styles = StyleSheet.create({
   container: { alignItems: "center" },
+  cardInRows: {
+    marginBottom: 15,
+  },
+  horizontalCard: {
+    marginHorizontal: 15,
+  },
   card: {
     width: "100%",
-    height: 125,
+    height: 120,
     backgroundColor: AppColors.blueMuted40,
     borderRadius: 13,
     flexDirection: "row",
