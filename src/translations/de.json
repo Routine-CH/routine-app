@@ -10,6 +10,9 @@
     "back": "Zurück",
     "no-user-data": "Keine Nutzerdaten"
   },
+  "goals": {
+      "show-all": "Alle anzeigen"
+  },
   "journal": {
       "mood": "Wie fühlst du dich heute?",
       "moodDescription": "Wieso fühlst du dich so?",

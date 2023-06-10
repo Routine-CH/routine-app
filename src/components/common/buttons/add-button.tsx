@@ -9,7 +9,7 @@ type AddButtonProps = {
 
 const AddButton: React.FC<AddButtonProps> = ({ style }) => {
   return (
-    <Pressable style={styles.positioning}>
+    <Pressable style={style ? style : styles.positioning}>
       <Icon name={"add-circle"} size={57} color={AppColors.blue100} />
     </Pressable>
   );

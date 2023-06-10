@@ -63,7 +63,7 @@ const TodosScreen: React.FC = () => {
   });
 
   const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
-  const shouldDisplayTodoCard = true; // Your condition to determine whether to display the additional card
+  const shouldDisplayTodoCard = true;
 
   return (
     <>

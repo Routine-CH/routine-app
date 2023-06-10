@@ -37,6 +37,7 @@ const getIconComponent = (titleKey: string) => {
 };
 
 const HomeScreen: React.FC = () => {
+  const shouldDisplayHorizontalScroll = true;
   const { currentUser, refetch } = useUserMe();
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
@@ -56,10 +57,10 @@ const HomeScreen: React.FC = () => {
     <ScrollViewScreenWrapper
       backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
-      defaultPadding
+      // defaultPadding
     >
       <View style={{ paddingTop: 10, flex: 1 }}>
-        <View>
+        <View style={{ marginHorizontal: 30 }}>
           <AppText fontStyle="heading1" colorStyle="black64">
             {t("my-day.hey")}
           </AppText>
@@ -71,11 +72,13 @@ const HomeScreen: React.FC = () => {
           <AppText
             fontStyle="heading3"
             colorStyle="black64"
-            style={{ marginBottom: 30 }}
+            style={{ marginBottom: 30, marginHorizontal: 30 }}
           >
             {t("my-day.your-goals")}
           </AppText>
-          <GoalsContainer />
+          <GoalsContainer
+            displayHorizontalScroll={shouldDisplayHorizontalScroll}
+          />
         </View>
       </View>
       <View style={styles.toolsContainer}>
@@ -146,6 +149,7 @@ const styles = StyleSheet.create({
   },
   toolsContainer: {
     marginTop: 60,
+    marginHorizontal: 30,
   },
   favouriteToolsContainer: {
     marginTop: 30,
