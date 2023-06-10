@@ -126,14 +126,13 @@ const JournalsScreen: React.FC = () => {
           ) : userJournals ? (
             userJournals.map((journal) => {
               return (
-                <View>
-                  <Calendar
-                    date={5}
-                    month="Juni"
-                    title="Lorem"
-                    journalStyles={styles.journal}
-                  />
-                </View>
+                <Calendar
+                  date={5}
+                  month="Juni"
+                  title="Lorem"
+                  key={journal.id}
+                  journalStyles={styles.journal}
+                />
               );
             })
           ) : (
