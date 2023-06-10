@@ -88,7 +88,7 @@ const TodosScreen: React.FC = () => {
             userTodos.map((todo, index) => (
               <Todo
                 icon="stop-outline"
-                key={index}
+                key={todo.id}
                 title={todo.title}
                 //   description={todo.description}
                 description="Beispiel Beschreibung"
@@ -121,16 +121,14 @@ const TodosScreen: React.FC = () => {
             <AppText>Loading...</AppText>
           ) : userTodos.length > 0 ? (
             userTodos.map((todo) => (
-              <>
-                <Calendar
-                  date={15}
-                  month={"Juni"}
-                  icon="stop-outline"
-                  title={todo.title}
-                  key={todo.id}
-                  displayTodoCard={shouldDisplayTodoCard}
-                />
-              </>
+              <Calendar
+                date={15}
+                month={"Juni"}
+                icon="stop-outline"
+                title={todo.title}
+                key={todo.id}
+                displayTodoCard={shouldDisplayTodoCard}
+              />
             ))
           ) : (
             <EmptyState
