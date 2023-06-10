@@ -4,7 +4,7 @@ import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
 interface TodoProps {
-  icon: string;
+  icon: any;
   title: string;
   description?: string;
   style?: StyleProp<ViewStyle>;
@@ -45,7 +45,7 @@ export default Todo;
 const styles = StyleSheet.create({
   todoContainer: {
     width: "100%",
-    height: 64,
+    height: 72,
     borderRadius: 6,
     backgroundColor: AppColors.blueMuted30,
     flexDirection: "row",

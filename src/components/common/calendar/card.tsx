@@ -1,26 +1,35 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import AppColors from "../../utils/constants/colors";
-import AppText from "../common/typography/app-text";
+import AppColors from "../../../utils/constants/colors";
+import AppText from "../typography/app-text";
 
 interface ChipProps {
-  type: string;
+  type?: string;
   title: string;
   icon?: string;
-  style?: any;
+  iconStyle?: any;
+  cardStyle?: any;
 }
 
-const Card: React.FC<ChipProps> = ({ type, title, icon, style }) => {
+const Card: React.FC<ChipProps> = ({
+  type,
+  title,
+  icon,
+  iconStyle,
+  cardStyle,
+}) => {
   return (
-    <Pressable style={styles.container}>
+    <Pressable style={[styles.container, cardStyle]}>
       <View>
-        <AppText
-          fontStyle="information"
-          colorStyle="black64"
-          style={[styles.textStyle, { marginBottom: 5 }]}
-        >
-          {type}
-        </AppText>
+        {type && (
+          <AppText
+            fontStyle="information"
+            colorStyle="black64"
+            style={[styles.textStyle, { marginBottom: 5 }]}
+          >
+            {type}
+          </AppText>
+        )}
         <AppText
           fontStyle="body"
           colorStyle="black64"
@@ -33,7 +42,7 @@ const Card: React.FC<ChipProps> = ({ type, title, icon, style }) => {
       </View>
       {icon && (
         <View>
-          <Icon name={icon} size={24} style={style} />
+          <Icon name={icon} size={24} style={iconStyle} />
         </View>
       )}
     </Pressable>

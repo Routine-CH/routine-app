@@ -1,6 +1,6 @@
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-import AppColors from "../../utils/constants/colors";
-import AppText from "../common/typography/app-text";
+import AppColors from "../../../utils/constants/colors";
+import AppText from "../typography/app-text";
 
 interface ChipProps {
   date: number;

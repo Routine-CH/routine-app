@@ -5,11 +5,10 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import DateCard from "../components/calendar/date-card";
 import BackButton from "../components/common/buttons/back-button";
+import Calendar from "../components/common/calendar/calendar";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
-import JournalCard from "../components/journal/journals-card";
 import TodaysJournal from "../components/journal/todays-journal";
 import { API_BASE_URL } from "../utils/config/config";
 import AppColors from "../utils/constants/colors";
@@ -115,7 +114,11 @@ const JournalsScreen: React.FC = () => {
             paddingBottom: 30,
           }}
         >
-          <AppText fontStyle="heading3" colorStyle="black64">
+          <AppText
+            fontStyle="heading3"
+            colorStyle="black64"
+            style={{ marginBottom: 30 }}
+          >
             {t("journal.past-entries")}
           </AppText>
           {isLoading ? (
@@ -123,9 +126,13 @@ const JournalsScreen: React.FC = () => {
           ) : userJournals ? (
             userJournals.map((journal) => {
               return (
-                <View style={styles.calendarContainer} key={journal.id}>
-                  <DateCard date={10} month={"Juni"} />
-                  <JournalCard title={journal.title} />
+                <View>
+                  <Calendar
+                    date={5}
+                    month="Juni"
+                    title="Lorem"
+                    journalStyles={styles.journal}
+                  />
                 </View>
               );
             })
@@ -159,5 +166,8 @@ const styles = StyleSheet.create({
   calendarContainer: {
     marginTop: 30,
     flexDirection: "row",
+  },
+  journal: {
+    backgroundColor: AppColors.white,
   },
 });
