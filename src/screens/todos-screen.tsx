@@ -4,9 +4,9 @@ import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
-import DateCard from "../components/calendar/date-card";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
+import Calendar from "../components/common/calendar/calendar";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import EmptyState from "../components/todos/empty-state";
@@ -63,6 +63,7 @@ const TodosScreen: React.FC = () => {
   });
 
   const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
+  const shouldDisplayTodoCard = true; // Your condition to determine whether to display the additional card
 
   return (
     <>
@@ -119,19 +120,16 @@ const TodosScreen: React.FC = () => {
             // IMPLEMENT LOADING SCREEN
             <AppText>Loading...</AppText>
           ) : userTodos.length > 0 ? (
-            userTodos.map((todo, index) => (
+            userTodos.map((todo) => (
               <>
-                <View style={{ flex: 1 }}>
-                  <DateCard date={15} month={"Juni"} style={styles.dateCard} />
-                </View>
-                <View style={{ flex: 3 }}>
-                  <Todo
-                    icon="stop-outline"
-                    key={index}
-                    title={todo.title}
-                    style={{ width: 160 }}
-                  />
-                </View>
+                <Calendar
+                  date={15}
+                  month={"Juni"}
+                  icon="stop-outline"
+                  title={todo.title}
+                  key={todo.id}
+                  displayTodoCard={shouldDisplayTodoCard}
+                />
               </>
             ))
           ) : (
