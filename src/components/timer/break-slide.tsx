@@ -5,10 +5,16 @@ import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 import Circle from "./circle";
 
-const BreakSlide: React.FC<{ onStartTimer: () => void }> = ({
-  onStartTimer,
-}) => {
+const BreakSlide: React.FC<{
+  onStartTimer: () => void;
+  onSetDuration: (newTime: number) => void;
+}> = ({ onStartTimer, onSetDuration }) => {
   const { t } = useTranslation();
+  const isEditable = true;
+
+  const handleDurationChange = (newTime: number) => {
+    onSetDuration(newTime);
+  };
 
   return (
     <View style={styles.container}>
@@ -19,7 +25,11 @@ const BreakSlide: React.FC<{ onStartTimer: () => void }> = ({
       >
         {t("timer.take-a-break")}
       </AppText>
-      <Circle />
+      <Circle
+        timeRemaining={5 * 60}
+        onChangeTime={handleDurationChange}
+        isEditable={isEditable}
+      />
       <Icon
         name={"play"}
         size={60}
