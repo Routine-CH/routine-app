@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Spinner } from "@ui-kitten/components";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
@@ -82,8 +83,9 @@ const TodosScreen: React.FC = () => {
             {t("todos.today")} {t("profile.gamification.todos")}
           </AppText>
           {isLoading ? (
-            // IMPLEMENT LOADING SCREEN
-            <AppText>Loading...</AppText>
+            <View style={styles.spinnerContainer}>
+              <Spinner />
+            </View>
           ) : userTodos.length > 0 ? (
             userTodos.map((todo, index) => (
               <Todo
@@ -117,8 +119,9 @@ const TodosScreen: React.FC = () => {
         </Pressable>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
           {isLoading ? (
-            // IMPLEMENT LOADING SCREEN
-            <AppText>Loading...</AppText>
+            <View style={styles.spinnerContainer}>
+              <Spinner />
+            </View>
           ) : userTodos.length > 0 ? (
             userTodos.map((todo) => (
               <Calendar
@@ -155,5 +158,9 @@ const styles = StyleSheet.create({
     height: 64,
     width: 64,
     borderRadius: 6,
+  },
+  spinnerContainer: {
+    alignItems: "center",
+    width: "100%",
   },
 });

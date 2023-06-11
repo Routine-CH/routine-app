@@ -57,7 +57,6 @@ const HomeScreen: React.FC = () => {
     <ScrollViewScreenWrapper
       backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
-      // defaultPadding
     >
       <View style={{ paddingTop: 10, flex: 1 }}>
         <View style={{ marginHorizontal: 30 }}>

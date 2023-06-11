@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Spinner } from "@ui-kitten/components";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
@@ -100,7 +101,9 @@ const JournalsScreen: React.FC = () => {
         <View style={styles.outerContainer}>
           <View style={styles.innerContainer}>
             {isLoadingTodaysJournal ? (
-              <AppText>Loading</AppText>
+              <View style={styles.spinnerContainer}>
+                <Spinner />
+              </View>
             ) : (
               <TodaysJournal userJournal={todaysJournal} />
             )}
@@ -122,7 +125,9 @@ const JournalsScreen: React.FC = () => {
             {t("journal.past-entries")}
           </AppText>
           {isLoading ? (
-            <AppText>Loading Past Journals</AppText>
+            <View style={styles.spinnerContainer}>
+              <Spinner />
+            </View>
           ) : userJournals ? (
             userJournals.map((journal) => {
               return (
@@ -153,6 +158,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 30,
+  },
+  spinnerContainer: {
+    alignItems: "center",
   },
   outerContainer: { backgroundColor: AppColors.blue300 },
   innerContainer: {
