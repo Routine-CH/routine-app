@@ -169,7 +169,8 @@
   },
   "timer": {
     "start-working": "Starte mit deiner Arbeit",
-    "take-a-break": "Mach eine Pause"
+    "take-a-break": "Mach eine Pause",
+      "change-time": "Zeit anpassen"
   },
   "todos": {
     "future": "Zukünftige",
