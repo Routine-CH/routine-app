@@ -9,6 +9,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
 import Calendar from "../components/common/calendar/calendar";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import Skeleton from "../components/common/skeleton";
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
 import { API_BASE_URL } from "../utils/config/config";
@@ -101,11 +102,13 @@ const JournalsScreen: React.FC = () => {
         <View style={styles.outerContainer}>
           <View style={styles.innerContainer}>
             {isLoadingTodaysJournal ? (
-              <View style={styles.spinnerContainer}>
+              <Skeleton style={styles.spinnerToday}>
                 <Spinner />
-              </View>
+              </Skeleton>
             ) : (
-              <TodaysJournal userJournal={todaysJournal} />
+              <Skeleton>
+                <TodaysJournal userJournal={todaysJournal} />
+              </Skeleton>
             )}
           </View>
         </View>
@@ -125,21 +128,23 @@ const JournalsScreen: React.FC = () => {
             {t("journal.past-entries")}
           </AppText>
           {isLoading ? (
-            <View style={styles.spinnerContainer}>
+            <Skeleton style={styles.calendarSpinner}>
               <Spinner />
-            </View>
+            </Skeleton>
           ) : userJournals ? (
-            userJournals.map((journal) => {
-              return (
-                <Calendar
-                  date={5}
-                  month="Juni"
-                  title="Lorem"
-                  key={journal.id}
-                  journalStyles={styles.journal}
-                />
-              );
-            })
+            <Skeleton>
+              {userJournals.map((journal) => {
+                return (
+                  <Calendar
+                    date={5}
+                    month="Juni"
+                    title="Lorem"
+                    key={journal.id}
+                    journalStyles={styles.journal}
+                  />
+                );
+              })}
+            </Skeleton>
           ) : (
             <AppText>No Past Todos</AppText>
           )}
@@ -159,8 +164,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 30,
   },
-  spinnerContainer: {
+  spinnerToday: {
     alignItems: "center",
+    width: "100%",
+    height: 700,
   },
   outerContainer: { backgroundColor: AppColors.blue300 },
   innerContainer: {
@@ -170,9 +177,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     backgroundColor: "white",
   },
-  calendarContainer: {
-    marginTop: 30,
-    flexDirection: "row",
+  calendarSpinner: {
+    height: 90,
   },
   journal: {
     backgroundColor: AppColors.white,
