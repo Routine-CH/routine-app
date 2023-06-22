@@ -49,14 +49,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardContainer: {
-    width: 330,
+    width: "100%",
     height: 172,
     borderRadius: 10,
     overflow: "hidden",
     backgroundColor: "white",
   },
   image: {
-    width: 330,
+    width: "100%",
     height: 104,
   },
   bottomContainer: {

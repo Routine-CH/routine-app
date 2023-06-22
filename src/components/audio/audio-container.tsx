@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import AppText from "../common/typography/app-text";
 import AudioCard from "./audio-card";
 
@@ -28,7 +28,7 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
   ];
 
   return (
-    <View style={styles.audioContainer}>
+    <>
       <AppText
         fontStyle="heading3"
         colorStyle="black70"
@@ -37,14 +37,16 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
         {t("audio.meditation-exercises")}
       </AppText>
       {audio.map((audio, index) => (
-        <AudioCard
-          key={index}
-          image={audio.image}
-          title={audio.title}
-          time={audio.time}
-        />
+        <TouchableOpacity>
+          <AudioCard
+            key={index}
+            image={audio.image}
+            title={audio.title}
+            time={audio.time}
+          />
+        </TouchableOpacity>
       ))}
-    </View>
+    </>
   );
 };
 

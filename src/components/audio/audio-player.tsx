@@ -6,9 +6,9 @@ import IconButton from "../common/buttons/icon-button";
 import AppText from "../common/typography/app-text";
 
 interface AudioProps {
-  image: any;
-  title: string;
-  time: string;
+  image?: any;
+  title?: string;
+  time?: string;
 }
 
 const AudioPlayer: React.FC<AudioProps> = ({ image, title, time }) => {
@@ -19,22 +19,62 @@ const AudioPlayer: React.FC<AudioProps> = ({ image, title, time }) => {
         <IconButton iconName="information" />
       </View>
       <View style={styles.audioplayer}>
-        <Image source={image} style={styles.image} />
+        <Image
+          source={require("../../assets/misc/waves.jpg") /* image */}
+          style={styles.image}
+        />
         <AppText
           fontStyle="heading3"
           colorStyle="black70"
           style={{ textAlign: "center", marginVertical: 60 }}
         >
-          {title}
+          {/* {title} */} Progressive Muskelrelaxion
         </AppText>
         <View style={styles.timeContainer}>
           <View style={styles.horizontalLine} />
-          <View>
-            <AppText>2:54</AppText>
-            <AppText>{time}</AppText>
+          <View style={styles.time}>
+            <AppText fontStyle="body" colorStyle="black70">
+              00:00
+            </AppText>
+            <AppText fontStyle="body" colorStyle="black70">
+              10:00
+            </AppText>
           </View>
         </View>
-        <Icon name={"play-circle"} size={35} color={AppColors.blue100} />
+        <View style={styles.iconContainer}>
+          <View style={styles.seekIcon}>
+            <Icon
+              name={"return-up-forward-outline"}
+              size={50}
+              color={AppColors.blue100}
+              style={{
+                transform: [{ rotateY: "180deg" }],
+              }}
+            />
+            <AppText
+              fontStyle="bodyBold"
+              colorStyle="blue100"
+              style={{ position: "absolute", top: 35 }}
+            >
+              10
+            </AppText>
+          </View>
+          <Icon name={"play-circle"} size={95} color={AppColors.blue100} />
+          <View style={styles.seekIcon}>
+            <Icon
+              name={"return-up-forward-outline"}
+              size={50}
+              color={AppColors.blue100}
+            />
+            <AppText
+              fontStyle="bodyBold"
+              colorStyle="blue100"
+              style={{ position: "absolute", top: 35 }}
+            >
+              10
+            </AppText>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -71,5 +111,20 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.blueMuted60,
     borderRadius: 100,
     marginBottom: 15,
+  },
+  time: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
+    marginBottom: 30,
+  },
+  iconContainer: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  seekIcon: {
+    alignItems: "center",
   },
 });

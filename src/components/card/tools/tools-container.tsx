@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   outerContainer: {
     width: "100%",
     alignItems: "center",
+    marginTop: 15,
   },
   innerContainer: {
     justifyContent: "space-between",
