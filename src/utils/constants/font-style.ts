@@ -31,6 +31,10 @@ const AppFontStyle = {
     fontFamily: "Ubuntu_400Regular",
     fontSize: 16,
   },
+  toast: {
+    fontFamily: "Ubuntu_400Regular",
+    fontSize: 15,
+  },
   information: {
     fontFamily: "Ubuntu_400Regular",
     fontSize: 12,

@@ -133,5 +133,19 @@ export interface UserMe {
   avatarUrl?: string;
   userGoals: UserGoals[];
   userTools: { tool: UserTool }[];
+  // TODO: FIX ANY TYPE
   createdAt: any;
+}
+
+export interface IFormLoginInputs {
+  username: string;
+  password: string;
+}
+
+export interface IFormRegisterInputs {
+  username: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+  agreeTerms: boolean;
 }

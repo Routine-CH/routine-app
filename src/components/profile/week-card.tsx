@@ -28,7 +28,7 @@ const WeekCard: React.FC<PillarDiagramProps> = ({ data, labels, color }) => {
           contentInset={{ top: 20, bottom: 50 }}
           svg={{ fontSize: 18, fill: AppColors.black64 }}
           numberOfTicks={5}
-          formatLabel={(value) => `${value}`}
+          formatLabel={(value: string | number | undefined) => `${value}`}
         />
       </View>
       <View style={{ flex: 0.8 }}>
@@ -43,7 +43,7 @@ const WeekCard: React.FC<PillarDiagramProps> = ({ data, labels, color }) => {
         </BarChart>
         <XAxis
           style={{ marginHorizontal: -10, height: 30 }}
-          data={labels}
+          data={data}
           formatLabel={(value, index) => labels[index]}
           contentInset={{ left: 19, right: 18 }}
           svg={{

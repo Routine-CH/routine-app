@@ -15,7 +15,7 @@ const BackButton: React.FC<BackButtonProps> = ({ style }) => {
       style={[styles.container, style]}
       onPress={() => navigation.goBack()}
     >
-      <Icon name="arrow-back-outline" size={26} style={[styles.icon, style]} />
+      <Icon name='arrow-back-outline' size={26} style={[styles.icon, style]} />
     </Pressable>
   );
 };
