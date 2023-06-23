@@ -1,9 +1,9 @@
 import { Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import AppColors from "../../utils/constants/colors";
-import BackButton from "../common/buttons/back-button";
-import IconButton from "../common/buttons/icon-button";
-import AppText from "../common/typography/app-text";
+import BackButton from "../components/common/buttons/back-button";
+import IconButton from "../components/common/buttons/icon-button";
+import AppText from "../components/common/typography/app-text";
+import AppColors from "../utils/constants/colors";
 
 interface AudioProps {
   image?: any;
@@ -11,7 +11,7 @@ interface AudioProps {
   time?: string;
 }
 
-const AudioPlayer: React.FC<AudioProps> = ({ image, title, time }) => {
+const AudioScreen: React.FC<AudioProps> = ({ image, title, time }) => {
   return (
     <View>
       <View style={styles.buttonContainer}>
@@ -80,7 +80,7 @@ const AudioPlayer: React.FC<AudioProps> = ({ image, title, time }) => {
   );
 };
 
-export default AudioPlayer;
+export default AudioScreen;
 
 const styles = StyleSheet.create({
   buttonContainer: { flexDirection: "row", justifyContent: "space-between" },
