@@ -25,7 +25,6 @@ const Level: React.FC<levelProps> = ({
         {!isTrailblazer && status && <View style={styles.line} />}
         <Image style={styles.image} source={image} />
       </View>
-
       <View>
         <AppText colorStyle="black70" fontStyle="filters" style={styles.text}>
           {level}
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
   },
   line: {
     position: "absolute",
-    top: -50,
+    top: -30,
     width: 4,
     zIndex: -1,
     height: 60,

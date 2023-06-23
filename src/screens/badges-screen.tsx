@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Animated, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import BackButton from "../components/common/buttons/back-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
@@ -8,6 +14,10 @@ import AllBadgesView from "../components/profile/all-badges-view";
 import LevelsView from "../components/profile/levels-view";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
+
+const { width: screenWidth } = Dimensions.get("window");
+const MAX_TRANSLATION_PERCENT = -50; // Adjust this value as needed
+const MIN_TRANSLATION_PERCENT = 42; // Adjust this value as needed
 
 const BadgesScreen = () => {
   const [selectedView, setSelectedView] = useState<"badges" | "levels">(
@@ -24,7 +34,7 @@ const BadgesScreen = () => {
       }).start();
     } else {
       Animated.timing(slideAnimation, {
-        toValue: -1,
+        toValue: 0,
         duration: 300,
         useNativeDriver: true,
       }).start();
@@ -37,7 +47,10 @@ const BadgesScreen = () => {
       {
         translateX: slideAnimation.interpolate({
           inputRange: [0, 1],
-          outputRange: [-200, -400],
+          outputRange: [
+            (screenWidth * MIN_TRANSLATION_PERCENT) / 100,
+            (screenWidth * MAX_TRANSLATION_PERCENT) / 50,
+          ],
         }),
       },
     ],
@@ -48,13 +61,24 @@ const BadgesScreen = () => {
       {
         translateX: slideAnimation.interpolate({
           inputRange: [0, 1],
-          outputRange: [200, -330],
+          outputRange: [
+            screenWidth,
+            (screenWidth * -MIN_TRANSLATION_PERCENT) / 100,
+          ],
         }),
       },
     ],
   };
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    Animated.timing(slideAnimation, {
+      toValue: 0,
+      duration: 0,
+      useNativeDriver: true,
+    }).start();
+  }, []);
 
   return (
     <ScrollViewScreenWrapper
@@ -102,10 +126,10 @@ const BadgesScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.animatedContainer}>
-        <Animated.View style={badgesViewStyle}>
+        <Animated.View style={[styles.viewContainer, badgesViewStyle]}>
           <AllBadgesView />
         </Animated.View>
-        <Animated.View style={levelsViewStyle}>
+        <Animated.View style={[styles.viewContainer, levelsViewStyle]}>
           <LevelsView />
         </Animated.View>
       </View>
@@ -138,5 +162,12 @@ const styles = StyleSheet.create({
   },
   animatedContainer: {
     flexDirection: "row",
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  viewContainer: {
+    width: "100%",
+    alignItems: "center",
   },
 });

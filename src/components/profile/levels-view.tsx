@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
-    gap: 15,
   },
   image: {
     height: 90,

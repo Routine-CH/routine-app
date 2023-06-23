@@ -14,6 +14,7 @@ import YearCard from "../components/profile/year-card";
 import { AuthContext } from "../contexts/auth-context";
 import useUserMe from "../hooks/use-user-me";
 import { StatusBarColor } from "../utils/types/enums";
+import BadgesScreen from "./badges-screen";
 
 const ProfileScreen = () => {
   // TODO: REMOVE LOGOUT FROM HERE
@@ -66,6 +67,7 @@ const ProfileScreen = () => {
       <View style={styles.wrapper}>
         <YearCard currentUser={currentUser} />
       </View>
+      <BadgesScreen />
       <WeekView />
     </ScrollViewScreenWrapper>
   );

@@ -36,8 +36,8 @@ export default AllBadgesView;
 
 const styles = StyleSheet.create({
   badgesContainer: {
-    flexDirection: "row",
     flexWrap: "wrap",
+    flexDirection: "row",
     justifyContent: "space-evenly",
     gap: 15,
   },
