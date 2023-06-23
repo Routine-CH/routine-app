@@ -29,7 +29,12 @@ export type AuthenticatedStackParamList = {
       DiscoverGoals: undefined;
     };
   };
-  Profile: undefined;
+  Profile: {
+      screen?: string;
+      params?: {
+            ProfileBadges: undefined;
+      }
+  };
 };
 
 export type UserBadges = {

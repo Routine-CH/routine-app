@@ -1,11 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
-const BadgesView = () => {
+type BadgesViewProps = {
+  navigateTo: () => void;
+};
+
+const BadgesView: React.FC<BadgesViewProps> = ({ navigateTo }) => {
   const { t } = useTranslation();
 
   return (
@@ -15,9 +19,12 @@ const BadgesView = () => {
           {t("profile.gamification.badges")}
         </AppText>
         <View style={styles.textContainer}>
-          <AppText fontStyle="body" colorStyle="black64">
-            {t("profile.gamification.all")}
-          </AppText>
+          <TouchableOpacity onPress={navigateTo}>
+            <AppText fontStyle="body" colorStyle="black64">
+              {t("profile.gamification.all")}
+            </AppText>
+          </TouchableOpacity>
+
           <Icon name="chevron-forward" size={20} color={AppColors.black64} />
         </View>
       </View>
