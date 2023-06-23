@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Image, StyleSheet, View } from "react-native";
 
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import IconButton from "../components/common/buttons/icon-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
@@ -14,6 +16,7 @@ import YearCard from "../components/profile/year-card";
 import { AuthContext } from "../contexts/auth-context";
 import useUserMe from "../hooks/use-user-me";
 import { StatusBarColor } from "../utils/types/enums";
+import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const ProfileScreen = () => {
   // TODO: REMOVE LOGOUT FROM HERE
@@ -22,6 +25,10 @@ const ProfileScreen = () => {
   const handleLogout = async () => {
     await signOut();
   };
+
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+
   const { t } = useTranslation();
 
   const currentUser = useUserMe();
@@ -31,6 +38,10 @@ const ProfileScreen = () => {
     month: "long",
     year: "numeric",
   });
+
+  const navigateToScreen = (screenName: string) => {
+    navigation.navigate("Profile", { screen: screenName });
+  };
 
   return (
     <ScrollViewScreenWrapper
@@ -60,7 +71,7 @@ const ProfileScreen = () => {
           </AppText>
         </View>
         <AchievementCard />
-        <BadgesView />
+        <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
       </View>
       <Badge />
       <View style={styles.wrapper}>

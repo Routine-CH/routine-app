@@ -32,14 +32,13 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
       <AppText
         fontStyle="heading3"
         colorStyle="black70"
-        style={{ marginBottom: 30 }}
+        style={{ marginBottom: 30, marginTop: 60 }}
       >
         {t("audio.meditation-exercises")}
       </AppText>
-      {audio.map((audio, index) => (
-        <TouchableOpacity>
+      {audio.map((audio) => (
+        <TouchableOpacity key={audio.title}>
           <AudioCard
-            key={index}
             image={audio.image}
             title={audio.title}
             time={audio.time}
