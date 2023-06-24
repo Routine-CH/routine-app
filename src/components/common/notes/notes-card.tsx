@@ -17,19 +17,19 @@ const NotesCard: React.FC<NotesProps> = ({ title, description, image }) => {
     <View style={[containerStyle, styles.notesCardContainer]}>
       <View style={styles.innerContainer}>
         <AppText
-          fontStyle="heading4"
-          colorStyle="black70"
+          fontStyle='heading4'
+          colorStyle='black70'
           numberOfLines={1}
-          ellipsizeMode="tail"
+          ellipsizeMode='tail'
           style={{ paddingBottom: 15 }}
         >
           {title}
         </AppText>
         <AppText
-          fontStyle="filters"
-          colorStyle="black70"
+          fontStyle='filters'
+          colorStyle='black70'
           numberOfLines={3}
-          ellipsizeMode="tail"
+          ellipsizeMode='tail'
         >
           {description}
         </AppText>

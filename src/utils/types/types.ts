@@ -30,10 +30,10 @@ export type AuthenticatedStackParamList = {
     };
   };
   Profile: {
-      screen?: string;
-      params?: {
-            ProfileBadges: undefined;
-      }
+    screen?: string;
+    params?: {
+      ProfileBadges: undefined;
+    };
   };
 };
 
@@ -63,7 +63,6 @@ export type UserJournals = {
 
 export type AllUserJournals = UserJournals[];
 
-
 export type UserGoals = {
   id: string;
   title: string;
@@ -72,10 +71,23 @@ export type UserGoals = {
   completed: boolean;
   todos: UserTodo[];
 };
+
 export interface UserTool {
   id: string;
   screenName: string;
   titleKey: string;
+}
+
+export interface Image {
+  id: string;
+  imageUrl: string;
+}
+
+export interface UserNotes {
+  id: string;
+  title: string;
+  description: string;
+  images: Image[];
 }
 
 export type UserTodo = {
