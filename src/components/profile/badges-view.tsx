@@ -15,14 +15,14 @@ const BadgesView: React.FC<BadgesViewProps> = ({ navigateTo }) => {
   return (
     <View style={styles.badgesContainer}>
       <View style={styles.textContainer}>
-        <AppText fontStyle="heading3" colorStyle="black64">
+        <AppText fontStyle='heading3' colorStyle='black64'>
           {t("profile.gamification.badges")}
         </AppText>
         <TouchableOpacity onPress={navigateTo} style={styles.textContainer}>
-          <AppText fontStyle="body" colorStyle="black64">
+          <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.gamification.all")}
           </AppText>
-          <Icon name="chevron-forward" size={20} color={AppColors.black64} />
+          <Icon name='chevron-forward' size={20} color={AppColors.black64} />
         </TouchableOpacity>
       </View>
     </View>

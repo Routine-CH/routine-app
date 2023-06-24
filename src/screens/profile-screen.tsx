@@ -41,7 +41,7 @@ const ProfileScreen = () => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
     >
       <View style={{ paddingHorizontal: 20 }}>
@@ -53,7 +53,7 @@ const ProfileScreen = () => {
         >
           <View style={styles.iconContainer}>
             <IconButton
-              iconName="pencil"
+              iconName='pencil'
               navigateTo={() =>
                 navigateToProfileSettingsScreen("ProfileSettings")
               }
@@ -66,13 +66,13 @@ const ProfileScreen = () => {
               style={styles.profilePicture}
             />
             <AppText
-              fontStyle="bodyMedium"
-              colorStyle="black70"
+              fontStyle='bodyMedium'
+              colorStyle='black70'
               style={{ marginBottom: 10 }}
             >
               {t("profile.hi")} {currentUser.currentUser?.username} 😄
             </AppText>
-            <AppText fontStyle="body" colorStyle="black64">
+            <AppText fontStyle='body' colorStyle='black64'>
               {t("profile.since")} {formattedMonth} {t("profile.here")}
             </AppText>
           </View>
