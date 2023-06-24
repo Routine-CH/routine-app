@@ -43,32 +43,49 @@ const ProfileScreen = () => {
     navigation.navigate("Profile", { screen: screenName });
   };
 
+  const navigateToProfileSettingsScreen = (screenName: string) => {
+    console.log("Pressed");
+    navigation.navigate("Profile", { screen: screenName });
+  };
+
   return (
     <ScrollViewScreenWrapper
-      backgroundColor='white'
+      backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
     >
-      <Button title='Logout' onPress={handleLogout} />
+      <Button title="Logout" onPress={handleLogout} />
       <View style={{ paddingHorizontal: 20 }}>
-        <View style={styles.iconContainer}>
-          <IconButton iconName='pencil' />
-        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <View style={styles.iconContainer}>
+            <IconButton
+              iconName="pencil"
+              navigateTo={() =>
+                navigateToProfileSettingsScreen("ProfileSettings")
+              }
+            />
+          </View>
 
-        <View style={styles.userInformation}>
-          <Image
-            source={require(defaultAvatar)}
-            style={styles.profilePicture}
-          />
-          <AppText
-            fontStyle='bodyMedium'
-            colorStyle='black70'
-            style={{ marginBottom: 10 }}
-          >
-            {t("profile.hi")} {currentUser.currentUser?.username} 😄
-          </AppText>
-          <AppText fontStyle='body' colorStyle='black64'>
-            {t("profile.since")} {formattedMonth} {t("profile.here")}
-          </AppText>
+          <View style={styles.userInformation}>
+            <Image
+              source={require(defaultAvatar)}
+              style={styles.profilePicture}
+            />
+            <AppText
+              fontStyle="bodyMedium"
+              colorStyle="black70"
+              style={{ marginBottom: 10 }}
+            >
+              {t("profile.hi")} {currentUser.currentUser?.username} 😄
+            </AppText>
+            <AppText fontStyle="body" colorStyle="black64">
+              {t("profile.since")} {formattedMonth} {t("profile.here")}
+            </AppText>
+          </View>
         </View>
         <AchievementCard />
         <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
@@ -91,7 +108,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: "absolute",
-    right: 20,
+    right: 0,
   },
   userInformation: {
     alignItems: "center",

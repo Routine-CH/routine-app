@@ -33,6 +33,7 @@ export type AuthenticatedStackParamList = {
     screen?: string;
     params?: {
       ProfileBadges: undefined;
+      ProfileSettings: undefined;
     };
   };
 };
