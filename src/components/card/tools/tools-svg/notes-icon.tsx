@@ -1,12 +1,23 @@
 import * as React from "react";
 import Svg, { Defs, G, Path } from "react-native-svg";
-/* SVGR has dropped some elements not supported by react-native-svg: style, title */
-const NotesIcon = (props: any) => (
+
+type NotesIconProps = {
+  width?: number;
+  height?: number;
+  fill?: string;
+  [x: string]: any;
+};
+
+const NotesIcon = ({
+  width = 100,
+  height = 100,
+  fill = "#ffffff",
+  ...props
+}: NotesIconProps) => (
   <Svg
-    xmlns='http://www.w3.org/2000/svg'
-    width={100}
-    height={100}
-    fill='#ffffff'
+    width={width}
+    height={height}
+    fill={fill}
     viewBox='0 0 130 128'
     {...props}
   >
