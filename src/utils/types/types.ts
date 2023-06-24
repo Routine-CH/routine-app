@@ -30,10 +30,10 @@ export type AuthenticatedStackParamList = {
     };
   };
   Profile: {
-      screen?: string;
-      params?: {
-            ProfileBadges: undefined;
-      }
+    screen?: string;
+    params?: {
+      ProfileBadges: undefined;
+    };
   };
 };
 
@@ -62,7 +62,6 @@ export type UserJournals = {
 };
 
 export type AllUserJournals = UserJournals[];
-
 
 export type UserGoals = {
   id: string;

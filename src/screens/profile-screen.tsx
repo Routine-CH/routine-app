@@ -45,13 +45,13 @@ const ProfileScreen = () => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
     >
-      <Button title="Logout" onPress={handleLogout} />
+      <Button title='Logout' onPress={handleLogout} />
       <View style={{ paddingHorizontal: 20 }}>
         <View style={styles.iconContainer}>
-          <IconButton iconName="pencil" />
+          <IconButton iconName='pencil' />
         </View>
 
         <View style={styles.userInformation}>
@@ -60,13 +60,13 @@ const ProfileScreen = () => {
             style={styles.profilePicture}
           />
           <AppText
-            fontStyle="bodyMedium"
-            colorStyle="black70"
+            fontStyle='bodyMedium'
+            colorStyle='black70'
             style={{ marginBottom: 10 }}
           >
             {t("profile.hi")} {currentUser.currentUser?.username} 😄
           </AppText>
-          <AppText fontStyle="body" colorStyle="black64">
+          <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.since")} {formattedMonth} {t("profile.here")}
           </AppText>
         </View>
