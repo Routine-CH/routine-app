@@ -5,17 +5,15 @@ import AppText from "../typography/app-text";
 interface NotesProps {
   title: string;
   description: string;
-  image?: any;
+  imageUrl?: string;
 }
 
-const NotesCard: React.FC<NotesProps> = ({ title, description, image }) => {
-  const containerStyle = image
-    ? styles.notesCardContainerWithImage
-    : styles.notesCardContainerWithoutImage;
-
+const NotesCard: React.FC<NotesProps> = ({ title, description, imageUrl }) => {
   return (
-    <View style={[containerStyle, styles.notesCardContainer]}>
-      <View style={styles.innerContainer}>
+    <View style={styles.notesCardContainer}>
+      <View
+        style={[styles.innerContainer, { marginBottom: imageUrl ? 30 : 15 }]}
+      >
         <AppText
           fontStyle='heading4'
           colorStyle='black70'
@@ -30,11 +28,12 @@ const NotesCard: React.FC<NotesProps> = ({ title, description, image }) => {
           colorStyle='black70'
           numberOfLines={3}
           ellipsizeMode='tail'
+          style={{ lineHeight: 25 }}
         >
           {description}
         </AppText>
       </View>
-      <Image source={image} style={styles.image} />
+      {imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} />}
     </View>
   );
 };
@@ -54,23 +53,15 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.35,
     shadowRadius: 11.9,
+    overflow: "hidden",
   },
   innerContainer: {
-    margin: 15,
-  },
-  notesCardContainerWithoutImage: {
-    height: 125,
-  },
-  notesCardContainerWithImage: {
-    height: 245,
+    flex: 1,
+    marginHorizontal: 10,
+    marginTop: 15,
   },
   image: {
     width: "100%",
     height: 121,
-    overflow: "hidden",
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    position: "absolute",
-    bottom: 0,
   },
 });

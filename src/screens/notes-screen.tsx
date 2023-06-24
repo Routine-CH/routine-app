@@ -72,24 +72,18 @@ const NotesScreen: React.FC = () => {
                     key={note.id}
                     title={note.title}
                     description={note.description}
-                    image={note.images && require("../assets/misc/waves.jpg")}
+                    imageUrl={
+                      note.images.length > 0
+                        ? note.images[0].imageUrl
+                        : undefined
+                    }
                   />
                 );
               })}
-              <NotesCard
-                title='Nicht vergessen!'
-                description='Tickets auf Ticketcorner verkaufen und die Tickets per Post an die Käufer schicken.'
-                image={require("../assets/misc/waves.jpg")}
-              />
-              <NotesCard
-                title='Nicht vergessen!'
-                description='Tickets auf Ticketcorner verkaufen und die Tickets per Post an die Käufer schicken.'
-              />
             </View>
           </>
         )}
       </ScrollViewScreenWrapper>
-
       <AddButton />
     </>
   );
