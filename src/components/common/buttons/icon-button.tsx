@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
 
@@ -11,9 +11,7 @@ interface ButtonProps {
 const IconButton: React.FC<ButtonProps> = ({ iconName, navigateTo }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={navigateTo}>
-      <View>
-        <Icon name={iconName} size={25} color={AppColors.blue100} />
-      </View>
+      <Icon name={iconName} size={25} color={AppColors.blue100} />
     </TouchableOpacity>
   );
 };

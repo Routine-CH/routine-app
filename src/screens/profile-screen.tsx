@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
-import React, { useContext } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
@@ -13,23 +13,15 @@ import Badge from "../components/profile/badge";
 import BadgesView from "../components/profile/badges-view";
 import WeekView from "../components/profile/week-view";
 import YearCard from "../components/profile/year-card";
-import { AuthContext } from "../contexts/auth-context";
 import useUserMe from "../hooks/use-user-me";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const ProfileScreen = () => {
-  // TODO: REMOVE LOGOUT FROM HERE
-  const { signOut } = useContext(AuthContext);
-
-  const handleLogout = async () => {
-    await signOut();
-  };
+  const { t } = useTranslation();
 
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
-
-  const { t } = useTranslation();
 
   const currentUser = useUserMe();
   const defaultAvatar = "../assets/misc/stones.jpg";
@@ -44,7 +36,6 @@ const ProfileScreen = () => {
   };
 
   const navigateToProfileSettingsScreen = (screenName: string) => {
-    console.log("Pressed");
     navigation.navigate("Profile", { screen: screenName });
   };
 
@@ -53,7 +44,6 @@ const ProfileScreen = () => {
       backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
     >
-      <Button title="Logout" onPress={handleLogout} />
       <View style={{ paddingHorizontal: 20 }}>
         <View
           style={{
