@@ -12,6 +12,7 @@ import { SvgXml } from "react-native-svg";
 import Icon from "react-native-vector-icons/Ionicons";
 import DiscoverStackNavigator from "./src/components/common/navigation-stacks/discover-stack-navigator";
 import HomeStackNavigator from "./src/components/common/navigation-stacks/home-stack-navigator";
+import ProfileStackNavigator from "./src/components/common/navigation-stacks/profile-stack-navigator";
 import AuthProvider, { AuthContext } from "./src/contexts/auth-context";
 import useUbuntuFont from "./src/hooks/use-fonts";
 import "./src/i18n/config";
@@ -19,7 +20,6 @@ import i18n from "./src/i18n/config";
 import CalendarScreen from "./src/screens/calendar-screen";
 import ForgotPasswordScreen from "./src/screens/forgot-password-screen";
 import LoginScreen from "./src/screens/login-screen";
-import ProfileScreen from "./src/screens/profile-screen";
 import RegisterScreen from "./src/screens/register-screen";
 import AppColors from "./src/utils/constants/colors";
 
@@ -112,7 +112,7 @@ const AuthenticatedNavigator = () => (
       />
       <AutnehticatedStack.Screen
         name='Profile'
-        component={ProfileScreen}
+        component={ProfileStackNavigator}
         options={{
           tabBarIcon: ({ focused, color }) => (
             <Icon
