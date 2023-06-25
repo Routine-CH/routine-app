@@ -3,8 +3,11 @@ import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
-import AppText from "../components/common/typography/app-text";
+import DeteleAccount from "../components/profile/profile-settings/delete-account";
 import LogOut from "../components/profile/profile-settings/log-out";
+import Notifications from "../components/profile/profile-settings/notifications";
+import ResetPassword from "../components/profile/profile-settings/reset-password";
+import YourInformation from "../components/profile/profile-settings/your-information";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 
@@ -26,10 +29,11 @@ const ProfileSettingsScreen: React.FC = () => {
           <Icon name="pencil" size={15} color={AppColors.white} />
         </TouchableOpacity>
       </View>
-      <View>
-        <AppText>Lets change some settings</AppText>
-      </View>
+      <YourInformation />
+      <ResetPassword />
+      <Notifications />
       <LogOut />
+      <DeteleAccount />
     </ScrollViewScreenWrapper>
   );
 };

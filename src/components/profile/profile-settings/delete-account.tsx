@@ -6,7 +6,7 @@ import AppColors from "../../../utils/constants/colors";
 import FlatButton from "../../common/buttons/flat-button";
 import AppText from "../../common/typography/app-text";
 
-const LogOut: React.FC = () => {
+const DeteleAccount: React.FC = () => {
   const { t } = useTranslation();
 
   const { signOut } = useContext(AuthContext);
@@ -18,14 +18,18 @@ const LogOut: React.FC = () => {
   return (
     <View style={styles.container}>
       <AppText fontStyle="heading3" colorStyle="black70">
-        {t("profile.profile-settings.logout")}
+        {t("profile.profile-settings.delete-account")}
       </AppText>
       <AppText
         fontStyle="body"
         colorStyle="black70"
         style={{ marginVertical: 30 }}
       >
-        {t("profile.profile-settings.logout-text")}
+        {t("profile.profile-settings.delete-account-text-1")}
+        <AppText fontStyle="bodyMedium" colorStyle="black70">
+          {t("profile.profile-settings.delete-account-text-2")}
+        </AppText>
+        {t("profile.profile-settings.delete-account-text-3")}
       </AppText>
       <View style={styles.buttonContainer}>
         <FlatButton
@@ -34,22 +38,22 @@ const LogOut: React.FC = () => {
           buttonStyle={styles.button}
           onPress={handleLogout}
         >
-          {t("profile.profile-settings.logout-cap")}
+          {t("profile.profile-settings.delete-account-cap")}
         </FlatButton>
       </View>
     </View>
   );
 };
 
-export default LogOut;
+export default DeteleAccount;
 
 const styles = StyleSheet.create({
-  container: { marginTop: 60 },
+  container: { marginVertical: 60 },
   buttonContainer: {
     alignItems: "center",
   },
   button: {
-    backgroundColor: AppColors.blue100,
+    backgroundColor: AppColors.red,
     height: 50,
     width: "70%",
     alignItems: "center",

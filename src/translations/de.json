@@ -82,9 +82,31 @@
         "hi": "Hi,",
         "here": "dabei",
         "profile-settings": {
+            "activate-all-notifications":"Alle Benachrichtigungen aktivieren",
+            "change-notifications": "Benachrichtigungen anpassen",
+            "current": "Aktuelles",
+            "delete-account": "Account löschen",
+            "delete-account-text-1": "Wenn du deinen Account einmal gelöscht hast, kannst du es ",
+            "delete-account-text-2": "nicht mehr zurückholen. ",
+            "delete-account-text-3": "Stell sicher, dass du das wirklich willst.",
+            "delete-account-cap": "ACCOUNT LÖSCHEN",
+            "email": "E-Mail",
+            "email_in-app_combo": "E-Mail, In-App",
+            "in-app": "In-App",
             "logout-cap": "AUSLOGGEN",
             "logout": "Ausloggen",
-            "logout-text": "Mission erfüllt! 🚀 Du hast grosse Fortschritte gemacht. Mach eine Pause und tanken Kraft. Wir sehen uns bald wieder!"
+            "logout-text": "Mission erfüllt! 🚀 Du hast grosse Fortschritte gemacht. Mach eine Pause und tanken Kraft. Wir sehen uns bald wieder!",
+            "new": "Neues",
+            "none": "Keine",
+            "notifications-you-will-receive":"Benachrichtigungen, die du erhältst",
+            "reminders-goals": "Erinnerungen Ziele",
+            "reminders-todos": "Erinnerungen Todos",
+            "reminders-journal": "Erinnerungen Journal",
+            "reset-password": "Password zurücksetzen",
+            "repeat": "wiederholen",
+            "save-cap": "SPEICHERN",
+            "your-information":"Deine Informationen"
+
         },
         "since": "seit"
   },

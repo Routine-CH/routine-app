@@ -11,6 +11,7 @@ const AppColors = {
   black: "#000000",
   black20: "#CCCCCC",
   grey: "#959DA5",
+  greyMuted: "#CECECE",
   black60: "rgba(0, 0, 0, 0.60)",
   black64: "rgba(0, 0, 0, 0.64)",
   black70: "rgba(0, 0, 0, 0.7)",

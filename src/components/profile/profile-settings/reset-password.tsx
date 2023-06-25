@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../../utils/constants/colors";
 import FlatButton from "../../common/buttons/flat-button";
-import InputField from "../../common/input/input-field";
+import LabelInputField from "../../common/input/label-input-field";
 import AppText from "../../common/typography/app-text";
 
-const YourInformation: React.FC = () => {
+const ResetPassword: React.FC = () => {
   const { t } = useTranslation();
 
   const navigation = useNavigation();
@@ -14,25 +14,33 @@ const YourInformation: React.FC = () => {
   return (
     <View style={styles.container}>
       <AppText fontStyle="heading3" colorStyle="black70">
-        {t("profile.profile-settings.your-information")}
+        {t("profile.profile-settings.reset-password")}
       </AppText>
       <View style={styles.formContainer}>
-        <AppText
-          fontStyle="body"
-          colorStyle="black70"
-          style={{ marginBottom: 15 }}
-        >
-          {t("shared-auth.username")}
-        </AppText>
-        <InputField />
-        <AppText
-          fontStyle="body"
-          colorStyle="black70"
-          style={styles.textContainer}
-        >
-          {t("shared-auth.email")}
-        </AppText>
-        <InputField />
+        <LabelInputField
+          placeholder={
+            t("profile.profile-settings.current") +
+            " " +
+            t("shared-auth.password")
+          }
+          style={styles.labelInput}
+        />
+        <LabelInputField
+          placeholder={
+            t("profile.profile-settings.new") + " " + t("shared-auth.password")
+          }
+          style={styles.labelInput}
+        />
+        <LabelInputField
+          placeholder={
+            t("profile.profile-settings.new") +
+            " " +
+            t("shared-auth.password") +
+            " " +
+            t("profile.profile-settings.repeat")
+          }
+          style={styles.labelInput}
+        />
       </View>
       <View style={styles.buttonContainer}>
         <FlatButton
@@ -48,23 +56,19 @@ const YourInformation: React.FC = () => {
   );
 };
 
-export default YourInformation;
+export default ResetPassword;
 
 const styles = StyleSheet.create({
   container: { marginTop: 60 },
   formContainer: {
-    height: 280,
     width: "100%",
-    borderRadius: 13,
-    backgroundColor: AppColors.blueMuted30,
-    padding: 15,
     marginBottom: 60,
     marginTop: 30,
     justifyContent: "center",
   },
-  textContainer: {
-    marginTop: 30,
-    marginBottom: 15,
+  labelInput: {
+    backgroundColor: AppColors.blueMuted20,
+    marginTop: 20,
   },
   buttonContainer: {
     alignItems: "center",
