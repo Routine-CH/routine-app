@@ -73,10 +73,23 @@ export type UserGoals = {
   completed: boolean;
   todos: UserTodo[];
 };
+
 export interface UserTool {
   id: string;
   screenName: string;
   titleKey: string;
+}
+
+export interface Image {
+  id: string;
+  imageUrl: string;
+}
+
+export interface UserNotes {
+  id: string;
+  title: string;
+  description: string;
+  images: Image[];
 }
 
 export type UserTodo = {

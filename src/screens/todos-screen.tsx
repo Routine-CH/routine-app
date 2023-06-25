@@ -34,7 +34,7 @@ const TodosScreen: React.FC = () => {
           setUserTodos(response.data.data);
         }
       } catch (error) {
-        console.log("Failed to get user todos", error);
+        console.error("Failed to get user todos", error);
       } finally {
         setIsLoading(false);
       }
@@ -68,15 +68,15 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor="white"
+        backgroundColor='white'
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <View>
           <AppText
-            fontStyle="heading3"
-            colorStyle="black64"
+            fontStyle='heading3'
+            colorStyle='black64'
             style={{ marginVertical: 30 }}
           >
             {t("todos.today")} {t("profile.gamification.todos")}
@@ -87,11 +87,11 @@ const TodosScreen: React.FC = () => {
           ) : userTodos.length > 0 ? (
             userTodos.map((todo, index) => (
               <Todo
-                icon="stop-outline"
+                icon='stop-outline'
                 key={todo.id}
                 title={todo.title}
                 //   description={todo.description}
-                description="Beispiel Beschreibung"
+                description='Beispiel Beschreibung'
                 style={{ width: 240 }}
               />
             ))
@@ -103,15 +103,15 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
         <AppText
-          fontStyle="heading3"
-          colorStyle="black64"
+          fontStyle='heading3'
+          colorStyle='black64'
           style={{ marginTop: 60, marginBottom: 30 }}
         >
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         {/* IMPLEMENT CALENDAR!! */}
         <Pressable>
-          <AppText fontStyle={"body"} colorStyle="black64">
+          <AppText fontStyle={"body"} colorStyle='black64'>
             {formattedDateRange}
           </AppText>
         </Pressable>
@@ -124,7 +124,7 @@ const TodosScreen: React.FC = () => {
               <Calendar
                 date={15}
                 month={"Juni"}
-                icon="stop-outline"
+                icon='stop-outline'
                 title={todo.title}
                 key={todo.id}
                 displayTodoCard={shouldDisplayTodoCard}

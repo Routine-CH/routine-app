@@ -48,7 +48,7 @@ const JournalsScreen: React.FC = () => {
           }
         }
       } catch (error) {
-        console.log("Failed to get user journals", error);
+        console.error("Failed to get user journals", error);
       } finally {
         setIsLoadingTodaysJournal(false);
       }
@@ -75,7 +75,7 @@ const JournalsScreen: React.FC = () => {
           }
         }
       } catch (error) {
-        console.log("Failed to get user journals", error);
+        console.error("Failed to get user journals", error);
       } finally {
         setIsLoading(false);
       }
@@ -115,8 +115,8 @@ const JournalsScreen: React.FC = () => {
           }}
         >
           <AppText
-            fontStyle="heading3"
-            colorStyle="black64"
+            fontStyle='heading3'
+            colorStyle='black64'
             style={{ marginBottom: 30 }}
           >
             {t("journal.past-entries")}
@@ -128,8 +128,8 @@ const JournalsScreen: React.FC = () => {
               return (
                 <Calendar
                   date={5}
-                  month="Juni"
-                  title="Lorem"
+                  month='Juni'
+                  title='Lorem'
                   key={journal.id}
                   journalStyles={styles.journal}
                 />
