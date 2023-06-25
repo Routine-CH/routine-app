@@ -1,7 +1,6 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { format, parseISO } from "date-fns";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
@@ -12,7 +11,7 @@ import Badge from "../components/profile/badge";
 import BadgesView from "../components/profile/badges-view";
 import WeekView from "../components/profile/week-view";
 import YearCard from "../components/profile/year-card";
-import useUserMe from "../hooks/use-user-me";
+import useCurrentFullUser from "../hooks/use-current-full-user";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/types";
 
@@ -20,9 +19,10 @@ const ProfileScreen = () => {
   const { t } = useTranslation();
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
-  const currentUser = useUserMe();
-  const defaultAvatar = "../assets/misc/stones.jpg";
 
+  const { currentUser } = useCurrentFullUser();
+
+  const defaultAvatar = "../assets/misc/stones.jpg";
   const navigateToScreen = (screenName: string) => {
     navigation.navigate("Profile", { screen: screenName });
   };
@@ -31,7 +31,7 @@ const ProfileScreen = () => {
     navigation.navigate("Profile", { screen: screenName });
   };
 
-  return currentUser.currentUser ? (
+  return currentUser ? (
     <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
@@ -49,7 +49,6 @@ const ProfileScreen = () => {
               onPress={() => navigateToProfileSettingsScreen("ProfileSettings")}
             />
           </View>
-
           <View style={styles.userInformation}>
             <Image
               source={require(defaultAvatar)}
@@ -60,11 +59,11 @@ const ProfileScreen = () => {
               colorStyle='black70'
               style={{ marginBottom: 10 }}
             >
-              {t("profile.hi")} {currentUser.currentUser?.username} 😄
+              {t("profile.hi")} {currentUser?.username} 😄
             </AppText>
             <AppText fontStyle='body' colorStyle='black64'>
               {`${t("profile.since")} ${format(
-                parseISO(currentUser.currentUser.createdAt),
+                parseISO(currentUser.createdAt.toString()),
                 "MMMM yyyy"
               )} ${t("profile.here")}`}
             </AppText>
