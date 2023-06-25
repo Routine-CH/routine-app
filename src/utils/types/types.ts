@@ -34,6 +34,7 @@ export type AuthenticatedStackParamList = {
     params?: {
       ProfileBadges: undefined;
       ProfileSettings: undefined;
+      ProfileNotifications: undefined;
     };
   };
 };

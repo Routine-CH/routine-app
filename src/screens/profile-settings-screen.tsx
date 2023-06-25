@@ -1,3 +1,5 @@
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -10,9 +12,16 @@ import ResetPassword from "../components/profile/profile-settings/reset-password
 import YourInformation from "../components/profile/profile-settings/your-information";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
+import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const ProfileSettingsScreen: React.FC = () => {
   const { t } = useTranslation();
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+
+  const navigateToProfileNotifications = (screenName: string) => {
+    navigation.navigate("Profile", { screen: screenName });
+  };
 
   const defaultAvatar = "../assets/misc/stones.jpg";
 
@@ -31,7 +40,11 @@ const ProfileSettingsScreen: React.FC = () => {
       </View>
       <YourInformation />
       <ResetPassword />
-      <Notifications />
+      <Notifications
+        navigateTo={() =>
+          navigateToProfileNotifications("ProfileNotifications")
+        }
+      />
       <LogOut />
       <DeteleAccount />
     </ScrollViewScreenWrapper>

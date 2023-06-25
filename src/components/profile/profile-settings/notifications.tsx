@@ -6,7 +6,11 @@ import AppColors from "../../../utils/constants/colors";
 import AppText from "../../common/typography/app-text";
 import IndividualNotifications from "./individual-notifications";
 
-const Notifications: React.FC = () => {
+type NotificationsProp = {
+  navigateTo: () => void;
+};
+
+const Notifications: React.FC<NotificationsProp> = ({ navigateTo }) => {
   const { t } = useTranslation();
   const [isToggled, setIsToggled] = useState(false);
 
@@ -17,7 +21,7 @@ const Notifications: React.FC = () => {
   return (
     <View style={styles.container}>
       <AppText fontStyle="heading3" colorStyle="black70">
-        {t("profile.profile-settings.change-notifications")}
+        {t("profile.profile-settings.notifications.change-notifications")}
       </AppText>
       <TouchableOpacity
         onPress={handleToggle}
@@ -35,7 +39,9 @@ const Notifications: React.FC = () => {
             colorStyle="black70"
             style={{ width: "65%", flexWrap: "wrap" }}
           >
-            {t("profile.profile-settings.activate-all-notifications")}
+            {t(
+              "profile.profile-settings.notifications.activate-all-notifications"
+            )}
           </AppText>
         </View>
         <Icon
@@ -52,22 +58,29 @@ const Notifications: React.FC = () => {
         colorStyle="black70"
         style={{ marginBottom: 30 }}
       >
-        {t("profile.profile-settings.notifications-you-will-receive")}
+        {t(
+          "profile.profile-settings.notifications.notifications-you-will-receive"
+        )}
       </AppText>
       <IndividualNotifications
         icon="flag-outline"
-        title={t("profile.profile-settings.reminders-goals")}
-        notificationSettings={t("profile.profile-settings.none")}
+        title={t("profile.profile-settings.notifications.reminders-goals")}
+        notificationSettings={t("profile.profile-settings.notifications.none")}
+        navigateTo={navigateTo}
       />
       <IndividualNotifications
         icon="checkbox-outline"
-        title={t("profile.profile-settings.reminders-todos")}
-        notificationSettings={t("profile.profile-settings.email")}
+        title={t("profile.profile-settings.notifications.reminders-todos")}
+        notificationSettings={t("profile.profile-settings.notifications.email")}
+        navigateTo={navigateTo}
       />
       <IndividualNotifications
         icon="journal-outline"
-        title={t("profile.profile-settings.reminders-journal")}
-        notificationSettings={t("profile.profile-settings.email_in-app_combo")}
+        title={t("profile.profile-settings.notifications.reminders-journal")}
+        notificationSettings={t(
+          "profile.profile-settings.notifications.email_in-app_combo"
+        )}
+        navigateTo={navigateTo}
       />
     </View>
   );

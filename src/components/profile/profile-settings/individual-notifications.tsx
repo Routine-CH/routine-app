@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
@@ -8,17 +7,17 @@ type IndividualNotificationsProps = {
   icon: string;
   title: string;
   notificationSettings: string;
+  navigateTo: () => void;
 };
 
 const IndividualNotifications: React.FC<IndividualNotificationsProps> = ({
   icon,
   title,
   notificationSettings,
+  navigateTo,
 }) => {
-  const { t } = useTranslation();
-
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={navigateTo}>
       <View style={styles.allNotificationsContainer}>
         <Icon
           name={icon}

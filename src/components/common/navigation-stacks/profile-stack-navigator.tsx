@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import BadgesScreen from "../../../screens/badges-screen";
+import NotificationsScreen from "../../../screens/notifications-screen";
 import ProfileScreen from "../../../screens/profile-screen";
 import ProfileSettingsScreen from "../../../screens/profile-settings-screen";
 
@@ -18,6 +19,10 @@ const ProfileStackNavigator: React.FC = () => {
       <ProfileStack.Screen
         name="ProfileSettings"
         component={ProfileSettingsScreen}
+      />
+      <ProfileStack.Screen
+        name="ProfileNotifications"
+        component={NotificationsScreen}
       />
     </ProfileStack.Navigator>
   );
