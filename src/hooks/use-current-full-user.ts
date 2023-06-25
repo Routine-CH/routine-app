@@ -22,7 +22,8 @@ const useCurrentFullUser = () => {
           },
         });
 
-        setCurrentUser(response.data.data);
+        const currentUser = response.data.data;
+        setCurrentUser(currentUser);
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {

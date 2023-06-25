@@ -138,6 +138,7 @@ export interface FullUserData
   avatarUrl?: string;
   password: string;
   experience: number;
+  createdAt: Date;
 }
 
 export interface UserMe {
