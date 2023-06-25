@@ -81,6 +81,11 @@
         },
         "hi": "Hi,",
         "here": "dabei",
+        "profile-settings": {
+            "logout-cap": "AUSLOGGEN",
+            "logout": "Ausloggen",
+            "logout-text": "Mission erfüllt! 🚀 Du hast grosse Fortschritte gemacht. Mach eine Pause und tanken Kraft. Wir sehen uns bald wieder!"
+        },
         "since": "seit"
   },
   "register": {

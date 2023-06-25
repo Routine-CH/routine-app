@@ -1,17 +1,10 @@
-import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Button,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
-import { AuthContext } from "../contexts/auth-context";
+import LogOut from "../components/profile/profile-settings/log-out";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 
@@ -19,11 +12,6 @@ const ProfileSettingsScreen: React.FC = () => {
   const { t } = useTranslation();
 
   const defaultAvatar = "../assets/misc/stones.jpg";
-  const { signOut } = useContext(AuthContext);
-
-  const handleLogout = async () => {
-    await signOut();
-  };
 
   return (
     <ScrollViewScreenWrapper
@@ -41,7 +29,7 @@ const ProfileSettingsScreen: React.FC = () => {
       <View>
         <AppText>Lets change some settings</AppText>
       </View>
-      <Button title="Logout" onPress={handleLogout} />
+      <LogOut />
     </ScrollViewScreenWrapper>
   );
 };
