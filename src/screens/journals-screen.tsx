@@ -3,11 +3,12 @@ import axios from "axios";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import Calendar from "../components/common/calendar/calendar";
+import EditDeleteModal from "../components/common/modal/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
@@ -24,7 +25,16 @@ const JournalsScreen: React.FC = () => {
   );
   const [isLoadingTodaysJournal, setIsLoadingTodaysJournal] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { t } = useTranslation();
+
+  const handleModalPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
 
   useEffect(() => {
     async function getTodaysJournals() {
@@ -92,7 +102,15 @@ const JournalsScreen: React.FC = () => {
     >
       <View style={styles.buttonContainer}>
         <BackButton />
-        <Icon name={"ellipsis-vertical"} size={26} color={AppColors.black64} />
+        {todaysJournal ? (
+          <Pressable onPress={handleModalPress}>
+            <Icon
+              name={"ellipsis-vertical"}
+              size={26}
+              color={AppColors.black64}
+            />
+          </Pressable>
+        ) : null}
       </View>
       <View style={styles.outerContainer}>
         <View style={styles.innerContainer}>
@@ -149,6 +167,7 @@ const JournalsScreen: React.FC = () => {
         )}
       </View>
       {!todaysJournal ? <AddButton /> : null}
+      <EditDeleteModal isVisible={isModalVisible} onClose={closeModal} />
     </ScrollViewScreenWrapper>
   );
 };

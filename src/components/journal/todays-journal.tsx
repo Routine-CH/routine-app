@@ -51,7 +51,7 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             colorStyle="black70"
             style={styles.heading}
           >
-            {t("journal.moodDescription")}
+            {t("journal.mood-description")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
             {/* {userJournal?.moodDescription} */}
@@ -81,7 +81,7 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             colorStyle="black70"
             style={styles.heading}
           >
-            {t("journal.toImprove")}
+            {t("journal.to-improve")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
             {/* {userJournal?.toImprove} */}
