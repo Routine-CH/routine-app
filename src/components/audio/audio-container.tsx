@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import AppText from "../common/typography/app-text";
 import AudioCard from "./audio-card";
 
@@ -50,9 +50,3 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
 };
 
 export default AudioContainer;
-
-const styles = StyleSheet.create({
-  audioContainer: {
-    marginTop: 60,
-  },
-});

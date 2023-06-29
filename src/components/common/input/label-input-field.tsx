@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
+    padding: 15,
   },
   inputStyle: {
     flex: 1,
     borderColor: "transparent",
-    padding: 15,
     fontSize: AppFontStyle.body.fontSize,
     fontFamily: AppFontStyle.body.fontFamily,
     color: AppColors.black70,

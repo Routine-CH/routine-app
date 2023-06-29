@@ -20,11 +20,17 @@
       "show-all": "Alle anzeigen"
   },
   "journal": {
-      "mood": "Wie fühlst du dich heute?",
-      "moodDescription": "Wieso fühlst du dich so?",
       "activity": "Was hast du daraus gemacht?",
-      "toImprove": "Was hättest du anders machen können?",
-      "past-entries": "Vergangene Einträge"
+      "mood": "Wie fühlst du dich heute?",
+      "mood-description": "Wieso fühlst du dich so?",
+      "no-entry-title": "Keinen Journal-Eintrag",
+      "no-entry-titles": "Keine Journal-Einträge",
+      "no-entry-yet": "Du hast heute noch keinen Journal-Eintrag erstellt.",
+      "no-entries-yet": "Du hast heute noch keine Journal-Einträge erstellt.",
+      "past-entries": "Vergangene Einträge",
+      "title": "Titel",
+      "thoughts-and-ideas": "Weitere Gedanken und Ideen",
+      "to-improve": "Was hättest du anders machen können?"
   },
   "login": {
     "welcome": "WILLKOMMEN ZURÜCK",
@@ -139,7 +145,7 @@
   },
   "todos": {
       "future": "Zukünftige",
-      "no": "Keine",
+      "no-todos-title": "Keine Todos",
       "no-todos": "Du hast heute noch keine Todos",
       "no-future-todos": "Du hast noch keine zukünftige Todos geplant",
       "today": "Heutige"
