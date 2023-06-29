@@ -68,15 +68,15 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor='white'
+        backgroundColor="white"
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <View>
           <AppText
-            fontStyle='heading3'
-            colorStyle='black64'
+            fontStyle="heading3"
+            colorStyle="black64"
             style={{ marginVertical: 30 }}
           >
             {t("todos.today")} {t("profile.gamification.todos")}
@@ -87,31 +87,33 @@ const TodosScreen: React.FC = () => {
           ) : userTodos.length > 0 ? (
             userTodos.map((todo, index) => (
               <Todo
-                icon='stop-outline'
+                icon="stop-outline"
                 key={todo.id}
                 title={todo.title}
                 //   description={todo.description}
-                description='Beispiel Beschreibung'
+                description="Beispiel Beschreibung"
                 style={{ width: 240 }}
               />
             ))
           ) : (
             <EmptyState
+              type="todo"
+              title={t("todos.no-todos-title")}
               description={t("todos.no-todos")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
             />
           )}
         </View>
         <AppText
-          fontStyle='heading3'
-          colorStyle='black64'
+          fontStyle="heading3"
+          colorStyle="black64"
           style={{ marginTop: 60, marginBottom: 30 }}
         >
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         {/* IMPLEMENT CALENDAR!! */}
         <Pressable>
-          <AppText fontStyle={"body"} colorStyle='black64'>
+          <AppText fontStyle={"body"} colorStyle="black64">
             {formattedDateRange}
           </AppText>
         </Pressable>
@@ -124,7 +126,7 @@ const TodosScreen: React.FC = () => {
               <Calendar
                 date={15}
                 month={"Juni"}
-                icon='stop-outline'
+                icon="stop-outline"
                 title={todo.title}
                 key={todo.id}
                 displayTodoCard={shouldDisplayTodoCard}
@@ -132,6 +134,8 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
+              type="todo"
+              title={t("todos.no-todos-title")}
               description={t("todos.no-future-todos")}
               style={{ backgroundColor: AppColors.greenMuted30 }}
             />

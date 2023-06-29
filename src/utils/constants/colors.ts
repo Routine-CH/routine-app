@@ -3,6 +3,7 @@ const AppColors = {
   blue200: "#6F99A5",
   blue300: "#B9D1D9",
   blueMuted20: "#b9d1d933",
+  blue100Muted20: "#D4E1E4",
   blueMuted30: "#b9d1d94d",
   blueMuted40: "#DDE7EA",
   blueMuted60: "#739BA5",
