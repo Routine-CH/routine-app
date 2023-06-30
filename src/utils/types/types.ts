@@ -39,9 +39,9 @@ export type AuthenticatedStackParamList = {
   Profile: {
     screen?: string;
     params?: {
-      ProfileBadges: undefined;
-      ProfileSettings: undefined;
-      ProfileNotifications: undefined;
+      ProfileBadges?: undefined;
+      ProfileSettings?: { currentUser: FullUserData | null };
+      ProfileNotifications?: undefined;
     };
   };
 };
