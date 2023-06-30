@@ -8,19 +8,20 @@ import {
   View,
 } from "react-native";
 import AppColors from "../../../utils/constants/colors";
-import IconButton from "../buttons/icon-button";
 import AppText from "../typography/app-text";
 
-interface TimeModalProps {
+interface ConfirmationModalProps {
+  title: string;
+  description: string;
   isVisible: boolean;
   onClose: () => void;
-  navigateTo: () => void;
 }
 
-const EditDeleteModal: React.FC<TimeModalProps> = ({
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+  title,
+  description,
   isVisible,
   onClose,
-  navigateTo,
 }) => {
   const { t } = useTranslation();
 
@@ -35,28 +36,42 @@ const EditDeleteModal: React.FC<TimeModalProps> = ({
           <TouchableWithoutFeedback>
             <View style={styles.modalContainer}>
               <View style={styles.line} />
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  onPress={navigateTo}
-                  style={styles.optionsContainer}
+              <View style={styles.textContainer}>
+                <AppText
+                  fontStyle="bodyMedium"
+                  colorStyle="black70"
+                  style={{ marginVertical: 30 }}
                 >
-                  <IconButton iconName="pencil" />
-                  <AppText
-                    fontStyle="heading4"
-                    colorStyle="black70"
-                    style={{ marginLeft: 55 }}
-                  >
-                    {t("general.edit")}
-                  </AppText>
-                </TouchableOpacity>
+                  {title}
+                </AppText>
+                <AppText
+                  fontStyle="heading4"
+                  colorStyle="black70"
+                  style={{ marginBottom: 30 }}
+                >
+                  {description}
+                </AppText>
+              </View>
+              <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.optionsContainer}>
-                  <IconButton iconName="trash" />
                   <AppText
                     fontStyle="heading4"
-                    colorStyle="black70"
-                    style={{ marginLeft: 55 }}
+                    colorStyle="red"
+                    style={styles.text}
                   >
                     {t("general.delete")}
+                  </AppText>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.optionsContainer}
+                  onPress={handleOverlayPress}
+                >
+                  <AppText
+                    fontStyle="heading4"
+                    colorStyle="black70"
+                    style={styles.text}
+                  >
+                    {t("modals.cancel")}
                   </AppText>
                 </TouchableOpacity>
               </View>
@@ -68,7 +83,7 @@ const EditDeleteModal: React.FC<TimeModalProps> = ({
   );
 };
 
-export default EditDeleteModal;
+export default ConfirmationModal;
 
 const styles = StyleSheet.create({
   overlay: {
@@ -78,7 +93,6 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: AppColors.white,
-    height: 230,
     borderTopLeftRadius: 13,
     borderTopRightRadius: 13,
     alignItems: "center",
@@ -91,13 +105,26 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
   },
+  textContainer: {
+    alignItems: "center",
+  },
   buttonContainer: {
+    alignItems: "center",
     width: "100%",
-    paddingLeft: 30,
+    marginBottom: 30,
   },
   optionsContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 15,
+    justifyContent: "center",
+    borderTopColor: AppColors.greyMuted,
+    borderRightColor: "transparent",
+    borderLeftColor: "transparent",
+    borderBottomColor: "transparent",
+    borderWidth: 1,
+    width: "100%",
+  },
+  text: {
+    marginVertical: 20,
   },
 });

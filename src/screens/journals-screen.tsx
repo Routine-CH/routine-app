@@ -62,7 +62,17 @@ const JournalsScreen: React.FC = () => {
 
           const journalsData = response.data.data;
           if (journalsData.length > 0) {
-            setTodaysJournal(journalsData[0]);
+            const journalId = journalsData[0].id;
+            const journalIdResponse = await axios.get(
+              `${API_BASE_URL}journals/${journalId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            const fullJournal = journalIdResponse.data.data;
+            setTodaysJournal(fullJournal);
           } else {
             setTodaysJournal(null);
           }
@@ -107,6 +117,15 @@ const JournalsScreen: React.FC = () => {
     setIsModalVisible(false);
     navigation.navigate("Home", {
       screen: "JournalEdit",
+      params: {
+        Journals: {
+          params: {
+            JournalEdit: {
+              journal: todaysJournal || null,
+            },
+          },
+        },
+      },
     });
   };
 

@@ -10,7 +10,7 @@ import AppColors from "../../../utils/constants/colors";
 import AppFontStyle from "../../../utils/constants/font-style";
 
 type LabelInputFieldProps = {
-  placeholder?: string;
+  placeholder?: any;
   editText?: string;
   style?: StyleProp<ViewStyle>;
 } & TextInputProps;

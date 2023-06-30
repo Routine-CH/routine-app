@@ -37,6 +37,12 @@
     "welcome": "WILLKOMMEN ZURÜCK",
     "login": "LOGIN"
   },
+  "modals": {
+      "are-you-sure": "Bist du dir sicher?",
+      "your": "Dein",
+      "is-being-deleted": "wird gelöscht.",
+      "cancel": "Abbrechen"
+  },
   "my-day": {
     "hey": "Hey",
     "your-goals": "Deine Ziele",

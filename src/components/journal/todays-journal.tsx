@@ -39,10 +39,7 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             {t("journal.mood")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
-            {/* {userJournal?.mood} */}
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua.
+            {userJournal?.mood}
           </AppText>
         </View>
         <View style={styles.textContainer}>
@@ -54,10 +51,7 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             {t("journal.mood-description")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
-            {/* {userJournal?.moodDescription} */}
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua.
+            {userJournal?.moodDescription}
           </AppText>
         </View>
         <View style={styles.textContainer}>
@@ -69,10 +63,7 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             {t("journal.activity")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
-            {/* {userJournal?.activity} */}
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua.
+            {userJournal?.activity}
           </AppText>
         </View>
         <View style={styles.textContainer}>
@@ -84,10 +75,19 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             {t("journal.to-improve")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
-            {/* {userJournal?.toImprove} */}
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua.
+            {userJournal?.toImprove}
+          </AppText>
+        </View>
+        <View style={styles.textContainer}>
+          <AppText
+            fontStyle="bodyMedium"
+            colorStyle="black70"
+            style={styles.heading}
+          >
+            {t("journal.thoughts-and-ideas")}
+          </AppText>
+          <AppText fontStyle="body" colorStyle="black70">
+            {/*             {userJournal?.toImprove} */}-
           </AppText>
         </View>
       </View>

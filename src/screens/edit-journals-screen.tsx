@@ -1,4 +1,5 @@
-import React from "react";
+import { RouteProp } from "@react-navigation/native";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Chip from "../components/calendar/chip";
@@ -7,13 +8,45 @@ import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
+import EmotionModal from "../components/journal/emotion-modal";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
+import {
+  AuthenticatedStackParamList,
+  UserJournals,
+} from "../utils/types/types";
 
-const EditJournalScreen = () => {
+type EditJournalScreenRouteProp = RouteProp<
+  AuthenticatedStackParamList,
+  "Home"
+> & {
+  params: {
+    Journals: {
+      params: { JournalEdit: { journal: UserJournals | null } };
+    };
+  };
+};
+
+type EditJournalProps = {
+  route: EditJournalScreenRouteProp;
+};
+
+const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const { t } = useTranslation();
 
-  return (
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleModalPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const journal = route.params.Journals.params.JournalEdit.journal;
+
+  return journal ? (
     <ScrollViewScreenWrapper
       backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
@@ -30,7 +63,7 @@ const EditJournalScreen = () => {
             {t("journal.title")}
           </AppText>
           <LabelInputField
-            editText="Zu wenig Schlaf & Frustration"
+            editText={journal.title}
             style={styles.inputStyle}
             multiline={true}
           />
@@ -50,7 +83,11 @@ const EditJournalScreen = () => {
             <Chip text="Gelangweilt" style={styles.chip} />
             <Chip text="Gelangweilt" style={styles.chip} />
           </View>
-          <IconButton iconName="add" style={styles.iconButtonStyle} />
+          <IconButton
+            iconName="add"
+            style={styles.iconButtonStyle}
+            navigateTo={handleModalPress}
+          />
         </View>
         <View>
           <AppText
@@ -61,7 +98,7 @@ const EditJournalScreen = () => {
             {t("journal.mood-description")}
           </AppText>
           <LabelInputField
-            editText="Ich habe zu wenig geschlafen. Ausserdem fühlte ich mich bei der Arbeit gestört."
+            editText={journal.moodDescription}
             style={styles.inputStyle}
             multiline={true}
           />
@@ -75,7 +112,7 @@ const EditJournalScreen = () => {
             {t("journal.activity")}
           </AppText>
           <LabelInputField
-            editText="Ich habe meditiert und meine Frustration beim Sport rausgelassen."
+            editText={journal.activity}
             style={styles.inputStyle}
             multiline={true}
           />
@@ -89,7 +126,7 @@ const EditJournalScreen = () => {
             {t("journal.to-improve")}
           </AppText>
           <LabelInputField
-            editText="Ich hätte früher ins Bett gehen sollen."
+            editText={journal.toImprove}
             style={styles.inputStyle}
             multiline={true}
           />
@@ -109,7 +146,10 @@ const EditJournalScreen = () => {
           />
         </View>
       </View>
+      <EmotionModal isVisible={isModalVisible} onClose={closeModal} />
     </ScrollViewScreenWrapper>
+  ) : (
+    <></>
   );
 };
 

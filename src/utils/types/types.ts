@@ -10,18 +10,18 @@ export type AuthenticatedStackParamList = {
   Home: {
     screen?: string;
     params?: {
-      Timer: undefined;
-      Journals: {
+      Timer?: undefined;
+      Journals?: {
             screen?: string;
             params?: {
-              JournalEdit: undefined;
-              JournalNew: undefined;
+              JournalEdit?: {journal: UserJournals | null};
+              JournalNew?: undefined;
             };
           };
-      Todos: undefined;
-      Notes: undefined;
-      Goals: undefined;
-      EditTools: undefined;
+      Todos?: undefined;
+      Notes?: undefined;
+      Goals?: undefined;
+      EditTools?: undefined;
     };
   };
   Calendar: undefined;
@@ -43,12 +43,6 @@ export type AuthenticatedStackParamList = {
       ProfileNotifications: undefined;
     };
   };
-  Journals: {
-      screen?: string;
-      params?: {
-            JournalEdit: undefined
-      }
-  }
 };
 
 export type UserBadges = {
@@ -73,6 +67,7 @@ export type UserJournals = {
   moodDescription: string;
   activity: string;
   toImprove: string;
+  date: Date;
 };
 
 export type AllUserJournals = UserJournals[];
