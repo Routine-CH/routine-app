@@ -2,8 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   Modal,
-  Pressable,
   StyleSheet,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
@@ -14,9 +14,14 @@ import AppText from "../typography/app-text";
 interface TimeModalProps {
   isVisible: boolean;
   onClose: () => void;
+  navigateTo: () => void;
 }
 
-const EditDeleteModal: React.FC<TimeModalProps> = ({ isVisible, onClose }) => {
+const EditDeleteModal: React.FC<TimeModalProps> = ({
+  isVisible,
+  onClose,
+  navigateTo,
+}) => {
   const { t } = useTranslation();
 
   const handleOverlayPress = () => {
@@ -31,26 +36,29 @@ const EditDeleteModal: React.FC<TimeModalProps> = ({ isVisible, onClose }) => {
             <View style={styles.modalContainer}>
               <View style={styles.line} />
               <View style={styles.buttonContainer}>
-                <Pressable style={styles.optionsContainer}>
+                <TouchableOpacity
+                  onPress={navigateTo}
+                  style={styles.optionsContainer}
+                >
                   <IconButton iconName="pencil" />
                   <AppText
                     fontStyle="heading4"
                     colorStyle="black70"
                     style={{ marginLeft: 55 }}
                   >
-                    Edit
+                    {t("general.edit")}
                   </AppText>
-                </Pressable>
-                <Pressable style={styles.optionsContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.optionsContainer}>
                   <IconButton iconName="trash" />
                   <AppText
                     fontStyle="heading4"
                     colorStyle="black70"
                     style={{ marginLeft: 55 }}
                   >
-                    Delete
+                    {t("general.delete")}
                   </AppText>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </View>
           </TouchableWithoutFeedback>

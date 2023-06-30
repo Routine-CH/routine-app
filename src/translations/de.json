@@ -1,20 +1,21 @@
 {
-      "audio": {
-            "meditation-exercises": "Meditationsübungen",
-            "pmr": "Progressive Muskelrelaxation",
-            "mindfulness": "Achtsamkeitsmeditation",
-            "visualisation": "Visualisierungsmeditation"
-      },
+  "audio": {
+    "meditation-exercises": "Meditationsübungen",
+    "pmr": "Progressive Muskelrelaxation",
+    "mindfulness": "Achtsamkeitsmeditation",
+    "visualisation": "Visualisierungsmeditation"
+  },
   "forgot-pw": {
     "dont-worry": "Keine Sorge!",
     "description": "Wir schicken dir eine E-Mail, um dein Passwort zurückzusetzen.",
     "send-email": "E-Mail schicken"
   },
   "general": {
-    "edit": "Bearbeiten",
-    "save": "Speichern",
     "back": "Zurück",
-    "no-user-data": "Keine Nutzerdaten"
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "no-user-data": "Keine Nutzerdaten",
+    "save": "Speichern"
   },
   "goals": {
       "show-all": "Alle anzeigen"

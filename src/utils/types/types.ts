@@ -11,7 +11,12 @@ export type AuthenticatedStackParamList = {
     screen?: string;
     params?: {
       Timer: undefined;
-      Journals: undefined;
+      Journals: {
+            screen?: string;
+            params?: {
+              JournalEdit: undefined;
+            };
+          };
       Todos: undefined;
       Notes: undefined;
       Goals: undefined;
@@ -37,6 +42,12 @@ export type AuthenticatedStackParamList = {
       ProfileNotifications: undefined;
     };
   };
+  Journals: {
+      screen?: string;
+      params?: {
+            JournalEdit: undefined
+      }
+  }
 };
 
 export type UserBadges = {
