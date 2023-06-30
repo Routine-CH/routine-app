@@ -1,4 +1,3 @@
-import { DateTime } from "luxon";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
@@ -13,35 +12,35 @@ import Badge from "../components/profile/badge";
 import BadgesView from "../components/profile/badges-view";
 import WeekView from "../components/profile/week-view";
 import YearCard from "../components/profile/year-card";
-import useUserMe from "../hooks/use-user-me";
+import useCurrentFullUser from "../hooks/use-current-full-user";
+import { formatMonthYear } from "../utils/helper/date-formatters";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const ProfileScreen = () => {
   const { t } = useTranslation();
+  const { currentUser } = useCurrentFullUser();
 
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
-  const currentUser = useUserMe();
   const defaultAvatar = "../assets/misc/stones.jpg";
-  const createdAt = DateTime.fromISO(currentUser.currentUser?.createdAt);
-  const formattedMonth = createdAt.toLocaleString({
-    month: "long",
-    year: "numeric",
-  });
-
   const navigateToScreen = (screenName: string) => {
     navigation.navigate("Profile", { screen: screenName });
   };
 
-  const navigateToProfileSettingsScreen = (screenName: string) => {
-    navigation.navigate("Profile", { screen: screenName });
+  const navigateToProfileSettingsScreen = () => {
+    navigation.navigate("Profile", {
+      screen: "ProfileSettings",
+      params: {
+        ProfileSettings: { currentUser },
+      },
+    });
   };
 
-  return (
+  return currentUser ? (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
     >
       <View style={{ paddingHorizontal: 20 }}>
@@ -53,31 +52,30 @@ const ProfileScreen = () => {
         >
           <View style={styles.iconContainer}>
             <IconButton
-              iconName="pencil"
-              navigateTo={() =>
-                navigateToProfileSettingsScreen("ProfileSettings")
-              }
+              iconName='pencil'
+              navigateTo={() => navigateToProfileSettingsScreen()}
             />
           </View>
-
           <View style={styles.userInformation}>
             <Image
               source={require(defaultAvatar)}
               style={styles.profilePicture}
             />
             <AppText
-              fontStyle="bodyMedium"
-              colorStyle="black70"
+              fontStyle='bodyMedium'
+              colorStyle='black70'
               style={{ marginBottom: 10 }}
             >
-              {t("profile.hi")} {currentUser.currentUser?.username} 😄
+              {t("profile.hi")} {currentUser.username} 😄
             </AppText>
-            <AppText fontStyle="body" colorStyle="black64">
-              {t("profile.since")} {formattedMonth} {t("profile.here")}
+            <AppText fontStyle='body' colorStyle='black64'>
+              {t("profile.since")}
+              {formatMonthYear(currentUser.createdAt.toString())}
+              {t("profile.here")}
             </AppText>
           </View>
         </View>
-        <AchievementCard />
+        <AchievementCard exp={currentUser.experience} />
         <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
       </View>
       <Badge />
@@ -86,6 +84,8 @@ const ProfileScreen = () => {
       </View>
       <WeekView />
     </ScrollViewScreenWrapper>
+  ) : (
+    <></>
   );
 };
 
