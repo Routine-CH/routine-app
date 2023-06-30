@@ -1,5 +1,5 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -12,12 +12,32 @@ import ResetPassword from "../components/profile/profile-settings/reset-password
 import YourInformation from "../components/profile/profile-settings/your-information";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import {
+  AuthenticatedStackParamList,
+  FullUserData,
+} from "../utils/types/types";
 
-const ProfileSettingsScreen: React.FC = () => {
+type ProfileSettingsRouteProp = RouteProp<
+  AuthenticatedStackParamList,
+  "Profile"
+> & {
+  params: {
+    ProfileSettings: {
+      currentUser: FullUserData | null;
+    };
+  };
+};
+
+type ProfileSettingsProps = {
+  route: ProfileSettingsRouteProp;
+};
+
+const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
   const { t } = useTranslation();
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+
+  const currentUser = route.params.ProfileSettings.currentUser;
 
   const navigateToProfileNotifications = (screenName: string) => {
     navigation.navigate("Profile", { screen: screenName });
@@ -35,7 +55,7 @@ const ProfileSettingsScreen: React.FC = () => {
       <View style={styles.profilePictureContainer}>
         <Image source={require(defaultAvatar)} style={styles.profilePicture} />
         <TouchableOpacity style={styles.button}>
-          <Icon name="pencil" size={15} color={AppColors.white} />
+          <Icon name='pencil' size={15} color={AppColors.white} />
         </TouchableOpacity>
       </View>
       <YourInformation />

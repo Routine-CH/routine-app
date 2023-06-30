@@ -2,10 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
+import { FullUserData } from "../../utils/types/types";
 import AppText from "../common/typography/app-text";
 
 interface userProps {
-  currentUser: {};
+  currentUser: FullUserData;
 }
 
 const YearCard: React.FC<userProps> = ({ currentUser }) => {
@@ -13,42 +14,42 @@ const YearCard: React.FC<userProps> = ({ currentUser }) => {
 
   return (
     <View>
-      <AppText fontStyle="heading3" colorStyle="black64">
+      <AppText fontStyle='heading3' colorStyle='black64'>
         {t("profile.gamification.your-year-in-numbers")}
       </AppText>
       <View style={styles.cardContainer}>
         <View style={styles.textContainer}>
-          <AppText fontStyle="bodyMedium" style={styles.text}>
+          <AppText fontStyle='bodyMedium' style={styles.text}>
             32
           </AppText>
-          <AppText fontStyle="body" colorStyle="black64">
-            {t("profile.gamification.reached")}{" "}
+          <AppText fontStyle='body' colorStyle='black64'>
+            {t("profile.gamification.reached")}
             {t("profile.gamification.todos")} ✅
           </AppText>
         </View>
         <View style={styles.textContainer}>
-          <AppText fontStyle="bodyMedium" style={styles.text}>
+          <AppText fontStyle='bodyMedium' style={styles.text}>
             105
           </AppText>
-          <AppText fontStyle="body" colorStyle="black64">
+          <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.gamification.reached")}{" "}
             {t("profile.gamification.goals")} 🎯
           </AppText>
         </View>
         <View style={styles.textContainer}>
-          <AppText fontStyle="bodyMedium" style={styles.text}>
+          <AppText fontStyle='bodyMedium' style={styles.text}>
             8
           </AppText>
-          <AppText fontStyle="body" colorStyle="black64">
+          <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.gamification.meditated")}{" "}
             {t("profile.gamification.minutes")} 🧘🏽
           </AppText>
         </View>
         <View style={styles.textContainer}>
-          <AppText fontStyle="bodyMedium" style={styles.text}>
+          <AppText fontStyle='bodyMedium' style={styles.text}>
             24
           </AppText>
-          <AppText fontStyle="body" colorStyle="black64">
+          <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.gamification.journal-entries")} 📓
           </AppText>
         </View>

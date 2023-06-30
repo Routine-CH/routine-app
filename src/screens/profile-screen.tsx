@@ -19,19 +19,23 @@ import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const ProfileScreen = () => {
   const { t } = useTranslation();
+  const { currentUser } = useCurrentFullUser();
 
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
-
-  const { currentUser } = useCurrentFullUser();
 
   const defaultAvatar = "../assets/misc/stones.jpg";
   const navigateToScreen = (screenName: string) => {
     navigation.navigate("Profile", { screen: screenName });
   };
 
-  const navigateToProfileSettingsScreen = (screenName: string) => {
-    navigation.navigate("Profile", { screen: screenName });
+  const navigateToProfileSettingsScreen = () => {
+    navigation.navigate("Profile", {
+      screen: "ProfileSettings",
+      params: {
+        ProfileSettings: { currentUser },
+      },
+    });
   };
 
   return currentUser ? (
@@ -49,9 +53,7 @@ const ProfileScreen = () => {
           <View style={styles.iconContainer}>
             <IconButton
               iconName='pencil'
-              navigateTo={() =>
-                navigateToProfileSettingsScreen("ProfileSettings")
-              }
+              navigateTo={() => navigateToProfileSettingsScreen()}
             />
           </View>
           <View style={styles.userInformation}>
@@ -64,7 +66,7 @@ const ProfileScreen = () => {
               colorStyle='black70'
               style={{ marginBottom: 10 }}
             >
-              {t("profile.hi")} {currentUser?.username} 😄
+              {t("profile.hi")} {currentUser.username} 😄
             </AppText>
             <AppText fontStyle='body' colorStyle='black64'>
               {t("profile.since")}
@@ -73,7 +75,7 @@ const ProfileScreen = () => {
             </AppText>
           </View>
         </View>
-        <AchievementCard />
+        <AchievementCard exp={currentUser.experience} />
         <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
       </View>
       <Badge />
