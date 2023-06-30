@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import Calendar from "../components/common/calendar/calendar";
-import EditDeleteModal from "../components/common/modal/edit-delete-modal";
+import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
@@ -110,6 +110,13 @@ const JournalsScreen: React.FC = () => {
     });
   };
 
+  const navigateToNewJournalScreen = () => {
+    setIsModalVisible(false);
+    navigation.navigate("Home", {
+      screen: "JournalNew",
+    });
+  };
+
   return (
     <ScrollViewScreenWrapper
       statusBarColor={StatusBarColor.dark}
@@ -181,7 +188,9 @@ const JournalsScreen: React.FC = () => {
           />
         )}
       </View>
-      {!todaysJournal ? <AddButton /> : null}
+      {!todaysJournal ? (
+        <AddButton navigateTo={() => navigateToNewJournalScreen()} />
+      ) : null}
       <EditDeleteModal
         isVisible={isModalVisible}
         onClose={closeModal}

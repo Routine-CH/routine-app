@@ -15,6 +15,7 @@ export type AuthenticatedStackParamList = {
             screen?: string;
             params?: {
               JournalEdit: undefined;
+              JournalNew: undefined;
             };
           };
       Todos: undefined;
