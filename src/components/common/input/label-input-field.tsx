@@ -10,12 +10,14 @@ import AppColors from "../../../utils/constants/colors";
 import AppFontStyle from "../../../utils/constants/font-style";
 
 type LabelInputFieldProps = {
-  placeholder: string;
+  placeholder?: string;
+  editText?: string;
   style?: StyleProp<ViewStyle>;
 } & TextInputProps;
 
 const LabelInputField: React.FC<LabelInputFieldProps> = ({
   placeholder,
+  editText,
   style,
   ...textInputProps
 }) => {
@@ -26,7 +28,9 @@ const LabelInputField: React.FC<LabelInputFieldProps> = ({
         placeholder={placeholder}
         placeholderTextColor={AppColors.black70}
         {...textInputProps}
-      />
+      >
+        {editText}
+      </TextInput>
     </View>
   );
 };
