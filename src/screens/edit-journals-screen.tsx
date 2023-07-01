@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RouteProp } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,9 +34,23 @@ type EditJournalProps = {
 
 const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const { t } = useTranslation();
+  const journal = route.params.Journals.params.JournalEdit.journal;
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
+  const [updatedTitle, setUpdatedTitle] = useState(journal?.title || "");
+  const [updatedMoodDescription, setUpdatedMoodDescription] = useState(
+    journal?.moodDescription || ""
+  );
+  const [updatedActivity, setUpdatedActivity] = useState(
+    journal?.activity || ""
+  );
+  const [updatedToImprove, setUpdatedToImprove] = useState(
+    journal?.toImprove || ""
+  );
+  //   const [updatedThoughtsAndIdeas, setupdatedThoughtsAndIdeas] = useState(
+  //       journal?.thoughtsAndIdeas || ""
+  //     );
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -45,7 +60,43 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     setIsModalVisible(false);
   };
 
-  const journal = route.params.Journals.params.JournalEdit.journal;
+  const updateUserJournal = async () => {
+    try {
+      if (journal !== null) {
+        console.log(journal);
+        const token = await AsyncStorage.getItem("access_token");
+        if (token) {
+          console.log("Token existing");
+
+          //     const endpointUrl = `${API_BASE_URL}journals/{journal.id}`;
+
+          const updatedJournalData = {
+            title: updatedTitle,
+            // mood:
+            moodDescription: updatedMoodDescription,
+            activity: updatedActivity,
+            toImprove: updatedToImprove,
+            // thoughtsAndIdeas
+          };
+          console.log(updatedJournalData);
+
+          //     const response = await axios.put(endpointUrl, updatedJournalData, {
+          //       headers: {
+          //         Authorization: `Bearer ${token}`,
+          //       },
+          //     });
+          //     console.log("Journal updated successfully", response);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to update user journal", error);
+    }
+  };
+
+  const handleUpdate = () => {
+    console.log("Update Content");
+    updateUserJournal();
+  };
 
   return journal ? (
     <ScrollViewScreenWrapper
@@ -53,7 +104,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <SaveButton backButtonStyle={styles.buttonStyle} />
+      <SaveButton backButtonStyle={styles.buttonStyle} onPress={handleUpdate} />
       <View style={styles.contentContainer}>
         <View>
           <AppText
@@ -64,7 +115,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             {t("journal.title")}
           </AppText>
           <LabelInputField
-            editText={journal.title}
+            editText={updatedTitle}
+            onChangeText={setUpdatedTitle}
             style={styles.inputStyle}
             multiline={true}
           />
@@ -97,7 +149,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             {t("journal.mood-description")}
           </AppText>
           <LabelInputField
-            editText={journal.moodDescription}
+            editText={updatedMoodDescription}
+            onChangeText={setUpdatedMoodDescription}
             style={styles.inputStyle}
             multiline={true}
           />
@@ -111,7 +164,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             {t("journal.activity")}
           </AppText>
           <LabelInputField
-            editText={journal.activity}
+            editText={updatedActivity}
+            onChangeText={setUpdatedActivity}
             style={styles.inputStyle}
             multiline={true}
           />
@@ -125,7 +179,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             {t("journal.to-improve")}
           </AppText>
           <LabelInputField
-            editText={journal.toImprove}
+            editText={updatedToImprove}
+            onChangeText={setUpdatedToImprove}
             style={styles.inputStyle}
             multiline={true}
           />
