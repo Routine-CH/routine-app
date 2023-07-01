@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 60,
+    gap: 40,
     paddingHorizontal: 30,
     justifyContent: "center",
   },
