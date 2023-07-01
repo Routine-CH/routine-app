@@ -4,12 +4,13 @@ import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
 
 type AddButtonProps = {
+  navigateTo?: () => void;
   style?: StyleProp<ViewStyle>;
 };
 
-const AddButton: React.FC<AddButtonProps> = ({ style }) => {
+const AddButton: React.FC<AddButtonProps> = ({ navigateTo, style }) => {
   return (
-    <Pressable style={style ? style : styles.positioning}>
+    <Pressable style={style ? style : styles.positioning} onPress={navigateTo}>
       <Icon name={"add-circle"} size={57} color={AppColors.blue100} />
     </Pressable>
   );

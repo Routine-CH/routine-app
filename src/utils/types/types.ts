@@ -10,12 +10,18 @@ export type AuthenticatedStackParamList = {
   Home: {
     screen?: string;
     params?: {
-      Timer: undefined;
-      Journals: undefined;
-      Todos: undefined;
-      Notes: undefined;
-      Goals: undefined;
-      EditTools: undefined;
+      Timer?: undefined;
+      Journals?: {
+            screen?: string;
+            params?: {
+              JournalEdit?: {journal: UserJournals | null};
+              JournalNew?: undefined;
+            };
+          };
+      Todos?: undefined;
+      Notes?: undefined;
+      Goals?: undefined;
+      EditTools?: undefined;
     };
   };
   Calendar: undefined;
@@ -61,6 +67,7 @@ export type UserJournals = {
   moodDescription: string;
   activity: string;
   toImprove: string;
+  date: Date;
 };
 
 export type AllUserJournals = UserJournals[];

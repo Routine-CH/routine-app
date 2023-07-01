@@ -1,16 +1,22 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
 
 interface ButtonProps {
   iconName: string;
+  style?: StyleProp<ViewStyle>;
   navigateTo?: () => void;
 }
 
-const IconButton: React.FC<ButtonProps> = ({ iconName, navigateTo }) => {
+const IconButton: React.FC<ButtonProps> = ({ iconName, style, navigateTo }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={navigateTo}>
+    <TouchableOpacity style={[styles.button, style]} onPress={navigateTo}>
       <Icon name={iconName} size={25} color={AppColors.blue100} />
     </TouchableOpacity>
   );

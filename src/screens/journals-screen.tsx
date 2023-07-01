@@ -1,13 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import Calendar from "../components/common/calendar/calendar";
+import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
@@ -15,16 +18,31 @@ import EmptyState from "../components/todos/empty-state";
 import { API_BASE_URL } from "../utils/config/config";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { AllUserJournals, UserJournals } from "../utils/types/types";
+import {
+  AllUserJournals,
+  AuthenticatedStackParamList,
+  UserJournals,
+} from "../utils/types/types";
 
 const JournalsScreen: React.FC = () => {
+  const { t } = useTranslation();
   const [todaysJournal, setTodaysJournal] = useState<UserJournals | null>(null);
   const [userJournals, setUserJournals] = useState<AllUserJournals | null>(
     null
   );
   const [isLoadingTodaysJournal, setIsLoadingTodaysJournal] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const { t } = useTranslation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+
+  const handleModalPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
 
   useEffect(() => {
     async function getTodaysJournals() {
@@ -44,7 +62,17 @@ const JournalsScreen: React.FC = () => {
 
           const journalsData = response.data.data;
           if (journalsData.length > 0) {
-            setTodaysJournal(journalsData[0]);
+            const journalId = journalsData[0].id;
+            const journalIdResponse = await axios.get(
+              `${API_BASE_URL}journals/${journalId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            const fullJournal = journalIdResponse.data.data;
+            setTodaysJournal(fullJournal);
           } else {
             setTodaysJournal(null);
           }
@@ -85,6 +113,29 @@ const JournalsScreen: React.FC = () => {
     getUserJournals();
   }, []);
 
+  const navigateToJournalEditScreen = () => {
+    setIsModalVisible(false);
+    navigation.navigate("Home", {
+      screen: "JournalEdit",
+      params: {
+        Journals: {
+          params: {
+            JournalEdit: {
+              journal: todaysJournal || null,
+            },
+          },
+        },
+      },
+    });
+  };
+
+  const navigateToNewJournalScreen = () => {
+    setIsModalVisible(false);
+    navigation.navigate("Home", {
+      screen: "JournalNew",
+    });
+  };
+
   return (
     <ScrollViewScreenWrapper
       statusBarColor={StatusBarColor.dark}
@@ -92,7 +143,15 @@ const JournalsScreen: React.FC = () => {
     >
       <View style={styles.buttonContainer}>
         <BackButton />
-        <Icon name={"ellipsis-vertical"} size={26} color={AppColors.black64} />
+        {todaysJournal ? (
+          <Pressable onPress={handleModalPress}>
+            <Icon
+              name={"ellipsis-vertical"}
+              size={26}
+              color={AppColors.black64}
+            />
+          </Pressable>
+        ) : null}
       </View>
       <View style={styles.outerContainer}>
         <View style={styles.innerContainer}>
@@ -148,7 +207,14 @@ const JournalsScreen: React.FC = () => {
           />
         )}
       </View>
-      {!todaysJournal ? <AddButton /> : null}
+      {!todaysJournal ? (
+        <AddButton navigateTo={() => navigateToNewJournalScreen()} />
+      ) : null}
+      <EditDeleteModal
+        isVisible={isModalVisible}
+        onClose={closeModal}
+        navigateTo={() => navigateToJournalEditScreen()}
+      />
     </ScrollViewScreenWrapper>
   );
 };

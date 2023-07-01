@@ -5,9 +5,10 @@ import AppColors from "../../../utils/constants/colors";
 
 type BackButtonProps = {
   style?: StyleProp<ViewStyle>;
+  type?: string;
 };
 
-const BackButton: React.FC<BackButtonProps> = ({ style }) => {
+const BackButton: React.FC<BackButtonProps> = ({ style, type }) => {
   const navigation = useNavigation();
 
   return (
@@ -15,7 +16,11 @@ const BackButton: React.FC<BackButtonProps> = ({ style }) => {
       style={[styles.container, style]}
       onPress={() => navigation.goBack()}
     >
-      <Icon name="arrow-back-outline" size={26} style={[styles.icon]} />
+      <Icon
+        name="arrow-back-outline"
+        size={26}
+        style={type ? styles.lightIcon : styles.defaultIcon}
+      />
     </Pressable>
   );
 };
@@ -32,7 +37,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  icon: {
+  defaultIcon: {
     color: AppColors.white,
+  },
+  lightIcon: {
+    color: AppColors.blue100,
   },
 });
