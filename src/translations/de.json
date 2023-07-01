@@ -39,9 +39,9 @@
   },
   "modals": {
       "are-you-sure": "Bist du dir sicher?",
-      "your": "Dein",
-      "is-being-deleted": "wird gelöscht.",
-      "cancel": "Abbrechen"
+      "cancel": "Abbrechen",
+      "journal": "Dein Journal wird gelöscht",
+      "notes": "Deine Notiz wird gelöscht"
   },
   "my-day": {
     "hey": "Hey",

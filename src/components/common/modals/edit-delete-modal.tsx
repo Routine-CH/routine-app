@@ -13,12 +13,16 @@ import AppText from "../typography/app-text";
 import ConfirmationModal from "./confirmation-modal";
 
 interface EditDeleteModalProps {
+  title: string;
+  description: string;
   isVisible: boolean;
   onClose: () => void;
   navigateTo: () => void;
 }
 
 const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
+  title,
+  description,
   isVisible,
   onClose,
   navigateTo,
@@ -78,14 +82,8 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
         </View>
       </TouchableWithoutFeedback>
       <ConfirmationModal
-        title={t("modals.are-you-sure")}
-        description={
-          t("modals.your") +
-          " " +
-          t("tool-cards.journals") +
-          " " +
-          t("modals.is-being-deleted")
-        }
+        title={title}
+        description={description}
         isVisible={isModalVisible}
         onClose={closeModal}
       />

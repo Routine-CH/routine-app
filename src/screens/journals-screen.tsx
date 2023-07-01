@@ -211,6 +211,8 @@ const JournalsScreen: React.FC = () => {
         <AddButton navigateTo={() => navigateToNewJournalScreen()} />
       ) : null}
       <EditDeleteModal
+        title={t("modals.are-you-sure")}
+        description={t("modals.journal")}
         isVisible={isModalVisible}
         onClose={closeModal}
         navigateTo={() => navigateToJournalEditScreen()}

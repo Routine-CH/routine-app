@@ -23,6 +23,7 @@ export type AuthenticatedStackParamList = {
             screen?: string;
             params?: {
                   NoteNew?: undefined;
+                  NoteView?: {note: UserNotes | null};
             }
       };
       Goals?: undefined;

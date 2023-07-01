@@ -49,6 +49,21 @@ const NotesScreen: React.FC = () => {
     });
   };
 
+  const navigateToNotesViewScreen = () => {
+    navigation.navigate("Home", {
+      screen: "NoteView",
+      params: {
+        Notes: {
+          params: {
+            NoteView: {
+              note: userNotes[0] || null,
+            },
+          },
+        },
+      },
+    });
+  };
+
   return (
     <>
       <ScrollViewScreenWrapper
@@ -85,6 +100,7 @@ const NotesScreen: React.FC = () => {
                         ? note.images[0].imageUrl
                         : undefined
                     }
+                    navigateTo={navigateToNotesViewScreen}
                   />
                 );
               })}
