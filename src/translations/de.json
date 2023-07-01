@@ -53,7 +53,10 @@
   },
   "notes": {
       "date": "Datum",
-      "filter": "filtern"
+      "filter": "filtern",
+      "note": "Notiz",
+      "no-notes": "Keine Notizen",
+      "you-dont-have-any-notes": "Du hast noch keine Notizen"
   },
   "profile":{
       "gamification": {

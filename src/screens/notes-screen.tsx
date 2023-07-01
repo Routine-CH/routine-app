@@ -5,12 +5,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
-import NotesIcon from "../components/card/tools/tools-svg/notes-icon";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import NotesCard from "../components/common/notes/notes-card";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
+import EmptyState from "../components/todos/empty-state";
 import { API_BASE_URL } from "../utils/config/config";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
@@ -59,14 +59,12 @@ const NotesScreen: React.FC = () => {
         <BackButton />
         {userNotes.length === 0 ? (
           <View style={styles.noNotescontainer}>
-            <NotesIcon width={200} height={200} fill="#296879" />
-            <AppText
-              fontStyle="heading2"
-              colorStyle="black64"
-              style={styles.textMargin}
-            >
-              Du hast noch keine Notizen, erstelle eins :)
-            </AppText>
+            <EmptyState
+              title={t("notes.no-notes")}
+              description={t("notes.you-dont-have-any-notes")}
+              type="notes"
+              style={styles.emptyState}
+            />
           </View>
         ) : (
           <>
@@ -104,6 +102,9 @@ export default NotesScreen;
 const styles = StyleSheet.create({
   margin: {
     marginVertical: 30,
+  },
+  emptyState: {
+    backgroundColor: AppColors.white,
   },
   noNotescontainer: {
     flex: 1,
