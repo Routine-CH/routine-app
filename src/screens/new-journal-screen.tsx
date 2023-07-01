@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import Chip from "../components/calendar/chip";
 import IconTextButton from "../components/common/buttons/icon-text-button";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
@@ -13,6 +14,7 @@ const NewJournalScreen = () => {
   const { t } = useTranslation();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -34,6 +36,11 @@ const NewJournalScreen = () => {
           placeholder={t("journal.title")}
           style={styles.inputField}
         />
+        <View style={styles.chipContainer}>
+          {selectedMoods.map((mood) => (
+            <Chip key={mood} text={mood} style={styles.chip} />
+          ))}
+        </View>
         <IconTextButton
           iconName="add-outline"
           size={30}
@@ -65,7 +72,13 @@ const NewJournalScreen = () => {
           numberOfLines={5}
           multiline={true}
         />
-        <EmotionModal isVisible={isModalVisible} onClose={closeModal} />
+        <EmotionModal
+          isVisible={isModalVisible}
+          onClose={closeModal}
+          onMoodsSelect={(moods) =>
+            setSelectedMoods(moods.map((mood) => mood.title))
+          }
+        />
       </View>
     </ScrollViewScreenWrapper>
   );
@@ -88,5 +101,15 @@ const styles = StyleSheet.create({
   iconTextButton: {
     backgroundColor: AppColors.blue100Muted20,
     marginVertical: 15,
+  },
+  chipContainer: {
+    width: "100%",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    gap: 15,
+  },
+  chip: {
+    width: "47%",
   },
 });

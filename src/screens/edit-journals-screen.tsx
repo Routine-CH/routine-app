@@ -35,6 +35,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const { t } = useTranslation();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -77,11 +78,9 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             {t("journal.mood")}
           </AppText>
           <View style={styles.chipContainer}>
-            <Chip text="Frustriert" style={styles.chip} />
-            <Chip text="Ängstlich" style={styles.chip} />
-            <Chip text="Gelangweilt" style={styles.chip} />
-            <Chip text="Gelangweilt" style={styles.chip} />
-            <Chip text="Gelangweilt" style={styles.chip} />
+            {selectedMoods.map((mood) => (
+              <Chip key={mood} text={mood} style={styles.chip} />
+            ))}
           </View>
           <IconButton
             iconName="add"
@@ -146,7 +145,13 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
           />
         </View>
       </View>
-      <EmotionModal isVisible={isModalVisible} onClose={closeModal} />
+      <EmotionModal
+        isVisible={isModalVisible}
+        onClose={closeModal}
+        onMoodsSelect={(moods) =>
+          setSelectedMoods(moods.map((mood) => mood.title))
+        }
+      />
     </ScrollViewScreenWrapper>
   ) : (
     <></>
@@ -174,7 +179,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexWrap: "wrap",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     gap: 15,
   },
   chip: {

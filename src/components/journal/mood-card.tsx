@@ -1,39 +1,41 @@
-import { useState } from "react";
+import React from "react";
 import { Image, Pressable, StyleSheet } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
-type moodProps = {
+interface MoodCardProps {
   image: any;
   title: string;
-};
+  onPress: () => void;
+  isSelected: boolean;
+}
 
-const MoodCard: React.FC<moodProps> = ({ image, title }) => {
-  const [isActive, setIsActive] = useState(false);
-
+const MoodCard: React.FC<MoodCardProps> = ({
+  image,
+  title,
+  onPress,
+  isSelected,
+}) => {
   const handlePress = () => {
-    setIsActive(!isActive);
-    console.log("Mood pressed" + title);
+    onPress();
   };
 
-  const textcolorStyle = isActive
-    ? [styles.text, styles.activeText]
+  const containerStyle = isSelected
+    ? [styles.container, styles.isSelected]
+    : styles.container;
+  const textStyle = isSelected
+    ? [styles.text, styles.isSelectedText]
     : styles.text;
 
   return (
-    <Pressable
-      style={isActive ? [styles.container, styles.active] : styles.container}
-      onPress={handlePress}
-    >
+    <Pressable style={containerStyle} onPress={handlePress}>
       <Image source={image} style={styles.image} />
-      <AppText fontStyle="bodyMedium" style={textcolorStyle}>
+      <AppText fontStyle="bodyMedium" style={textStyle}>
         {title}
       </AppText>
     </Pressable>
   );
 };
-
-export default MoodCard;
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
     height: 90,
     width: 90,
   },
-  active: {
+  isSelected: {
     backgroundColor: AppColors.blue200,
     padding: 5,
     borderRadius: 5,
@@ -56,7 +58,9 @@ const styles = StyleSheet.create({
   text: {
     color: AppColors.blue100,
   },
-  activeText: {
+  isSelectedText: {
     color: AppColors.white,
   },
 });
+
+export default MoodCard;
