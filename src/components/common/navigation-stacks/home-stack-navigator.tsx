@@ -6,6 +6,7 @@ import GoalsScreen from "../../../screens/goals-screen";
 import HomeScreen from "../../../screens/home-screen";
 import JournalsScreen from "../../../screens/journals-screen";
 import NewJournalScreen from "../../../screens/new-journal-screen";
+import NewNotesScreen from "../../../screens/new-notes-screen";
 import NotesScreen from "../../../screens/notes-screen";
 import TimerScreen from "../../../screens/timer-screen";
 import TodosScreen from "../../../screens/todos-screen";
@@ -26,6 +27,7 @@ const HomeStackNavigator: React.FC = () => {
       <HomeStack.Screen name="JournalNew" component={NewJournalScreen} />
       <HomeStack.Screen name="Todos" component={TodosScreen} />
       <HomeStack.Screen name="Notes" component={NotesScreen} />
+      <HomeStack.Screen name="NotesNew" component={NewNotesScreen} />
       <HomeStack.Screen name="Goals" component={GoalsScreen} />
       <HomeStack.Screen name="EditTools" component={EditToolsScreen} />
     </HomeStack.Navigator>

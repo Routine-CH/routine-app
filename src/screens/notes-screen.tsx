@@ -1,4 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,11 +14,13 @@ import AppText from "../components/common/typography/app-text";
 import { API_BASE_URL } from "../utils/config/config";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { UserNotes } from "../utils/types/types";
+import { AuthenticatedStackParamList, UserNotes } from "../utils/types/types";
 
 const NotesScreen: React.FC = () => {
-  const [userNotes, setUserNotes] = useState<UserNotes[]>([]);
   const { t } = useTranslation();
+  const [userNotes, setUserNotes] = useState<UserNotes[]>([]);
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
   useEffect(() => {
     async function getUserNotes() {
@@ -39,6 +43,12 @@ const NotesScreen: React.FC = () => {
     getUserNotes();
   }, []);
 
+  const navigateToNewNoteScreen = () => {
+    navigation.navigate("Home", {
+      screen: "NotesNew",
+    });
+  };
+
   return (
     <>
       <ScrollViewScreenWrapper
@@ -49,10 +59,10 @@ const NotesScreen: React.FC = () => {
         <BackButton />
         {userNotes.length === 0 ? (
           <View style={styles.noNotescontainer}>
-            <NotesIcon width={200} height={200} fill='#296879' />
+            <NotesIcon width={200} height={200} fill="#296879" />
             <AppText
-              fontStyle='heading2'
-              colorStyle='black64'
+              fontStyle="heading2"
+              colorStyle="black64"
               style={styles.textMargin}
             >
               Du hast noch keine Notizen, erstelle eins :)
@@ -61,7 +71,7 @@ const NotesScreen: React.FC = () => {
         ) : (
           <>
             <Pressable style={styles.margin}>
-              <AppText fontStyle='body' colorStyle='black64'>
+              <AppText fontStyle="body" colorStyle="black64">
                 {t("notes.date")} {t("notes.filter")}
               </AppText>
             </Pressable>
@@ -84,7 +94,7 @@ const NotesScreen: React.FC = () => {
           </>
         )}
       </ScrollViewScreenWrapper>
-      <AddButton />
+      <AddButton navigateTo={() => navigateToNewNoteScreen()} />
     </>
   );
 };

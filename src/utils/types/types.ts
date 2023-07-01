@@ -19,7 +19,12 @@ export type AuthenticatedStackParamList = {
             };
           };
       Todos?: undefined;
-      Notes?: undefined;
+      Notes?: {
+            screen?: string;
+            params?: {
+                  NoteNew?: undefined;
+            }
+      };
       Goals?: undefined;
       EditTools?: undefined;
     };
