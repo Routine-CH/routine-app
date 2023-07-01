@@ -1,4 +1,5 @@
-import { RouteProp } from "@react-navigation/native";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RouteProp, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
@@ -30,6 +31,9 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+
   const handleModalPress = () => {
     setIsModalVisible(true);
   };
@@ -39,8 +43,21 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   };
 
   const navigateToNoteEditScreen = () => {
-    console.log("hi");
     setIsModalVisible(false);
+    navigation.navigate("Home", {
+      screen: "NoteEdit",
+      params: {
+        Notes: {
+          params: {
+            NoteView: {
+              noteEdit: {
+                note: note || null,
+              },
+            },
+          },
+        },
+      },
+    });
   };
 
   const note = route.params.Notes.params.NoteView.note;

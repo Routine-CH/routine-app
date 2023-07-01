@@ -27,11 +27,11 @@ type EditJournalScreenRouteProp = RouteProp<
   };
 };
 
-type EditJournalProps = {
+type EditJournalScreenProps = {
   route: EditJournalScreenRouteProp;
 };
 
-const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
+const EditJournalScreen: React.FC<EditJournalScreenProps> = ({ route }) => {
   const { t } = useTranslation();
 
   const [isModalVisible, setIsModalVisible] = useState(false);

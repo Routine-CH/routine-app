@@ -12,14 +12,15 @@ import AppText from "../typography/app-text";
 import BackButton from "./back-button";
 
 type SaveButtonProps = {
+  type?: string;
   backButtonStyle?: StyleProp<ViewStyle>;
 };
 
-const SaveButton: React.FC<SaveButtonProps> = ({ backButtonStyle }) => {
+const SaveButton: React.FC<SaveButtonProps> = ({ type, backButtonStyle }) => {
   const { t } = useTranslation();
   return (
     <View style={styles.container}>
-      <BackButton style={[styles.buttonStyle, backButtonStyle]} />
+      <BackButton style={[styles.buttonStyle, backButtonStyle]} type={type} />
       <Pressable style={styles.saveButton}>
         <Icon name="checkmark-outline" size={22} style={styles.textStyle} />
         <AppText
