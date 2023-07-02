@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RouteProp } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,6 +9,7 @@ import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import EmotionModal from "../components/journal/emotion-modal";
+import { updateUserJournal } from "../data/edit-journal/requests";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import {
@@ -60,42 +60,15 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     setIsModalVisible(false);
   };
 
-  const updateUserJournal = async () => {
-    try {
-      if (journal !== null) {
-        console.log(journal);
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
-          console.log("Token existing");
-
-          //     const endpointUrl = `${API_BASE_URL}journals/{journal.id}`;
-
-          const updatedJournalData = {
-            title: updatedTitle,
-            // mood:
-            moodDescription: updatedMoodDescription,
-            activity: updatedActivity,
-            toImprove: updatedToImprove,
-            // thoughtsAndIdeas
-          };
-          console.log(updatedJournalData);
-
-          //     const response = await axios.put(endpointUrl, updatedJournalData, {
-          //       headers: {
-          //         Authorization: `Bearer ${token}`,
-          //       },
-          //     });
-          //     console.log("Journal updated successfully", response);
-        }
-      }
-    } catch (error) {
-      console.error("Failed to update user journal", error);
-    }
-  };
-
   const handleUpdate = () => {
     console.log("Update Content");
-    updateUserJournal();
+    updateUserJournal(
+      journal,
+      updatedTitle,
+      updatedMoodDescription,
+      updatedActivity,
+      updatedToImprove
+    );
   };
 
   return journal ? (
