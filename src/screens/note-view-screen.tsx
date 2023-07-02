@@ -50,6 +50,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
         Notes: {
           params: {
             NoteView: {
+              note: note || null,
               noteEdit: {
                 note: note || null,
               },

@@ -1,10 +1,11 @@
 import { RouteProp } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import { updateNoteRequest } from "../data/notes/update-request";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor } from "../utils/types/enums";
@@ -33,24 +34,34 @@ type EditNotesScreenProps = {
 
 const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
   const note = route.params.Notes.params.NoteView.noteEdit.note;
+  const [updatedTitle, setUpdatedTitle] = useState(note?.title || "");
+  const [updatedDescription, setUpdatedDescription] = useState(
+    note?.description || ""
+  );
 
+  const handleUpdate = () => {
+    console.log("Update incoming");
+    updateNoteRequest(note, updatedTitle, updatedDescription);
+  };
   return (
     <ScrollViewScreenWrapper
       backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <SaveButton type="true" />
+      <SaveButton type="true" onPress={handleUpdate} />
       <View style={styles.contentContainer}>
         <LabelInputField
           editText={note?.title}
           inputStyle={styles.inputHeadingStyle}
           multiline
+          onChangeText={setUpdatedTitle}
         />
         <LabelInputField
           editText={note?.description}
           inputStyle={styles.inputStyle}
           multiline
+          onChangeText={setUpdatedDescription}
         />
       </View>
       <View style={styles.imageContainer}>
