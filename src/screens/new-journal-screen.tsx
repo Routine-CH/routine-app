@@ -7,6 +7,7 @@ import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import EmotionModal from "../components/journal/emotion-modal";
+import { createUserJournalRequest } from "../data/journal/create-request";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 
@@ -15,6 +16,11 @@ const NewJournalScreen = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
+  const [title, setTitle] = useState("");
+  const [moodDescription, setMoodDescription] = useState("");
+  const [activity, setActivity] = useState("");
+  const [toImprove, setToImprove] = useState("");
+  //   const [thoughtsAndIdeas, setThoughtsAndIdeas] = useState("");
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -24,17 +30,27 @@ const NewJournalScreen = () => {
     setIsModalVisible(false);
   };
 
+  const handleNewJournal = () => {
+    console.log("Creating a new Journal Entry");
+    createUserJournalRequest(title, moodDescription, activity, toImprove);
+  };
+
   return (
     <ScrollViewScreenWrapper
       statusBarColor={StatusBarColor.dark}
       backgroundColor={AppColors.white}
       defaultPadding
     >
-      <SaveButton backButtonStyle={styles.backButtonStyle} />
+      <SaveButton
+        backButtonStyle={styles.backButtonStyle}
+        onPress={handleNewJournal}
+      />
       <View style={styles.contentContainer}>
         <LabelInputField
           placeholder={t("journal.title")}
           style={styles.inputField}
+          value={title}
+          onChangeText={setTitle}
         />
         <View style={styles.chipContainer}>
           {selectedMoods.map((mood) => (
@@ -53,24 +69,30 @@ const NewJournalScreen = () => {
           style={styles.inputField}
           numberOfLines={5}
           multiline={true}
+          value={moodDescription}
+          onChangeText={setMoodDescription}
         />
         <LabelInputField
           placeholder={t("journal.activity")}
           style={styles.inputField}
           numberOfLines={5}
           multiline={true}
+          onChangeText={setActivity}
         />
         <LabelInputField
           placeholder={t("journal.to-improve")}
           style={styles.inputField}
           numberOfLines={5}
           multiline={true}
+          value={toImprove}
+          onChangeText={setToImprove}
         />
         <LabelInputField
           placeholder={t("journal.thoughts-and-ideas")}
           style={styles.inputField}
           numberOfLines={5}
           multiline={true}
+          //     onChangeText={thoughtsAndIdeas}
         />
         <EmotionModal
           isVisible={isModalVisible}
