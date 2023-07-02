@@ -15,6 +15,7 @@ import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wra
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
 import EmptyState from "../components/todos/empty-state";
+import { deleteUserJournalRequest } from "../data/journal/delete-request";
 import { API_BASE_URL } from "../utils/config/config";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
@@ -42,6 +43,15 @@ const JournalsScreen: React.FC = () => {
 
   const closeModal = () => {
     setIsModalVisible(false);
+  };
+
+  const deleteJournal = () => {
+    console.log("Journal is being deleted");
+    deleteUserJournalRequest(todaysJournal);
+    setIsModalVisible(false);
+    navigation.navigate("Home", {
+      screen: "Journals",
+    });
   };
 
   useEffect(() => {
@@ -212,6 +222,7 @@ const JournalsScreen: React.FC = () => {
       ) : null}
       <EditDeleteModal
         isVisible={isModalVisible}
+        onConfirm={deleteJournal}
         onClose={closeModal}
         navigateTo={() => navigateToJournalEditScreen()}
       />

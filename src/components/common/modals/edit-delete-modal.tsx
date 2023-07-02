@@ -14,12 +14,14 @@ import ConfirmationModal from "./confirmation-modal";
 
 interface EditDeleteModalProps {
   isVisible: boolean;
+  onConfirm: () => void;
   onClose: () => void;
   navigateTo: () => void;
 }
 
 const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
   isVisible,
+  onConfirm,
   onClose,
   navigateTo,
 }) => {
@@ -86,7 +88,9 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
           " " +
           t("modals.is-being-deleted")
         }
+        actionText={t("general.delete")}
         isVisible={isModalVisible}
+        onConfirm={onConfirm}
         onClose={closeModal}
       />
     </Modal>

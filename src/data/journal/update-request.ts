@@ -3,7 +3,7 @@ import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
 import { UserJournals } from "../../utils/types/types";
 
-export const updateUserJournal = async (
+export const updateUserJournalRequest = async (
   journal: UserJournals | null,
   updatedTitle: string,
   updatedMoodDescription: string,

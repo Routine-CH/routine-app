@@ -1,4 +1,5 @@
-import { RouteProp } from "@react-navigation/native";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RouteProp, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -9,7 +10,7 @@ import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import EmotionModal from "../components/journal/emotion-modal";
-import { updateUserJournal } from "../data/edit-journal/requests";
+import { updateUserJournalRequest } from "../data/journal/update-request";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import {
@@ -34,6 +35,8 @@ type EditJournalProps = {
 
 const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const { t } = useTranslation();
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const journal = route.params.Journals.params.JournalEdit.journal;
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -62,13 +65,16 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
 
   const handleUpdate = () => {
     console.log("Update Content");
-    updateUserJournal(
+    updateUserJournalRequest(
       journal,
       updatedTitle,
       updatedMoodDescription,
       updatedActivity,
       updatedToImprove
     );
+    navigation.navigate("Home", {
+      screen: "Journals",
+    });
   };
 
   return journal ? (
