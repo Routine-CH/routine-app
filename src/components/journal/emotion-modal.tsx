@@ -17,7 +17,10 @@ import MoodCard from "./mood-card";
 interface EmotionModalProps {
   isVisible: boolean;
   onClose: () => void;
-  initialSelectedMoods: { id: string; type: string }[];
+  initialSelectedMoods: {
+    id: string;
+    type: string;
+  }[];
   onMoodsSelect: (selectedMood: { id: string; type: string }[]) => void;
 }
 
@@ -97,8 +100,8 @@ const EmotionModal: React.FC<EmotionModalProps> = ({
                 </View>
               </ScrollView>
               <FlatButton
-                fontStyle="bodyMedium"
-                colorStyle="white"
+                fontStyle='bodyMedium'
+                colorStyle='white'
                 buttonStyle={styles.saveButton}
                 onPress={handleSave}
               >

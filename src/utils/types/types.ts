@@ -12,12 +12,12 @@ export type AuthenticatedStackParamList = {
     params?: {
       Timer?: undefined;
       Journals?: {
-            screen?: string;
-            params?: {
-              JournalEdit?: {journal: UserJournals | null};
-              JournalNew?: undefined;
-            };
-          };
+        screen?: string;
+        params?: {
+          JournalEdit?: { journal: UserJournals | null };
+          JournalNew?: undefined;
+        };
+      };
       Todos?: undefined;
       Notes?: undefined;
       Goals?: undefined;
@@ -172,10 +172,10 @@ export interface IFormRegisterInputs {
 }
 
 export interface IFormJournalInputs {
-      title: string;
-      moodDescription: string;
-      activity: string;
-      toImprove: string;
-      thoughtsAndIdeas: string;
-      selectedMoods: {id: string; type: string}[]
+  title: string;
+  moodDescription: string;
+  activity: string;
+  toImprove: string;
+  thoughtsAndIdeas: string;
+  moods: { id: string; type: string }[];
 }
