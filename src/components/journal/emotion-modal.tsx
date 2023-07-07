@@ -17,12 +17,14 @@ import MoodCard from "./mood-card";
 interface EmotionModalProps {
   isVisible: boolean;
   onClose: () => void;
+  initialSelectedMoods: { id: string; type: string }[];
   onMoodsSelect: (selectedMood: { id: string; type: string }[]) => void;
 }
 
 const EmotionModal: React.FC<EmotionModalProps> = ({
   isVisible,
   onClose,
+  initialSelectedMoods,
   onMoodsSelect,
 }) => {
   const { t } = useTranslation();
@@ -50,17 +52,14 @@ const EmotionModal: React.FC<EmotionModalProps> = ({
     getJournalMoods();
   }, []);
 
-  const handleMoodPress = (mood: string) => {
-    const isSelected = selectedMoods.includes(mood);
+  useEffect(() => {
+    const initialMoodTypes = initialSelectedMoods.map((mood) => mood.type);
+    setSelectedMoods(initialMoodTypes);
+  }, [initialSelectedMoods]);
 
-    if (isSelected) {
-      const updatedMoods = selectedMoods.filter(
-        (selectedMood) => selectedMood !== mood
-      );
-      setSelectedMoods(updatedMoods);
-    } else {
-      const updatedMoods = [...selectedMoods, mood];
-      setSelectedMoods(updatedMoods);
+  const handleMoodPress = (mood: string) => {
+    if (!selectedMoods.includes(mood)) {
+      setSelectedMoods([...selectedMoods, mood]);
     }
   };
 

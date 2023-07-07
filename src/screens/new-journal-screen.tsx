@@ -171,6 +171,7 @@ const NewJournalScreen = () => {
         <EmotionModal
           isVisible={isModalVisible}
           onClose={closeModal}
+          initialSelectedMoods={selectedMoods}
           onMoodsSelect={(moodIds) => {
             const newSelectedMoods = moodIds.filter(
               (moodId) =>
