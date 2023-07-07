@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Chip from "../components/calendar/chip";
@@ -10,17 +11,17 @@ import EmotionModal from "../components/journal/emotion-modal";
 import { createUserJournalRequest } from "../data/journal/create-request";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
+import { IFormJournalInputs } from "../utils/types/types";
 
 const NewJournalScreen = () => {
   const { t } = useTranslation();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
-  const [title, setTitle] = useState("");
-  const [moodDescription, setMoodDescription] = useState("");
-  const [activity, setActivity] = useState("");
-  const [toImprove, setToImprove] = useState("");
-  //   const [thoughtsAndIdeas, setThoughtsAndIdeas] = useState("");
+  const [selectedMoods, setSelectedMoods] = useState<
+    { id: string; type: string }[]
+  >([]);
+
+  const { control, handleSubmit } = useForm<IFormJournalInputs>();
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -30,10 +31,31 @@ const NewJournalScreen = () => {
     setIsModalVisible(false);
   };
 
-  const handleNewJournal = () => {
-    console.log("Creating a new Journal Entry");
-    createUserJournalRequest(title, moodDescription, activity, toImprove);
+  const handleNewJournal = async ({
+    title,
+    moodDescription,
+    activity,
+    toImprove,
+    thoughtsAndIdeas,
+    selectedMoods,
+  }: IFormJournalInputs) => {
+    createUserJournalRequest(
+      title,
+      moodDescription,
+      activity,
+      toImprove,
+      thoughtsAndIdeas,
+      selectedMoods
+    );
   };
+
+  const handleDeleteMood = (moodId: string) => {
+    setSelectedMoods((prevSelectedMoods) =>
+      prevSelectedMoods.filter((selectedMood) => selectedMood.id !== moodId)
+    );
+  };
+
+  console.log(selectedMoods);
 
   return (
     <ScrollViewScreenWrapper
@@ -43,20 +65,38 @@ const NewJournalScreen = () => {
     >
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
-        onPress={handleNewJournal}
+        onPress={() => handleSubmit(handleNewJournal)()}
       />
       <View style={styles.contentContainer}>
-        <LabelInputField
-          placeholder={t("journal.title")}
-          style={styles.inputField}
-          value={title}
-          onChangeText={setTitle}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              placeholder={t("journal.title")}
+              style={styles.inputField}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="title"
+          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
         <View style={styles.chipContainer}>
-          {selectedMoods.map((mood) => (
-            <Chip key={mood} text={mood} style={styles.chip} />
+          {selectedMoods.map((mood, index) => (
+            <Chip
+              key={index}
+              text={typeof mood === "string" ? mood : mood.type}
+              style={styles.chip}
+              onDelete={() => {
+                if (typeof mood === "object") {
+                  handleDeleteMood(mood.id);
+                }
+              }}
+            />
           ))}
         </View>
+
         <IconTextButton
           iconName="add-outline"
           size={30}
@@ -64,42 +104,87 @@ const NewJournalScreen = () => {
           style={styles.iconTextButton}
           handleModalPress={handleModalPress}
         />
-        <LabelInputField
-          placeholder={t("journal.mood-description")}
-          style={styles.inputField}
-          numberOfLines={5}
-          multiline={true}
-          value={moodDescription}
-          onChangeText={setMoodDescription}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              placeholder={t("journal.mood-description")}
+              style={styles.inputField}
+              numberOfLines={5}
+              multiline={true}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="moodDescription"
+          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
-        <LabelInputField
-          placeholder={t("journal.activity")}
-          style={styles.inputField}
-          numberOfLines={5}
-          multiline={true}
-          onChangeText={setActivity}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              placeholder={t("journal.activity")}
+              style={styles.inputField}
+              numberOfLines={5}
+              multiline={true}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="activity"
+          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
-        <LabelInputField
-          placeholder={t("journal.to-improve")}
-          style={styles.inputField}
-          numberOfLines={5}
-          multiline={true}
-          value={toImprove}
-          onChangeText={setToImprove}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              placeholder={t("journal.to-improve")}
+              style={styles.inputField}
+              numberOfLines={5}
+              multiline={true}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="toImprove"
+          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
-        <LabelInputField
-          placeholder={t("journal.thoughts-and-ideas")}
-          style={styles.inputField}
-          numberOfLines={5}
-          multiline={true}
-          //     onChangeText={thoughtsAndIdeas}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              placeholder={t("journal.thoughts-and-ideas")}
+              style={styles.inputField}
+              numberOfLines={5}
+              multiline={true}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="thoughtsAndIdeas"
+          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
         <EmotionModal
           isVisible={isModalVisible}
           onClose={closeModal}
-          onMoodsSelect={(moods) =>
-            setSelectedMoods(moods.map((mood) => mood.title))
-          }
+          onMoodsSelect={(moodIds) => {
+            const newSelectedMoods = moodIds.filter(
+              (moodId) =>
+                !selectedMoods.some(
+                  (selectedMood) =>
+                    typeof selectedMood === "object" &&
+                    selectedMood.id === moodId.id
+                )
+            );
+            setSelectedMoods((prevSelectedMoods) => [
+              ...prevSelectedMoods,
+              ...newSelectedMoods,
+            ]);
+          }}
         />
       </View>
     </ScrollViewScreenWrapper>

@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Modal,
@@ -7,15 +9,15 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { API_BASE_URL } from "../../utils/config/config";
 import AppColors from "../../utils/constants/colors";
 import FlatButton from "../common/buttons/flat-button";
-import { Mood, moods } from "./mood";
 import MoodCard from "./mood-card";
 
 interface EmotionModalProps {
   isVisible: boolean;
   onClose: () => void;
-  onMoodsSelect: (moods: Mood[]) => void;
+  onMoodsSelect: (selectedMood: { id: string; type: string }[]) => void;
 }
 
 const EmotionModal: React.FC<EmotionModalProps> = ({
@@ -24,33 +26,55 @@ const EmotionModal: React.FC<EmotionModalProps> = ({
   onMoodsSelect,
 }) => {
   const { t } = useTranslation();
+  const [moods, setMoods] = useState<[{ id: string; type: string }]>();
+  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
 
-  const handleSave = () => {
-    onMoodsSelect(selectedMoods);
-    onClose();
-  };
+  useEffect(() => {
+    async function getJournalMoods() {
+      try {
+        const token = await AsyncStorage.getItem("access_token");
+        if (token) {
+          const response = await axios.get(`${API_BASE_URL}journals/moods`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-  const [selectedMoods, setSelectedMoods] = useState<Mood[]>([]);
+          setMoods(response.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to get user notes", error);
+      }
+    }
 
-  const handleMoodPress = (mood: Mood) => {
-    const isSelected = selectedMoods.some(
-      (selectedMood) => selectedMood.title === mood.title
-    );
+    getJournalMoods();
+  }, []);
+
+  const handleMoodPress = (mood: string) => {
+    const isSelected = selectedMoods.includes(mood);
 
     if (isSelected) {
       const updatedMoods = selectedMoods.filter(
-        (selectedMood) => selectedMood.title !== mood.title
+        (selectedMood) => selectedMood !== mood
       );
       setSelectedMoods(updatedMoods);
     } else {
       const updatedMoods = [...selectedMoods, mood];
       setSelectedMoods(updatedMoods);
     }
-
-    console.log(mood);
   };
 
-  return (
+  const handleSave = () => {
+    const selectedMoodIds = selectedMoods.map((selectedMood) => {
+      const mood = moods?.find((mood) => mood.type === selectedMood);
+      return { id: mood?.id as string, type: selectedMood };
+    });
+
+    onMoodsSelect(selectedMoodIds);
+    onClose();
+  };
+
+  return moods ? (
     <Modal visible={isVisible} transparent>
       <TouchableWithoutFeedback>
         <View style={styles.overlay}>
@@ -64,13 +88,11 @@ const EmotionModal: React.FC<EmotionModalProps> = ({
                 <View style={styles.moodContainer}>
                   {moods.map((mood) => (
                     <MoodCard
-                      key={mood.title}
-                      image={mood.image}
-                      title={mood.title}
-                      onPress={() => handleMoodPress(mood)}
-                      isSelected={selectedMoods.some(
-                        (selectedMood) => selectedMood.title === mood.title
-                      )}
+                      key={mood.id}
+                      type={mood.type}
+                      title={mood.type}
+                      onPress={() => handleMoodPress(mood.type)}
+                      isSelected={selectedMoods.includes(mood.type)}
                     />
                   ))}
                 </View>
@@ -88,6 +110,8 @@ const EmotionModal: React.FC<EmotionModalProps> = ({
         </View>
       </TouchableWithoutFeedback>
     </Modal>
+  ) : (
+    <></>
   );
 };
 

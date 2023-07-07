@@ -170,3 +170,12 @@ export interface IFormRegisterInputs {
   repeatPassword: string;
   agreeTerms: boolean;
 }
+
+export interface IFormJournalInputs {
+      title: string;
+      moodDescription: string;
+      activity: string;
+      toImprove: string;
+      thoughtsAndIdeas: string;
+      selectedMoods: {id: string; type: string}[]
+}

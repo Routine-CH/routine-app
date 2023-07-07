@@ -45,7 +45,7 @@ export const moods: Mood[] = [
     title: "Bedrückt",
   },
   {
-    image: require("../../assets/moods/mood-serenity.png"),
+    image: require("../../assets/moods/mood-bored.png"),
     title: "Gelangweilt",
   },
 ];
