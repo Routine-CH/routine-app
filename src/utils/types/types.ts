@@ -12,12 +12,12 @@ export type AuthenticatedStackParamList = {
     params?: {
       Timer?: undefined;
       Journals?: {
-            screen?: string;
-            params?: {
-              JournalEdit?: {journal: UserJournals | null};
-              JournalNew?: undefined;
-            };
-          };
+        screen?: string;
+        params?: {
+          JournalEdit?: { journal: UserJournals | null };
+          JournalNew?: undefined;
+        };
+      };
       Todos?: undefined;
       Notes?: undefined;
       Goals?: undefined;
