@@ -14,28 +14,22 @@ interface GoalProps {
 const GoalsCard: React.FC<GoalProps> = ({
   /*  image,  */ title,
   description,
-  displayHorizontalScroll = false,
 }) => {
   return (
-    <View
-      style={[
-        styles.container,
-        displayHorizontalScroll ? styles.horizontalCard : styles.cardInRows,
-      ]}
-    >
+    <View style={[styles.container]}>
       <View style={styles.card}>
-        <Svg width="72" height="72">
-          <LinearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <Stop offset="0%" stopColor="rgba(41, 104, 121, 1)" />
-            <Stop offset="100%" stopColor="rgba(111, 153, 165, 1)" />
+        <Svg width='72' height='72'>
+          <LinearGradient id='gradient' x1='0%' y1='0%' x2='0%' y2='100%'>
+            <Stop offset='0%' stopColor='rgba(41, 104, 121, 1)' />
+            <Stop offset='100%' stopColor='rgba(111, 153, 165, 1)' />
           </LinearGradient>
           <Rect
-            x="0"
-            y="0"
-            width="72"
-            height="72"
-            rx="10"
-            fill="url(#gradient)"
+            x='0'
+            y='0'
+            width='72'
+            height='72'
+            rx='10'
+            fill='url(#gradient)'
           />
           <View style={styles.iconContainer}>
             <WorldIcon />
@@ -43,13 +37,13 @@ const GoalsCard: React.FC<GoalProps> = ({
         </Svg>
         <View style={styles.textfields}>
           <AppText
-            fontStyle="heading4"
-            colorStyle="black64"
+            fontStyle='heading4'
+            colorStyle='black64'
             style={{ marginBottom: 10 }}
           >
             {title}
           </AppText>
-          <AppText fontStyle="body" colorStyle="black64">
+          <AppText fontStyle='body' colorStyle='black64'>
             {description}
           </AppText>
         </View>
@@ -61,13 +55,7 @@ const GoalsCard: React.FC<GoalProps> = ({
 export default GoalsCard;
 
 const styles = StyleSheet.create({
-  container: { alignItems: "center" },
-  cardInRows: {
-    marginBottom: 15,
-  },
-  horizontalCard: {
-    marginHorizontal: 15,
-  },
+  container: { alignItems: "center", flex: 1, marginRight: 15 },
   card: {
     width: "100%",
     height: 120,
