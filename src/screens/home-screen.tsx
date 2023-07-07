@@ -37,7 +37,6 @@ const getIconComponent = (titleKey: string) => {
 };
 
 const HomeScreen: React.FC = () => {
-  const shouldDisplayHorizontalScroll = true;
   const { currentUser, refetch } = useUserMe();
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
@@ -55,34 +54,31 @@ const HomeScreen: React.FC = () => {
 
   return currentUser ? (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
-      // defaultPadding
     >
       <View style={{ paddingTop: 10, flex: 1 }}>
         <View style={{ marginHorizontal: 30 }}>
-          <AppText fontStyle="heading1" colorStyle="black64">
+          <AppText fontStyle='heading1' colorStyle='black64'>
             {t("my-day.hey")}
           </AppText>
-          <AppText style={styles.userName} colorStyle="black64">
+          <AppText style={styles.userName} colorStyle='black64'>
             {currentUser.username} 😊
           </AppText>
         </View>
         <View style={styles.goalsContainer}>
           <AppText
-            fontStyle="heading3"
-            colorStyle="black64"
+            fontStyle='heading3'
+            colorStyle='black64'
             style={{ marginBottom: 30, marginHorizontal: 30 }}
           >
             {t("my-day.your-goals")}
           </AppText>
-          <GoalsContainer
-            displayHorizontalScroll={shouldDisplayHorizontalScroll}
-          />
+          <GoalsContainer />
         </View>
       </View>
       <View style={styles.toolsContainer}>
-        <AppText fontStyle="heading3" colorStyle="black64">
+        <AppText fontStyle='heading3' colorStyle='black64'>
           {t("my-day.your-tools")}
         </AppText>
         {currentUser.userTools.length != 0 ? (
@@ -108,7 +104,7 @@ const HomeScreen: React.FC = () => {
                   })
                 }
               >
-                <AppText fontStyle="body" colorStyle="black64">
+                <AppText fontStyle='body' colorStyle='black64'>
                   {t("general.edit")}
                 </AppText>
               </TouchableOpacity>
@@ -126,7 +122,7 @@ const HomeScreen: React.FC = () => {
               <SelectIcon style={styles.iconPlacement} />
             </LinearGradient>
             <View style={styles.textPlacement}>
-              <AppText fontStyle="body" colorStyle="black70">
+              <AppText fontStyle='body' colorStyle='black70'>
                 {t("my-day.add-tools")}
               </AppText>
             </View>
