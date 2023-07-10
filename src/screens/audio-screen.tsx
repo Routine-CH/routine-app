@@ -25,7 +25,6 @@ type AudioProps = {
 const AudioScreen: React.FC<AudioProps> = ({ route }) => {
   const { t } = useTranslation();
   const audio = route?.params.DiscoverAudio;
-  console.log(audio);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleModalPress = () => {
