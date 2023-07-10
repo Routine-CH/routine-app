@@ -1,82 +1,99 @@
+import { RouteProp } from "@react-navigation/native";
 import { Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
 import IconButton from "../components/common/buttons/icon-button";
+import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import AppColors from "../utils/constants/colors";
+import { StatusBarColor } from "../utils/types/enums";
+import { AudioParams, AuthenticatedStackParamList } from "../utils/types/types";
 
-interface AudioProps {
-  image?: any;
-  title?: string;
-  time?: string;
-}
+type AudioScreenRouteProp = RouteProp<AuthenticatedStackParamList, "Discover">;
 
-const AudioScreen: React.FC<AudioProps> = ({ image, title, time }) => {
-  return (
-    <View>
-      <View style={styles.buttonContainer}>
-        <BackButton />
-        <IconButton iconName="information" />
-      </View>
-      <View style={styles.audioplayer}>
-        <Image
-          source={require("../../assets/misc/waves.jpg") /* image */}
-          style={styles.image}
-        />
-        <AppText
-          fontStyle="heading3"
-          colorStyle="black70"
-          style={{ textAlign: "center", marginVertical: 60 }}
-        >
-          {/* {title} */} Progressive Muskelrelaxion
-        </AppText>
-        <View style={styles.timeContainer}>
-          <View style={styles.horizontalLine} />
-          <View style={styles.time}>
-            <AppText fontStyle="body" colorStyle="black70">
-              00:00
-            </AppText>
-            <AppText fontStyle="body" colorStyle="black70">
-              10:00
-            </AppText>
+type AudioProps = {
+  route?: AudioScreenRouteProp & {
+    params?: {
+      DiscoverAudio?: AudioParams | null;
+    };
+  };
+};
+
+const AudioScreen: React.FC<AudioProps> = ({ route }) => {
+  const audio = route?.params.DiscoverAudio;
+  console.log("audio is:");
+  console.log(audio);
+
+  return audio ? (
+    <ScrollViewScreenWrapper
+      backgroundColor="white"
+      statusBarColor={StatusBarColor.dark}
+      defaultPadding
+    >
+      <View>
+        <View style={styles.buttonContainer}>
+          <BackButton />
+          <IconButton iconName="information" />
+        </View>
+        <View style={styles.audioplayer}>
+          <Image source={audio.image} style={styles.image} />
+          <AppText
+            fontStyle="heading3"
+            colorStyle="black70"
+            style={{ textAlign: "center", marginVertical: 60 }}
+          >
+            {audio.title}
+          </AppText>
+          <View style={styles.timeContainer}>
+            <View style={styles.horizontalLine} />
+            <View style={styles.time}>
+              <AppText fontStyle="body" colorStyle="black70">
+                00:00
+              </AppText>
+              <AppText fontStyle="body" colorStyle="black70">
+                {audio.time}
+              </AppText>
+            </View>
+          </View>
+          <View style={styles.iconContainer}>
+            <View style={styles.seekIcon}>
+              <Icon
+                name={"return-up-forward-outline"}
+                size={50}
+                color={AppColors.blue100}
+                style={{
+                  transform: [{ rotateY: "180deg" }],
+                }}
+              />
+              <AppText
+                fontStyle="bodyBold"
+                colorStyle="blue100"
+                style={{ position: "absolute", top: 35 }}
+              >
+                10
+              </AppText>
+            </View>
+            <Icon name={"play-circle"} size={95} color={AppColors.blue100} />
+            <View style={styles.seekIcon}>
+              <Icon
+                name={"return-up-forward-outline"}
+                size={50}
+                color={AppColors.blue100}
+              />
+              <AppText
+                fontStyle="bodyBold"
+                colorStyle="blue100"
+                style={{ position: "absolute", top: 35 }}
+              >
+                10
+              </AppText>
+            </View>
           </View>
         </View>
-        <View style={styles.iconContainer}>
-          <View style={styles.seekIcon}>
-            <Icon
-              name={"return-up-forward-outline"}
-              size={50}
-              color={AppColors.blue100}
-              style={{
-                transform: [{ rotateY: "180deg" }],
-              }}
-            />
-            <AppText
-              fontStyle="bodyBold"
-              colorStyle="blue100"
-              style={{ position: "absolute", top: 35 }}
-            >
-              10
-            </AppText>
-          </View>
-          <Icon name={"play-circle"} size={95} color={AppColors.blue100} />
-          <View style={styles.seekIcon}>
-            <Icon
-              name={"return-up-forward-outline"}
-              size={50}
-              color={AppColors.blue100}
-            />
-            <AppText
-              fontStyle="bodyBold"
-              colorStyle="blue100"
-              style={{ position: "absolute", top: 35 }}
-            >
-              10
-            </AppText>
-          </View>
-        </View>
       </View>
-    </View>
+    </ScrollViewScreenWrapper>
+  ) : (
+    <></>
   );
 };
 

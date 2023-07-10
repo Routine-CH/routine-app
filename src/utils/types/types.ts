@@ -22,11 +22,12 @@ export type AuthenticatedStackParamList = {
   Discover: {
     screen?: string;
     params?: {
-      DiscoverTimer: undefined;
-      DiscoverJournals: undefined;
-      DiscoverTodos: undefined;
-      DiscoverNotes: undefined;
-      DiscoverGoals: undefined;
+      DiscoverTimer?: undefined;
+      DiscoverJournals?: undefined;
+      DiscoverTodos?: undefined;
+      DiscoverNotes?: undefined;
+      DiscoverGoals?: undefined;
+      DiscoverAudio?: {audio: AudioParams | null}; 
     };
   };
   Profile: {
@@ -135,3 +136,9 @@ export interface UserMe {
   userTools: { tool: UserTool }[];
   createdAt: any;
 }
+
+export interface AudioParams {
+      title: string;
+      image: any;
+      time: string;
+    }
