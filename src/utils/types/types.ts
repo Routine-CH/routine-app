@@ -28,11 +28,12 @@ export type AuthenticatedStackParamList = {
   Discover: {
     screen?: string;
     params?: {
-      DiscoverTimer: undefined;
-      DiscoverJournals: undefined;
-      DiscoverTodos: undefined;
-      DiscoverNotes: undefined;
-      DiscoverGoals: undefined;
+      DiscoverTimer?: undefined;
+      DiscoverJournals?: undefined;
+      DiscoverTodos?: undefined;
+      DiscoverNotes?: undefined;
+      DiscoverGoals?: undefined;
+      DiscoverAudio?: {audio: AudioParams | null}; 
     };
   };
   Profile: {
@@ -156,6 +157,14 @@ export interface UserMe {
   userTools: { tool: UserTool }[];
   // TODO: FIX ANY TYPE
   createdAt: any;
+}
+
+export interface AudioParams {
+      title: string;
+      image: any;
+      minutes: string;
+      informationText: string;
+      toolsFor: string[];
 }
 
 export interface IFormLoginInputs {

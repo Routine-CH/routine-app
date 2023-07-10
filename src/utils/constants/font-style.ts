@@ -42,7 +42,11 @@ const AppFontStyle = {
   calendarDate: {
       fontFamily: "Ubuntu_700Bold",
       fontSize: 22,
-  }
+  },
+  audioPlayer: {
+      fontFamily: "Ubuntu_700Bold",
+      fontSize: 26,
+    }
 };
 
 export default AppFontStyle;
