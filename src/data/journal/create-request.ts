@@ -40,8 +40,10 @@ export const createUserJournalRequest = async ({
 
         if (response.status !== 201) {
           showToast(ToastType.error, response.data.message);
+          throw new Error("Journal Creation failed")
         }
         console.log("Journal created successfully", response);
+        return response
       }
     } else {
       console.log("Some data is empty");
@@ -49,6 +51,6 @@ export const createUserJournalRequest = async ({
   } catch (error: any) {
     errorMessage = error;
     console.log(error);
-    throw new Error(errorMessage);
-  }
+    return errorMessage
+}
 };

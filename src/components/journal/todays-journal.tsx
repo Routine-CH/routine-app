@@ -39,7 +39,8 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             {t("journal.mood")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
-            {userJournal?.mood}
+            {Array.isArray(userJournal?.journalMoods) &&
+              userJournal?.journalMoods.map((item: any) => item.mood.type)}
           </AppText>
         </View>
         <View style={styles.textContainer}>
@@ -87,7 +88,7 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             {t("journal.thoughts-and-ideas")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
-            {/*             {userJournal?.toImprove} */}-
+            {userJournal?.thoughtsAndIdeas}
           </AppText>
         </View>
       </View>

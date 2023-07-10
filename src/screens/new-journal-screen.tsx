@@ -7,10 +7,12 @@ import IconTextButton from "../components/common/buttons/icon-text-button";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
+import { showToast } from "../components/common/toast/show-toast";
 import EmotionModal from "../components/journal/emotion-modal";
 import { createUserJournalRequest } from "../data/journal/create-request";
 import AppColors from "../utils/constants/colors";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { IFormJournalInputs } from "../utils/types/types";
 
 const NewJournalScreen = () => {
@@ -19,6 +21,7 @@ const NewJournalScreen = () => {
   const [selectedMoods, setSelectedMoods] = useState<
     { id: string; type: string }[]
   >([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { control, handleSubmit } = useForm<IFormJournalInputs>();
 
@@ -38,7 +41,7 @@ const NewJournalScreen = () => {
     thoughtsAndIdeas,
     moods,
   }: IFormJournalInputs) => {
-    await createUserJournalRequest({
+    const response = await createUserJournalRequest({
       title,
       moodDescription,
       activity,
@@ -46,6 +49,17 @@ const NewJournalScreen = () => {
       thoughtsAndIdeas,
       moods: selectedMoods,
     });
+    if (typeof response === "string") {
+      setErrorMessage(response);
+      showToast(ToastType.error, response);
+      setErrorMessage("");
+    } else if (response && response.status === 201) {
+      showToast(ToastType.success, "Success");
+    } else {
+      setErrorMessage("Something is wrong");
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
   };
 
   const handleDeleteMood = (moodId: string) => {
@@ -76,7 +90,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name='title'
+          name="title"
           rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
         <View style={styles.chipContainer}>
@@ -95,7 +109,7 @@ const NewJournalScreen = () => {
         </View>
 
         <IconTextButton
-          iconName='add-outline'
+          iconName="add-outline"
           size={30}
           title={t("journal.mood")}
           style={styles.iconTextButton}
@@ -114,7 +128,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name='moodDescription'
+          name="moodDescription"
           rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
         <Controller
@@ -130,7 +144,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name='activity'
+          name="activity"
           rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
         <Controller
@@ -146,7 +160,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name='toImprove'
+          name="toImprove"
           rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
         <Controller
@@ -162,7 +176,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name='thoughtsAndIdeas'
+          name="thoughtsAndIdeas"
           rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
         <EmotionModal
@@ -185,6 +199,7 @@ const NewJournalScreen = () => {
           }}
         />
       </View>
+      <RoutineToast />
     </ScrollViewScreenWrapper>
   );
 };

@@ -1,29 +1,34 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
-import { UserJournals } from "../../utils/types/types";
+import { IFormJournalInputs } from "../../utils/types/types";
 
-export const updateUserJournalRequest = async (
-  journal: UserJournals | null,
-  updatedTitle: string,
-  updatedMoodDescription: string,
-  updatedActivity: string,
-  updatedToImprove: string
-) => {
-  try {
-    if (journal !== null) {
+export const updateUserJournalRequest = async ({    
+      journalId, 
+      title,
+      moodDescription,
+      activity,
+      toImprove,
+      thoughtsAndIdeas,
+      moods
+}: IFormJournalInputs) => {
+      try {
+    if (journalId && title && moodDescription && activity && toImprove && moods ) {
       const token = await AsyncStorage.getItem("access_token");
       if (token) {
 
         const updatedJournalData = {
-          title: updatedTitle,
-          moodDescription: updatedMoodDescription,
-          activity: updatedActivity,
-          toImprove: updatedToImprove,
+          title: title,
+          moodDescription: moodDescription,
+          activity: activity,
+          toImprove: toImprove,
+          thoughtsAndIdeas: thoughtsAndIdeas,
+          moods: moods.map((mood) => ({ id: mood.id })),
         };
 
-        const response = await apiClient.patch(
-          `${API_BASE_URL}journals/${journal.id}`,
+
+        const response = await apiClient.put(
+          `${API_BASE_URL}journals/${journalId}`,
           updatedJournalData,
           {
             headers: {
@@ -31,10 +36,12 @@ export const updateUserJournalRequest = async (
             },
           }
         );
-        console.log("Journal updated successfully", response);
+
+          return response
       }
     }
-  } catch (error) {
-    console.error("Failed to update user journal", error);
-  }
+  } catch (error: any) {
+      console.log(error);
+      throw new Error("Failed to Update journal")
+}
 };

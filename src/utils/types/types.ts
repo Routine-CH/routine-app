@@ -61,14 +61,23 @@ interface UserLogins {
 }
 
 export type UserJournals = {
-  id: string;
-  title: string;
-  mood: string;
-  moodDescription: string;
-  activity: string;
-  toImprove: string;
-  date: Date;
-};
+      id: string;
+      title: string;
+      journalMoods: JournalMood[];
+      moodDescription: string;
+      activity: string;
+      toImprove: string;
+      date: Date;
+      thoughtsAndIdeas: string;
+    };
+    
+    export type JournalMood = {
+      id: string;
+      mood: {
+            type: string;
+      }
+    };
+    
 
 export type AllUserJournals = UserJournals[];
 
@@ -172,6 +181,8 @@ export interface IFormRegisterInputs {
 }
 
 export interface IFormJournalInputs {
+  journal?: string;
+  journalId?: string;
   title: string;
   moodDescription: string;
   activity: string;

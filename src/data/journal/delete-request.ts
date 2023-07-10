@@ -7,17 +7,18 @@ export const deleteUserJournalRequest = async (
   journal: UserJournals | null,
 ) => {
   try {
-    if (journal !== null) {
+    if (journal) {
       const token = await AsyncStorage.getItem("access_token");
       if (token) {
+            const journalId = journal.id
 
-        const response = await apiClient.delete(
-          `${API_BASE_URL}journals/${journal.id}`,
-                    {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+            const response = await apiClient.delete(
+            `${API_BASE_URL}journals/${journalId}`,
+            {
+                  headers: {
+                  Authorization: `Bearer ${token}`,
+                  },
+            }
         );
         console.log("Journal deleted successfully", response);
       }
