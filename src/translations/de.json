@@ -1,9 +1,26 @@
 {
       "audio": {
+            "anxiety": "Angststörung",
+            "concentration": "Konzentration",
+            "confidence": "Selbstbewusstsein",
+            "insomnia": "Schlafstörung", 
             "meditation-exercises": "Meditationsübungen",
-            "pmr": "Progressive Muskelrelaxation",
             "mindfulness": "Achtsamkeitsmeditation",
-            "visualisation": "Visualisierungsmeditation"
+            "mindfullness-text": "Achtsamkeitsmeditation ist eine Form der Meditation, die sich auf die bewusste Wahrnehmung von Moment zu Moment konzentriert, ohne dabei zu bewerten oder zu beurteilen. Es geht darum, sich auf den gegenwärtigen Moment zu konzentrieren, indem man seine Aufmerksamkeit auf den Atem, die körperlichen Empfindungen oder Gedanken richtet, ohne von ihnen mitgerissen zu werden.",
+            "minutes": "Minuten",
+            "motivation": "Motivation",
+            "pmr": "Progressive Muskelrelaxation",
+            "pmr-text": "Progressive Muskelentspannung (PMR) ist eine Entspannungstechnik, die darauf abzielt, die körperliche Anspannung zu reduzieren, um eine tiefere Entspannung des gesamten Körpers zu erreichen. Diese Technik basiert auf der Vorstellung, dass körperliche und geistige Anspannung miteinander verbunden sind und dass das Entspannen der Muskeln dazu beitragen kann, Stress und Angst abzubauen.",
+            "stress": "Stressabbau",
+            "toolsFor": "Tools für",
+            "visualisation": "Visualisierungsmeditation",
+            "visualisation-text": "Visualisierungsmeditation ist eine Meditationspraxis, bei der man eine bildliche Vorstellung von etwas in seiner Vorstellung kreiert und sich darauf konzentriert, um einen bestimmten Zustand oder ein bestimmtes Ziel zu erreichen. Die Praxis kann auf verschiedene Arten durchgeführt werden, z.B. durch das Erstellen eines mentalen Bildes eines Ortes oder einer Situation, die beruhigend oder inspirierend ist, oder durch das Visualisieren von sich selbst, wie man ein Ziel erreicht oder eine bestimmte Fähigkeit verbessert.",
+            "5": "5",
+            "10": "10",
+            "15": "15",
+            "05-00": "05:00", 
+            "10-00": "10:00", 
+            "15-00": "15:00"
       },
   "forgot-pw": {
     "dont-worry": "Keine Sorge!",

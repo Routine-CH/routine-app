@@ -17,18 +17,35 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
   const audioData = [
     {
       image: require("../../assets/misc/waves.jpg"),
-      title: "Progressive Muskelrelaxion",
-      time: "10 Minuten",
+      title: t("audio.pmr"),
+      time: t("audio.10") + " " + t("audio.minutes"),
+      minutes: t("audio.10-00"),
+      informationText: t("audio.pmr-text"),
+      toolsFor: [t("audio.anxiety"), t("audio.insomnia")],
     },
     {
       image: require("../../assets/misc/stones.jpg"),
-      title: "Achtsamkeitsmeditation",
-      time: "5 Minuten",
+      title: t("audio.mindfulness"),
+      time: t("audio.5") + " " + t("audio.minutes"),
+      minutes: t("audio.05-00"),
+      informationText: t("audio.mindfullness-text"),
+      toolsFor: [
+        t("audio.anxiety"),
+        t("audio.stress"),
+        t("audio.concentration"),
+      ],
     },
     {
       image: require("../../assets/misc/threads.jpg"),
-      title: "Visualisierungsmeditation",
-      time: "15 Minuten",
+      title: t("audio.visualisation"),
+      time: t("audio.15") + " " + t("audio.minutes"),
+      minutes: t("audio.15-00"),
+      informationText: t("audio.visualisation-text"),
+      toolsFor: [
+        t("audio.stress"),
+        t("audio.motivation"),
+        t("audio.confidence"),
+      ],
     },
   ];
 

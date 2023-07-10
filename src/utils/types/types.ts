@@ -140,5 +140,7 @@ export interface UserMe {
 export interface AudioParams {
       title: string;
       image: any;
-      time: string;
+      minutes: string;
+      informationText: string;
+      toolsFor: string[];
     }

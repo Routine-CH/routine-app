@@ -1,6 +1,9 @@
 import { RouteProp } from "@react-navigation/native";
-import { Image, StyleSheet, View } from "react-native";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import InformationModal from "../components/audio/information-modal";
 import BackButton from "../components/common/buttons/back-button";
 import IconButton from "../components/common/buttons/icon-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -20,9 +23,18 @@ type AudioProps = {
 };
 
 const AudioScreen: React.FC<AudioProps> = ({ route }) => {
+  const { t } = useTranslation();
   const audio = route?.params.DiscoverAudio;
-  console.log("audio is:");
   console.log(audio);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleModalPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
 
   return audio ? (
     <ScrollViewScreenWrapper
@@ -33,12 +45,14 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
       <View>
         <View style={styles.buttonContainer}>
           <BackButton />
-          <IconButton iconName="information" />
+          <Pressable onPress={handleModalPress}>
+            <IconButton iconName="information" />
+          </Pressable>
         </View>
         <View style={styles.audioplayer}>
           <Image source={audio.image} style={styles.image} />
           <AppText
-            fontStyle="heading3"
+            fontStyle="audioPlayer"
             colorStyle="black70"
             style={{ textAlign: "center", marginVertical: 60 }}
           >
@@ -51,7 +65,7 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
                 00:00
               </AppText>
               <AppText fontStyle="body" colorStyle="black70">
-                {audio.time}
+                {audio.minutes}
               </AppText>
             </View>
           </View>
@@ -70,7 +84,7 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
                 colorStyle="blue100"
                 style={{ position: "absolute", top: 35 }}
               >
-                10
+                {t("audio.10")}
               </AppText>
             </View>
             <Icon name={"play-circle"} size={95} color={AppColors.blue100} />
@@ -85,12 +99,17 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
                 colorStyle="blue100"
                 style={{ position: "absolute", top: 35 }}
               >
-                10
+                {t("audio.10")}
               </AppText>
             </View>
           </View>
         </View>
       </View>
+      <InformationModal
+        isVisible={isModalVisible}
+        onClose={closeModal}
+        audio={audio}
+      />
     </ScrollViewScreenWrapper>
   ) : (
     <></>
