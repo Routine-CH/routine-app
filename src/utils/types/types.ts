@@ -10,12 +10,18 @@ export type AuthenticatedStackParamList = {
   Home: {
     screen?: string;
     params?: {
-      Timer: undefined;
-      Journals: undefined;
-      Todos: undefined;
-      Notes: undefined;
-      Goals: undefined;
-      EditTools: undefined;
+      Timer?: undefined;
+      Journals?: {
+            screen?: string;
+            params?: {
+              JournalEdit?: {journal: UserJournals | null};
+              JournalNew?: undefined;
+            };
+          };
+      Todos?: undefined;
+      Notes?: undefined;
+      Goals?: undefined;
+      EditTools?: undefined;
     };
   };
   Calendar: undefined;
@@ -31,10 +37,12 @@ export type AuthenticatedStackParamList = {
     };
   };
   Profile: {
-      screen?: string;
-      params?: {
-            ProfileBadges: undefined;
-      }
+    screen?: string;
+    params?: {
+      ProfileBadges: undefined;
+      ProfileSettings: undefined;
+      ProfileNotifications: undefined;
+    };
   };
 };
 
@@ -60,10 +68,10 @@ export type UserJournals = {
   moodDescription: string;
   activity: string;
   toImprove: string;
+  date: Date;
 };
 
 export type AllUserJournals = UserJournals[];
-
 
 export type UserGoals = {
   id: string;
@@ -73,10 +81,23 @@ export type UserGoals = {
   completed: boolean;
   todos: UserTodo[];
 };
+
 export interface UserTool {
   id: string;
   screenName: string;
   titleKey: string;
+}
+
+export interface Image {
+  id: string;
+  imageUrl: string;
+}
+
+export interface UserNotes {
+  id: string;
+  title: string;
+  description: string;
+  images: Image[];
 }
 
 export type UserTodo = {
@@ -134,6 +155,7 @@ export interface UserMe {
   avatarUrl?: string;
   userGoals: UserGoals[];
   userTools: { tool: UserTool }[];
+  // TODO: FIX ANY TYPE
   createdAt: any;
 }
 
@@ -143,4 +165,17 @@ export interface AudioParams {
       minutes: string;
       informationText: string;
       toolsFor: string[];
-    }
+}
+
+export interface IFormLoginInputs {
+  username: string;
+  password: string;
+}
+
+export interface IFormRegisterInputs {
+  username: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+  agreeTerms: boolean;
+}

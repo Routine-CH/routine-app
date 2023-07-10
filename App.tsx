@@ -42,10 +42,10 @@ const UnauthenticatedNavigator = () => (
       headerShown: false,
     }}
   >
-    <UnauthenticatedStack.Screen name="Login" component={LoginScreen} />
-    <UnauthenticatedStack.Screen name="Register" component={RegisterScreen} />
+    <UnauthenticatedStack.Screen name='Login' component={LoginScreen} />
+    <UnauthenticatedStack.Screen name='Register' component={RegisterScreen} />
     <UnauthenticatedStack.Screen
-      name="ForgotPw"
+      name='ForgotPw'
       component={ForgotPasswordScreen}
     />
   </UnauthenticatedStack.Navigator>
@@ -53,76 +53,78 @@ const UnauthenticatedNavigator = () => (
 
 // initialize navigation screens for authenticated users
 const AuthenticatedNavigator = () => (
-  <AutnehticatedStack.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarShowLabel: false,
-      tabBarStyle: {
-        height: 85,
-        paddingTop: 20,
-        paddingHorizontal: 20,
-        shadowColor: "#959DA5",
-        shadowOffset: { width: 0, height: 9 } as {
-          width: number;
-          height: number;
+  <>
+    <AutnehticatedStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          height: 85,
+          paddingTop: 20,
+          paddingHorizontal: 20,
+          shadowColor: "#959DA5",
+          shadowOffset: { width: 0, height: 9 } as {
+            width: number;
+            height: number;
+          },
+          shadowOpacity: 0.35,
+          shadowRadius: 11.9,
         },
-        shadowOpacity: 0.35,
-        shadowRadius: 11.9,
-      },
-      tabBarInactiveTintColor: AppColors.black60,
-      tabBarActiveTintColor: AppColors.blue100,
-    }}
-  >
-    <AutnehticatedStack.Screen
-      name="Home"
-      component={HomeStackNavigator}
-      options={{
-        tabBarIcon: ({ focused, color }) => (
-          <Icon
-            name={focused ? "home" : "home-outline"}
-            size={35}
-            color={color}
-          />
-        ),
+        tabBarInactiveTintColor: AppColors.black60,
+        tabBarActiveTintColor: AppColors.blue100,
       }}
-    />
-    <AutnehticatedStack.Screen
-      name="Calendar"
-      component={CalendarScreen}
-      options={{
-        tabBarIcon: ({ focused, color }) => {
-          const xml = focused ? CalendarClearSvg : CalendarClearOutlineSvg;
-          return <SvgXml xml={xml} width={35} height={35} fill={color} />;
-        },
-      }}
-    />
-    <AutnehticatedStack.Screen
-      name="Discover"
-      component={DiscoverStackNavigator}
-      options={{
-        tabBarIcon: ({ focused, color }) => (
-          <Icon
-            name={focused ? "search" : "search-outline"}
-            size={35}
-            color={color}
-          />
-        ),
-      }}
-    />
-    <AutnehticatedStack.Screen
-      name="Profile"
-      component={ProfileStackNavigator}
-      options={{
-        tabBarIcon: ({ focused, color }) => (
-          <Icon
-            name={focused ? "person" : "person-outline"}
-            size={35}
-            color={color}
-          />
-        ),
-      }}
-    />
-  </AutnehticatedStack.Navigator>
+    >
+      <AutnehticatedStack.Screen
+        name='Home'
+        component={HomeStackNavigator}
+        options={{
+          tabBarIcon: ({ focused, color }) => (
+            <Icon
+              name={focused ? "home" : "home-outline"}
+              size={35}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <AutnehticatedStack.Screen
+        name='Calendar'
+        component={CalendarScreen}
+        options={{
+          tabBarIcon: ({ focused, color }) => {
+            const xml = focused ? CalendarClearSvg : CalendarClearOutlineSvg;
+            return <SvgXml xml={xml} width={35} height={35} fill={color} />;
+          },
+        }}
+      />
+      <AutnehticatedStack.Screen
+        name='Discover'
+        component={DiscoverStackNavigator}
+        options={{
+          tabBarIcon: ({ focused, color }) => (
+            <Icon
+              name={focused ? "search" : "search-outline"}
+              size={35}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <AutnehticatedStack.Screen
+        name='Profile'
+        component={ProfileStackNavigator}
+        options={{
+          tabBarIcon: ({ focused, color }) => (
+            <Icon
+              name={focused ? "person" : "person-outline"}
+              size={35}
+              color={color}
+            />
+          ),
+        }}
+      />
+    </AutnehticatedStack.Navigator>
+  </>
 );
 
 const MainApp: React.FC = () => {

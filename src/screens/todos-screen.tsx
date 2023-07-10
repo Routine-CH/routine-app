@@ -34,7 +34,7 @@ const TodosScreen: React.FC = () => {
           setUserTodos(response.data.data);
         }
       } catch (error) {
-        console.log("Failed to get user todos", error);
+        console.error("Failed to get user todos", error);
       } finally {
         setIsLoading(false);
       }
@@ -97,6 +97,8 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
+              type="todo"
+              title={t("todos.no-todos-title")}
               description={t("todos.no-todos")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
             />
@@ -132,6 +134,8 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
+              type="todo"
+              title={t("todos.no-todos-title")}
               description={t("todos.no-future-todos")}
               style={{ backgroundColor: AppColors.greenMuted30 }}
             />

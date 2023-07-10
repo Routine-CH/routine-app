@@ -1,29 +1,36 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
 
-type ButtonProps = {
-    iconName: string;
-};
+interface ButtonProps {
+  iconName: string;
+  style?: StyleProp<ViewStyle>;
+  navigateTo?: () => void;
+}
 
-const IconButton: React.FC<ButtonProps> = ({ iconName }) => {
-    return (
-        <View style={styles.button}>
-            <Icon name={iconName} size={25} color={AppColors.blue100} />
-        </View>
-    );
+const IconButton: React.FC<ButtonProps> = ({ iconName, style, navigateTo }) => {
+  return (
+    <TouchableOpacity style={[styles.button, style]} onPress={navigateTo}>
+      <Icon name={iconName} size={25} color={AppColors.blue100} />
+    </TouchableOpacity>
+  );
 };
 
 export default IconButton;
 
 const styles = StyleSheet.create({
-    button: {
-        width: 44,
-        height: 44,
-        borderRadius: 8,
-        backgroundColor: AppColors.blueMuted30,
-        justifyContent: "center",
-        alignItems: "center",
-    },
+  button: {
+    width: 44,
+    height: 44,
+    borderRadius: 8,
+    backgroundColor: AppColors.blueMuted30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

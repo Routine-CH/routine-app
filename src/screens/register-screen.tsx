@@ -1,42 +1,69 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, Platform, StyleSheet, View } from "react-native";
+import RegisterForm from "../components/auth/register-form";
 import BackButton from "../components/common/buttons/back-button";
-import FlatButton from "../components/common/buttons/flat-button";
-import CheckBox from "../components/common/checkbox/checkbox";
-import IconInputField from "../components/common/input/icon-input-field";
 import ScreenWrapper from "../components/common/screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
+import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
+import { IFormRegisterInputs } from "../utils/types/types";
 
 const RegisterScreen: React.FC = () => {
   const { register } = useContext(AuthContext);
-  const [isChecked, setIsChecked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { t } = useTranslation();
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [repeatPassword, setRepeatPassword] = useState<string>("");
 
   // submit register credentials
-  const handleRegisterUser = async (
-    username: string,
-    email: string,
-    password: string,
-    repeatPassword: string
-  ) => {
-    if (password === repeatPassword) {
-      register(username, email, password);
+  const onSubmit = async ({
+    username,
+    email,
+    password,
+    repeatPassword,
+  }: IFormRegisterInputs) => {
+    if (password !== repeatPassword) {
+      setErrorMessage("Passwords do not match.");
     } else {
-      console.error("Passwords do not match");
+      const response = await register(username, email, password);
+      if (response.status !== 201) {
+        showToast(ToastType.error, response.data.message);
+      }
     }
   };
 
-  const handleToggle = (checked: boolean) => {
-    setIsChecked(checked);
+  // onErrors is a function passed to the LoginForm component
+  const onErrors = (errors: any) => {
+    if (
+      errors.username ||
+      errors.email ||
+      errors.password ||
+      errors.repeatPassword ||
+      errors.agreeTerms
+    ) {
+      if (errors.username) {
+        setErrorMessage(errors.username.message);
+      } else if (errors.email) {
+        setErrorMessage(errors.email.message);
+      } else if (errors.password) {
+        setErrorMessage(errors.password.message);
+      } else if (errors.repeatPassword) {
+        setErrorMessage(errors.repeatPassword.message);
+      } else if (errors.agreeTerms) {
+        setErrorMessage(errors.agreeTerms.message);
+      }
+    }
   };
+
+  // check if there's an error message
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
 
   return (
     <ScreenWrapper
@@ -71,57 +98,9 @@ const RegisterScreen: React.FC = () => {
             {t("register.yourself")}
           </AppText>
         </View>
-        <IconInputField
-          iconName='person'
-          size={24}
-          placeholder={t("shared-auth.username")}
-          onChangeText={(text) => setUsername(text)}
-          style={{ backgroundColor: AppColors.blueMuted20, marginTop: 60 }}
-        />
-        <IconInputField
-          iconName='mail'
-          size={24}
-          placeholder={t("shared-auth.email")}
-          onChangeText={(text) => setEmail(text)}
-          style={{ backgroundColor: AppColors.blueMuted20, marginTop: 30 }}
-        />
-        <IconInputField
-          iconName='lock-closed'
-          size={24}
-          placeholder={t("shared-auth.password")}
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-          style={{ backgroundColor: AppColors.blueMuted20, marginTop: 30 }}
-        />
-        <IconInputField
-          iconName='lock-closed'
-          size={24}
-          placeholder={t("shared-auth.repeat-password")}
-          secureTextEntry={true}
-          onChangeText={(text) => setRepeatPassword(text)}
-          style={{ backgroundColor: AppColors.blueMuted20, marginTop: 30 }}
-        />
-        <View style={styles.checkboxContainer}>
-          <CheckBox onToggle={handleToggle} isChecked={isChecked} />
-          <AppText
-            fontStyle='body'
-            colorStyle='black64'
-            style={{ marginLeft: 20 }}
-          >
-            {t("register.terms-of-use")}
-          </AppText>
-        </View>
-        <FlatButton
-          fontStyle='bodyMedium'
-          colorStyle='white'
-          buttonStyle={styles.registerButton}
-          onPress={() => {
-            handleRegisterUser(username, email, password, repeatPassword);
-          }}
-        >
-          {t("register.create-account")}
-        </FlatButton>
+        <RegisterForm onSubmit={onSubmit} onErrors={onErrors} />
       </View>
+      <RoutineToast />
     </ScreenWrapper>
   );
 };
@@ -145,21 +124,5 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 20,
     marginHorizontal: 30,
-  },
-  checkboxContainer: {
-    height: 53,
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 30,
-  },
-  registerButton: {
-    backgroundColor: AppColors.blue100,
-    width: "100%",
-    alignItems: "center",
-    borderRadius: 13,
-    marginTop: 60,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
   },
 });

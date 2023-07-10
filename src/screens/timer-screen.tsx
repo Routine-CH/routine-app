@@ -25,7 +25,7 @@ const TimerScreen: React.FC = () => {
 
   return (
     <ScreenWrapper backgroundColor={AppColors.blue100} defaultPadding>
-      <BackButton style={styles.buttonStyle} />
+      <BackButton style={styles.buttonStyle} type="true" />
       {slide === "start" && <StartSlide onStartTimer={startTimer} />}
       {slide === "running" && (
         <RunningSlide onPauseTimer={pauseTimer} onCancelTimer={cancelTimer} />
@@ -43,6 +43,5 @@ export default TimerScreen;
 const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: AppColors.white,
-    color: AppColors.blue100,
   },
 });

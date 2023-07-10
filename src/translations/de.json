@@ -28,24 +28,37 @@
     "send-email": "E-Mail schicken"
   },
   "general": {
-    "edit": "Bearbeiten",
-    "save": "Speichern",
     "back": "Zurück",
-    "no-user-data": "Keine Nutzerdaten"
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "no-user-data": "Keine Nutzerdaten",
+    "save": "Speichern"
   },
   "goals": {
       "show-all": "Alle anzeigen"
   },
   "journal": {
-      "mood": "Wie fühlst du dich heute?",
-      "moodDescription": "Wieso fühlst du dich so?",
       "activity": "Was hast du daraus gemacht?",
-      "toImprove": "Was hättest du anders machen können?",
-      "past-entries": "Vergangene Einträge"
+      "mood": "Wie fühlst du dich heute?",
+      "mood-description": "Wieso fühlst du dich so?",
+      "no-entry-title": "Keinen Journal-Eintrag",
+      "no-entry-titles": "Keine Journal-Einträge",
+      "no-entry-yet": "Du hast heute noch keinen Journal-Eintrag erstellt.",
+      "no-entries-yet": "Du hast heute noch keine Journal-Einträge erstellt.",
+      "past-entries": "Vergangene Einträge",
+      "title": "Titel",
+      "thoughts-and-ideas": "Weitere Gedanken und Ideen",
+      "to-improve": "Was hättest du anders machen können?"
   },
   "login": {
     "welcome": "WILLKOMMEN ZURÜCK",
     "login": "LOGIN"
+  },
+  "modals": {
+      "are-you-sure": "Bist du dir sicher?",
+      "your": "Dein",
+      "is-being-deleted": "wird gelöscht.",
+      "cancel": "Abbrechen"
   },
   "my-day": {
     "hey": "Hey",
@@ -98,6 +111,39 @@
         },
         "hi": "Hi,",
         "here": "dabei",
+        "profile-settings": {
+            "current": "Aktuelles",
+            "delete-account": "Account löschen",
+            "delete-account-text-1": "Wenn du deinen Account einmal gelöscht hast, kannst du es ",
+            "delete-account-text-2": "nicht mehr zurückholen. ",
+            "delete-account-text-3": "Stell sicher, dass du das wirklich willst.",
+            "delete-account-cap": "ACCOUNT LÖSCHEN",
+            "logout-cap": "AUSLOGGEN",
+            "logout": "Ausloggen",
+            "logout-text": "Mission erfüllt! 🚀 Du hast grosse Fortschritte gemacht. Mach eine Pause und tanken Kraft. Wir sehen uns bald wieder!",
+            "new": "Neues",
+            "notifications": {
+                  "activate-all-notifications":"Alle Benachrichtigungen aktivieren",
+                  "change-notifications": "Benachrichtigungen anpassen",
+                  "email": "E-Mail",
+                  "email_in-app_combo": "E-Mail, In-App",
+                  "in-app": "In-App",
+                  "none": "Keine",
+                  "notifications-you-will-receive":"Benachrichtigungen, die du erhältst",
+                  "reminders-goals": "Erinnerungen Ziele",
+                  "reminder-goals-text": "Dies sind Erinnerungen für unerledigte Ziele",
+                  "reminders-todos": "Erinnerungen Todos",
+                  "reminder-todos-text": "Dies sind Erinnerungen für unerledigte Todos",
+                  "reminders-journal": "Erinnerungen Journal",
+                  "reminder-journal-text":  "Dies sind Erinnerungen für noch zu schreibende Journal-Einträge",
+                  "where-you-will-receive-notificatons": "Wo du diese Benachrichtigungen erhalten wirst."
+            },
+            "repeat": "wiederholen",
+            "reset-password": "Password zurücksetzen",
+            "save-cap": "SPEICHERN",
+            "your-information":"Deine Informationen"
+
+        },
         "since": "seit"
   },
   "register": {
@@ -123,7 +169,7 @@
   },
   "todos": {
       "future": "Zukünftige",
-      "no": "Keine",
+      "no-todos-title": "Keine Todos",
       "no-todos": "Du hast heute noch keine Todos",
       "no-future-todos": "Du hast noch keine zukünftige Todos geplant",
       "today": "Heutige"

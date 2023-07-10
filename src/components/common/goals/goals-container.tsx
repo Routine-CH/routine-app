@@ -57,8 +57,8 @@ const GoalsContainer: React.FC<GoalsContainerProps> = ({
             ))}
             <Pressable style={styles.showAllContainer}>
               <AppText
-                fontStyle="heading4"
-                colorStyle="white"
+                fontStyle='heading4'
+                colorStyle='white'
                 style={{ textAlign: "center" }}
               >
                 {t("goals.show-all")}

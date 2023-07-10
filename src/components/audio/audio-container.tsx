@@ -84,9 +84,3 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
 };
 
 export default AudioContainer;
-
-const styles = StyleSheet.create({
-  audioContainer: {
-    marginTop: 60,
-  },
-});
