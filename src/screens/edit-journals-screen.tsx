@@ -83,8 +83,6 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
 
   const journalId = journal?.id;
 
-  console.log(selectedMoods);
-
   const handleUpdate = async ({
     journal,
     journalId,
@@ -110,19 +108,21 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
       if (typeof response === "string") {
         showToast(ToastType.error, response);
         setErrorMessage("Something went wrong");
-        console.log("not everything is filled out 1");
+        console.log("not everything is filled out");
       } else if (response && response.status === 200) {
-        navigation.navigate("Home", {
-          screen: "Journals",
-        });
-        showToast(ToastType.success, "Success");
+        showToast(ToastType.success, "Journal gespeichert");
+        setTimeout(() => {
+          navigation.navigate("Home", {
+            screen: "Journals",
+          });
+        }, 2000);
       } else {
         showToast(ToastType.error, "Failed to update journal");
         setErrorMessage("Something went wrong");
-        console.log("not everything is filled out 2");
+        console.log("not everything is filled out");
       }
     } catch (error) {
-      showToast(ToastType.error, "An error occurred");
+      showToast(ToastType.error, errorMessage);
       console.log(error);
     }
   };
