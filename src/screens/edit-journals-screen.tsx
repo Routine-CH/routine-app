@@ -46,19 +46,24 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedMoods, setSelectedMoods] = useState<
     { id: string; type: string }[]
-  >([]);
+  >(
+    journal?.journalMoods.map((journalMood) => ({
+      id: journalMood.mood.id,
+      type: journalMood.mood.type,
+    })) || []
+  );
+
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { control, handleSubmit, setValue, watch } =
-    useForm<IFormJournalInputs>({
-      defaultValues: {
-        title: journal?.title || "",
-        moodDescription: journal?.moodDescription || "",
-        activity: journal?.activity || "",
-        toImprove: journal?.toImprove || "",
-        thoughtsAndIdeas: journal?.thoughtsAndIdeas || "",
-      },
-    });
+  const { control, handleSubmit, setValue } = useForm<IFormJournalInputs>({
+    defaultValues: {
+      title: journal?.title || "",
+      moodDescription: journal?.moodDescription || "",
+      activity: journal?.activity || "",
+      toImprove: journal?.toImprove || "",
+      thoughtsAndIdeas: journal?.thoughtsAndIdeas || "",
+    },
+  });
 
   useEffect(() => {
     setValue("title", journal?.title || "");
@@ -77,6 +82,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   };
 
   const journalId = journal?.id;
+
+  console.log(selectedMoods);
 
   const handleUpdate = async ({
     journal,
@@ -121,23 +128,10 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   };
 
   const handleDeleteMood = (moodId: string) => {
-    setSelectedMoods((prevSelectedMoods) => [
-      ...prevSelectedMoods.map((moodId) => ({
-        id: moodId.id,
-        type: moodId.type,
-      })),
-    ]);
+    setSelectedMoods((prevSelectedMoods) =>
+      prevSelectedMoods.filter((selectedMood) => selectedMood.id !== moodId)
+    );
   };
-
-  //   const mergedMoods = [
-  //     ...selectedMoods,
-  //     ...(journal?.journalMoods || []).filter(
-  //       (journalMood) =>
-  //         !selectedMoods.some(
-  //           (selectedMood) => selectedMood.type === journalMood.type
-  //         )
-  //     ),
-  //   ];
 
   return journal ? (
     <ScrollViewScreenWrapper
@@ -184,31 +178,9 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             {t("journal.mood")}
           </AppText>
           <View style={styles.chipContainer}>
-            {Array.isArray(journal.journalMoods) &&
-              journal.journalMoods.map((journalMood) => {
-                console.log(journalMood.mood.type);
-
-                const isSelected = selectedMoods.some(
-                  (selectedMood) => selectedMood.id === journalMood.id
-                );
-
-                if (!isSelected) {
-                  return (
-                    <Chip
-                      key={`${journalMood.mood.type}-${journalMood.id}`}
-                      text={journalMood.mood.type}
-                      style={styles.chip}
-                      onDelete={() => handleDeleteMood(journalMood.id)}
-                    />
-                  );
-                }
-
-                return null;
-              })}
-
-            {selectedMoods.map((selectedMood) => (
+            {selectedMoods.map((selectedMood, index) => (
               <Chip
-                key={selectedMood.id}
+                key={`${selectedMood.id}-${index}`}
                 text={selectedMood.type}
                 style={styles.chip}
                 onDelete={() => handleDeleteMood(selectedMood.id)}
