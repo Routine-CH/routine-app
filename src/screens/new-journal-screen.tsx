@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -62,6 +62,27 @@ const NewJournalScreen = () => {
     }
   };
 
+  const onErrors = (errors: any) => {
+    if (errors.title) {
+      setErrorMessage(errors.title.message);
+    } else if (errors.moodDescription) {
+      setErrorMessage(errors.moodDescription.message);
+    } else if (errors.activity) {
+      setErrorMessage(errors.activity.message);
+    } else if (errors.toImprove) {
+      setErrorMessage(errors.toImprove.message);
+    } else if (errors.moods?.length > 0) {
+      setErrorMessage("Bitte wähle mindestens eine Emotion aus");
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
+
   const handleDeleteMood = (moodId: string) => {
     setSelectedMoods((prevSelectedMoods) =>
       prevSelectedMoods.filter((selectedMood) => selectedMood.id !== moodId)
@@ -76,7 +97,7 @@ const NewJournalScreen = () => {
     >
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
-        onPress={() => handleSubmit(handleNewJournal)()}
+        onPress={() => handleSubmit(handleNewJournal, onErrors)}
       />
       <View style={styles.contentContainer}>
         <Controller
@@ -91,7 +112,7 @@ const NewJournalScreen = () => {
             />
           )}
           name="title"
-          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
+          rules={{ required: "Bitte gib deinem Journal einen Titel" }}
         />
         <View style={styles.chipContainer}>
           {selectedMoods.map((mood, index) => (
@@ -129,7 +150,7 @@ const NewJournalScreen = () => {
             />
           )}
           name="moodDescription"
-          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
+          rules={{ required: "Bitte beschreibe deine Gefühle." }}
         />
         <Controller
           control={control}
@@ -145,7 +166,9 @@ const NewJournalScreen = () => {
             />
           )}
           name="activity"
-          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
+          rules={{
+            required: "Bitte beschreibe, was du anders machen hättest können.",
+          }}
         />
         <Controller
           control={control}
@@ -161,7 +184,9 @@ const NewJournalScreen = () => {
             />
           )}
           name="toImprove"
-          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
+          rules={{
+            required: "Bitte beschreibe, was du noch verbessern könntest.",
+          }}
         />
         <Controller
           control={control}
@@ -177,7 +202,6 @@ const NewJournalScreen = () => {
             />
           )}
           name="thoughtsAndIdeas"
-          rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
         />
         <EmotionModal
           isVisible={isModalVisible}

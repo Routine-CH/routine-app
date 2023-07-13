@@ -1,3 +1,5 @@
+import { AxiosError, AxiosResponse } from "axios";
+
 // types for Authentication Stack Navigation
 export type AuthStackParamList = {
   Login: undefined;
@@ -74,6 +76,7 @@ export type UserJournals = {
     export type JournalMood = {
       id: string;
       mood: {
+            id: any;
             type: string;
       }
     };
@@ -190,3 +193,13 @@ export interface IFormJournalInputs {
   thoughtsAndIdeas: string;
   moods: { id: string; type: string }[];
 }
+
+export type AxiosErrorWithData = AxiosError & {
+      response: AxiosResponse<ErrorResponse>;
+}
+
+type ErrorResponse = {
+      message: string;
+      errorCode: number;
+    };
+    

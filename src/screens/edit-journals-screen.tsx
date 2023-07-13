@@ -55,7 +55,12 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { control, handleSubmit, setValue } = useForm<IFormJournalInputs>({
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<IFormJournalInputs>({
     defaultValues: {
       title: journal?.title || "",
       moodDescription: journal?.moodDescription || "",
@@ -84,7 +89,6 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const journalId = journal?.id;
 
   const handleUpdate = async ({
-    journal,
     journalId,
     title,
     moodDescription,
@@ -95,7 +99,6 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   }: IFormJournalInputs) => {
     try {
       const response = await updateUserJournalRequest({
-        journal,
         journalId,
         title,
         moodDescription,
@@ -108,8 +111,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
       if (typeof response === "string") {
         showToast(ToastType.error, response);
         setErrorMessage("Something went wrong");
-        console.log("not everything is filled out");
-      } else if (response && response.status === 200) {
+      } else if (response && "status" in response && response.status === 200) {
         showToast(ToastType.success, "Journal gespeichert");
         setTimeout(() => {
           navigation.navigate("Home", {
@@ -117,15 +119,33 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
           });
         }, 2000);
       } else {
-        showToast(ToastType.error, "Failed to update journal");
-        setErrorMessage("Something went wrong");
-        console.log("not everything is filled out");
+        showToast(ToastType.error, "Bitte wähle mindestens eine Gefühl aus.");
       }
     } catch (error) {
       showToast(ToastType.error, errorMessage);
-      console.log(error);
     }
   };
+
+  const onErrors = (errors: any) => {
+    if (errors.title) {
+      setErrorMessage(errors.title.message);
+    } else if (errors.moodDescription) {
+      setErrorMessage(errors.moodDescription.message);
+    } else if (errors.activity) {
+      setErrorMessage(errors.activity.message);
+    } else if (errors.toImprove) {
+      setErrorMessage(errors.toImprove.message);
+    } else if (errors.moods?.length > 0) {
+      setErrorMessage("Bitte wähle mindestens eine Emotion aus");
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
 
   const handleDeleteMood = (moodId: string) => {
     setSelectedMoods((prevSelectedMoods) =>
@@ -141,9 +161,10 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     >
       <SaveButton
         backButtonStyle={styles.buttonStyle}
-        onPress={() =>
-          handleSubmit((data) => handleUpdate({ ...data, journalId }))()
-        }
+        onPress={handleSubmit(
+          (data) => handleUpdate({ ...data, journalId }),
+          onErrors
+        )}
       />
       <View style={styles.contentContainer}>
         <View>
@@ -166,7 +187,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
               />
             )}
             name="title"
-            rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
+            rules={{ required: "Bitte gib deinem Journal einen Titel" }}
           />
         </View>
         <View>
@@ -214,7 +235,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
               />
             )}
             name="moodDescription"
-            rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
+            rules={{ required: "Bitte beschreibe deine Gefühle." }}
           />
         </View>
         <View>
@@ -237,7 +258,10 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
               />
             )}
             name="activity"
-            rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
+            rules={{
+              required:
+                "Bitte beschreibe, was du anders machen hättest können.",
+            }}
           />
         </View>
         <View>
@@ -260,7 +284,9 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
               />
             )}
             name="toImprove"
-            rules={{ required: "Dieses Feld muss ausgefüllt werden" }}
+            rules={{
+              required: "Bitte beschreibe, was du noch verbessern könntest.",
+            }}
           />
         </View>
         <View>
