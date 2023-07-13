@@ -13,14 +13,18 @@ import AppText from "../typography/app-text";
 interface ConfirmationModalProps {
   title: string;
   description: string;
+  actionText: string;
   isVisible: boolean;
+  onConfirm: () => void;
   onClose: () => void;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   title,
   description,
+  actionText,
   isVisible,
+  onConfirm,
   onClose,
 }) => {
   const { t } = useTranslation();
@@ -53,13 +57,16 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 </AppText>
               </View>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.optionsContainer}>
+                <TouchableOpacity
+                  style={styles.optionsContainer}
+                  onPress={onConfirm}
+                >
                   <AppText
                     fontStyle="heading4"
                     colorStyle="red"
                     style={styles.text}
                   >
-                    {t("general.delete")}
+                    {actionText}
                   </AppText>
                 </TouchableOpacity>
                 <TouchableOpacity
