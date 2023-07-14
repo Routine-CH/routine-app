@@ -25,7 +25,7 @@ const NewNotesScreen = () => {
       title,
       description,
     });
-    console.log("Response", response);
+    console.log("Response:", response);
     if (typeof response === "string") {
       setErrorMessage(response);
       showToast(ToastType.error, response);

@@ -59,6 +59,7 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
   }, [note, setValue]);
 
   const noteId = note?.id;
+  const [images, setImages] = useState(note?.images || []);
 
   const handleUpdate = async ({
     noteId,
@@ -102,6 +103,12 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
       setErrorMessage("");
     }
   }, [errorMessage]);
+
+  const handleDelete = (imageId: string) => {
+    setImages((prevImages) =>
+      prevImages.filter((image) => image.id !== imageId)
+    );
+  };
 
   return (
     <ScrollViewScreenWrapper
@@ -159,13 +166,18 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
         />
       </View>
       <View style={styles.imageContainer}>
-        {note?.images.map((image, index) => (
-          <View>
+        {images.map((image) => (
+          <View key={image.id} style={{ marginBottom: 30 }}>
             <View style={styles.closeIcon}>
-              <Icon name="close" size={25} color={AppColors.white} />
+              <Icon
+                name="close"
+                size={25}
+                color={AppColors.white}
+                onPress={() => handleDelete(image.id)}
+              />
             </View>
             <Image
-              key={index}
+              key={image.id}
               source={{ uri: image.imageUrl }}
               style={styles.image}
             />
@@ -218,8 +230,9 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     position: "absolute",
-    right: 5,
-    top: 5,
+    zIndex: 2,
+    right: 7,
+    top: 7,
     height: 30,
     width: 30,
     backgroundColor: AppColors.red,
