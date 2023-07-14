@@ -1,5 +1,6 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RouteProp, useNavigation } from "@react-navigation/native";
+import { DateTime } from "luxon";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
@@ -34,6 +35,13 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   const note = route.params.Notes.params.NoteView.note;
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const createdAt = note?.createdAt?.toString() ?? "";
+  const date = DateTime.fromISO(createdAt).setZone("Europe/Berlin");
+  const formattedDate = date.toLocaleString({
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
@@ -93,10 +101,13 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
         </Pressable>
       </View>
       <View style={styles.contentContainer}>
+        <AppText fontStyle="toast" colorStyle="black70">
+          {formattedDate}
+        </AppText>
         <AppText
           fontStyle="heading3"
           colorStyle="black70"
-          style={{ marginBottom: 15 }}
+          style={{ marginVertical: 15 }}
         >
           {note?.title}
         </AppText>

@@ -108,6 +108,7 @@ export interface UserNotes {
   title: string;
   description: string;
   images: Image[];
+  createdAt: Date;
 }
 
 export type UserTodo = {
