@@ -7,10 +7,12 @@ import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
+import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { deleteNoteRequest } from "../data/notes/delete-request";
 import AppColors from "../utils/constants/colors";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList, UserNotes } from "../utils/types/types";
 
 type NoteViewScreenRouteProps = RouteProp<
@@ -64,12 +66,14 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   };
 
   const deleteNote = () => {
-    console.log("Note is being deleted");
     deleteNoteRequest(note);
     setIsModalVisible(false);
-    navigation.navigate("Discover", {
-      screen: "Note",
-    });
+    showToast(ToastType.success, "Notiz wurde gelöscht.");
+    setTimeout(() => {
+      navigation.navigate("Discover", {
+        screen: "Note",
+      });
+    }, 2000);
   };
 
   return (
@@ -117,6 +121,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
         onClose={closeModal}
         navigateTo={() => navigateToNoteEditScreen()}
       />
+      <RoutineToast />
     </ScrollViewScreenWrapper>
   );
 };
