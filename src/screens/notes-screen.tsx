@@ -1,12 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
+import CalendarModal from "../components/common/modals/calendar-modal";
 import NotesCard from "../components/common/notes/notes-card";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
@@ -21,6 +23,7 @@ const NotesScreen: React.FC = () => {
   const [userNotes, setUserNotes] = useState<UserNotes[]>([]);
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     async function getUserNotes() {
@@ -64,6 +67,14 @@ const NotesScreen: React.FC = () => {
     });
   };
 
+  const handleModalPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <>
       <ScrollViewScreenWrapper
@@ -83,11 +94,14 @@ const NotesScreen: React.FC = () => {
           </View>
         ) : (
           <>
-            <Pressable style={styles.margin}>
+            <TouchableWithoutFeedback
+              style={styles.margin}
+              onPress={handleModalPress}
+            >
               <AppText fontStyle="body" colorStyle="black64">
                 {t("notes.date")} {t("notes.filter")}
               </AppText>
-            </Pressable>
+            </TouchableWithoutFeedback>
             <View>
               {userNotes.map((note) => {
                 return (
@@ -107,6 +121,11 @@ const NotesScreen: React.FC = () => {
             </View>
           </>
         )}
+        <CalendarModal
+          isVisible={isModalVisible}
+          onClose={closeModal}
+          onConfirm={closeModal}
+        />
       </ScrollViewScreenWrapper>
       <AddButton navigateTo={() => navigateToNewNoteScreen()} />
     </>

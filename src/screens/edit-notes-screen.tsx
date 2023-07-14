@@ -8,6 +8,7 @@ import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import { updateNoteRequest } from "../data/notes/update-request";
 import AppColors from "../utils/constants/colors";
@@ -196,6 +197,7 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
         />
         <IconButton iconName="images" style={styles.iconStyle} />
       </View>
+      <RoutineToast />
     </ScrollViewScreenWrapper>
   );
 };
