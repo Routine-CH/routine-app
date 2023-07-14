@@ -1,3 +1,5 @@
+import { AxiosError, AxiosResponse } from "axios";
+
 // types for Authentication Stack Navigation
 export type AuthStackParamList = {
   Login: undefined;
@@ -12,12 +14,12 @@ export type AuthenticatedStackParamList = {
     params?: {
       Timer?: undefined;
       Journals?: {
-            screen?: string;
-            params?: {
-              JournalEdit?: {journal: UserJournals | null};
-              JournalNew?: undefined;
-            };
-          };
+        screen?: string;
+        params?: {
+          JournalEdit?: { journal: UserJournals | null };
+          JournalNew?: undefined;
+        };
+      };
       Todos?: undefined;
       Notes?: undefined;
       Goals?: undefined;
@@ -62,14 +64,24 @@ interface UserLogins {
 }
 
 export type UserJournals = {
-  id: string;
-  title: string;
-  mood: string;
-  moodDescription: string;
-  activity: string;
-  toImprove: string;
-  date: Date;
-};
+      id: string;
+      title: string;
+      journalMoods: JournalMood[];
+      moodDescription: string;
+      activity: string;
+      toImprove: string;
+      date: Date;
+      thoughtsAndIdeas: string;
+    };
+    
+    export type JournalMood = {
+      id: string;
+      mood: {
+            id: any;
+            type: string;
+      }
+    };
+    
 
 export type AllUserJournals = UserJournals[];
 
@@ -179,3 +191,24 @@ export interface IFormRegisterInputs {
   repeatPassword: string;
   agreeTerms: boolean;
 }
+
+export interface IFormJournalInputs {
+  journal?: string;
+  journalId?: string;
+  title: string;
+  moodDescription: string;
+  activity: string;
+  toImprove: string;
+  thoughtsAndIdeas?: string;
+  moods: { id: string; type: string }[];
+}
+
+export type AxiosErrorWithData = AxiosError & {
+      response: AxiosResponse<ErrorResponse>;
+}
+
+type ErrorResponse = {
+      message: string;
+      errorCode: number;
+    };
+    

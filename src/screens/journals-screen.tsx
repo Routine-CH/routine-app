@@ -12,12 +12,15 @@ import BackButton from "../components/common/buttons/back-button";
 import Calendar from "../components/common/calendar/calendar";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
+import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
 import EmptyState from "../components/todos/empty-state";
+import { deleteUserJournalRequest } from "../data/journal/delete-request";
 import { API_BASE_URL } from "../utils/config/config";
 import AppColors from "../utils/constants/colors";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
 import {
   AllUserJournals,
   AuthenticatedStackParamList,
@@ -42,6 +45,17 @@ const JournalsScreen: React.FC = () => {
 
   const closeModal = () => {
     setIsModalVisible(false);
+  };
+
+  const deleteJournal = () => {
+    deleteUserJournalRequest(todaysJournal);
+    setIsModalVisible(false);
+    showToast(ToastType.success, "Journal gelöscht");
+    setTimeout(() => {
+      navigation.navigate("Discover", {
+        screen: "Journals",
+      });
+    }, 2000);
   };
 
   useEffect(() => {
@@ -212,9 +226,11 @@ const JournalsScreen: React.FC = () => {
       ) : null}
       <EditDeleteModal
         isVisible={isModalVisible}
+        onConfirm={deleteJournal}
         onClose={closeModal}
         navigateTo={() => navigateToJournalEditScreen()}
       />
+      <RoutineToast />
     </ScrollViewScreenWrapper>
   );
 };

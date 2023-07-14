@@ -1,4 +1,6 @@
-import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Modal,
@@ -7,29 +9,76 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { API_BASE_URL } from "../../utils/config/config";
 import AppColors from "../../utils/constants/colors";
 import FlatButton from "../common/buttons/flat-button";
-import MoodContainer from "./mood-container";
+import MoodCard from "./mood-card";
 
-interface TimeModalProps {
+interface EmotionModalProps {
   isVisible: boolean;
   onClose: () => void;
+  initialSelectedMoods: {
+    id: string;
+    type: string;
+  }[];
+  onMoodsSelect: (selectedMood: { id: string; type: string }[]) => void;
 }
 
-const EmotionModal: React.FC<TimeModalProps> = ({ isVisible, onClose }) => {
+const EmotionModal: React.FC<EmotionModalProps> = ({
+  isVisible,
+  onClose,
+  initialSelectedMoods,
+  onMoodsSelect,
+}) => {
   const { t } = useTranslation();
+  const [moods, setMoods] = useState<[{ id: string; type: string }]>();
+  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
 
-  const handleOverlayPress = () => {
-    onClose();
+  useEffect(() => {
+    async function getJournalMoods() {
+      try {
+        const token = await AsyncStorage.getItem("access_token");
+        if (token) {
+          const response = await axios.get(`${API_BASE_URL}journals/moods`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          setMoods(response.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to get user notes", error);
+      }
+    }
+
+    getJournalMoods();
+  }, []);
+
+  useEffect(() => {
+    const initialMoodTypes = initialSelectedMoods.map((mood) => mood.type);
+    setSelectedMoods(initialMoodTypes);
+  }, [initialSelectedMoods]);
+
+  const handleMoodPress = (mood: string) => {
+    if (!selectedMoods.includes(mood)) {
+      setSelectedMoods([...selectedMoods, mood]);
+    }
   };
 
   const handleSave = () => {
+    const selectedMoodIds = selectedMoods.map((selectedMood) => {
+      const mood = moods?.find((mood) => mood.type === selectedMood);
+      return { id: mood?.id as string, type: selectedMood };
+    });
+
+    onMoodsSelect(selectedMoodIds);
     onClose();
   };
 
-  return (
-    <Modal visible={isVisible} animationType="slide" transparent>
-      <TouchableWithoutFeedback onPress={handleOverlayPress}>
+  return moods ? (
+    <Modal visible={isVisible} transparent>
+      <TouchableWithoutFeedback>
         <View style={styles.overlay}>
           <TouchableWithoutFeedback>
             <View style={styles.modalContainer}>
@@ -38,21 +87,33 @@ const EmotionModal: React.FC<TimeModalProps> = ({ isVisible, onClose }) => {
                 style={{ width: "100%" }}
                 showsVerticalScrollIndicator={false}
               >
-                <MoodContainer />
-                <FlatButton
-                  fontStyle="bodyMedium"
-                  colorStyle="white"
-                  buttonStyle={styles.saveButton}
-                  onPress={handleSave}
-                >
-                  {t("general.save")}
-                </FlatButton>
+                <View style={styles.moodContainer}>
+                  {moods.map((mood) => (
+                    <MoodCard
+                      key={mood.id}
+                      type={mood.type}
+                      title={mood.type}
+                      onPress={() => handleMoodPress(mood.type)}
+                      isSelected={selectedMoods.includes(mood.type)}
+                    />
+                  ))}
+                </View>
               </ScrollView>
+              <FlatButton
+                fontStyle='bodyMedium'
+                colorStyle='white'
+                buttonStyle={styles.saveButton}
+                onPress={handleSave}
+              >
+                {t("general.save")}
+              </FlatButton>
             </View>
           </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
     </Modal>
+  ) : (
+    <></>
   );
 };
 
@@ -62,6 +123,7 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     justifyContent: "flex-end",
+    backgroundColor: `rgba(0, 0, 0, 0.1)`,
   },
   modalContainer: {
     backgroundColor: AppColors.white,
@@ -69,6 +131,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 13,
     borderTopRightRadius: 13,
     alignItems: "center",
+    paddingBottom: 60,
   },
   line: {
     width: 42,
@@ -76,7 +139,15 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: AppColors.black20,
     marginTop: 15,
-    marginBottom: 60,
+    marginBottom: 30,
+  },
+  moodContainer: {
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 40,
+    paddingHorizontal: 30,
+    justifyContent: "center",
   },
   saveButton: {
     backgroundColor: AppColors.blue100,
@@ -84,8 +155,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     borderRadius: 13,
-    marginVertical: 60,
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    marginTop: 30,
   },
 });

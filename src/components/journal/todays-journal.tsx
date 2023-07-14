@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import { UserJournals } from "../../utils/types/types";
+import Chip from "../calendar/chip";
 import AppText from "../common/typography/app-text";
 
 Settings.defaultLocale = "de";
@@ -38,9 +39,15 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
           >
             {t("journal.mood")}
           </AppText>
-          <AppText fontStyle="body" colorStyle="black70">
-            {userJournal?.mood}
-          </AppText>
+          <View style={styles.chipContainer}>
+            {userJournal?.journalMoods.map((mood, index) => (
+              <Chip
+                key={`${mood.mood.id}-${index}`}
+                text={mood.mood.type}
+                style={styles.chip}
+              />
+            ))}
+          </View>
         </View>
         <View style={styles.textContainer}>
           <AppText
@@ -87,7 +94,7 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
             {t("journal.thoughts-and-ideas")}
           </AppText>
           <AppText fontStyle="body" colorStyle="black70">
-            {/*             {userJournal?.toImprove} */}-
+            {userJournal?.thoughtsAndIdeas}
           </AppText>
         </View>
       </View>
@@ -109,5 +116,15 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginBottom: 5,
+  },
+  chipContainer: {
+    width: "100%",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    gap: 15,
+  },
+  chip: {
+    width: "47%",
   },
 });
