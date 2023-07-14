@@ -8,6 +8,7 @@ import BackButton from "../components/common/buttons/back-button";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
+import { deleteNoteRequest } from "../data/notes/delete-request";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList, UserNotes } from "../utils/types/types";
@@ -28,6 +29,7 @@ type NoteViewProps = {
 };
 
 const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
+  const note = route.params.Notes.params.NoteView.note;
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -61,7 +63,14 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
     });
   };
 
-  const note = route.params.Notes.params.NoteView.note;
+  const deleteNote = () => {
+    console.log("Note is being deleted");
+    deleteNoteRequest(note);
+    setIsModalVisible(false);
+    navigation.navigate("Discover", {
+      screen: "Note",
+    });
+  };
 
   return (
     <ScrollViewScreenWrapper
@@ -104,6 +113,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
         title={t("modals.are-you-sure")}
         description={t("modals.notes")}
         isVisible={isModalVisible}
+        onConfirm={deleteNote}
         onClose={closeModal}
         navigateTo={() => navigateToNoteEditScreen()}
       />

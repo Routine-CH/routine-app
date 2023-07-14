@@ -14,6 +14,7 @@ interface ConfirmationModalProps {
   title: string;
   description: string;
   isVisible: boolean;
+  onConfirm: () => void;
   onClose: () => void;
 }
 
@@ -21,6 +22,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   title,
   description,
   isVisible,
+  onConfirm,
   onClose,
 }) => {
   const { t } = useTranslation();
@@ -53,7 +55,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                 </AppText>
               </View>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.optionsContainer}>
+                <TouchableOpacity
+                  style={styles.optionsContainer}
+                  onPress={onConfirm}
+                >
                   <AppText
                     fontStyle="heading4"
                     colorStyle="red"

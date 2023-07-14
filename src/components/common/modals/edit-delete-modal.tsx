@@ -16,6 +16,7 @@ interface EditDeleteModalProps {
   title: string;
   description: string;
   isVisible: boolean;
+  onConfirm: () => void;
   onClose: () => void;
   navigateTo: () => void;
 }
@@ -24,6 +25,7 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
   title,
   description,
   isVisible,
+  onConfirm,
   onClose,
   navigateTo,
 }) => {
@@ -85,6 +87,7 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
         title={title}
         description={description}
         isVisible={isModalVisible}
+        onConfirm={onConfirm}
         onClose={closeModal}
       />
     </Modal>
