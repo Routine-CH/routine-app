@@ -181,3 +181,11 @@ export interface IFormRegisterInputs {
   repeatPassword: string;
   agreeTerms: boolean;
 }
+
+export interface IFormNoteInputs {
+      note?: string;
+      noteId?: string;
+      title: string;
+      description: string;
+      image?: string;
+}

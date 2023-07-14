@@ -1,24 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
+import { showToast } from "../components/common/toast/show-toast";
 import { createNoteRequest } from "../data/notes/create-request";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
+import { IFormNoteInputs } from "../utils/types/types";
 
 const NewNotesScreen = () => {
   const { t } = useTranslation();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const { control, handleSubmit } = useForm<IFormNoteInputs>();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleNewNote = () => {
-    console.log("Creating a new Note");
-    createNoteRequest(title, description);
+  const handleNewNote = async ({ title, description }: IFormNoteInputs) => {
+    console.log("Pressed");
+    const response = await createNoteRequest({
+      title,
+      description,
+    });
+    console.log("Response", response);
+    if (typeof response === "string") {
+      setErrorMessage(response);
+      showToast(ToastType.error, response);
+      setErrorMessage("");
+    } else if (response && response.status === 201) {
+      showToast(ToastType.success, "Success");
+    } else {
+      setErrorMessage("Something is wrong");
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
   };
+
+  const onErrors = (errors: any) => {
+    if (errors.title) {
+      setErrorMessage(errors.title.message);
+    } else if (errors.description) {
+      setErrorMessage(errors.description.message);
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
 
   return (
     <ScrollViewScreenWrapper
@@ -28,21 +62,50 @@ const NewNotesScreen = () => {
     >
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
-        onPress={handleNewNote}
+        onPress={handleSubmit(handleNewNote, onErrors)}
       />
       <View style={styles.contentContainer}>
-        <LabelInputField
-          placeholder={t("journal.title")}
-          inputStyle={styles.labelInput}
-          multiline
-          value={title}
-          onChangeText={setTitle}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              placeholder={t("journal.title")}
+              inputStyle={styles.labelInput}
+              multiline
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="title"
+          rules={{
+            required: "Bitte gib deiner Notiz einen Titel",
+            minLength: {
+              value: 5,
+              message: "Der Titel muss mindestens 5 Zeichen lang sein",
+            },
+          }}
         />
-        <LabelInputField
-          placeholder={t("notes.note")}
-          multiline
-          value={description}
-          onChangeText={setDescription}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              placeholder={t("notes.note")}
+              inputStyle={styles.labelDescriptionInput}
+              multiline
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="description"
+          rules={{
+            required: "Bitte gib deiner Notiz eine Beschreibung",
+            minLength: {
+              value: 5,
+              message: "Die Beschreibung muss mindestens 5 Zeichen lang sein",
+            },
+          }}
         />
       </View>
       <View style={styles.iconContainer}>
@@ -52,6 +115,7 @@ const NewNotesScreen = () => {
         />
         <IconButton iconName="images" style={styles.iconStyle} />
       </View>
+      <RoutineToast />
     </ScrollViewScreenWrapper>
   );
 };
@@ -72,6 +136,10 @@ const styles = StyleSheet.create({
   labelInput: {
     fontFamily: AppFontStyle.heading3.fontFamily,
     fontSize: AppFontStyle.heading3.fontSize,
+  },
+  labelDescriptionInput: {
+    fontFamily: AppFontStyle.body.fontFamily,
+    fontSize: AppFontStyle.body.fontSize,
   },
   iconContainer: {
     flexDirection: "row",

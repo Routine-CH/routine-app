@@ -1,15 +1,23 @@
-import { RouteProp } from "@react-navigation/native";
-import React, { useState } from "react";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RouteProp, useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import { showToast } from "../components/common/toast/show-toast";
 import { updateNoteRequest } from "../data/notes/update-request";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
-import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList, UserNotes } from "../utils/types/types";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
+import {
+  AuthenticatedStackParamList,
+  IFormNoteInputs,
+  UserNotes,
+} from "../utils/types/types";
 
 type EditNotesScreenRouteProp = RouteProp<
   AuthenticatedStackParamList,
@@ -34,34 +42,120 @@ type EditNotesScreenProps = {
 
 const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
   const note = route.params.Notes.params.NoteView.noteEdit.note;
-  const [updatedTitle, setUpdatedTitle] = useState(note?.title || "");
-  const [updatedDescription, setUpdatedDescription] = useState(
-    note?.description || ""
-  );
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleUpdate = () => {
-    console.log("Update incoming");
-    updateNoteRequest(note, updatedTitle, updatedDescription);
+  const { control, handleSubmit, setValue } = useForm<IFormNoteInputs>({
+    defaultValues: {
+      title: note?.title,
+      description: note?.description,
+    },
+  });
+
+  useEffect(() => {
+    setValue("title", note?.title || "");
+    setValue("description", note?.description || "");
+  }, [note, setValue]);
+
+  const noteId = note?.id;
+
+  const handleUpdate = async ({
+    noteId,
+    title,
+    description,
+  }: IFormNoteInputs) => {
+    try {
+      const response = await updateNoteRequest({
+        noteId,
+        title,
+        description,
+      });
+
+      if (typeof response === "string") {
+        showToast(ToastType.error, response);
+        setErrorMessage("Something went wrong");
+      } else if (response && "status" in response && response.status === 200) {
+        showToast(ToastType.success, "Notiz gespeichert");
+        setTimeout(() => {
+          navigation.navigate("Discover", {
+            screen: "Notes",
+          });
+        }, 2000);
+      } else {
+        showToast(ToastType.error, "Something went wrong");
+      }
+    } catch (error) {}
   };
+
+  const onErrors = (errors: any) => {
+    if (errors.title) {
+      setErrorMessage(errors.title.message);
+    } else if (errors.description) {
+      setErrorMessage(errors.description.message);
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
+
   return (
     <ScrollViewScreenWrapper
       backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <SaveButton type="true" onPress={handleUpdate} />
+      <SaveButton
+        type="true"
+        onPress={handleSubmit(
+          (data) => handleUpdate({ ...data, noteId }),
+          onErrors
+        )}
+      />
       <View style={styles.contentContainer}>
-        <LabelInputField
-          editText={note?.title}
-          inputStyle={styles.inputHeadingStyle}
-          multiline
-          onChangeText={setUpdatedTitle}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              inputStyle={styles.labelInput}
+              multiline
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="title"
+          rules={{
+            required: "Bitte gib deiner Notiz einen Titel",
+            minLength: {
+              value: 5,
+              message: "Der Titel muss mindestens 5 Zeichen lang sein",
+            },
+          }}
         />
-        <LabelInputField
-          editText={note?.description}
-          inputStyle={styles.inputStyle}
-          multiline
-          onChangeText={setUpdatedDescription}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <LabelInputField
+              inputStyle={styles.labelDescriptionInput}
+              multiline
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="description"
+          rules={{
+            required: "Bitte gib deiner Notiz eine Beschreibung",
+            minLength: {
+              value: 5,
+              message: "Die Beschreibung muss mindestens 5 Zeichen lang sein",
+            },
+          }}
         />
       </View>
       <View style={styles.imageContainer}>
@@ -77,6 +171,13 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
             />
           </View>
         ))}
+      </View>
+      <View style={styles.iconContainer}>
+        <IconButton
+          iconName="camera"
+          style={[styles.iconStyle, { marginRight: 15 }]}
+        />
+        <IconButton iconName="images" style={styles.iconStyle} />
       </View>
     </ScrollViewScreenWrapper>
   );
@@ -125,5 +226,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
+  },
+  labelInput: {
+    fontFamily: AppFontStyle.heading3.fontFamily,
+    fontSize: AppFontStyle.heading3.fontSize,
+  },
+  labelDescriptionInput: {
+    fontFamily: AppFontStyle.body.fontFamily,
+    fontSize: AppFontStyle.body.fontSize,
+  },
+  iconContainer: {
+    flexDirection: "row",
+  },
+  iconStyle: {
+    height: 58,
+    width: 58,
   },
 });

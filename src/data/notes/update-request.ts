@@ -1,25 +1,25 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
-import { UserNotes } from "../../utils/types/types";
+import { IFormNoteInputs } from "../../utils/types/types";
 
-export const updateNoteRequest = async (
-  note: UserNotes | null,
-  updatedTitle: string,
-  updatedDescription: string,
-) => {
+export const updateNoteRequest = async ({
+  noteId, title, description, image
+}: IFormNoteInputs) => {
+  let errorMessage = "";
+      
   try {
-    if (note !== null) {
+    if (noteId && title && description) {
       const token = await AsyncStorage.getItem("access_token");
       if (token) {
-
         const updatedNotesData = {
-          title: updatedTitle,
-          description: updatedDescription,
+          title: title,
+          description: description,
+          image: image
         };
 
         const response = await apiClient.patch(
-          `${API_BASE_URL}notes/${note.id}`,
+          `${API_BASE_URL}notes/${noteId}`,
           updatedNotesData,
           {
             headers: {
@@ -27,10 +27,13 @@ export const updateNoteRequest = async (
             },
           }
         );
-        console.log("Notes updated successfully", response);
+        return response;
       }
+    } else {
+        return {error: "Bitte wähle alle Felder an"}
     }
-  } catch (error) {
-    console.error("Failed to update user notes", error);
+  } catch (error: any) {
+        errorMessage = error;
+        return errorMessage
   }
 };
