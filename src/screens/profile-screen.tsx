@@ -54,9 +54,7 @@ const ProfileScreen = () => {
           <View style={styles.iconContainer}>
             <IconButton
               iconName="pencil"
-              navigateTo={() =>
-                navigateToProfileSettingsScreen("ProfileSettings")
-              }
+              onPress={() => navigateToProfileSettingsScreen("ProfileSettings")}
             />
           </View>
 

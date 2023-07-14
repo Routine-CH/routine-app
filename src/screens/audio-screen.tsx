@@ -1,7 +1,7 @@
 import { RouteProp } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import InformationModal from "../components/audio/information-modal";
 import BackButton from "../components/common/buttons/back-button";
@@ -44,9 +44,7 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
       <View>
         <View style={styles.buttonContainer}>
           <BackButton />
-          <Pressable onPress={handleModalPress}>
-            <IconButton iconName="information" />
-          </Pressable>
+          <IconButton iconName="information" onPress={handleModalPress} />
         </View>
         <View style={styles.audioplayer}>
           <Image source={audio.image} style={styles.image} />

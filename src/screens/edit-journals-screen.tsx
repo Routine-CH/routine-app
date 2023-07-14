@@ -86,7 +86,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
           <IconButton
             iconName="add"
             style={styles.iconButtonStyle}
-            navigateTo={handleModalPress}
+            onPress={handleModalPress}
           />
         </View>
         <View>
