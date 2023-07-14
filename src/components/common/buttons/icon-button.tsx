@@ -11,12 +11,12 @@ import AppColors from "../../../utils/constants/colors";
 interface ButtonProps {
   iconName: string;
   style?: StyleProp<ViewStyle>;
-  navigateTo?: () => void;
+  onPress?: () => void;
 }
 
-const IconButton: React.FC<ButtonProps> = ({ iconName, style, navigateTo }) => {
+const IconButton: React.FC<ButtonProps> = ({ iconName, style, onPress }) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={navigateTo}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
       <Icon name={iconName} size={25} color={AppColors.blue100} />
     </TouchableOpacity>
   );

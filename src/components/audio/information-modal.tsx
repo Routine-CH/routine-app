@@ -23,8 +23,6 @@ const InformationModal: React.FC<InformationModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  console.log(audio);
-
   return audio ? (
     <Modal visible={isVisible} transparent>
       <TouchableWithoutFeedback onPress={onClose}>
