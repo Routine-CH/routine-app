@@ -190,7 +190,7 @@ export interface IFormJournalInputs {
   moodDescription: string;
   activity: string;
   toImprove: string;
-  thoughtsAndIdeas: string;
+  thoughtsAndIdeas?: string;
   moods: { id: string; type: string }[];
 }
 

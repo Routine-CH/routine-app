@@ -1,3 +1,5 @@
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -13,10 +15,15 @@ import EmotionModal from "../components/journal/emotion-modal";
 import { createUserJournalRequest } from "../data/journal/create-request";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import { IFormJournalInputs } from "../utils/types/types";
+import {
+  AuthenticatedStackParamList,
+  IFormJournalInputs,
+} from "../utils/types/types";
 
 const NewJournalScreen = () => {
   const { t } = useTranslation();
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedMoods, setSelectedMoods] = useState<
     { id: string; type: string }[]
@@ -54,7 +61,12 @@ const NewJournalScreen = () => {
       showToast(ToastType.error, response);
       setErrorMessage("");
     } else if (response && response.status === 201) {
-      showToast(ToastType.success, "Success");
+      showToast(ToastType.success, "Journal gespeichert");
+      setTimeout(() => {
+        navigation.navigate("Home", {
+          screen: "Journals",
+        });
+      }, 2000);
     } else {
       setErrorMessage("Something is wrong");
       showToast(ToastType.error, errorMessage);
@@ -97,7 +109,7 @@ const NewJournalScreen = () => {
     >
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
-        onPress={() => handleSubmit(handleNewJournal, onErrors)}
+        onPress={handleSubmit(handleNewJournal, onErrors)}
       />
       <View style={styles.contentContainer}>
         <Controller
@@ -112,7 +124,13 @@ const NewJournalScreen = () => {
             />
           )}
           name="title"
-          rules={{ required: "Bitte gib deinem Journal einen Titel" }}
+          rules={{
+            required: "Bitte gib deinem Journal einen Titel",
+            minLength: {
+              value: 5,
+              message: "Der Titel muss mindestens 5 Zeichen lang sein.",
+            },
+          }}
         />
         <View style={styles.chipContainer}>
           {selectedMoods.map((mood, index) => (
@@ -150,7 +168,9 @@ const NewJournalScreen = () => {
             />
           )}
           name="moodDescription"
-          rules={{ required: "Bitte beschreibe deine Gefühle." }}
+          rules={{
+            required: "Bitte beschreibe deine Gefühle.",
+          }}
         />
         <Controller
           control={control}

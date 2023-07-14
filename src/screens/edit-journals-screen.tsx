@@ -187,7 +187,13 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
               />
             )}
             name="title"
-            rules={{ required: "Bitte gib deinem Journal einen Titel" }}
+            rules={{
+              required: "Bitte gib deinem Journal einen Titel",
+              minLength: {
+                value: 5,
+                message: "Der Titel muss mindestens 5 Zeichen lang sein.",
+              },
+            }}
           />
         </View>
         <View>
