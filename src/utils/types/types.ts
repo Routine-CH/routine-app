@@ -187,5 +187,10 @@ export interface IFormNoteInputs {
       noteId?: string;
       title: string;
       description: string;
-      image?: string;
+      images?: image[];
+}
+
+export interface image {
+      id: string; 
+      imageUrl: string;
 }

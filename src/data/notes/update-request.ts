@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../../utils/config/config";
 import { IFormNoteInputs } from "../../utils/types/types";
 
 export const updateNoteRequest = async ({
-  noteId, title, description, image
+  noteId, title, description, images = []
 }: IFormNoteInputs) => {
   let errorMessage = "";
       
@@ -15,7 +15,10 @@ export const updateNoteRequest = async ({
         const updatedNotesData = {
           title: title,
           description: description,
-          image: image
+          images: images.map((image) => ({
+            id: image.id,
+            imageUrl: image.imageUrl,
+          })),
         };
 
         const response = await apiClient.patch(

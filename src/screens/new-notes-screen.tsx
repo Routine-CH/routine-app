@@ -19,11 +19,19 @@ const NewNotesScreen = () => {
   const { control, handleSubmit } = useForm<IFormNoteInputs>();
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleNewNote = async ({ title, description }: IFormNoteInputs) => {
+  const handleNewNote = async ({
+    title,
+    description,
+    images = [],
+  }: IFormNoteInputs) => {
     console.log("Pressed");
     const response = await createNoteRequest({
       title,
       description,
+      images: images.map((image) => ({
+        id: image.id,
+        imageUrl: image.imageUrl,
+      })),
     });
     console.log("Response:", response);
     if (typeof response === "string") {

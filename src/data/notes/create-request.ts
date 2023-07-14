@@ -8,6 +8,7 @@ import { IFormNoteInputs } from "../../utils/types/types";
 export const createNoteRequest = async ({
       title,
       description,
+      images = []
     }: IFormNoteInputs) => {
       console.log("Data received")
       try {
@@ -18,6 +19,10 @@ export const createNoteRequest = async ({
             const newNoteData = {
               title: title,
               description: description,
+              images: images.map((image) => ({
+                  id: image.id,
+                  imageUrl: image.imageUrl,
+                })),
             };
 
             console.log(newNoteData)

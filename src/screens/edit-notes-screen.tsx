@@ -65,12 +65,17 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
     noteId,
     title,
     description,
+    images = [],
   }: IFormNoteInputs) => {
     try {
       const response = await updateNoteRequest({
         noteId,
         title,
         description,
+        images: images.map((image) => ({
+          id: image.id,
+          imageUrl: image.imageUrl,
+        })),
       });
 
       if (typeof response === "string") {
