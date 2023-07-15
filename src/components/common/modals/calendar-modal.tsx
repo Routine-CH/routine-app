@@ -1,6 +1,5 @@
-import { CalendarRange, RangeCalendar } from "@ui-kitten/components";
-import { DateTime } from "luxon";
-import React, { useState } from "react";
+import { Calendar } from "@ui-kitten/components";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   Modal,
@@ -22,15 +21,9 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation();
-  const [range, setRange] = useState({});
-  const currentWeek = DateTime.now().toISOWeekDate();
 
   const handleOverlayPress = () => {
     onClose();
-  };
-
-  const handleDateChange = (nextRange: CalendarRange<Date>) => {
-    // ...
   };
 
   return (
@@ -39,11 +32,9 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
         <View style={styles.overlay}>
           <View style={styles.modalContainer}>
             <View style={styles.line} />
-            <RangeCalendar
-              range={range}
-              onSelect={(nextRange) => setRange(nextRange)}
-              onVisibleDateChange={handleDateChange}
-            />
+            <TouchableWithoutFeedback>
+              <Calendar style={styles.calendar} />
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -64,6 +55,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 13,
     borderTopRightRadius: 13,
     alignItems: "center",
+    height: "auto",
   },
   line: {
     width: 42,
@@ -71,5 +63,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: AppColors.black20,
     marginTop: 15,
+  },
+  calendar: {
+    marginVertical: 30,
   },
 });

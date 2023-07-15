@@ -1,5 +1,7 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RouteProp, useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
+import { launchCameraAsync, launchImageLibraryAsync } from "expo-image-picker";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Image, StyleSheet, View } from "react-native";
@@ -41,16 +43,21 @@ type EditNotesScreenProps = {
   route: EditNotesScreenRouteProp;
 };
 
+type ImageItem = {
+  id: string;
+  imageUrl: string;
+};
+
 const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
   const note = route.params.Notes.params.NoteView.noteEdit.note;
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { control, handleSubmit, setValue } = useForm<IFormNoteInputs>({
     defaultValues: {
-      title: note?.title,
-      description: note?.description,
+      title: note?.title || "",
+      description: note?.description || "",
     },
   });
 
@@ -60,7 +67,7 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
   }, [note, setValue]);
 
   const noteId = note?.id;
-  const [images, setImages] = useState(note?.images || []);
+  const [images, setImages] = useState<ImageItem[]>(note?.images || []);
 
   const handleUpdate = async ({
     noteId,
@@ -114,6 +121,37 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
     setImages((prevImages) =>
       prevImages.filter((image) => image.id !== imageId)
     );
+  };
+
+  const handleGalleryPress = async () => {
+    try {
+      const result = await launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+      });
+      console.log(result);
+      // if (!result.canceled) {
+      //   const selectedImage: ImageItem = {
+      //     id: `${Date.now()}`,
+      //     imageUrl: result.uri,
+      //   };
+      //   setImages((prevImages) => [...prevImages, selectedImage]);
+      // }
+    } catch (error) {
+      console.log("Image selection error:", error);
+      // Handle any error that occurred during image selection
+    }
+  };
+
+  const handleCameraPress = async () => {
+    try {
+      const result = await launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+      });
+    } catch (error) {
+      console.log("Image selection error:", error);
+    }
   };
 
   return (
@@ -194,8 +232,13 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
         <IconButton
           iconName="camera"
           style={[styles.iconStyle, { marginRight: 15 }]}
+          navigateTo={handleCameraPress}
         />
-        <IconButton iconName="images" style={styles.iconStyle} />
+        <IconButton
+          iconName="images"
+          style={styles.iconStyle}
+          navigateTo={handleGalleryPress}
+        />
       </View>
       <RoutineToast />
     </ScrollViewScreenWrapper>
