@@ -1,17 +1,22 @@
+import { Auth } from "@aws-amplify/auth";
+import Amplify from "@aws-amplify/core";
+import Storage from "@aws-amplify/storage";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RouteProp, useNavigation } from "@react-navigation/native";
+import Constants from "expo-constants";
 import * as ImagePicker from "expo-image-picker";
-import { launchCameraAsync, launchImageLibraryAsync } from "expo-image-picker";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import awsconfig from "../aws-exports";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
+import AppText from "../components/common/typography/app-text";
 import { updateNoteRequest } from "../data/notes/update-request";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
@@ -48,11 +53,17 @@ type ImageItem = {
   imageUrl: string;
 };
 
+Amplify.configure(awsconfig);
+
 const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
   const note = route.params.Notes.params.NoteView.noteEdit.note;
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [image, setImage] = useState(null);
+  const [percentage, setPercentage] = useState<number>(0);
+  const noteId = note?.id;
+  const [images, setImages] = useState<ImageItem[]>(note?.images || []);
 
   const { control, handleSubmit, setValue } = useForm<IFormNoteInputs>({
     defaultValues: {
@@ -62,12 +73,36 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
   });
 
   useEffect(() => {
+    async () => {
+      if (Constants?.platform?.ios) {
+        // Request permissions
+        const cameraRollStatus =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+        if (
+          cameraRollStatus.status !== "granted" ||
+          cameraStatus.status !== "granted"
+        ) {
+          showToast(
+            ToastType.error,
+            "Bitte gib dein Einverständis, damit wir auf deine Kamera/Gallerie zugreifen können."
+          );
+        }
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     setValue("title", note?.title || "");
     setValue("description", note?.description || "");
   }, [note, setValue]);
 
-  const noteId = note?.id;
-  const [images, setImages] = useState<ImageItem[]>(note?.images || []);
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
 
   const handleUpdate = async ({
     noteId,
@@ -110,48 +145,93 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
     }
   };
 
-  useEffect(() => {
-    if (errorMessage) {
-      showToast(ToastType.error, errorMessage);
-      setErrorMessage("");
-    }
-  }, [errorMessage]);
-
   const handleDelete = (imageId: string) => {
     setImages((prevImages) =>
       prevImages.filter((image) => image.id !== imageId)
     );
   };
 
-  const handleGalleryPress = async () => {
+  // Function for taking a photo
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+    });
+
+    handleImagePicked(result);
+  };
+
+  // Function for picking image
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+    });
+
+    handleImagePicked(result);
+  };
+
+  // Handling the picked image
+  const handleImagePicked = async (
+    pickerResult: ImagePicker.ImagePickerResult
+  ) => {
     try {
-      const result = await launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: false,
-      });
-      console.log(result);
-      // if (!result.canceled) {
-      //   const selectedImage: ImageItem = {
-      //     id: `${Date.now()}`,
-      //     imageUrl: result.uri,
-      //   };
-      //   setImages((prevImages) => [...prevImages, selectedImage]);
-      // }
+      if (pickerResult.canceled) {
+        showToast(ToastType.error, "Upload fehlgeschlagen");
+        return;
+      } else {
+        setPercentage(0);
+        const img = await fetchImageFromUri(pickerResult.assets[0].uri);
+        const uploadUrl = await uploadImage("demo.jpg", img);
+        downloadImage(uploadUrl);
+      }
     } catch (error) {
-      console.log("Image selection error:", error);
-      // Handle any error that occurred during image selection
+      showToast(ToastType.error, "Upload fehlgeschlagen");
     }
   };
 
-  const handleCameraPress = async () => {
-    try {
-      const result = await launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: false,
+  // Upload Img to AWS
+  const uploadImage = (fileName: string, img: Blob) => {
+    Auth.currentCredentials();
+    return Storage.Storage.put(fileName, img, {
+      level: "public",
+      contentType: "image/jpeg",
+      progressCallback(progress: any) {
+        setIsLoading(progress);
+      },
+    })
+      .then((response: any) => {
+        return response.key;
+      })
+      .catch((error: any) => {
+        console.log(error);
+        return error.response;
       });
-    } catch (error) {
-      console.log("Image selection error:", error);
-    }
+  };
+
+  // Update loading percentage
+  const setIsLoading = (progress: any) => {
+    const calculated = (progress.loaded / progress.total) * 100;
+    updatePercentage(Number(calculated));
+  };
+
+  // Update percentage state variable
+  const updatePercentage = (number: number) => {
+    setPercentage(number);
+  };
+
+  // Download Image from AWS
+  const downloadImage = (uri: string) => {
+    Storage.Storage.get(uri)
+      .then((result: any) => setImage(result))
+      .catch((error: string) => console.log(error));
+  };
+
+  // Fetch image from provided uri
+  const fetchImageFromUri = async (uri: string) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    return blob;
   };
 
   return (
@@ -232,14 +312,18 @@ const EditNotesScreen: React.FC<EditNotesScreenProps> = ({ route }) => {
         <IconButton
           iconName="camera"
           style={[styles.iconStyle, { marginRight: 15 }]}
-          navigateTo={handleCameraPress}
+          navigateTo={takePhoto}
         />
         <IconButton
           iconName="images"
           style={styles.iconStyle}
-          navigateTo={handleGalleryPress}
+          navigateTo={pickImage}
         />
+        {percentage !== 0 && <AppText>{percentage}%</AppText>}
       </View>
+      {image && (
+        <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
+      )}
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
