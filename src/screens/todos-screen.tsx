@@ -1,10 +1,13 @@
+import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import { add, format } from "date-fns";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import Calendar from "../components/common/calendar/calendar-card";
 import EmptyState from "../components/common/empty-state";
+import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import Todo from "../components/todos/todo";
@@ -15,6 +18,7 @@ import { StatusBarColor } from "../utils/types/enums";
 const TodosScreen: React.FC = () => {
   const { userTodos, isLoading } = useUserTodos();
   const { t } = useTranslation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const now = new Date();
   const next7Days = [];
@@ -32,6 +36,16 @@ const TodosScreen: React.FC = () => {
 
   const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
   const shouldDisplayTodoCard = true;
+
+  const handleModalPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  console.log(userTodos);
 
   return (
     <>
@@ -80,11 +94,11 @@ const TodosScreen: React.FC = () => {
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         {/* IMPLEMENT CALENDAR!! */}
-        <Pressable>
+        <TouchableWithoutFeedback onPress={handleModalPress}>
           <AppText fontStyle={"body"} colorStyle='black64'>
             {formattedDateRange}
           </AppText>
-        </Pressable>
+        </TouchableWithoutFeedback>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
           {isLoading ? (
             // IMPLEMENT LOADING SCREEN
@@ -92,8 +106,7 @@ const TodosScreen: React.FC = () => {
           ) : userTodos.length > 0 ? (
             userTodos.map((todo) => (
               <Calendar
-                date={15}
-                month={"Juni"}
+                date={new Date(todo.plannedDate)}
                 icon='stop-outline'
                 title={todo.title}
                 key={todo.id}
@@ -109,6 +122,11 @@ const TodosScreen: React.FC = () => {
             />
           )}
         </View>
+        <CalendarModal
+          isVisible={isModalVisible}
+          onClose={closeModal}
+          onConfirm={closeModal}
+        />
       </ScrollViewScreenWrapper>
       <AddButton />
     </>
