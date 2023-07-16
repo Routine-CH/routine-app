@@ -30,6 +30,8 @@ const CalendarScreen: React.FC = () => {
   const [calendarData, setCalendarData] = useState<CalendarData>({ data: {} });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [selectedChip, setSelectedChip] = useState("");
+  const [filteredContent, setFilteredContent] = useState<any[]>([]);
 
   const startOfWeekFormatted = startOfWeek.toLocaleString({
     day: "2-digit",
@@ -74,6 +76,46 @@ const CalendarScreen: React.FC = () => {
     getCalendar();
   }, []);
 
+  const filterContent = (type: string) => {
+    setSelectedChip(type);
+
+    if (type === t("tool-cards.goals")) {
+      setFilteredContent(
+        Object.values(calendarData.data).flatMap((date: any) =>
+          date.goals.map((goal: UserGoals) => ({
+            ...goal,
+            type: t("tool-cards.goals"),
+          }))
+        )
+      );
+    } else if (type === t("tool-cards.todos")) {
+      setFilteredContent(
+        Object.values(calendarData.data).flatMap((date: any) =>
+          date.todos.map((todo: UserTodo) => ({
+            ...todo,
+            type: t("tool-cards.todos"),
+          }))
+        )
+      );
+    } else if (type === t("tool-cards.journals")) {
+      setFilteredContent(
+        Object.values(calendarData.data).flatMap((date: any) =>
+          date.journals.map((journal: UserJournals) => ({
+            ...journal,
+            type: t("tool-cards.journals"),
+          }))
+        )
+      );
+    } else {
+      setFilteredContent([]);
+    }
+  };
+
+  const resetFilter = () => {
+    setSelectedChip("");
+    setFilteredContent([]);
+  };
+
   return (
     <ScrollViewScreenWrapper
       backgroundColor='white'
@@ -81,9 +123,39 @@ const CalendarScreen: React.FC = () => {
       defaultPadding
     >
       <View style={styles.chipContainer}>
-        <Chip text={t("tool-cards.goals")} />
-        <Chip text={t("tool-cards.todos")} />
-        <Chip text={t("tool-cards.journals")} />
+        <Chip
+          text={t("tool-cards.goals")}
+          selected={selectedChip === t("tool-cards.goals")}
+          onPress={() => {
+            if (selectedChip === t("tool-cards.goals")) {
+              resetFilter();
+            } else {
+              filterContent(t("tool-cards.goals"));
+            }
+          }}
+        />
+        <Chip
+          text={t("tool-cards.todos")}
+          selected={selectedChip === t("tool-cards.todos")}
+          onPress={() => {
+            if (selectedChip === t("tool-cards.todos")) {
+              resetFilter();
+            } else {
+              filterContent(t("tool-cards.todos"));
+            }
+          }}
+        />
+        <Chip
+          text={t("tool-cards.journals")}
+          selected={selectedChip === t("tool-cards.journals")}
+          onPress={() => {
+            if (selectedChip === t("tool-cards.journals")) {
+              resetFilter();
+            } else {
+              filterContent(t("tool-cards.journals"));
+            }
+          }}
+        />
       </View>
       <TouchableWithoutFeedback onPress={handleModalPress}>
         <AppText fontStyle={"body"} colorStyle='black64' style={styles.margin}>
@@ -128,6 +200,11 @@ const CalendarScreen: React.FC = () => {
                 type: t("tool-cards.journals"),
               })),
             ];
+
+            const itemsToRender = filteredContent.length
+              ? filteredContent
+              : content;
+
             return (
               <React.Fragment key={date}>
                 <View style={{ flexDirection: "row" }}>
@@ -135,7 +212,7 @@ const CalendarScreen: React.FC = () => {
                     <DateCard date={new Date(date)} />
                   </View>
                   <View>
-                    {content.map((item: any) => (
+                    {itemsToRender.map((item: any) => (
                       <CalendarCard
                         key={item.id}
                         date={new Date(date)}

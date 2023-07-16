@@ -5,13 +5,14 @@ import AppText from "../common/typography/app-text";
 interface ChipProps {
   text: string;
   style?: StyleProp<ViewStyle>;
-  onDelete?: () => void;
+  selected?: boolean;
+  onPress?: () => void;
 }
 
-const Chip: React.FC<ChipProps> = ({ text, style, onDelete }) => {
+const Chip: React.FC<ChipProps> = ({ text, style, onPress }) => {
   return (
-    <Pressable style={[styles.chipContainer, style]} onPress={onDelete}>
-      <AppText fontStyle="filters" colorStyle="black70">
+    <Pressable style={[styles.chipContainer, style]} onPress={onPress}>
+      <AppText fontStyle='filters' colorStyle='black70'>
         {text}
       </AppText>
     </Pressable>
