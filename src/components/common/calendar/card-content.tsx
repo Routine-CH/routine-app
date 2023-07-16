@@ -25,7 +25,7 @@ const CardContent: React.FC<ChipProps> = ({
           <AppText
             fontStyle="information"
             colorStyle="black64"
-            style={[styles.textStyle, { marginBottom: 5 }]}
+            style={{ marginBottom: 5 }}
           >
             {type}
           </AppText>
@@ -33,7 +33,6 @@ const CardContent: React.FC<ChipProps> = ({
         <AppText
           fontStyle="body"
           colorStyle="black64"
-          style={styles.textStyle}
           numberOfLines={1}
           ellipsizeMode="tail"
         >
@@ -53,6 +52,7 @@ export default CardContent;
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     height: 72,
     borderRadius: 6,
     paddingHorizontal: 15,
@@ -62,8 +62,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  textStyle: {
-    width: 165,
   },
 });

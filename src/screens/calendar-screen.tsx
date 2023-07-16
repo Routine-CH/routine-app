@@ -207,11 +207,11 @@ const CalendarScreen: React.FC = () => {
 
             return (
               <React.Fragment key={date}>
-                <View style={{ flexDirection: "row" }}>
-                  <View style={{ flex: 1 }}>
+                <View style={{ flexDirection: "row", gap: 30 }}>
+                  <View style={{ flexShrink: 1 }}>
                     <DateCard date={new Date(date)} />
                   </View>
-                  <View>
+                  <View style={{ flexShrink: 1, flexGrow: 1 }}>
                     {itemsToRender.map((item: any) => (
                       <CalendarCard
                         key={item.id}
@@ -219,10 +219,18 @@ const CalendarScreen: React.FC = () => {
                         title={item.title}
                         type={item.type}
                         icon={
-                          item.completed ? "checkmark-circle" : "close-circle"
+                          item.type === t("tool-cards.journals")
+                            ? ""
+                            : item.completed
+                            ? "checkmark-circle"
+                            : "close-circle"
                         }
                         iconStyle={
-                          item.completed ? styles.reached : styles.notReached
+                          item.type === t("tool-cards.journals")
+                            ? null
+                            : item.completed
+                            ? styles.reached
+                            : styles.notReached
                         }
                       />
                     ))}
