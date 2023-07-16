@@ -1,11 +1,10 @@
 import { StyleSheet, View } from "react-native";
 import Todo from "../../todos/todo";
-import Card from "./card";
+import CardContent from "./card-content";
 import DateCard from "./date-card";
 
 interface DateProps {
-  date: number;
-  month: string;
+  date: Date;
   type?: string;
   title: string;
   icon?: string;
@@ -14,9 +13,8 @@ interface DateProps {
   displayTodoCard?: boolean;
 }
 
-const Calendar: React.FC<DateProps> = ({
+const CalendarCard: React.FC<DateProps> = ({
   date,
-  month,
   type,
   title,
   icon,
@@ -27,12 +25,12 @@ const Calendar: React.FC<DateProps> = ({
   return (
     <View style={styles.calendarContainer}>
       <View style={{ flex: 1 }}>
-        <DateCard date={date} month={month} />
+        <DateCard date={date} />
       </View>
       <View style={{ flex: 3 }}>
         {displayTodoCard && <Todo icon={icon} title={title} />}
         {!displayTodoCard && (
-          <Card
+          <CardContent
             type={type}
             title={title}
             icon={icon}
@@ -45,7 +43,7 @@ const Calendar: React.FC<DateProps> = ({
   );
 };
 
-export default Calendar;
+export default CalendarCard;
 
 const styles = StyleSheet.create({
   calendarContainer: {

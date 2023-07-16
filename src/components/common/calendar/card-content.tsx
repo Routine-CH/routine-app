@@ -11,7 +11,7 @@ interface ChipProps {
   cardStyle?: any;
 }
 
-const Card: React.FC<ChipProps> = ({
+const CardContent: React.FC<ChipProps> = ({
   type,
   title,
   icon,
@@ -49,7 +49,7 @@ const Card: React.FC<ChipProps> = ({
   );
 };
 
-export default Card;
+export default CardContent;
 
 const styles = StyleSheet.create({
   container: {

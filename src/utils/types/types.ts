@@ -89,6 +89,7 @@ export type UserGoals = {
   description: string;
   completed: boolean;
   todos: UserTodo[];
+  createdAt: Date;
 };
 
 export interface UserTool {
@@ -116,6 +117,7 @@ export type UserTodo = {
   description: string;
   plannedDate: Date;
   completed: boolean;
+  createdAt: Date;
 };
 
 export type UserPomodoroTimers = {
@@ -208,3 +210,12 @@ type ErrorResponse = {
   message: string;
   errorCode: number;
 };
+export interface CalendarData {
+  data: {
+    [date: string]: {
+      goals?: UserGoals[];
+      todos?: UserTodo[];
+      journals?: UserJournals[];
+    };
+  };
+}
