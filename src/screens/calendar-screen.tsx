@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import Chip from "../components/calendar/chip";
 import CalendarCard from "../components/common/calendar/calendar-card";
+import DateCard from "../components/common/calendar/date-card";
+import EmptyState from "../components/common/empty-state";
 import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
@@ -26,6 +28,8 @@ const CalendarScreen: React.FC = () => {
   const endOfWeek = now.endOf("week");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [calendarData, setCalendarData] = useState<CalendarData>({ data: {} });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const startOfWeekFormatted = startOfWeek.toLocaleString({
     day: "2-digit",
@@ -58,8 +62,11 @@ const CalendarScreen: React.FC = () => {
         });
         setCalendarData(response.data);
       }
+      setLoading(false);
     } catch (error) {
       console.error("Failed to get calendar information", error);
+      setError(true);
+      setLoading(false);
     }
   };
 
@@ -84,7 +91,16 @@ const CalendarScreen: React.FC = () => {
         </AppText>
       </TouchableWithoutFeedback>
       <View style={styles.margin}>
-        {calendarData && calendarData.data ? (
+        {loading ? (
+          <AppText>Loading...</AppText>
+        ) : error ? (
+          <EmptyState
+            type='calendar'
+            title='Keine Daten verfügbar'
+            description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
+            style={{ backgroundColor: AppColors.blueMuted30 }}
+          />
+        ) : calendarData && calendarData.data ? (
           Object.keys(calendarData.data).map((date) => {
             const {
               goals = [],
@@ -92,56 +108,58 @@ const CalendarScreen: React.FC = () => {
               journals = [],
             } = calendarData.data?.[date] || {};
 
-            // Render goals
-            const renderedGoals = (goals || []).map((goal: UserGoals) => (
-              <CalendarCard
-                key={goal.id}
-                date={new Date(goal.createdAt)}
-                title={goal.title}
-                type='Ziel'
-                icon={
-                  goal.completed === true ? "checkmark-circle" : "close-circle"
-                }
-                iconStyle={
-                  goal.completed === true ? styles.reached : styles.notReached
-                }
-              />
-            ));
-
-            // Render todos
-            const renderedTodos = (todos || []).map((todo: UserTodo) => (
-              <CalendarCard
-                key={todo.id}
-                date={new Date(todo.plannedDate)}
-                title={todo.title}
-                type='Todo'
-                icon='close-circle'
-                iconStyle={styles.notReached}
-              />
-            ));
-
-            // Render journals
-            const renderedJournals = (journals || []).map(
-              (journal: UserJournals) => (
-                <CalendarCard
-                  key={journal.id}
-                  date={new Date(journal.createdAt)}
-                  title={journal.title}
-                  type='Journal'
-                />
-              )
-            );
-
+            // Combine all the content for a specific date into an array
+            const content = [
+              ...goals.map((goal: UserGoals) => ({
+                id: goal.id,
+                title: goal.title,
+                completed: goal.completed,
+                type: t("tool-cards.goals"),
+              })),
+              ...todos.map((todo: UserTodo) => ({
+                id: todo.id,
+                title: todo.title,
+                completed: todo.completed,
+                type: t("tool-cards.todos"),
+              })),
+              ...journals.map((journal: UserJournals) => ({
+                id: journal.id,
+                title: journal.title,
+                type: t("tool-cards.journals"),
+              })),
+            ];
             return (
               <React.Fragment key={date}>
-                {renderedGoals}
-                {renderedTodos}
-                {renderedJournals}
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ flex: 1 }}>
+                    <DateCard date={new Date(date)} />
+                  </View>
+                  <View>
+                    {content.map((item: any) => (
+                      <CalendarCard
+                        key={item.id}
+                        date={new Date(date)}
+                        title={item.title}
+                        type={item.type}
+                        icon={
+                          item.completed ? "checkmark-circle" : "close-circle"
+                        }
+                        iconStyle={
+                          item.completed ? styles.reached : styles.notReached
+                        }
+                      />
+                    ))}
+                  </View>
+                </View>
               </React.Fragment>
             );
           })
         ) : (
-          <AppText>No Data available</AppText>
+          <EmptyState
+            type='calendar'
+            title='Keine Daten verfügbar'
+            description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
+          />
         )}
       </View>
       <CalendarModal
