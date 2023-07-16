@@ -1,3 +1,4 @@
+import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
@@ -8,11 +9,18 @@ interface TodoProps {
   title: string;
   description?: string;
   style?: StyleProp<ViewStyle>;
+  onPress?: () => void;
 }
 
-const Todo: React.FC<TodoProps> = ({ icon, title, description, style }) => {
+const Todo: React.FC<TodoProps> = ({
+  icon,
+  title,
+  description,
+  style,
+  onPress,
+}) => {
   return (
-    <View style={styles.todoContainer}>
+    <TouchableWithoutFeedback style={styles.todoContainer} onPress={onPress}>
       <Icon name={icon} size={40} style={styles.iconStyle} />
       <View>
         <AppText
@@ -36,7 +44,7 @@ const Todo: React.FC<TodoProps> = ({ icon, title, description, style }) => {
           </AppText>
         )}
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -47,13 +55,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 72,
     borderRadius: 6,
+    paddingHorizontal: 15,
+    marginBottom: 15,
     backgroundColor: AppColors.blueMuted30,
     flexDirection: "row",
-    justifyContent: "flex-start",
-    alignContent: "space-between",
     alignItems: "center",
-    padding: 10,
-    marginBottom: 15,
   },
   iconStyle: {
     color: AppColors.blue200,

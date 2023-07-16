@@ -3,7 +3,6 @@ import Todo from "../../todos/todo";
 import CardContent from "./card-content";
 
 interface DateProps {
-  date: Date;
   type?: string;
   title: string;
   icon?: string;
@@ -13,7 +12,6 @@ interface DateProps {
 }
 
 const CalendarCard: React.FC<DateProps> = ({
-  date,
   type,
   title,
   icon,

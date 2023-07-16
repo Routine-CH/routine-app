@@ -215,7 +215,6 @@ const CalendarScreen: React.FC = () => {
                     {itemsToRender.map((item: any) => (
                       <CalendarCard
                         key={item.id}
-                        date={new Date(date)}
                         title={item.title}
                         type={item.type}
                         icon={
