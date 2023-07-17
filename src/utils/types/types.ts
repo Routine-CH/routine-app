@@ -9,23 +9,11 @@ export type AuthStackParamList = {
 
 // types for Main Stack Navigation
 export type AuthenticatedStackParamList = {
-  Home: {
-    screen?: string;
-    params?: {
-      Timer?: undefined;
-      Journals?: {
-        screen?: string;
-        params?: {
-          JournalEdit?: { journal: UserJournals | null };
-          JournalNew?: undefined;
-        };
-      };
-      Todos?: undefined;
-      Notes?: undefined;
-      Goals?: undefined;
-      EditTools?: undefined;
-    };
-  };
+  Home: undefined;
+  Journals: undefined;
+  EditTools: undefined;
+  JournalEdit: { id: string };
+  JournalNew: undefined;
   Calendar: undefined;
   Discover: {
     screen?: string;
@@ -35,9 +23,19 @@ export type AuthenticatedStackParamList = {
       DiscoverTodos?: undefined;
       DiscoverNotes?: undefined;
       DiscoverGoals?: undefined;
-      DiscoverAudio?: {audio: AudioParams | null}; 
+      DiscoverAudio?: { audio: AudioParams | null };
     };
   };
+  Notes: undefined;
+  NotesEdit: { id: string };
+  NotesNew: undefined;
+  Todos: undefined;
+  TodosEdit: { id: string };
+  TodosNew: undefined;
+  Goals: undefined;
+  GoalsEdit: { id: string };
+  GoalsNew: undefined;
+  Timer: undefined;
   Profile: {
     screen?: string;
     params?: {
@@ -64,24 +62,23 @@ interface UserLogins {
 }
 
 export type UserJournals = {
-      id: string;
-      title: string;
-      journalMoods: JournalMood[];
-      moodDescription: string;
-      activity: string;
-      toImprove: string;
-      date: Date;
-      thoughtsAndIdeas: string;
-    };
-    
-    export type JournalMood = {
-      id: string;
-      mood: {
-            id: any;
-            type: string;
-      }
-    };
-    
+  id: string;
+  title: string;
+  journalMoods: JournalMood[];
+  moodDescription: string;
+  activity: string;
+  toImprove: string;
+  createdAt: Date;
+  thoughtsAndIdeas: string;
+};
+
+export type JournalMood = {
+  id: string;
+  mood: {
+    id: any;
+    type: string;
+  };
+};
 
 export type AllUserJournals = UserJournals[];
 
@@ -172,11 +169,11 @@ export interface UserMe {
 }
 
 export interface AudioParams {
-      title: string;
-      image: any;
-      minutes: string;
-      informationText: string;
-      toolsFor: string[];
+  title: string;
+  image: any;
+  minutes: string;
+  informationText: string;
+  toolsFor: string[];
 }
 
 export interface IFormLoginInputs {
@@ -204,11 +201,10 @@ export interface IFormJournalInputs {
 }
 
 export type AxiosErrorWithData = AxiosError & {
-      response: AxiosResponse<ErrorResponse>;
-}
+  response: AxiosResponse<ErrorResponse>;
+};
 
 type ErrorResponse = {
-      message: string;
-      errorCode: number;
-    };
-    
+  message: string;
+  errorCode: number;
+};

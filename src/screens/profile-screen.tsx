@@ -1,10 +1,9 @@
-import { DateTime } from "luxon";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
+import { format, parseISO } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
-
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
 import IconButton from "../components/common/buttons/icon-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
@@ -19,17 +18,10 @@ import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const ProfileScreen = () => {
   const { t } = useTranslation();
-
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
-
   const currentUser = useUserMe();
   const defaultAvatar = "../assets/misc/stones.jpg";
-  const createdAt = DateTime.fromISO(currentUser.currentUser?.createdAt);
-  const formattedMonth = createdAt.toLocaleString({
-    month: "long",
-    year: "numeric",
-  });
 
   const navigateToScreen = (screenName: string) => {
     navigation.navigate("Profile", { screen: screenName });
@@ -39,9 +31,9 @@ const ProfileScreen = () => {
     navigation.navigate("Profile", { screen: screenName });
   };
 
-  return (
+  return currentUser.currentUser ? (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
     >
       <View style={{ paddingHorizontal: 20 }}>
@@ -53,7 +45,7 @@ const ProfileScreen = () => {
         >
           <View style={styles.iconContainer}>
             <IconButton
-              iconName="pencil"
+              iconName='pencil'
               onPress={() => navigateToProfileSettingsScreen("ProfileSettings")}
             />
           </View>
@@ -64,14 +56,17 @@ const ProfileScreen = () => {
               style={styles.profilePicture}
             />
             <AppText
-              fontStyle="bodyMedium"
-              colorStyle="black70"
+              fontStyle='bodyMedium'
+              colorStyle='black70'
               style={{ marginBottom: 10 }}
             >
               {t("profile.hi")} {currentUser.currentUser?.username} 😄
             </AppText>
-            <AppText fontStyle="body" colorStyle="black64">
-              {t("profile.since")} {formattedMonth} {t("profile.here")}
+            <AppText fontStyle='body' colorStyle='black64'>
+              {`${t("profile.since")} ${format(
+                parseISO(currentUser.currentUser.createdAt),
+                "MMMM yyyy"
+              )} ${t("profile.here")}`}
             </AppText>
           </View>
         </View>
@@ -84,6 +79,8 @@ const ProfileScreen = () => {
       </View>
       <WeekView />
     </ScrollViewScreenWrapper>
+  ) : (
+    <></>
   );
 };
 

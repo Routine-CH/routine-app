@@ -2,22 +2,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { API_BASE_URL } from "../../../utils/config/config";
-import AppColors from "../../../utils/constants/colors";
 import { UserGoals } from "../../../utils/types/types";
 import AddButton from "../buttons/add-button";
-import AppText from "../typography/app-text";
 import GoalsCard from "./goals-card";
+import GoalsScrollView from "./goals-container/goals-scroll-view";
+import NoGoalsCard from "./goals-container/no-goals-card";
 
-interface GoalsContainerProps {
-  displayHorizontalScroll?: boolean;
-}
-
-const GoalsContainer: React.FC<GoalsContainerProps> = ({
-  displayHorizontalScroll,
-}) => {
+const GoalsContainer: React.FC = () => {
   const [userGoals, setUserGoals] = useState<UserGoals[]>([]);
+  const [_, setIsDisplayHorizontalScroll] = useState<boolean>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -39,46 +34,31 @@ const GoalsContainer: React.FC<GoalsContainerProps> = ({
     }
 
     getUserGoals();
+  }, []);
+
+  useEffect(() => {
+    setIsDisplayHorizontalScroll(userGoals.length > 0);
   }, [userGoals]);
 
   return (
-    <View>
-      {displayHorizontalScroll ? (
-        <>
-          <ScrollView horizontal style={styles.horizontalScroll}>
-            {userGoals.map((goal) => (
-              <GoalsCard
-                key={goal.id}
-                //     image={}
-                title={goal.title}
-                description={goal.description}
-                displayHorizontalScroll={displayHorizontalScroll}
-              />
-            ))}
-            <Pressable style={styles.showAllContainer}>
-              <AppText
-                fontStyle='heading4'
-                colorStyle='white'
-                style={{ textAlign: "center" }}
-              >
-                {t("goals.show-all")}
-              </AppText>
-            </Pressable>
-          </ScrollView>
+    <View style={styles.relativeContainer}>
+      {userGoals.length === 0 ? (
+        <View style={styles.container}>
+          <NoGoalsCard />
           <AddButton style={styles.buttonStyles} />
-        </>
+        </View>
       ) : (
-        <View>
+        <GoalsScrollView>
           {userGoals.map((goal) => (
             <GoalsCard
               key={goal.id}
-              //     image={}
               title={goal.title}
               description={goal.description}
             />
           ))}
-        </View>
+        </GoalsScrollView>
       )}
+      <AddButton style={styles.buttonStyles} />
     </View>
   );
 };
@@ -86,23 +66,17 @@ const GoalsContainer: React.FC<GoalsContainerProps> = ({
 export default GoalsContainer;
 
 const styles = StyleSheet.create({
-  horizontalScroll: {
-    flexDirection: "row",
-    paddingLeft: 15,
+  relativeContainer: {
+    flex: 1,
+    position: "relative",
   },
-  showAllContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 13,
-    backgroundColor: AppColors.blue200,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 60,
-    marginLeft: 15,
+  container: {
+    flex: 1,
+    paddingHorizontal: 30,
   },
   buttonStyles: {
     position: "absolute",
     bottom: -30,
-    right: 30,
+    right: 35,
   },
 });
