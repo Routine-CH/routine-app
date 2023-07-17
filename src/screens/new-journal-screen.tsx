@@ -63,9 +63,7 @@ const NewJournalScreen = () => {
     } else if (response && response.status === 201) {
       showToast(ToastType.success, "Journal gespeichert");
       setTimeout(() => {
-        navigation.navigate("Home", {
-          screen: "Journals",
-        });
+        navigation.navigate("Journals");
       }, 2000);
     } else {
       setErrorMessage("Something is wrong");
@@ -123,7 +121,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deinem Journal einen Titel",
             minLength: {
@@ -148,7 +146,7 @@ const NewJournalScreen = () => {
         </View>
 
         <IconTextButton
-          iconName="add-outline"
+          iconName='add-outline'
           size={30}
           title={t("journal.mood")}
           style={styles.iconTextButton}
@@ -167,7 +165,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name="moodDescription"
+          name='moodDescription'
           rules={{
             required: "Bitte beschreibe deine Gefühle.",
           }}
@@ -185,7 +183,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name="activity"
+          name='activity'
           rules={{
             required: "Bitte beschreibe, was du anders machen hättest können.",
           }}
@@ -203,7 +201,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name="toImprove"
+          name='toImprove'
           rules={{
             required: "Bitte beschreibe, was du noch verbessern könntest.",
           }}
@@ -221,7 +219,7 @@ const NewJournalScreen = () => {
               value={value}
             />
           )}
-          name="thoughtsAndIdeas"
+          name='thoughtsAndIdeas'
         />
         <EmotionModal
           isVisible={isModalVisible}

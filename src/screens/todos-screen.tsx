@@ -1,7 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import { add, format } from "date-fns";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
@@ -11,37 +8,12 @@ import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wra
 import AppText from "../components/common/typography/app-text";
 import EmptyState from "../components/todos/empty-state";
 import Todo from "../components/todos/todo";
-import { API_BASE_URL } from "../utils/config/config";
+import { useUserTodos } from "../hooks/todos/use-user-todos";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
-  const [userTodos, setUserTodos] = useState<UserTodo[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function getUserTodos() {
-      try {
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
-          const response = await axios.get(`${API_BASE_URL}todos`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          setUserTodos(response.data.data);
-        }
-      } catch (error) {
-        console.error("Failed to get user todos", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    getUserTodos();
-  }, []);
-
+  const { userTodos, isLoading } = useUserTodos();
   const { t } = useTranslation();
 
   const now = new Date();

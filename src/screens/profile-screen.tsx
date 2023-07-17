@@ -18,14 +18,10 @@ import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const ProfileScreen = () => {
   const { t } = useTranslation();
-
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
-
   const currentUser = useUserMe();
   const defaultAvatar = "../assets/misc/stones.jpg";
-  const createdAt = parseISO(currentUser.currentUser?.createdAt);
-  const formattedMonth = format(createdAt, "MMMM yyyy");
 
   const navigateToScreen = (screenName: string) => {
     navigation.navigate("Profile", { screen: screenName });
@@ -35,7 +31,7 @@ const ProfileScreen = () => {
     navigation.navigate("Profile", { screen: screenName });
   };
 
-  return (
+  return currentUser.currentUser ? (
     <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
@@ -67,7 +63,10 @@ const ProfileScreen = () => {
               {t("profile.hi")} {currentUser.currentUser?.username} 😄
             </AppText>
             <AppText fontStyle='body' colorStyle='black64'>
-              {t("profile.since")} {formattedMonth} {t("profile.here")}
+              {`${t("profile.since")} ${format(
+                parseISO(currentUser.currentUser.createdAt),
+                "MMMM yyyy"
+              )} ${t("profile.here")}`}
             </AppText>
           </View>
         </View>
@@ -80,6 +79,8 @@ const ProfileScreen = () => {
       </View>
       <WeekView />
     </ScrollViewScreenWrapper>
+  ) : (
+    <></>
   );
 };
 
