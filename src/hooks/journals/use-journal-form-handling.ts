@@ -41,6 +41,17 @@ export const useFormHandling = (
   });
 
   useEffect(() => {
+    if (journal) {
+      setSelectedMoods(
+        journal?.journalMoods.map((journalMood) => ({
+          id: journalMood.mood.id,
+          type: journalMood.mood.type,
+        }))
+      );
+    }
+  }, []);
+
+  useEffect(() => {
     setValue("title", journal?.title || "");
     setValue("moodDescription", journal?.moodDescription || "");
     setValue("activity", journal?.activity || "");

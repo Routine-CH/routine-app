@@ -54,7 +54,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     setIsModalVisible(false);
   };
 
-  return isLoading ? (
+  return journal ? (
     <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
