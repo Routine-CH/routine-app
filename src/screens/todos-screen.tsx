@@ -150,7 +150,7 @@ const TodosScreen: React.FC = () => {
             // IMPLEMENT LOADING SCREEN
             <AppText>Loading...</AppText>
           ) : userTodos.length > 0 ? (
-            userTodos.map((todo, index) => (
+            userTodos.map((todo) => (
               <Todo
                 icon={todo.completed === false ? "stop-outline" : "checkbox"}
                 key={todo.id}

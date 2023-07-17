@@ -23,9 +23,6 @@ import {
 
 const CalendarScreen: React.FC = () => {
   const { t } = useTranslation();
-  const now = DateTime.local();
-  const startOfWeek = now.startOf("week");
-  const endOfWeek = now.endOf("week");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [calendarData, setCalendarData] = useState<CalendarData>({ data: {} });
   const [loading, setLoading] = useState(true);
@@ -33,16 +30,15 @@ const CalendarScreen: React.FC = () => {
   const [selectedChip, setSelectedChip] = useState("");
   const [filteredContent, setFilteredContent] = useState<any[]>([]);
 
-  const startOfWeekFormatted = startOfWeek.toLocaleString({
+  const startOfWeekFormatted = DateTime.local().startOf("week").toLocaleString({
     day: "2-digit",
     month: "long",
   });
-  const endOfWeekFormatted = endOfWeek.toLocaleString({
+  const endOfWeekFormatted = DateTime.local().endOf("week").toLocaleString({
     day: "2-digit",
     month: "long",
     year: "numeric",
   });
-
   const formattedDateRange = `${startOfWeekFormatted} - ${endOfWeekFormatted}`;
 
   const handleModalPress = () => {
@@ -75,8 +71,6 @@ const CalendarScreen: React.FC = () => {
   useEffect(() => {
     getCalendar();
   }, []);
-
-  console.log(calendarData);
 
   const filterContent = (type: string) => {
     setSelectedChip(type);
@@ -166,6 +160,7 @@ const CalendarScreen: React.FC = () => {
       </TouchableWithoutFeedback>
       <View style={styles.margin}>
         {loading ? (
+          // IMPLEMENT LOADING SCREEN
           <AppText>Loading...</AppText>
         ) : error ? (
           <EmptyState
@@ -244,6 +239,7 @@ const CalendarScreen: React.FC = () => {
             type='calendar'
             title='Keine Daten verfügbar'
             description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
+            style={{ backgroundColor: AppColors.blueMuted30 }}
           />
         )}
       </View>
