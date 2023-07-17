@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { DateTime } from "luxon";
-import React, { useEffect, useState } from "react";
+import { endOfWeek, format, startOfWeek } from "date-fns";
+import { de } from "date-fns/locale";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import Chip from "../components/calendar/chip";
@@ -30,14 +31,15 @@ const CalendarScreen: React.FC = () => {
   const [selectedChip, setSelectedChip] = useState("");
   const [filteredContent, setFilteredContent] = useState<any[]>([]);
 
-  const startOfWeekFormatted = DateTime.local().startOf("week").toLocaleString({
-    day: "2-digit",
-    month: "long",
+  const now = new Date();
+  const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 }); // week starts on Monday
+  const endOfWeekDate = endOfWeek(now, { weekStartsOn: 1 }); // week starts on Monday
+
+  const startOfWeekFormatted = format(startOfWeekDate, "dd MMMM", {
+    locale: de,
   });
-  const endOfWeekFormatted = DateTime.local().endOf("week").toLocaleString({
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
+  const endOfWeekFormatted = format(endOfWeekDate, "dd MMMM yyyy", {
+    locale: de,
   });
   const formattedDateRange = `${startOfWeekFormatted} - ${endOfWeekFormatted}`;
 
@@ -202,7 +204,7 @@ const CalendarScreen: React.FC = () => {
               : content;
 
             return (
-              <React.Fragment key={date}>
+              <Fragment key={date}>
                 <View style={{ flexDirection: "row", gap: 30 }}>
                   <View style={{ flexShrink: 1 }}>
                     <DateCard date={new Date(date)} />
@@ -231,7 +233,7 @@ const CalendarScreen: React.FC = () => {
                     ))}
                   </View>
                 </View>
-              </React.Fragment>
+              </Fragment>
             );
           })
         ) : (

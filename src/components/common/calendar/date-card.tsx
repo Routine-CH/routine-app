@@ -1,4 +1,5 @@
-import { DateTime } from "luxon";
+import { format, getDate } from "date-fns";
+import { de } from "date-fns/locale";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import AppColors from "../../../utils/constants/colors";
 import AppText from "../typography/app-text";
@@ -9,16 +10,16 @@ interface ChipProps {
 }
 
 const DateCard: React.FC<ChipProps> = ({ date, style }) => {
-  const formattedDate = DateTime.fromJSDate(date).toFormat("dd");
-  const formattedMonth = DateTime.fromJSDate(date).toFormat("MMMM");
+  const day = getDate(date);
+  const month = format(date, "MMMM", { locale: de });
 
   return (
     <View style={[styles.dateContainer, style]}>
       <AppText fontStyle='calendarDate' style={styles.textStyle}>
-        {formattedDate}
+        {day}
       </AppText>
       <AppText fontStyle='body' style={styles.textStyle}>
-        {formattedMonth}
+        {month}
       </AppText>
     </View>
   );

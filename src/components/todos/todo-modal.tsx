@@ -1,4 +1,5 @@
-import { DateTime } from "luxon";
+import { format } from "date-fns";
+import { de } from "date-fns/locale";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -26,7 +27,7 @@ const TodoModal: React.FC<TodoModal> = ({ todo, isVisible, onClose }) => {
 
   const plannedDate = todo?.plannedDate ? new Date(todo.plannedDate) : null;
   const formattedDate = plannedDate
-    ? DateTime.fromJSDate(plannedDate).setLocale("de").toFormat("dd. MMMM yyyy")
+    ? format(plannedDate, "dd. MMMM yyyy", { locale: de })
     : "";
 
   return todo ? (
@@ -38,37 +39,37 @@ const TodoModal: React.FC<TodoModal> = ({ todo, isVisible, onClose }) => {
               <View>
                 <View style={styles.textContainer}>
                   <AppText
-                    fontStyle="bodyMedium"
-                    colorStyle="black70"
+                    fontStyle='bodyMedium'
+                    colorStyle='black70'
                     style={styles.title}
                   >
                     {t("journal.title")}
                   </AppText>
-                  <AppText fontStyle="body" colorStyle="black70">
+                  <AppText fontStyle='body' colorStyle='black70'>
                     {todo.title}
                   </AppText>
                 </View>
                 <View>
                   <AppText
-                    fontStyle="bodyMedium"
-                    colorStyle="black70"
+                    fontStyle='bodyMedium'
+                    colorStyle='black70'
                     style={styles.title}
                   >
                     {t("tool-cards.notes")}
                   </AppText>
-                  <AppText fontStyle="body" colorStyle="black70">
+                  <AppText fontStyle='body' colorStyle='black70'>
                     {todo.description}
                   </AppText>
                 </View>
                 <View>
                   <AppText
-                    fontStyle="bodyMedium"
-                    colorStyle="black70"
+                    fontStyle='bodyMedium'
+                    colorStyle='black70'
                     style={styles.title}
                   >
                     {t("notes.date")}
                   </AppText>
-                  <AppText fontStyle="body" colorStyle="black70">
+                  <AppText fontStyle='body' colorStyle='black70'>
                     {formattedDate}
                   </AppText>
                 </View>
