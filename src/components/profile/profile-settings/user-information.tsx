@@ -6,38 +6,46 @@ import FlatButton from "../../common/buttons/flat-button";
 import InputField from "../../common/input/input-field";
 import AppText from "../../common/typography/app-text";
 
-const YourInformation: React.FC = () => {
+type UserInformationProps = {
+  username: string;
+  email: string;
+};
+
+const UserInformation: React.FC<UserInformationProps> = ({
+  username,
+  email,
+}) => {
   const { t } = useTranslation();
 
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-      <AppText fontStyle="heading3" colorStyle="black70">
+      <AppText fontStyle='heading3' colorStyle='black70'>
         {t("profile.profile-settings.your-information")}
       </AppText>
       <View style={styles.formContainer}>
         <AppText
-          fontStyle="body"
-          colorStyle="black70"
+          fontStyle='body'
+          colorStyle='black70'
           style={{ marginBottom: 15 }}
         >
           {t("shared-auth.username")}
         </AppText>
-        <InputField />
+        <InputField defaultValue={username} />
         <AppText
-          fontStyle="body"
-          colorStyle="black70"
+          fontStyle='body'
+          colorStyle='black70'
           style={styles.textContainer}
         >
           {t("shared-auth.email")}
         </AppText>
-        <InputField />
+        <InputField defaultValue={email} />
       </View>
       <View style={styles.buttonContainer}>
         <FlatButton
-          fontStyle="bodyMedium"
-          colorStyle="white"
+          fontStyle='bodyMedium'
+          colorStyle='white'
           buttonStyle={styles.button}
           onPress={() => navigation.goBack()}
         >
@@ -48,7 +56,7 @@ const YourInformation: React.FC = () => {
   );
 };
 
-export default YourInformation;
+export default UserInformation;
 
 const styles = StyleSheet.create({
   container: { marginTop: 60 },

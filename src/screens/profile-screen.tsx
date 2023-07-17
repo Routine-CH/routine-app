@@ -28,12 +28,8 @@ const ProfileScreen = () => {
   };
 
   const navigateToProfileSettingsScreen = () => {
-    navigation.navigate("Profile", {
-      screen: "ProfileSettings",
-      params: {
-        ProfileSettings: { currentUser },
-      },
-    });
+    if (!currentUser) return;
+    navigation.navigate("ProfileSettings", { id: currentUser.id });
   };
 
   return currentUser ? (
@@ -74,7 +70,10 @@ const ProfileScreen = () => {
             </AppText>
           </View>
         </View>
-        <AchievementCard exp={currentUser.experience} />
+        <AchievementCard
+          exp={currentUser.experience}
+          badgesCount={currentUser.badges.length}
+        />
         <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
       </View>
       <Badge />

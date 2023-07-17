@@ -6,9 +6,13 @@ import AppText from "../common/typography/app-text";
 
 type AchievementCardProps = {
   exp: number;
+  badgesCount: number;
 };
 
-const AchievementCard: React.FC<AchievementCardProps> = ({ exp }) => {
+const AchievementCard: React.FC<AchievementCardProps> = ({
+  exp,
+  badgesCount,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -19,7 +23,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({ exp }) => {
           colorStyle='black64'
           style={{ marginBottom: 5 }}
         >
-          4
+          {badgesCount}
         </AppText>
         <AppText fontStyle='body' colorStyle='black64'>
           {t("profile.gamification.badges")}

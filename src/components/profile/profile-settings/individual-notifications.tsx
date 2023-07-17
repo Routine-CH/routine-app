@@ -27,8 +27,8 @@ const IndividualNotifications: React.FC<IndividualNotificationsProps> = ({
         />
         <View style={styles.textContainer}>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={{
               width: "100%",
               flexWrap: "wrap",
@@ -37,8 +37,8 @@ const IndividualNotifications: React.FC<IndividualNotificationsProps> = ({
             {title}
           </AppText>
           <AppText
-            fontStyle="filters"
-            colorStyle="black70"
+            fontStyle='filters'
+            colorStyle='black70'
             style={{ width: "60%", flexWrap: "wrap" }}
           >
             {notificationSettings}
@@ -46,7 +46,7 @@ const IndividualNotifications: React.FC<IndividualNotificationsProps> = ({
         </View>
       </View>
       <Icon
-        name="chevron-forward-outline"
+        name='chevron-forward-outline'
         size={35}
         color={AppColors.blue100}
       />

@@ -8,11 +8,15 @@ import IndividualNotifications from "./individual-notifications";
 
 type NotificationsProp = {
   navigateTo: () => void;
+  mutedAllNotifications: boolean;
 };
 
-const Notifications: React.FC<NotificationsProp> = ({ navigateTo }) => {
+const Notifications: React.FC<NotificationsProp> = ({
+  navigateTo,
+  mutedAllNotifications,
+}) => {
   const { t } = useTranslation();
-  const [isToggled, setIsToggled] = useState(false);
+  const [isToggled, setIsToggled] = useState(mutedAllNotifications);
 
   const handleToggle = () => {
     setIsToggled(!isToggled);
@@ -20,7 +24,7 @@ const Notifications: React.FC<NotificationsProp> = ({ navigateTo }) => {
 
   return (
     <View style={styles.container}>
-      <AppText fontStyle="heading3" colorStyle="black70">
+      <AppText fontStyle='heading3' colorStyle='black70'>
         {t("profile.profile-settings.notifications.change-notifications")}
       </AppText>
       <TouchableOpacity
@@ -29,14 +33,14 @@ const Notifications: React.FC<NotificationsProp> = ({ navigateTo }) => {
       >
         <View style={styles.textContainer}>
           <Icon
-            name="notifications-off"
+            name='notifications-off'
             size={35}
             color={AppColors.blue100}
             style={{ marginRight: 20 }}
           />
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={{ width: "65%", flexWrap: "wrap" }}
           >
             {t(
@@ -45,7 +49,7 @@ const Notifications: React.FC<NotificationsProp> = ({ navigateTo }) => {
           </AppText>
         </View>
         <Icon
-          name="toggle"
+          name='toggle'
           size={56}
           color={isToggled ? AppColors.blue100 : AppColors.greyMuted}
           style={{
@@ -54,8 +58,8 @@ const Notifications: React.FC<NotificationsProp> = ({ navigateTo }) => {
         />
       </TouchableOpacity>
       <AppText
-        fontStyle="bodyMedium"
-        colorStyle="black70"
+        fontStyle='bodyMedium'
+        colorStyle='black70'
         style={{ marginBottom: 30 }}
       >
         {t(
@@ -63,19 +67,19 @@ const Notifications: React.FC<NotificationsProp> = ({ navigateTo }) => {
         )}
       </AppText>
       <IndividualNotifications
-        icon="flag-outline"
+        icon='flag-outline'
         title={t("profile.profile-settings.notifications.reminders-goals")}
         notificationSettings={t("profile.profile-settings.notifications.none")}
         navigateTo={navigateTo}
       />
       <IndividualNotifications
-        icon="checkbox-outline"
+        icon='checkbox-outline'
         title={t("profile.profile-settings.notifications.reminders-todos")}
         notificationSettings={t("profile.profile-settings.notifications.email")}
         navigateTo={navigateTo}
       />
       <IndividualNotifications
-        icon="journal-outline"
+        icon='journal-outline'
         title={t("profile.profile-settings.notifications.reminders-journal")}
         notificationSettings={t(
           "profile.profile-settings.notifications.email_in-app_combo"

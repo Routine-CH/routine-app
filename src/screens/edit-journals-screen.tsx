@@ -111,7 +111,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 key={`${selectedMood.id}-${index}`}
                 text={selectedMood.type}
                 style={styles.chip}
-                onDelete={() => handleDeleteMood(selectedMood.id)}
+                onPress={() => handleDeleteMood(selectedMood.id)}
               />
             ))}
           </View>
