@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { DateTime } from "luxon";
+import { add, format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -44,23 +44,19 @@ const TodosScreen: React.FC = () => {
 
   const { t } = useTranslation();
 
-  const now = DateTime.local();
+  const now = new Date();
   const next7Days = [];
 
   for (let i = 0; i < 7; i++) {
-    const day = now.plus({ days: i });
+    const day = add(now, { days: i });
     next7Days.push(day);
   }
 
-  const formattedStartDate = next7Days[0].toLocaleString({
-    day: "numeric",
-    month: "long",
-  });
-  const formattedEndDate = next7Days[next7Days.length - 1].toLocaleString({
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const formattedStartDate = format(next7Days[0], "d MMMM");
+  const formattedEndDate = format(
+    next7Days[next7Days.length - 1],
+    "d MMMM yyyy"
+  );
 
   const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
   const shouldDisplayTodoCard = true;
@@ -68,15 +64,15 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor="white"
+        backgroundColor='white'
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <View>
           <AppText
-            fontStyle="heading3"
-            colorStyle="black64"
+            fontStyle='heading3'
+            colorStyle='black64'
             style={{ marginVertical: 30 }}
           >
             {t("todos.today")} {t("profile.gamification.todos")}
@@ -87,17 +83,17 @@ const TodosScreen: React.FC = () => {
           ) : userTodos.length > 0 ? (
             userTodos.map((todo, index) => (
               <Todo
-                icon="stop-outline"
+                icon='stop-outline'
                 key={todo.id}
                 title={todo.title}
                 //   description={todo.description}
-                description="Beispiel Beschreibung"
+                description='Beispiel Beschreibung'
                 style={{ width: 240 }}
               />
             ))
           ) : (
             <EmptyState
-              type="todo"
+              type='todo'
               title={t("todos.no-todos-title")}
               description={t("todos.no-todos")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -105,15 +101,15 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
         <AppText
-          fontStyle="heading3"
-          colorStyle="black64"
+          fontStyle='heading3'
+          colorStyle='black64'
           style={{ marginTop: 60, marginBottom: 30 }}
         >
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         {/* IMPLEMENT CALENDAR!! */}
         <Pressable>
-          <AppText fontStyle={"body"} colorStyle="black64">
+          <AppText fontStyle={"body"} colorStyle='black64'>
             {formattedDateRange}
           </AppText>
         </Pressable>
@@ -126,7 +122,7 @@ const TodosScreen: React.FC = () => {
               <Calendar
                 date={15}
                 month={"Juni"}
-                icon="stop-outline"
+                icon='stop-outline'
                 title={todo.title}
                 key={todo.id}
                 displayTodoCard={shouldDisplayTodoCard}
@@ -134,7 +130,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type="todo"
+              type='todo'
               title={t("todos.no-todos-title")}
               description={t("todos.no-future-todos")}
               style={{ backgroundColor: AppColors.greenMuted30 }}

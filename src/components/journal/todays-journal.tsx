@@ -1,4 +1,6 @@
-import { DateTime, Settings } from "luxon";
+import { format } from "date-fns";
+import { de } from "date-fns/locale";
+
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -7,34 +9,32 @@ import { UserJournals } from "../../utils/types/types";
 import Chip from "../calendar/chip";
 import AppText from "../common/typography/app-text";
 
-Settings.defaultLocale = "de";
-
 interface JournalProps {
   userJournal: UserJournals | null;
 }
 
 const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
   const { t } = useTranslation();
-  const today = DateTime.local().toFormat("dd. MMMM yyyy");
+  const today = format(new Date(), "dd. MMMM yyyy", { locale: de });
 
   return (
     <View>
-      <AppText fontStyle="body" colorStyle="black70">
+      <AppText fontStyle='body' colorStyle='black70'>
         {today}
       </AppText>
       <View style={styles.line} />
       <View>
         <AppText
-          fontStyle="heading4"
-          colorStyle="black70"
+          fontStyle='heading4'
+          colorStyle='black70'
           style={{ marginBottom: 30 }}
         >
           {userJournal?.title}
         </AppText>
         <View style={styles.textContainer}>
           <AppText
-            fontStyle="bodyMedium"
-            colorStyle="black70"
+            fontStyle='bodyMedium'
+            colorStyle='black70'
             style={styles.heading}
           >
             {t("journal.mood")}
@@ -51,49 +51,49 @@ const TodaysJournal: React.FC<JournalProps> = ({ userJournal }) => {
         </View>
         <View style={styles.textContainer}>
           <AppText
-            fontStyle="bodyMedium"
-            colorStyle="black70"
+            fontStyle='bodyMedium'
+            colorStyle='black70'
             style={styles.heading}
           >
             {t("journal.mood-description")}
           </AppText>
-          <AppText fontStyle="body" colorStyle="black70">
+          <AppText fontStyle='body' colorStyle='black70'>
             {userJournal?.moodDescription}
           </AppText>
         </View>
         <View style={styles.textContainer}>
           <AppText
-            fontStyle="bodyMedium"
-            colorStyle="black70"
+            fontStyle='bodyMedium'
+            colorStyle='black70'
             style={styles.heading}
           >
             {t("journal.activity")}
           </AppText>
-          <AppText fontStyle="body" colorStyle="black70">
+          <AppText fontStyle='body' colorStyle='black70'>
             {userJournal?.activity}
           </AppText>
         </View>
         <View style={styles.textContainer}>
           <AppText
-            fontStyle="bodyMedium"
-            colorStyle="black70"
+            fontStyle='bodyMedium'
+            colorStyle='black70'
             style={styles.heading}
           >
             {t("journal.to-improve")}
           </AppText>
-          <AppText fontStyle="body" colorStyle="black70">
+          <AppText fontStyle='body' colorStyle='black70'>
             {userJournal?.toImprove}
           </AppText>
         </View>
         <View style={styles.textContainer}>
           <AppText
-            fontStyle="bodyMedium"
-            colorStyle="black70"
+            fontStyle='bodyMedium'
+            colorStyle='black70'
             style={styles.heading}
           >
             {t("journal.thoughts-and-ideas")}
           </AppText>
-          <AppText fontStyle="body" colorStyle="black70">
+          <AppText fontStyle='body' colorStyle='black70'>
             {userJournal?.thoughtsAndIdeas}
           </AppText>
         </View>

@@ -29,7 +29,7 @@ const CalendarScreen: React.FC = () => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -40,32 +40,32 @@ const CalendarScreen: React.FC = () => {
       </View>
       {/* IMPLEMENT CALENDAR!! */}
       <Pressable>
-        <AppText fontStyle={"body"} colorStyle="black64" style={styles.margin}>
+        <AppText fontStyle={"body"} colorStyle='black64' style={styles.margin}>
           {formattedDateRange}
         </AppText>
       </Pressable>
       <View style={styles.margin}>
         <Calendar
           date={5}
-          month="Juni"
-          title="Steuererklärung"
-          type="Ziel"
-          icon="checkmark-circle"
+          month='Juni'
+          title='Steuererklärung'
+          type='Ziel'
+          icon='checkmark-circle'
           iconStyle={styles.reached}
         />
         <Calendar
           date={8}
-          month="Juni"
-          title="Rechnungen zahlen"
-          type="Todo"
-          icon="close-circle"
+          month='Juni'
+          title='Rechnungen zahlen'
+          type='Todo'
+          icon='close-circle'
           iconStyle={styles.notReached}
         />
         <Calendar
           date={10}
-          month="Juni"
-          title="Velo-Ausflug mit Lena"
-          type="Ziel"
+          month='Juni'
+          title='Velo-Ausflug mit Lena'
+          type='Ziel'
         />
       </View>
     </ScrollViewScreenWrapper>

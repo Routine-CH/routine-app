@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { DateTime } from "luxon";
+import { formatISO } from "date-fns";
 import { API_BASE_URL } from "../../utils/config/config";
 
 export const getTodaysJournals = async () => {
@@ -9,7 +9,7 @@ export const getTodaysJournals = async () => {
     throw new Error("No access token found.");
   }
 
-  const currentDate = DateTime.local().toISODate();
+  const currentDate = formatISO(new Date(), { representation: "date" });
 
   const response = await axios.get(
     `${API_BASE_URL}journals?date=${currentDate}`,
