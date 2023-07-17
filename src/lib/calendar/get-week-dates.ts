@@ -19,5 +19,5 @@ export const getWeekDates = (date: Date) => {
     dates.push(new Date(d));
   }
 
-  return dates;
+  return { startDate, endDate};
 };

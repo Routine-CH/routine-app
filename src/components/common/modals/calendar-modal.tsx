@@ -1,4 +1,8 @@
-import { Calendar, I18nConfig, NativeDateService } from "@ui-kitten/components";
+import {
+  I18nConfig,
+  NativeDateService,
+  RangeCalendar,
+} from "@ui-kitten/components";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -73,9 +77,10 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const [date, setDate] = useState(new Date());
-  const [selectedWeek, setSelectedWeek] = useState<Date[]>(
-    getWeekDates(new Date())
-  );
+  const [selectedWeek, setSelectedWeek] = useState<{
+    startDate: Date;
+    endDate: Date;
+  }>(getWeekDates(new Date()));
 
   const handleOverlayPress = () => {
     onClose();
@@ -85,21 +90,6 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
 
   const handleSelect = (date: Date) => {
     setSelectedWeek(getWeekDates(date));
-    //     const selectedDate = new Date(date);
-    //     const dayOfWeek = selectedDate.getDay();
-
-    //     const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 2;
-
-    //     const startDate = new Date(selectedDate);
-    //     startDate.setDate(selectedDate.getDate() - daysToMonday);
-
-    //     const endDate = new Date(startDate);
-    //     endDate.setDate(startDate.getDate() + 6);
-
-    //     console.log("selected range", startDate, " - ", endDate);
-
-    //     onConfirm(startDate, endDate);
-    //     setDate(date);
   };
 
   return (
@@ -109,11 +99,11 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
           <View style={styles.modalContainer}>
             <View style={styles.line} />
             <TouchableWithoutFeedback>
-              <Calendar
+              <RangeCalendar
                 style={styles.calendar}
                 dateService={localeDateService}
-                date={date}
-                onSelect={handleSelect}
+                range={selectedWeek}
+                onSelect={(nextRange) => setSelectedWeek(nextRange)}
               />
             </TouchableWithoutFeedback>
           </View>
@@ -148,4 +138,5 @@ const styles = StyleSheet.create({
   calendar: {
     marginVertical: 30,
   },
+  day: { backgroundColor: "blue" },
 });
