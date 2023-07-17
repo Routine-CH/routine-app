@@ -81,7 +81,7 @@ const HomeScreen: React.FC = () => {
         <AppText fontStyle='heading3' colorStyle='black64'>
           {t("my-day.your-tools")}
         </AppText>
-        {currentUser.userTools.length != 0 ? (
+        {currentUser.userTools.length !== 0 ? (
           <>
             <View style={styles.favouriteToolsContainer}>
               {currentUser.userTools.map((tool) => {
@@ -154,8 +154,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   editToolsContainer: {
-    marginTop: 60,
+    marginTop: 30,
     alignItems: "center",
+    paddingBottom: 30,
   },
   noToolsContainer: {
     marginTop: 30,
