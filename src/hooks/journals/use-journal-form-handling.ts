@@ -49,7 +49,7 @@ export const useFormHandling = (
         }))
       );
     }
-  }, []);
+  }, [journal]);
 
   useEffect(() => {
     setValue("title", journal?.title || "");

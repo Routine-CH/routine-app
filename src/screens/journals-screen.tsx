@@ -38,9 +38,7 @@ const JournalsScreen: React.FC = () => {
     setIsModalVisible(false);
     showToast(ToastType.success, "Journal gelöscht");
     setTimeout(() => {
-      navigation.navigate("Discover", {
-        screen: "Journals",
-      });
+      navigation.navigate("Journals");
     }, 2000);
   };
 
@@ -94,7 +92,8 @@ const JournalsScreen: React.FC = () => {
           backgroundColor: AppColors.blue300,
           paddingTop: 30,
           paddingHorizontal: 30,
-          paddingBottom: 30,
+          paddingBottom: 47.5,
+          alignItems: "center",
         }}
       >
         <AppText
@@ -128,7 +127,10 @@ const JournalsScreen: React.FC = () => {
         )}
       </View>
       {!todaysJournal ? (
-        <AddButton navigateTo={() => navigateToNewJournalScreen()} />
+        <AddButton
+          style={{ position: "absolute", bottom: 10, right: 30 }}
+          navigateTo={() => navigateToNewJournalScreen()}
+        />
       ) : null}
       <EditDeleteModal
         isVisible={isModalVisible}
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    backgroundColor: "white",
+    backgroundColor: AppColors.white,
   },
   calendarContainer: {
     marginTop: 30,

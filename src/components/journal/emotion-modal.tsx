@@ -1,5 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -9,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { API_BASE_URL } from "../../utils/config/config";
+import { useMoods } from "../../hooks/journals/use-moods";
 import AppColors from "../../utils/constants/colors";
 import FlatButton from "../common/buttons/flat-button";
 import MoodCard from "./mood-card";
@@ -31,29 +29,8 @@ const EmotionModal: React.FC<EmotionModalProps> = ({
   onMoodsSelect,
 }) => {
   const { t } = useTranslation();
-  const [moods, setMoods] = useState<[{ id: string; type: string }]>();
+  const { moods } = useMoods();
   const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
-
-  useEffect(() => {
-    async function getJournalMoods() {
-      try {
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
-          const response = await axios.get(`${API_BASE_URL}journals/moods`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          setMoods(response.data.data);
-        }
-      } catch (error) {
-        console.error("Failed to get user notes", error);
-      }
-    }
-
-    getJournalMoods();
-  }, []);
 
   useEffect(() => {
     const initialMoodTypes = initialSelectedMoods.map((mood) => mood.type);
