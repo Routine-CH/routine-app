@@ -76,6 +76,8 @@ const CalendarScreen: React.FC = () => {
     getCalendar();
   }, []);
 
+  console.log(calendarData);
+
   const filterContent = (type: string) => {
     setSelectedChip(type);
 
@@ -178,9 +180,8 @@ const CalendarScreen: React.FC = () => {
               goals = [],
               todos = [],
               journals = [],
-            } = calendarData.data?.[date] || {};
+            } = calendarData.data[date] || {};
 
-            // Combine all the content for a specific date into an array
             const content = [
               ...goals.map((goal: UserGoals) => ({
                 id: goal.id,

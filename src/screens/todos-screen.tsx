@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import axios from "axios";
-import { add, format } from "date-fns";
+import { add } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -41,14 +41,51 @@ const TodosScreen: React.FC = () => {
     next7Days.push(day);
   }
 
-  const formattedStartDate = format(next7Days[0], "d MMMM");
-  const formattedEndDate = format(
-    next7Days[next7Days.length - 1],
-    "d MMMM yyyy"
-  );
+  const formattedStartDate = next7Days[0].toLocaleString({
+    day: "numeric",
+    month: "long",
+  });
+  const formattedEndDate = next7Days[next7Days.length - 1].toLocaleString({
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
 
+  // Get Todos
+  useEffect(() => {
+    async function getUserTodos() {
+      try {
+        const token = await AsyncStorage.getItem("access_token");
+        if (token) {
+          const response = await axios.get(`${API_BASE_URL}todos`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const todayTodos = response.data.data.filter((todo: any) => {
+            const plannedDate = new Date(todo.plannedDate);
+            return (
+              plannedDate.toISOString().split("T")[0] ===
+              now.toString().split("T")[0]
+            );
+          });
+
+          setUserTodos(todayTodos);
+        }
+      } catch (error) {
+        console.error("Failed to get todays todos", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    getUserTodos();
+  }, []);
+
+  // Get Future Todos
   useEffect(() => {
     async function getFutureTodos() {
       try {
