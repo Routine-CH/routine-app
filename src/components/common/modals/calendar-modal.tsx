@@ -1,5 +1,5 @@
 import { Calendar, I18nConfig, NativeDateService } from "@ui-kitten/components";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Modal,
@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { getWeekDates } from "../../../lib/calendar/get-week-dates";
 import AppColors from "../../../utils/constants/colors";
 
 interface ConfirmationModalProps {
@@ -71,26 +72,34 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation();
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = useState(new Date());
+  const [selectedWeek, setSelectedWeek] = useState<Date[]>(
+    getWeekDates(new Date())
+  );
 
   const handleOverlayPress = () => {
     onClose();
   };
 
-  const handleSelect = (nextDate: Date) => {
-    const selectedDate = new Date(nextDate);
-    const dayOfWeek = selectedDate.getDay();
+  console.log(selectedWeek);
 
-    const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 2;
+  const handleSelect = (date: Date) => {
+    setSelectedWeek(getWeekDates(date));
+    //     const selectedDate = new Date(date);
+    //     const dayOfWeek = selectedDate.getDay();
 
-    const startDate = new Date(selectedDate);
-    startDate.setDate(selectedDate.getDate() - daysToMonday);
+    //     const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 2;
 
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 6);
+    //     const startDate = new Date(selectedDate);
+    //     startDate.setDate(selectedDate.getDate() - daysToMonday);
 
-    onConfirm(startDate, endDate);
-    setDate(nextDate);
+    //     const endDate = new Date(startDate);
+    //     endDate.setDate(startDate.getDate() + 6);
+
+    //     console.log("selected range", startDate, " - ", endDate);
+
+    //     onConfirm(startDate, endDate);
+    //     setDate(date);
   };
 
   return (
