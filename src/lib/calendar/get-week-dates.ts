@@ -1,23 +1,14 @@
+import { DateTime } from "luxon";
+
 export const getWeekDates = (date: Date) => {
-  const dates = [];
-  const dayOfWeek = date.getDay();
+  const dt = DateTime.fromJSDate(date);
+  const dayOfWeek = dt.weekday;
 
-  const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  const daysToMonday = dayOfWeek === 1 ? 0 : dayOfWeek - 1;
 
-  const startDate = new Date(date);
+  const startDateLuxon = dt.minus({ days: daysToMonday });
+  const startDate = startDateLuxon.toJSDate();
+  const endDate = startDateLuxon.plus({ days: 6 }).toJSDate();
 
-  if (dayOfWeek !== 1) {
-    startDate.setDate(date.getDate() - (daysToMonday - 1));
-  } else {
-    startDate.setDate(date.getDate() - daysToMonday);
-  }
-
-  const endDate = new Date(startDate);
-  endDate.setDate(startDate.getDate() + 6);
-
-  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-    dates.push(new Date(d));
-  }
-
-  return { startDate, endDate};
+  return { startDate, endDate };
 };

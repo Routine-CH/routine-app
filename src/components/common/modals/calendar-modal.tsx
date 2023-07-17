@@ -1,4 +1,5 @@
 import {
+  CalendarRange,
   I18nConfig,
   NativeDateService,
   RangeCalendar,
@@ -86,11 +87,19 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
     onClose();
   };
 
-  console.log(selectedWeek);
-
-  const handleSelect = (date: Date) => {
-    setSelectedWeek(getWeekDates(date));
+  const handleSelect = (nextRange: CalendarRange<Date>) => {
+    const weekRange = getWeekDates(nextRange.startDate!);
+    if (weekRange.startDate && weekRange.endDate) {
+      setSelectedWeek({
+        startDate: weekRange.startDate,
+        endDate: weekRange.endDate,
+      });
+    } else {
+      // console.log("invalid range", nextRange);
+    }
   };
+
+  console.log(selectedWeek);
 
   return (
     <Modal visible={isVisible} transparent>
@@ -103,7 +112,7 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
                 style={styles.calendar}
                 dateService={localeDateService}
                 range={selectedWeek}
-                onSelect={(nextRange) => setSelectedWeek(nextRange)}
+                onSelect={handleSelect}
               />
             </TouchableWithoutFeedback>
           </View>
