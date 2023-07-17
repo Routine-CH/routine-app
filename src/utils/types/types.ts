@@ -9,23 +9,11 @@ export type AuthStackParamList = {
 
 // types for Main Stack Navigation
 export type AuthenticatedStackParamList = {
-  Home: {
-    screen?: string;
-    params?: {
-      Timer?: undefined;
-      Journals?: {
-        screen?: string;
-        params?: {
-          JournalEdit?: { journal: UserJournals | null };
-          JournalNew?: undefined;
-        };
-      };
-      Todos?: undefined;
-      Notes?: undefined;
-      Goals?: undefined;
-      EditTools?: undefined;
-    };
-  };
+  Home: undefined;
+  Journals: undefined;
+  EditTools: undefined;
+  JournalEdit: { id: string };
+  JournalNew: undefined;
   Calendar: undefined;
   Discover: {
     screen?: string;
@@ -38,6 +26,16 @@ export type AuthenticatedStackParamList = {
       DiscoverAudio?: { audio: AudioParams | null };
     };
   };
+  Notes: undefined;
+  NotesEdit: { id: string };
+  NotesNew: undefined;
+  Todos: undefined;
+  TodosEdit: { id: string };
+  TodosNew: undefined;
+  Goals: undefined;
+  GoalsEdit: { id: string };
+  GoalsNew: undefined;
+  Timer: undefined;
   Profile: {
     screen?: string;
     params?: {

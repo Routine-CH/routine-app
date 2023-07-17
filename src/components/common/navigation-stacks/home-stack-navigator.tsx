@@ -22,6 +22,7 @@ const HomeStackNavigator: React.FC = () => {
       <HomeStack.Screen name='UserHome' component={HomeScreen} />
       <HomeStack.Screen name='Timer' component={TimerScreen} />
       <HomeStack.Screen name='Journals' component={JournalsScreen} />
+      {/* @ts-ignore: TODO: fix this */}
       <HomeStack.Screen name='JournalEdit' component={EditJournalScreen} />
       <HomeStack.Screen name='JournalNew' component={NewJournalScreen} />
       <HomeStack.Screen name='Todos' component={TodosScreen} />

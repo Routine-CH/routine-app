@@ -46,25 +46,14 @@ const JournalsScreen: React.FC = () => {
 
   const navigateToJournalEditScreen = () => {
     setIsModalVisible(false);
-    navigation.navigate("Home", {
-      screen: "JournalEdit",
-      params: {
-        Journals: {
-          params: {
-            JournalEdit: {
-              journal: todaysJournal || null,
-            },
-          },
-        },
-      },
-    });
+    if (todaysJournal) {
+      navigation.navigate("JournalEdit", { id: todaysJournal.id });
+    }
   };
 
   const navigateToNewJournalScreen = () => {
     setIsModalVisible(false);
-    navigation.navigate("Home", {
-      screen: "JournalNew",
-    });
+    navigation.navigate("JournalNew");
   };
 
   return (

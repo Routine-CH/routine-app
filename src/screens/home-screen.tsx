@@ -42,7 +42,8 @@ const HomeScreen: React.FC = () => {
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
   const navigateToScreen = (screenName: string) => {
-    navigation.navigate("Home", { screen: screenName });
+    // @ts-ignore: TODO: fix this
+    navigation.navigate(`${screenName}`);
   };
 
   // refetching of data when changing tabs, so that favourite tools are updated
@@ -98,11 +99,7 @@ const HomeScreen: React.FC = () => {
             </View>
             <View style={styles.editToolsContainer}>
               <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("Home", {
-                    screen: "EditTools",
-                  })
-                }
+                onPress={() => navigation.navigate("EditTools")}
               >
                 <AppText fontStyle='body' colorStyle='black64'>
                   {t("general.edit")}
@@ -113,7 +110,7 @@ const HomeScreen: React.FC = () => {
         ) : (
           <TouchableOpacity
             style={styles.noToolsContainer}
-            onPress={() => navigation.navigate("Home", { screen: "EditTools" })}
+            onPress={() => navigation.navigate("EditTools")}
           >
             <LinearGradient
               colors={["#296879", "#6F99A5"]}
