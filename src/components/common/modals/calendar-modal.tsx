@@ -1,9 +1,3 @@
-import {
-  CalendarRange,
-  I18nConfig,
-  NativeDateService,
-  RangeCalendar,
-} from "@ui-kitten/components";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -12,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { Calendar, LocaleConfig } from "react-native-calendars";
 import { getWeekDates } from "../../../lib/calendar/get-week-dates";
 import AppColors from "../../../utils/constants/colors";
 
@@ -21,55 +16,48 @@ interface ConfirmationModalProps {
   onClose: () => void;
 }
 
-const i18n: I18nConfig = {
-  dayNames: {
-    short: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-    long: [
-      "Sonntag",
-      "Montag",
-      "Dienstag",
-      "Mittwoch",
-      "Donnerstag",
-      "Freitag",
-      "Samstag",
-    ],
-  },
-  monthNames: {
-    short: [
-      "Jan.",
-      "Febr.",
-      "März",
-      "April",
-      "Mai",
-      "Juni",
-      "Juli",
-      "Aug.",
-      "Sept.",
-      "Okt.",
-      "Nov.",
-      "Dez.",
-    ],
-    long: [
-      "Januar",
-      "Februar",
-      "März",
-      "April",
-      "Mai",
-      "Juni",
-      "Juli",
-      "August",
-      "September",
-      "Oktober",
-      "November",
-      "Dezember",
-    ],
-  },
+LocaleConfig.locales["de"] = {
+  monthNames: [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
+  ],
+  monthNamesShort: [
+    "Jan.",
+    "Febr.",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "Aug.",
+    "Sept.",
+    "Okt.",
+    "Nov.",
+    "Dez.",
+  ],
+  dayNamesShort: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+  dayNames: [
+    "Sonntag",
+    "Montag",
+    "Dienstag",
+    "Mittwoch",
+    "Donnerstag",
+    "Freitag",
+    "Samstag",
+  ],
+  today: "Heute",
 };
-
-const localeDateService = new NativeDateService("de", {
-  i18n,
-  startDayOfWeek: 1,
-});
+LocaleConfig.defaultLocale = "de";
 
 const CalendarModal: React.FC<ConfirmationModalProps> = ({
   isVisible,
@@ -77,7 +65,6 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation();
-  const [date, setDate] = useState(new Date());
   const [selectedWeek, setSelectedWeek] = useState<{
     startDate: Date;
     endDate: Date;
@@ -87,19 +74,39 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
     onClose();
   };
 
-  const handleSelect = (nextRange: CalendarRange<Date>) => {
-    const weekRange = getWeekDates(nextRange.startDate!);
+  const handleSelect = (nextRange: any) => {
+    const weekRange = getWeekDates(nextRange.dateString!);
     if (weekRange.startDate && weekRange.endDate) {
+      const startDate = new Date(weekRange.startDate);
+      const endDate = new Date(weekRange.endDate);
+
       setSelectedWeek({
-        startDate: weekRange.startDate,
-        endDate: weekRange.endDate,
+        startDate,
+        endDate,
       });
-    } else {
-      // console.log("invalid range", nextRange);
     }
   };
 
   console.log(selectedWeek);
+
+  const markedDates: any = {};
+  const currentDate = new Date(selectedWeek.startDate);
+  while (currentDate <= selectedWeek.endDate) {
+    const date = currentDate.toISOString().split("T")[0];
+    markedDates[date] = {
+      selected: true,
+      marked: true,
+      customStyles: {
+        container: {
+          backgroundColor: AppColors.blue100Muted20,
+        },
+        text: {
+          color: AppColors.black70,
+        },
+      },
+    };
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
 
   return (
     <Modal visible={isVisible} transparent>
@@ -108,11 +115,27 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
           <View style={styles.modalContainer}>
             <View style={styles.line} />
             <TouchableWithoutFeedback>
-              <RangeCalendar
+              <Calendar
                 style={styles.calendar}
-                dateService={localeDateService}
-                range={selectedWeek}
-                onSelect={handleSelect}
+                firstDay={1}
+                monthFormat="MMMM yyyy"
+                enableSwipeMonths={true}
+                allowSelectionOutOfRange={true}
+                markedDates={markedDates}
+                onDayPress={handleSelect}
+                theme={{
+                  textSectionTitleColor: AppColors.black70,
+                  textSectionTitleDisabledColor: AppColors.black70,
+                  selectedDayBackgroundColor: AppColors.blue100Muted20,
+                  selectedDayTextColor: AppColors.black70,
+                  todayTextColor: AppColors.black70,
+                  dayTextColor: AppColors.black70,
+                  textDisabledColor: AppColors.black70,
+                  dotColor: AppColors.blue100Muted20,
+                  selectedDotColor: AppColors.blue100Muted20,
+                  arrowColor: AppColors.blue100,
+                  disabledArrowColor: AppColors.blue300,
+                }}
               />
             </TouchableWithoutFeedback>
           </View>
@@ -146,6 +169,7 @@ const styles = StyleSheet.create({
   },
   calendar: {
     marginVertical: 30,
+    minWidth: 350,
+    height: 380,
   },
-  day: { backgroundColor: "blue" },
 });
