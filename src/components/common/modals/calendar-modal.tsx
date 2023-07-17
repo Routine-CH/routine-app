@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   Modal,
   StyleSheet,
@@ -64,7 +63,6 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
   onConfirm,
   onClose,
 }) => {
-  const { t } = useTranslation();
   const [selectedWeek, setSelectedWeek] = useState<{
     startDate: Date;
     endDate: Date;
@@ -86,8 +84,6 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
       });
     }
   };
-
-  console.log(selectedWeek);
 
   const markedDates: any = {};
   const currentDate = new Date(selectedWeek.startDate);
@@ -118,7 +114,7 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
               <Calendar
                 style={styles.calendar}
                 firstDay={1}
-                monthFormat="MMMM yyyy"
+                monthFormat='MMMM yyyy'
                 enableSwipeMonths={true}
                 allowSelectionOutOfRange={true}
                 markedDates={markedDates}

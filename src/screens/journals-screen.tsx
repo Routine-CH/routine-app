@@ -7,7 +7,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
-import CalendarCard from "../components/common/calendar/calendar-card";
+import CalendarCardSimple from "../components/common/calendar/calendar-card-simple";
 import EmptyState from "../components/common/empty-state";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -117,7 +117,7 @@ const JournalsScreen: React.FC = () => {
               const day = getDate(parsedDate);
               const month = format(parsedDate, "MMMM");
               return (
-                <CalendarCard
+                <CalendarCardSimple
                   key={journal.id}
                   date={day}
                   month={month}
