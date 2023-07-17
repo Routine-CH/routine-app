@@ -68,7 +68,7 @@ export type UserJournals = {
   moodDescription: string;
   activity: string;
   toImprove: string;
-  date: Date;
+  createdAt: Date;
   thoughtsAndIdeas: string;
 };
 

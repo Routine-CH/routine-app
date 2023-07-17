@@ -1,5 +1,6 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
+import { format, getDate, isToday, parseISO } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -106,17 +107,25 @@ const JournalsScreen: React.FC = () => {
         {isLoading ? (
           <AppText>Loading Past Journals</AppText>
         ) : userJournals ? (
-          userJournals.map((journal) => {
-            return (
-              <Calendar
-                date={5}
-                month='Juni'
-                title='Lorem'
-                key={journal.id}
-                journalStyles={styles.journal}
-              />
-            );
-          })
+          userJournals
+            .filter((journal) => {
+              const parsedDate = parseISO(journal.createdAt.toString());
+              return !isToday(parsedDate);
+            })
+            .map((journal) => {
+              const parsedDate = parseISO(journal.createdAt.toString());
+              const day = getDate(parsedDate);
+              const month = format(parsedDate, "MMMM");
+              return (
+                <Calendar
+                  key={journal.id}
+                  date={day}
+                  month={month}
+                  title={journal.title}
+                  journalStyles={styles.journal}
+                />
+              );
+            })
         ) : (
           <EmptyState
             type='journal'
