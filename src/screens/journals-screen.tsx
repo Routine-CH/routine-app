@@ -1,9 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -18,34 +15,23 @@ import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
 import EmptyState from "../components/todos/empty-state";
 import { deleteUserJournalRequest } from "../data/journal/delete-request";
-import { API_BASE_URL } from "../utils/config/config";
+import { useUserJournal } from "../hooks/journals/use-user-journal";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import {
-  AllUserJournals,
-  AuthenticatedStackParamList,
-  UserJournals,
-} from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const JournalsScreen: React.FC = () => {
   const { t } = useTranslation();
-  const [todaysJournal, setTodaysJournal] = useState<UserJournals | null>(null);
-  const [userJournals, setUserJournals] = useState<AllUserJournals | null>(
-    null
-  );
-  const [isLoadingTodaysJournal, setIsLoadingTodaysJournal] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
   const handleModalPress = () => {
-    setIsModalVisible(true);
+    setIsModalVisible(!isModalVisible);
   };
 
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
+  const { todaysJournal, userJournals, isLoading, isLoadingTodaysJournal } =
+    useUserJournal();
 
   const deleteJournal = () => {
     deleteUserJournalRequest(todaysJournal);
@@ -57,75 +43,6 @@ const JournalsScreen: React.FC = () => {
       });
     }, 2000);
   };
-
-  useEffect(() => {
-    async function getTodaysJournals() {
-      try {
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
-          const currentDate = DateTime.local().toISODate();
-
-          const response = await axios.get(
-            `${API_BASE_URL}journals?date=${currentDate}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          const journalsData = response.data.data;
-          if (journalsData.length > 0) {
-            const journalId = journalsData[0].id;
-            const journalIdResponse = await axios.get(
-              `${API_BASE_URL}journals/${journalId}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            const fullJournal = journalIdResponse.data.data;
-            setTodaysJournal(fullJournal);
-          } else {
-            setTodaysJournal(null);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to get user journals", error);
-      } finally {
-        setIsLoadingTodaysJournal(false);
-      }
-    }
-    getTodaysJournals();
-  }, []);
-
-  useEffect(() => {
-    async function getUserJournals() {
-      try {
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
-          const response = await axios.get(`${API_BASE_URL}journals`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          const journalsData = response.data.data;
-          if (journalsData.length > 0) {
-            setUserJournals(journalsData);
-          } else {
-            setUserJournals(null);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to get user journals", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    getUserJournals();
-  }, []);
 
   const navigateToJournalEditScreen = () => {
     setIsModalVisible(false);
@@ -175,7 +92,7 @@ const JournalsScreen: React.FC = () => {
             <TodaysJournal userJournal={todaysJournal} />
           ) : (
             <EmptyState
-              type="journal"
+              type='journal'
               title={t("journal.no-entry-title")}
               description={t("journal.no-entry-yet")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -192,8 +109,8 @@ const JournalsScreen: React.FC = () => {
         }}
       >
         <AppText
-          fontStyle="heading3"
-          colorStyle="black64"
+          fontStyle='heading3'
+          colorStyle='black64'
           style={{ marginBottom: 30 }}
         >
           {t("journal.past-entries")}
@@ -205,8 +122,8 @@ const JournalsScreen: React.FC = () => {
             return (
               <Calendar
                 date={5}
-                month="Juni"
-                title="Lorem"
+                month='Juni'
+                title='Lorem'
                 key={journal.id}
                 journalStyles={styles.journal}
               />
@@ -214,7 +131,7 @@ const JournalsScreen: React.FC = () => {
           })
         ) : (
           <EmptyState
-            type="journal"
+            type='journal'
             title={t("journal.no-entry-titles")}
             description={t("journal.no-entries-yet")}
             style={{ backgroundColor: AppColors.white }}
@@ -227,7 +144,6 @@ const JournalsScreen: React.FC = () => {
       <EditDeleteModal
         isVisible={isModalVisible}
         onConfirm={deleteJournal}
-        onClose={closeModal}
         navigateTo={() => navigateToJournalEditScreen()}
       />
       <RoutineToast />

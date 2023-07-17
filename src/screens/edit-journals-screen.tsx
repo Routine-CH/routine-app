@@ -155,7 +155,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
 
   return journal ? (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -169,8 +169,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
       <View style={styles.contentContainer}>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.title")}
@@ -186,7 +186,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 value={value}
               />
             )}
-            name="title"
+            name='title'
             rules={{
               required: "Bitte gib deinem Journal einen Titel",
               minLength: {
@@ -198,8 +198,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.mood")}
@@ -216,15 +216,15 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
           </View>
 
           <IconButton
-            iconName="add"
+            iconName='add'
             style={styles.iconButtonStyle}
             onPress={handleModalPress}
           />
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.mood-description")}
@@ -240,14 +240,14 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 value={value}
               />
             )}
-            name="moodDescription"
+            name='moodDescription'
             rules={{ required: "Bitte beschreibe deine Gefühle." }}
           />
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.activity")}
@@ -263,7 +263,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 value={value}
               />
             )}
-            name="activity"
+            name='activity'
             rules={{
               required:
                 "Bitte beschreibe, was du anders machen hättest können.",
@@ -272,8 +272,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.to-improve")}
@@ -289,7 +289,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 value={value}
               />
             )}
-            name="toImprove"
+            name='toImprove'
             rules={{
               required: "Bitte beschreibe, was du noch verbessern könntest.",
             }}
@@ -297,8 +297,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.thoughts-and-ideas")}
@@ -314,7 +314,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 value={value}
               />
             )}
-            name="thoughtsAndIdeas"
+            name='thoughtsAndIdeas'
           />
         </View>
       </View>

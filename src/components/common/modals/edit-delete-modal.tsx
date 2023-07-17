@@ -15,22 +15,16 @@ import ConfirmationModal from "./confirmation-modal";
 interface EditDeleteModalProps {
   isVisible: boolean;
   onConfirm: () => void;
-  onClose: () => void;
   navigateTo: () => void;
 }
 
 const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
   isVisible,
   onConfirm,
-  onClose,
   navigateTo,
 }) => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleOverlayPress = () => {
-    onClose();
-  };
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -42,7 +36,7 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
 
   return (
     <Modal visible={isVisible} transparent>
-      <TouchableWithoutFeedback onPress={handleOverlayPress}>
+      <TouchableWithoutFeedback>
         <View style={styles.overlay}>
           <TouchableWithoutFeedback>
             <View style={styles.modalContainer}>
@@ -52,10 +46,10 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
                   onPress={navigateTo}
                   style={styles.optionsContainer}
                 >
-                  <IconButton iconName="pencil" />
+                  <IconButton iconName='pencil' />
                   <AppText
-                    fontStyle="heading4"
-                    colorStyle="black70"
+                    fontStyle='heading4'
+                    colorStyle='black70'
                     style={{ marginLeft: 55 }}
                   >
                     {t("general.edit")}
@@ -65,10 +59,10 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
                   style={styles.optionsContainer}
                   onPress={handleModalPress}
                 >
-                  <IconButton iconName="trash" />
+                  <IconButton iconName='trash' />
                   <AppText
-                    fontStyle="heading4"
-                    colorStyle="black70"
+                    fontStyle='heading4'
+                    colorStyle='black70'
                     style={{ marginLeft: 55 }}
                   >
                     {t("general.delete")}
