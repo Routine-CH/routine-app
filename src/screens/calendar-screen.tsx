@@ -35,6 +35,7 @@ const CalendarScreen: React.FC = () => {
   });
   const formattedCurrentWeek = `${startOfCurrentWeekFormatted} - ${endOfCurrentWeekFormatted}`;
 
+  // State Variables
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [calendarData, setCalendarData] = useState<CalendarData>({ data: {} });
   const [loading, setLoading] = useState(true);
@@ -48,14 +49,17 @@ const CalendarScreen: React.FC = () => {
   const [formattedDateRange, setFormattedDateRange] =
     useState(formattedCurrentWeek);
 
+  // Open Calendar Modal
   const handleModalPress = () => {
     setIsModalVisible(true);
   };
 
+  // Close Calendar Modal
   const closeModal = () => {
     setIsModalVisible(false);
   };
 
+  // Get Selected Rage Calendar Modal
   const handleConfirm = (startDate: Date, endDate: Date) => {
     setSelectedWeek({ startDate, endDate });
     const formattedStartDate = format(startDate, "dd MMMM", { locale: de });
@@ -64,6 +68,7 @@ const CalendarScreen: React.FC = () => {
     setFormattedDateRange(formattedRange);
   };
 
+  // Filter the Calendar Content based on selected Week
   const filterCalendarData = (startDate: Date, endDate: Date) => {
     const filteredData: CalendarData = { data: {} };
 
@@ -77,6 +82,7 @@ const CalendarScreen: React.FC = () => {
     return filteredData;
   };
 
+  // Get Calendar Data from API
   const getCalendar = async () => {
     try {
       const token = await AsyncStorage.getItem("access_token");
@@ -100,20 +106,27 @@ const CalendarScreen: React.FC = () => {
     getCalendar();
   }, []);
 
+  // Filter the Content based on the selected Chip
   const filterContent = (type: string) => {
     setSelectedChip(type);
 
+    // Check if goals
     if (type === t("tool-cards.goals")) {
       setFilteredContent(
+        // Get array of all calendar Data Objects
         Object.values(calendarData.data).flatMap((date: any) =>
           date.goals
+            // Filter goals
             .filter((goal: UserGoals) => {
+              // Convert created to date object
               const goalsDate = new Date(goal.createdAt);
+              // Check if date is within selected week
               return (
                 goalsDate >= selectedWeek.startDate &&
                 goalsDate <= selectedWeek.endDate
               );
             })
+            // Map filtered to new object
             .map((goal: UserGoals) => ({
               ...goal,
               type: t("tool-cards.goals"),
@@ -159,21 +172,26 @@ const CalendarScreen: React.FC = () => {
     }
   };
 
+  // Reset the Filter,
   const resetFilter = () => {
     setSelectedChip("");
     setFilteredContent([]);
   };
 
+  // Render the Calendar based on the filtered Content
   const renderCalendarData = () => {
+    // Get the selected Week
     const filteredCalendarData = filterCalendarData(
       selectedWeek.startDate,
       selectedWeek.endDate
     );
 
+    // Check if there is filtered data or not
     if (
       !filteredCalendarData ||
       Object.keys(filteredCalendarData.data).length === 0
     ) {
+      // Empty State
       return (
         <EmptyState
           type="calendar"
@@ -184,35 +202,45 @@ const CalendarScreen: React.FC = () => {
       );
     }
 
+    // Iterate over the filtered Calendar
     return Object.keys(filteredCalendarData.data).map((date) => {
+      // Destructure goals, todo, journal to get current date
       const {
         goals = [],
         todos = [],
         journals = [],
       } = filteredCalendarData.data[date];
 
+      // Create an array of content
       const content = [
         ...goals.map((goal: UserGoals) => ({
           id: goal.id,
           title: goal.title,
           completed: goal.completed,
           type: t("tool-cards.goals"),
+          date: goal.createdAt,
         })),
         ...todos.map((todo: UserTodo) => ({
           id: todo.id,
           title: todo.title,
           completed: todo.completed,
           type: t("tool-cards.todos"),
+          date: todo.plannedDate,
         })),
         ...journals.map((journal: UserJournals) => ({
           id: journal.id,
           title: journal.title,
           type: t("tool-cards.journals"),
+          date: journal.createdAt,
         })),
       ];
 
+      // Determine the items to render based on the filteredContent or the content array
       const itemsToRender = filteredContent.length ? filteredContent : content;
 
+      console.log(filteredContent);
+
+      // JSX
       return (
         <Fragment key={date}>
           <View style={{ flexDirection: "row", gap: 30 }}>
