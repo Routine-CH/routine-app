@@ -83,6 +83,8 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
         endDate,
       });
     }
+    onConfirm(weekRange.startDate, weekRange.endDate);
+    onClose();
   };
 
   const markedDates: any = {};
@@ -114,7 +116,7 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
               <Calendar
                 style={styles.calendar}
                 firstDay={1}
-                monthFormat='MMMM yyyy'
+                monthFormat="MMMM yyyy"
                 enableSwipeMonths={true}
                 allowSelectionOutOfRange={true}
                 markedDates={markedDates}

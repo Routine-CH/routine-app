@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import axios from "axios";
-import { add, format } from "date-fns";
+import { endOfWeek, format, startOfWeek } from "date-fns";
+import { de } from "date-fns/locale";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -22,8 +23,19 @@ import { StatusBarColor } from "../utils/types/enums";
 import { UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
-  const { userTodos, isLoading } = useUserTodos();
   const { t } = useTranslation();
+  const now = new Date();
+  const startOfCurrentWeek = startOfWeek(now, { weekStartsOn: 1 });
+  const endOfCurrentWeek = endOfWeek(now, { weekStartsOn: 1 });
+  const startOfCurrentWeekFormatted = format(startOfCurrentWeek, "dd MMMM", {
+    locale: de,
+  });
+  const endOfCurrentWeekFormatted = format(endOfCurrentWeek, "dd MMMM yyyy", {
+    locale: de,
+  });
+  const formattedCurrentWeek = `${startOfCurrentWeekFormatted} - ${endOfCurrentWeekFormatted}`;
+
+  const { userTodos, isLoading } = useUserTodos();
   const [futureTodos, setFutureTodos] = useState<{ [key: string]: UserTodo[] }>(
     {}
   );
@@ -32,21 +44,12 @@ const TodosScreen: React.FC = () => {
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [uniqueDates, setUniqueDates] = useState<string[]>([]);
-
-  const now = new Date();
-  const next7Days = [];
-
-  for (let i = 0; i < 7; i++) {
-    const day = add(now, { days: i });
-    next7Days.push(day);
-  }
-
-  const formattedStartDate = format(next7Days[0], "d MMMM");
-  const formattedEndDate = format(
-    next7Days[next7Days.length - 1],
-    "d MMMM yyyy"
-  );
-  const formattedDateRange = `${formattedStartDate} - ${formattedEndDate}`;
+  const [selectedWeek, setSelectedWeek] = useState<{
+    startDate: Date;
+    endDate: Date;
+  }>({ startDate: startOfCurrentWeek, endDate: endOfCurrentWeek });
+  const [formattedDateRange, setFormattedDateRange] =
+    useState(formattedCurrentWeek);
 
   // Get Future Todos
   useEffect(() => {
@@ -89,6 +92,14 @@ const TodosScreen: React.FC = () => {
     setIsTodoModalVisible(true);
   };
 
+  const handleConfirm = (startDate: Date, endDate: Date) => {
+    setSelectedWeek({ startDate, endDate });
+    const formattedStartDate = format(startDate, "dd MMMM", { locale: de });
+    const formattedEndDate = format(endDate, "dd MMMM yyyy", { locale: de });
+    const formattedRange = `${formattedStartDate} - ${formattedEndDate}`;
+    setFormattedDateRange(formattedRange);
+  };
+
   const closeTodoModal = () => {
     setIsTodoModalVisible(false);
   };
@@ -96,15 +107,15 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor='white'
+        backgroundColor="white"
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <View>
           <AppText
-            fontStyle='heading3'
-            colorStyle='black64'
+            fontStyle="heading3"
+            colorStyle="black64"
             style={{ marginVertical: 30 }}
           >
             {t("todos.today")} {t("profile.gamification.todos")}
@@ -125,7 +136,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type='todo'
+              type="todo"
               title={t("todos.no-todos-title")}
               description={t("todos.no-todos")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -133,14 +144,14 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
         <AppText
-          fontStyle='heading3'
-          colorStyle='black64'
+          fontStyle="heading3"
+          colorStyle="black64"
           style={{ marginTop: 60, marginBottom: 30 }}
         >
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         <TouchableWithoutFeedback onPress={handleModalPress}>
-          <AppText fontStyle={"body"} colorStyle='black64'>
+          <AppText fontStyle={"body"} colorStyle="black64">
             {formattedDateRange}
           </AppText>
         </TouchableWithoutFeedback>
@@ -177,7 +188,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type='todo'
+              type="todo"
               title={t("todos.no-todos-title")}
               description={t("todos.no-future-todos")}
               style={{ backgroundColor: AppColors.greenMuted30 }}
@@ -187,7 +198,7 @@ const TodosScreen: React.FC = () => {
         <CalendarModal
           isVisible={isModalVisible}
           onClose={closeModal}
-          onConfirm={closeModal}
+          onConfirm={handleConfirm}
         />
         <TodoModal
           isVisible={isTodoModalVisible}

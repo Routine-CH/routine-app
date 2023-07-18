@@ -24,24 +24,29 @@ import {
 
 const CalendarScreen: React.FC = () => {
   const { t } = useTranslation();
+  const now = new Date();
+  const startOfCurrentWeek = startOfWeek(now, { weekStartsOn: 1 });
+  const endOfCurrentWeek = endOfWeek(now, { weekStartsOn: 1 });
+  const startOfCurrentWeekFormatted = format(startOfCurrentWeek, "dd MMMM", {
+    locale: de,
+  });
+  const endOfCurrentWeekFormatted = format(endOfCurrentWeek, "dd MMMM yyyy", {
+    locale: de,
+  });
+  const formattedCurrentWeek = `${startOfCurrentWeekFormatted} - ${endOfCurrentWeekFormatted}`;
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [calendarData, setCalendarData] = useState<CalendarData>({ data: {} });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [selectedChip, setSelectedChip] = useState("");
   const [filteredContent, setFilteredContent] = useState<any[]>([]);
-
-  const now = new Date();
-  const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 }); // week starts on Monday
-  const endOfWeekDate = endOfWeek(now, { weekStartsOn: 1 }); // week starts on Monday
-
-  const startOfWeekFormatted = format(startOfWeekDate, "dd MMMM", {
-    locale: de,
-  });
-  const endOfWeekFormatted = format(endOfWeekDate, "dd MMMM yyyy", {
-    locale: de,
-  });
-  const formattedDateRange = `${startOfWeekFormatted} - ${endOfWeekFormatted}`;
+  const [selectedWeek, setSelectedWeek] = useState<{
+    startDate: Date;
+    endDate: Date;
+  }>({ startDate: startOfCurrentWeek, endDate: endOfCurrentWeek });
+  const [formattedDateRange, setFormattedDateRange] =
+    useState(formattedCurrentWeek);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -49,6 +54,14 @@ const CalendarScreen: React.FC = () => {
 
   const closeModal = () => {
     setIsModalVisible(false);
+  };
+
+  const handleConfirm = (startDate: Date, endDate: Date) => {
+    setSelectedWeek({ startDate, endDate });
+    const formattedStartDate = format(startDate, "dd MMMM", { locale: de });
+    const formattedEndDate = format(endDate, "dd MMMM yyyy", { locale: de });
+    const formattedRange = `${formattedStartDate} - ${formattedEndDate}`;
+    setFormattedDateRange(formattedRange);
   };
 
   const getCalendar = async () => {
@@ -116,7 +129,7 @@ const CalendarScreen: React.FC = () => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor='white'
+      backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -156,7 +169,7 @@ const CalendarScreen: React.FC = () => {
         />
       </View>
       <TouchableWithoutFeedback onPress={handleModalPress}>
-        <AppText fontStyle={"body"} colorStyle='black64' style={styles.margin}>
+        <AppText fontStyle={"body"} colorStyle="black64" style={styles.margin}>
           {formattedDateRange}
         </AppText>
       </TouchableWithoutFeedback>
@@ -166,9 +179,9 @@ const CalendarScreen: React.FC = () => {
           <AppText>Loading...</AppText>
         ) : error ? (
           <EmptyState
-            type='calendar'
-            title='Keine Daten verfügbar'
-            description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
+            type="calendar"
+            title="Keine Daten verfügbar"
+            description="Erstelle ein Ziel, ein Todo oder ein Journaleintrag"
             style={{ backgroundColor: AppColors.blueMuted30 }}
           />
         ) : calendarData && calendarData.data ? (
@@ -238,9 +251,9 @@ const CalendarScreen: React.FC = () => {
           })
         ) : (
           <EmptyState
-            type='calendar'
-            title='Keine Daten verfügbar'
-            description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
+            type="calendar"
+            title="Keine Daten verfügbar"
+            description="Erstelle ein Ziel, ein Todo oder ein Journaleintrag"
             style={{ backgroundColor: AppColors.blueMuted30 }}
           />
         )}
@@ -248,7 +261,7 @@ const CalendarScreen: React.FC = () => {
       <CalendarModal
         isVisible={isModalVisible}
         onClose={closeModal}
-        onConfirm={closeModal}
+        onConfirm={handleConfirm}
       />
     </ScrollViewScreenWrapper>
   );
