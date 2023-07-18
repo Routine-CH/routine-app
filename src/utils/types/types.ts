@@ -219,3 +219,9 @@ export interface CalendarData {
     };
   };
 }
+
+export enum CalendarDataTypes {
+  GOALS = "Ziele",
+  TODOS = "Todos",
+  JOURNALS = "Journal",
+}
