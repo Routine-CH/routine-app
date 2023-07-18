@@ -79,6 +79,17 @@ const TodosScreen: React.FC = () => {
     setUniqueDates(uniqueDates);
   }, [futureTodos]);
 
+  useEffect(() => {
+    const filteredDates = Object.keys(futureTodos).filter((date) => {
+      const currentDate = new Date(date);
+      return (
+        currentDate >= selectedWeek.startDate &&
+        currentDate <= selectedWeek.endDate
+      );
+    });
+    setUniqueDates(filteredDates);
+  }, [futureTodos, selectedWeek]);
+
   const handleModalPress = () => {
     setIsModalVisible(true);
   };
@@ -123,17 +134,35 @@ const TodosScreen: React.FC = () => {
           {isLoading ? (
             // IMPLEMENT LOADING SCREEN
             <AppText>Loading...</AppText>
-          ) : userTodos.length > 0 ? (
-            userTodos.map((todo) => (
-              <Todo
-                icon={todo.completed === false ? "stop-outline" : "checkbox"}
-                key={todo.id}
-                title={todo.title}
-                description={todo.description}
-                style={{ width: 240 }}
-                onPress={() => handleTodoModalPress(todo)}
-              />
-            ))
+          ) : userTodos.filter((todo) => {
+              const todoDate = new Date(todo.plannedDate);
+              const today = new Date();
+              return (
+                todoDate.getFullYear() === today.getFullYear() &&
+                todoDate.getMonth() === today.getMonth() &&
+                todoDate.getDate() === today.getDate()
+              );
+            }).length > 0 ? (
+            userTodos
+              .filter((todo) => {
+                const todoDate = new Date(todo.plannedDate);
+                const today = new Date();
+                return (
+                  todoDate.getFullYear() === today.getFullYear() &&
+                  todoDate.getMonth() === today.getMonth() &&
+                  todoDate.getDate() === today.getDate()
+                );
+              })
+              .map((todo) => (
+                <Todo
+                  icon={todo.completed === false ? "stop-outline" : "checkbox"}
+                  key={todo.id}
+                  title={todo.title}
+                  description={todo.description}
+                  style={{ width: 240 }}
+                  onPress={() => handleTodoModalPress(todo)}
+                />
+              ))
           ) : (
             <EmptyState
               type="todo"
@@ -160,32 +189,43 @@ const TodosScreen: React.FC = () => {
             // IMPLEMENT LOADING SCREEN
             <AppText>Loading...</AppText>
           ) : uniqueDates.length > 0 ? (
-            uniqueDates.map((date: string) => (
-              <View
-                key={date}
-                style={{
-                  flexDirection: "row",
-                  gap: 30,
-                  width: "100%",
-                }}
-              >
-                <View style={{ flexShrink: 1 }}>
-                  <DateCard date={new Date(date)} />
-                </View>
-                <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                  {futureTodos[date].map((todo: UserTodo) => (
-                    <Calendar
-                      title={todo.title}
-                      key={todo.id}
-                      displayTodoCard={true}
-                      icon={
-                        todo.completed === false ? "stop-outline" : "checkbox"
-                      }
-                    />
-                  ))}
-                </View>
-              </View>
-            ))
+            uniqueDates.map((date: string) => {
+              const currentDate = new Date(date);
+              if (
+                currentDate >= selectedWeek.startDate &&
+                currentDate <= selectedWeek.endDate
+              ) {
+                return (
+                  <View
+                    key={date}
+                    style={{
+                      flexDirection: "row",
+                      gap: 30,
+                      width: "100%",
+                    }}
+                  >
+                    <View style={{ flexShrink: 1 }}>
+                      <DateCard date={new Date(date)} />
+                    </View>
+                    <View style={{ flexShrink: 1, flexGrow: 1 }}>
+                      {futureTodos[date].map((todo: UserTodo) => (
+                        <Calendar
+                          title={todo.title}
+                          key={todo.id}
+                          displayTodoCard={true}
+                          icon={
+                            todo.completed === false
+                              ? "stop-outline"
+                              : "checkbox"
+                          }
+                        />
+                      ))}
+                    </View>
+                  </View>
+                );
+              }
+              return null;
+            })
           ) : (
             <EmptyState
               type="todo"

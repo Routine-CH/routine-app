@@ -64,6 +64,19 @@ const CalendarScreen: React.FC = () => {
     setFormattedDateRange(formattedRange);
   };
 
+  const filterCalendarData = (startDate: Date, endDate: Date) => {
+    const filteredData: CalendarData = { data: {} };
+
+    Object.entries(calendarData.data).forEach(([date, data]) => {
+      const currentDate = new Date(date);
+      if (currentDate >= startDate && currentDate <= endDate) {
+        filteredData.data[date] = data;
+      }
+    });
+
+    return filteredData;
+  };
+
   const getCalendar = async () => {
     try {
       const token = await AsyncStorage.getItem("access_token");
@@ -127,6 +140,90 @@ const CalendarScreen: React.FC = () => {
     setFilteredContent([]);
   };
 
+  const renderCalendarData = () => {
+    const filteredCalendarData = filterCalendarData(
+      selectedWeek.startDate,
+      selectedWeek.endDate
+    );
+
+    if (
+      !filteredCalendarData ||
+      Object.keys(filteredCalendarData.data).length === 0
+    ) {
+      return (
+        <EmptyState
+          type="calendar"
+          title="Keine Daten verfügbar"
+          description="Erstelle ein Ziel, ein Todo oder ein Journaleintrag"
+          style={{ backgroundColor: AppColors.blueMuted30 }}
+        />
+      );
+    }
+
+    return Object.keys(filteredCalendarData.data).map((date) => {
+      const {
+        goals = [],
+        todos = [],
+        journals = [],
+      } = filteredCalendarData.data[date];
+
+      const content = [
+        ...goals.map((goal: UserGoals) => ({
+          id: goal.id,
+          title: goal.title,
+          completed: goal.completed,
+          type: t("tool-cards.goals"),
+        })),
+        ...todos.map((todo: UserTodo) => ({
+          id: todo.id,
+          title: todo.title,
+          completed: todo.completed,
+          type: t("tool-cards.todos"),
+        })),
+        ...journals.map((journal: UserJournals) => ({
+          id: journal.id,
+          title: journal.title,
+          type: t("tool-cards.journals"),
+        })),
+      ];
+
+      const itemsToRender = filteredContent.length ? filteredContent : content;
+
+      return (
+        <Fragment key={date}>
+          <View style={{ flexDirection: "row", gap: 30 }}>
+            <View style={{ flexShrink: 1 }}>
+              <DateCard date={new Date(date)} />
+            </View>
+            <View style={{ flexShrink: 1, flexGrow: 1 }}>
+              {itemsToRender.map((item: any) => (
+                <CalendarCard
+                  key={item.id}
+                  title={item.title}
+                  type={item.type}
+                  icon={
+                    item.type === t("tool-cards.journals")
+                      ? ""
+                      : item.completed
+                      ? "checkmark-circle"
+                      : "close-circle"
+                  }
+                  iconStyle={
+                    item.type === t("tool-cards.journals")
+                      ? null
+                      : item.completed
+                      ? styles.reached
+                      : styles.notReached
+                  }
+                />
+              ))}
+            </View>
+          </View>
+        </Fragment>
+      );
+    });
+  };
+
   return (
     <ScrollViewScreenWrapper
       backgroundColor="white"
@@ -174,89 +271,7 @@ const CalendarScreen: React.FC = () => {
         </AppText>
       </TouchableWithoutFeedback>
       <View style={styles.margin}>
-        {loading ? (
-          // IMPLEMENT LOADING SCREEN
-          <AppText>Loading...</AppText>
-        ) : error ? (
-          <EmptyState
-            type="calendar"
-            title="Keine Daten verfügbar"
-            description="Erstelle ein Ziel, ein Todo oder ein Journaleintrag"
-            style={{ backgroundColor: AppColors.blueMuted30 }}
-          />
-        ) : calendarData && calendarData.data ? (
-          Object.keys(calendarData.data).map((date) => {
-            const {
-              goals = [],
-              todos = [],
-              journals = [],
-            } = calendarData.data[date] || {};
-
-            const content = [
-              ...goals.map((goal: UserGoals) => ({
-                id: goal.id,
-                title: goal.title,
-                completed: goal.completed,
-                type: t("tool-cards.goals"),
-              })),
-              ...todos.map((todo: UserTodo) => ({
-                id: todo.id,
-                title: todo.title,
-                completed: todo.completed,
-                type: t("tool-cards.todos"),
-              })),
-              ...journals.map((journal: UserJournals) => ({
-                id: journal.id,
-                title: journal.title,
-                type: t("tool-cards.journals"),
-              })),
-            ];
-
-            const itemsToRender = filteredContent.length
-              ? filteredContent
-              : content;
-
-            return (
-              <Fragment key={date}>
-                <View style={{ flexDirection: "row", gap: 30 }}>
-                  <View style={{ flexShrink: 1 }}>
-                    <DateCard date={new Date(date)} />
-                  </View>
-                  <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                    {itemsToRender.map((item: any) => (
-                      <CalendarCard
-                        key={item.id}
-                        title={item.title}
-                        type={item.type}
-                        icon={
-                          item.type === t("tool-cards.journals")
-                            ? ""
-                            : item.completed
-                            ? "checkmark-circle"
-                            : "close-circle"
-                        }
-                        iconStyle={
-                          item.type === t("tool-cards.journals")
-                            ? null
-                            : item.completed
-                            ? styles.reached
-                            : styles.notReached
-                        }
-                      />
-                    ))}
-                  </View>
-                </View>
-              </Fragment>
-            );
-          })
-        ) : (
-          <EmptyState
-            type="calendar"
-            title="Keine Daten verfügbar"
-            description="Erstelle ein Ziel, ein Todo oder ein Journaleintrag"
-            style={{ backgroundColor: AppColors.blueMuted30 }}
-          />
-        )}
+        {loading ? <AppText>Loading...</AppText> : renderCalendarData()}
       </View>
       <CalendarModal
         isVisible={isModalVisible}
