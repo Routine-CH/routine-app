@@ -106,28 +106,52 @@ const CalendarScreen: React.FC = () => {
     if (type === t("tool-cards.goals")) {
       setFilteredContent(
         Object.values(calendarData.data).flatMap((date: any) =>
-          date.goals.map((goal: UserGoals) => ({
-            ...goal,
-            type: t("tool-cards.goals"),
-          }))
+          date.goals
+            .filter((goal: UserGoals) => {
+              const goalsDate = new Date(goal.createdAt);
+              return (
+                goalsDate >= selectedWeek.startDate &&
+                goalsDate <= selectedWeek.endDate
+              );
+            })
+            .map((goal: UserGoals) => ({
+              ...goal,
+              type: t("tool-cards.goals"),
+            }))
         )
       );
     } else if (type === t("tool-cards.todos")) {
       setFilteredContent(
         Object.values(calendarData.data).flatMap((date: any) =>
-          date.todos.map((todo: UserTodo) => ({
-            ...todo,
-            type: t("tool-cards.todos"),
-          }))
+          date.todos
+            .filter((todo: UserTodo) => {
+              const todoDate = new Date(todo.plannedDate);
+              return (
+                todoDate >= selectedWeek.startDate &&
+                todoDate <= selectedWeek.endDate
+              );
+            })
+            .map((todo: UserTodo) => ({
+              ...todo,
+              type: t("tool-cards.todos"),
+            }))
         )
       );
     } else if (type === t("tool-cards.journals")) {
       setFilteredContent(
         Object.values(calendarData.data).flatMap((date: any) =>
-          date.journals.map((journal: UserJournals) => ({
-            ...journal,
-            type: t("tool-cards.journals"),
-          }))
+          date.journals
+            .filter((journal: UserJournals) => {
+              const journalsDate = new Date(journal.createdAt);
+              return (
+                journalsDate >= selectedWeek.startDate &&
+                journalsDate <= selectedWeek.endDate
+              );
+            })
+            .map((journal: UserJournals) => ({
+              ...journal,
+              type: t("tool-cards.journals"),
+            }))
         )
       );
     } else {
