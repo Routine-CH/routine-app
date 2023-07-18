@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React, { useState } from "react";
 import {
   Modal,
@@ -8,10 +9,12 @@ import {
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { getWeekDates } from "../../../lib/calendar/get-week-dates";
 import AppColors from "../../../utils/constants/colors";
+import { Day } from "../../../utils/types/calendar/types";
 
 interface ConfirmationModalProps {
   isVisible: boolean;
-  onConfirm: (startDate: Date, endDate: Date) => void;
+  datesOfWeek: Date[];
+  onDayPress: (day: Day) => void;
   onClose: () => void;
 }
 
@@ -60,7 +63,8 @@ LocaleConfig.defaultLocale = "de";
 
 const CalendarModal: React.FC<ConfirmationModalProps> = ({
   isVisible,
-  onConfirm,
+  datesOfWeek,
+  onDayPress,
   onClose,
 }) => {
   const [selectedWeek, setSelectedWeek] = useState<{
@@ -72,43 +76,18 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
     onClose();
   };
 
-  const handleSelect = (nextRange: any) => {
-    const weekRange = getWeekDates(nextRange.dateString!);
-    if (weekRange.startDate && weekRange.endDate) {
-      const startDate = new Date(weekRange.startDate);
-      const endDate = new Date(weekRange.endDate);
-
-      setSelectedWeek({
-        startDate,
-        endDate,
-      });
-    }
-    onConfirm(weekRange.startDate, weekRange.endDate);
-    onClose();
-  };
-
-  const markedDates: any = {};
-  const currentDate = new Date(selectedWeek.startDate);
-  while (currentDate <= selectedWeek.endDate) {
-    const date = currentDate.toISOString().split("T")[0];
-    markedDates[date] = {
-      selected: true,
-      marked: true,
-      customStyles: {
-        container: {
-          backgroundColor: AppColors.blue100Muted20,
-        },
-        text: {
-          color: AppColors.black70,
-        },
-      },
+  // convert dates to string format 'yyyy-MM-dd' and create marked dates object
+  const markedDates = datesOfWeek.reduce((accumulator, date) => {
+    const dateString = format(date, "yyyy-MM-dd");
+    return {
+      ...accumulator,
+      [dateString]: { selected: true, marked: true },
     };
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
+  }, {});
 
   return (
     <Modal visible={isVisible} transparent>
-      <TouchableWithoutFeedback onPress={handleOverlayPress}>
+      <TouchableWithoutFeedback>
         <View style={styles.overlay}>
           <View style={styles.modalContainer}>
             <View style={styles.line} />
@@ -116,11 +95,11 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
               <Calendar
                 style={styles.calendar}
                 firstDay={1}
-                monthFormat="MMMM yyyy"
+                monthFormat='MMMM yyyy'
                 enableSwipeMonths={true}
                 allowSelectionOutOfRange={true}
                 markedDates={markedDates}
-                onDayPress={handleSelect}
+                onDayPress={onDayPress}
                 theme={{
                   textSectionTitleColor: AppColors.black70,
                   textSectionTitleDisabledColor: AppColors.black70,

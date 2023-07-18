@@ -210,18 +210,3 @@ type ErrorResponse = {
   message: string;
   errorCode: number;
 };
-export interface CalendarData {
-  data: {
-    [date: string]: {
-      goals?: UserGoals[];
-      todos?: UserTodo[];
-      journals?: UserJournals[];
-    };
-  };
-}
-
-export enum CalendarDataTypes {
-  GOALS = "Ziele",
-  TODOS = "Todos",
-  JOURNALS = "Journal",
-}
