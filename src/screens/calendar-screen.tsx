@@ -1,31 +1,53 @@
-import { DateTime } from "luxon";
-import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View } from "react-native";
-import Chip from "../components/calendar/chip";
-import Calendar from "../components/common/calendar/calendar";
+import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
+import { de } from "date-fns/locale";
+import { useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import CalendarData from "../components/calendar/calendar-data";
+import ChipContainer from "../components/calendar/chip-container";
+import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
-import AppColors from "../utils/constants/colors";
+import { useCalendarData } from "../hooks/calendar/use-calendar-data";
+import { CalendarDataTypes, Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
 
 const CalendarScreen: React.FC = () => {
-  const { t } = useTranslation();
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedChip, setSelectedChip] = useState<CalendarDataTypes>();
 
-  const now = DateTime.local();
-  const startOfWeek = now.startOf("week");
-  const endOfWeek = now.endOf("week");
-
-  const startOfWeekFormatted = startOfWeek.toLocaleString({
-    day: "2-digit",
-    month: "long",
+  const startDateOfWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
+  const endDateOfWeek = endOfWeek(selectedDate, { weekStartsOn: 1 });
+  const datesOfWeek = eachDayOfInterval({
+    start: startDateOfWeek,
+    end: endDateOfWeek,
   });
-  const endOfWeekFormatted = endOfWeek.toLocaleString({
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
+  const weekStart = format(startDateOfWeek, "dd MMMM", {
+    locale: de,
+  });
+  const weekEnd = format(endDateOfWeek, "dd MMMM yyyy", {
+    locale: de,
+  });
+  const currentWeek = `${weekStart} - ${weekEnd}`;
+
+  const selectedWeek = datesOfWeek.map((date) => {
+    return format(date, "yyyy-MM-dd");
   });
 
-  const formattedDateRange = `${startOfWeekFormatted} - ${endOfWeekFormatted}`;
+  const { weekData, isLoading } = useCalendarData(
+    selectedDate,
+    selectedWeek,
+    selectedChip
+  );
+
+  const onDayPress = (day: Day) => {
+    setSelectedDate(new Date(day.dateString));
+    setIsModalVisible(false);
+  };
+
+  const handleModalPress = () => {
+    setIsModalVisible(true);
+  };
 
   return (
     <ScrollViewScreenWrapper
@@ -33,41 +55,27 @@ const CalendarScreen: React.FC = () => {
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <View style={styles.chipContainer}>
-        <Chip text={t("tool-cards.goals")} />
-        <Chip text={t("tool-cards.todos")} />
-        <Chip text={t("tool-cards.journals")} />
-      </View>
-      {/* IMPLEMENT CALENDAR!! */}
-      <Pressable>
+      <ChipContainer
+        selectedChip={selectedChip}
+        setSelectedChip={setSelectedChip}
+      />
+      <TouchableOpacity onPress={handleModalPress}>
         <AppText fontStyle={"body"} colorStyle='black64' style={styles.margin}>
-          {formattedDateRange}
+          {currentWeek}
         </AppText>
-      </Pressable>
+      </TouchableOpacity>
       <View style={styles.margin}>
-        <Calendar
-          date={5}
-          month='Juni'
-          title='Steuererklärung'
-          type='Ziel'
-          icon='checkmark-circle'
-          iconStyle={styles.reached}
-        />
-        <Calendar
-          date={8}
-          month='Juni'
-          title='Rechnungen zahlen'
-          type='Todo'
-          icon='close-circle'
-          iconStyle={styles.notReached}
-        />
-        <Calendar
-          date={10}
-          month='Juni'
-          title='Velo-Ausflug mit Lena'
-          type='Ziel'
-        />
+        {isLoading ? (
+          <AppText>Loading...</AppText>
+        ) : (
+          <CalendarData calendar={weekData} />
+        )}
       </View>
+      <CalendarModal
+        isVisible={isModalVisible}
+        datesOfWeek={datesOfWeek}
+        onDayPress={onDayPress}
+      />
     </ScrollViewScreenWrapper>
   );
 };
@@ -75,23 +83,7 @@ const CalendarScreen: React.FC = () => {
 export default CalendarScreen;
 
 const styles = StyleSheet.create({
-  chipContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   margin: {
     marginTop: 30,
-  },
-  calendarContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
-  },
-  reached: {
-    color: AppColors.blue100,
-  },
-  notReached: {
-    color: AppColors.red,
   },
 });

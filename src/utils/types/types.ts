@@ -89,6 +89,7 @@ export type UserGoals = {
   description: string;
   completed: boolean;
   todos: UserTodo[];
+  createdAt: Date;
 };
 
 export interface UserTool {
@@ -116,6 +117,7 @@ export type UserTodo = {
   description: string;
   plannedDate: Date;
   completed: boolean;
+  createdAt: Date;
 };
 
 export type UserPomodoroTimers = {

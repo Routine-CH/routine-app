@@ -31,6 +31,10 @@ const AppFontStyle = {
     fontFamily: "Ubuntu_400Regular",
     fontSize: 16,
   },
+  filtersSelected: {
+    fontFamily: "Ubuntu_700Bold",
+    fontSize: 16,
+  },
   toast: {
     fontFamily: "Ubuntu_400Regular",
     fontSize: 15,
@@ -40,13 +44,13 @@ const AppFontStyle = {
     fontSize: 12,
   },
   calendarDate: {
-      fontFamily: "Ubuntu_700Bold",
-      fontSize: 22,
+    fontFamily: "Ubuntu_700Bold",
+    fontSize: 22,
   },
   audioPlayer: {
-      fontFamily: "Ubuntu_700Bold",
-      fontSize: 26,
-    }
+    fontFamily: "Ubuntu_700Bold",
+    fontSize: 26,
+  },
 };
 
 export default AppFontStyle;

@@ -11,7 +11,7 @@ interface ChipProps {
   cardStyle?: any;
 }
 
-const Card: React.FC<ChipProps> = ({
+const CardContent: React.FC<ChipProps> = ({
   type,
   title,
   icon,
@@ -20,22 +20,21 @@ const Card: React.FC<ChipProps> = ({
 }) => {
   return (
     <Pressable style={[styles.container, cardStyle]}>
-      <View>
+      <View style={{ width: "100%", maxWidth: "90%" }}>
         {type && (
           <AppText
-            fontStyle="information"
-            colorStyle="black64"
-            style={[styles.textStyle, { marginBottom: 5 }]}
+            fontStyle='information'
+            colorStyle='black64'
+            style={{ marginBottom: 5 }}
           >
             {type}
           </AppText>
         )}
         <AppText
-          fontStyle="body"
-          colorStyle="black64"
-          style={styles.textStyle}
+          fontStyle='body'
+          colorStyle='black64'
           numberOfLines={1}
-          ellipsizeMode="tail"
+          ellipsizeMode='tail'
         >
           {title}
         </AppText>
@@ -49,10 +48,11 @@ const Card: React.FC<ChipProps> = ({
   );
 };
 
-export default Card;
+export default CardContent;
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     height: 72,
     borderRadius: 6,
     paddingHorizontal: 15,
@@ -62,8 +62,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  textStyle: {
-    width: 165,
   },
 });

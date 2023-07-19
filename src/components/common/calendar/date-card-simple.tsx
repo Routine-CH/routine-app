@@ -1,22 +1,18 @@
-import { format, getDate } from "date-fns";
-import { de } from "date-fns/locale";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import AppColors from "../../../utils/constants/colors";
 import AppText from "../typography/app-text";
 
 interface ChipProps {
-  date: Date;
+  date: number;
+  month: string;
   style?: StyleProp<ViewStyle>;
 }
 
-const DateCard: React.FC<ChipProps> = ({ date, style }) => {
-  const day = getDate(date);
-  const month = format(date, "MMMM", { locale: de });
-
+const DateCardSimple: React.FC<ChipProps> = ({ date, month, style }) => {
   return (
     <View style={[styles.dateContainer, style]}>
       <AppText fontStyle='calendarDate' style={styles.textStyle}>
-        {day}
+        {date}
       </AppText>
       <AppText fontStyle='body' style={styles.textStyle}>
         {month}
@@ -25,7 +21,7 @@ const DateCard: React.FC<ChipProps> = ({ date, style }) => {
   );
 };
 
-export default DateCard;
+export default DateCardSimple;
 
 const styles = StyleSheet.create({
   dateContainer: {
