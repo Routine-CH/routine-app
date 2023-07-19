@@ -1,8 +1,7 @@
-import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import CalendarData from "../components/calendar/calendar-data";
 import ChipContainer from "../components/calendar/chip-container";
 import CalendarModal from "../components/common/modals/calendar-modal";
@@ -38,6 +37,11 @@ const CalendarScreen: React.FC = () => {
 
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
+    setIsModalVisible(false);
+  };
+
+  const handleModalPress = () => {
+    setIsModalVisible(true);
   };
 
   const closeModal = () => {
@@ -51,13 +55,11 @@ const CalendarScreen: React.FC = () => {
       defaultPadding
     >
       <ChipContainer />
-      <TouchableWithoutFeedback
-      //  onPress={handleModalPress}
-      >
+      <TouchableOpacity onPress={handleModalPress}>
         <AppText fontStyle={"body"} colorStyle='black64' style={styles.margin}>
           {currentWeek}
         </AppText>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
       <View style={styles.margin}>
         {isLoading ? (
           <AppText>Loading...</AppText>
