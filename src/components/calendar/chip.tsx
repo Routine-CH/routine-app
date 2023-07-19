@@ -9,10 +9,22 @@ interface ChipProps {
   onPress?: () => void;
 }
 
-const Chip: React.FC<ChipProps> = ({ text, style, onPress }) => {
+const Chip: React.FC<ChipProps> = ({ text, style, selected, onPress }) => {
   return (
-    <Pressable style={[styles.chipContainer, style]} onPress={onPress}>
-      <AppText fontStyle='filters' colorStyle='black70'>
+    <Pressable
+      style={[
+        styles.chipContainer,
+        style,
+        {
+          backgroundColor: selected ? AppColors.blue200 : AppColors.blueMuted20,
+        },
+      ]}
+      onPress={onPress}
+    >
+      <AppText
+        fontStyle={selected ? "filtersSelected" : "filters"}
+        colorStyle={selected ? "white" : "black70"}
+      >
         {text}
       </AppText>
     </Pressable>
@@ -26,7 +38,6 @@ const styles = StyleSheet.create({
     height: 33,
     width: 100,
     borderRadius: 14,
-    backgroundColor: AppColors.blueMuted20,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -8,12 +8,13 @@ import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import { useCalendarData } from "../hooks/calendar/use-calendar-data";
-import { Day } from "../utils/types/calendar/types";
+import { CalendarDataTypes, Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
 
 const CalendarScreen: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedChip, setSelectedChip] = useState<CalendarDataTypes>();
 
   const startDateOfWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const endDateOfWeek = endOfWeek(selectedDate, { weekStartsOn: 1 });
@@ -33,7 +34,11 @@ const CalendarScreen: React.FC = () => {
     return format(date, "yyyy-MM-dd");
   });
 
-  const { weekData, isLoading } = useCalendarData(selectedDate, selectedWeek);
+  const { weekData, isLoading } = useCalendarData(
+    selectedDate,
+    selectedWeek,
+    selectedChip
+  );
 
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
@@ -44,17 +49,16 @@ const CalendarScreen: React.FC = () => {
     setIsModalVisible(true);
   };
 
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
-
   return (
     <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <ChipContainer />
+      <ChipContainer
+        selectedChip={selectedChip}
+        setSelectedChip={setSelectedChip}
+      />
       <TouchableOpacity onPress={handleModalPress}>
         <AppText fontStyle={"body"} colorStyle='black64' style={styles.margin}>
           {currentWeek}
@@ -71,7 +75,6 @@ const CalendarScreen: React.FC = () => {
         isVisible={isModalVisible}
         datesOfWeek={datesOfWeek}
         onDayPress={onDayPress}
-        onClose={closeModal}
       />
     </ScrollViewScreenWrapper>
   );

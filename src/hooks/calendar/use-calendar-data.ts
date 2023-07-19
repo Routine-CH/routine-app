@@ -3,9 +3,23 @@ import axios from "axios";
 import { format, getMonth } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { API_BASE_URL } from "../../utils/config/config";
-import { CalendarItems } from "../../utils/types/calendar/types";
+import {
+  CalendarData,
+  CalendarDataTypes,
+  CalendarItems,
+} from "../../utils/types/calendar/types";
 
-export const useCalendarData = (selectedDate: Date, selectedWeek: string[]) => {
+const calendarDataKeys: Record<CalendarDataTypes, keyof CalendarData> = {
+  [CalendarDataTypes.GOALS]: "goals",
+  [CalendarDataTypes.TODOS]: "todos",
+  [CalendarDataTypes.JOURNALS]: "journals",
+};
+
+export const useCalendarData = (
+  selectedDate: Date,
+  selectedWeek: string[],
+  selectedChip: CalendarDataTypes | undefined
+) => {
   const [isLoading, setIsLoading] = useState(true);
   const [calendar, setCalendar] = useState<CalendarItems[] | null>(null);
   const [currentMonth, setCurrentMonth] = useState(getMonth(selectedDate));
@@ -36,13 +50,38 @@ export const useCalendarData = (selectedDate: Date, selectedWeek: string[]) => {
       console.error(error);
     }
   };
-
   const weekData = useMemo(() => {
     if (calendar && selectedWeek.length > 0) {
-      return calendar.filter((item) => selectedWeek.includes(item.date));
+      let filteredCalendar = calendar.filter((item) =>
+        selectedWeek.includes(item.date)
+      );
+
+      if (selectedChip) {
+        filteredCalendar = filteredCalendar
+          .map((item) => {
+            const data: CalendarData = {
+              goals: [],
+              todos: [],
+              journals: [],
+            };
+
+            data[calendarDataKeys[selectedChip]] =
+              item.data[calendarDataKeys[selectedChip]];
+
+            return {
+              ...item,
+              data,
+            };
+          })
+          .filter(
+            (item) => item.data[calendarDataKeys[selectedChip]].length > 0
+          );
+      }
+
+      return filteredCalendar;
     }
-    return null; // return null if calendar is null or selectedWeek is empty
-  }, [calendar, selectedWeek]);
+    return null;
+  }, [calendar, selectedWeek, selectedChip]);
 
   useEffect(() => {
     getCalendarData();

@@ -15,12 +15,20 @@ type CalendarDataProps = {
 const CalendarData: React.FC<CalendarDataProps> = ({ calendar }) => {
   if (!calendar || calendar.length === 0) {
     return (
-      <EmptyState
-        type='calendar'
-        title='Keine Einträge in dieser Woche'
-        description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
-        style={{ backgroundColor: AppColors.blueMuted30 }}
-      />
+      <View
+        style={{
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <EmptyState
+          type='calendar'
+          title='Keine Einträge in dieser Woche'
+          description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
+          style={{ backgroundColor: AppColors.blueMuted30 }}
+        />
+      </View>
     );
   }
 

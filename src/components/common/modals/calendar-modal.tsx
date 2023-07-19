@@ -9,19 +9,13 @@ interface ConfirmationModalProps {
   isVisible: boolean;
   datesOfWeek: Date[];
   onDayPress: (day: Day) => void;
-  onClose: () => void;
 }
 
 const CalendarModal: React.FC<ConfirmationModalProps> = ({
   isVisible,
   datesOfWeek,
   onDayPress,
-  onClose,
 }) => {
-  const handleOverlayPress = () => {
-    onClose();
-  };
-
   // convert dates to string format 'yyyy-MM-dd' and create marked dates object
   const markedDates = datesOfWeek.reduce((accumulator, date) => {
     const dateString = format(date, "yyyy-MM-dd");

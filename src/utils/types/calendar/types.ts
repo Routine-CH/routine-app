@@ -6,7 +6,7 @@ type GoalTodoJournal = {
   completed?: boolean;
 };
 
-type CalendarData = {
+export type CalendarData = {
   goals: GoalTodoJournal[];
   todos: GoalTodoJournal[];
   journals: GoalTodoJournal[];
