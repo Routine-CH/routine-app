@@ -1,117 +1,52 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import { endOfWeek, format, startOfWeek } from "date-fns";
+import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
 import { de } from "date-fns/locale";
-import { Fragment, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
-import Chip from "../components/calendar/chip";
-import CalendarCard from "../components/common/calendar/calendar-card";
-import DateCard from "../components/common/calendar/date-card";
-import EmptyState from "../components/common/empty-state";
+import { useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import CalendarData from "../components/calendar/calendar-data";
+import ChipContainer from "../components/calendar/chip-container";
 import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
-import { API_BASE_URL } from "../utils/config/config";
-import AppColors from "../utils/constants/colors";
+import { useCalendarData } from "../hooks/calendar/use-calendar-data";
+import { CalendarDataTypes, Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
-import {
-  CalendarData,
-  UserGoals,
-  UserJournals,
-  UserTodo,
-} from "../utils/types/types";
 
 const CalendarScreen: React.FC = () => {
-  const { t } = useTranslation();
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [calendarData, setCalendarData] = useState<CalendarData>({ data: {} });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [selectedChip, setSelectedChip] = useState("");
-  const [filteredContent, setFilteredContent] = useState<any[]>([]);
+  const [selectedChip, setSelectedChip] = useState<CalendarDataTypes>();
 
-  const now = new Date();
-  const startOfWeekDate = startOfWeek(now, { weekStartsOn: 1 }); // week starts on Monday
-  const endOfWeekDate = endOfWeek(now, { weekStartsOn: 1 }); // week starts on Monday
-
-  const startOfWeekFormatted = format(startOfWeekDate, "dd MMMM", {
+  const startDateOfWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
+  const endDateOfWeek = endOfWeek(selectedDate, { weekStartsOn: 1 });
+  const datesOfWeek = eachDayOfInterval({
+    start: startDateOfWeek,
+    end: endDateOfWeek,
+  });
+  const weekStart = format(startDateOfWeek, "dd MMMM", {
     locale: de,
   });
-  const endOfWeekFormatted = format(endOfWeekDate, "dd MMMM yyyy", {
+  const weekEnd = format(endDateOfWeek, "dd MMMM yyyy", {
     locale: de,
   });
-  const formattedDateRange = `${startOfWeekFormatted} - ${endOfWeekFormatted}`;
+  const currentWeek = `${weekStart} - ${weekEnd}`;
 
-  const handleModalPress = () => {
-    setIsModalVisible(true);
-  };
+  const selectedWeek = datesOfWeek.map((date) => {
+    return format(date, "yyyy-MM-dd");
+  });
 
-  const closeModal = () => {
+  const { weekData, isLoading } = useCalendarData(
+    selectedDate,
+    selectedWeek,
+    selectedChip
+  );
+
+  const onDayPress = (day: Day) => {
+    setSelectedDate(new Date(day.dateString));
     setIsModalVisible(false);
   };
 
-  const getCalendar = async () => {
-    try {
-      const token = await AsyncStorage.getItem("access_token");
-      if (token) {
-        const response = await axios.get(`${API_BASE_URL}calendar`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCalendarData(response.data);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error("Failed to get calendar information", error);
-      setError(true);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getCalendar();
-  }, []);
-
-  const filterContent = (type: string) => {
-    setSelectedChip(type);
-
-    if (type === t("tool-cards.goals")) {
-      setFilteredContent(
-        Object.values(calendarData.data).flatMap((date: any) =>
-          date.goals.map((goal: UserGoals) => ({
-            ...goal,
-            type: t("tool-cards.goals"),
-          }))
-        )
-      );
-    } else if (type === t("tool-cards.todos")) {
-      setFilteredContent(
-        Object.values(calendarData.data).flatMap((date: any) =>
-          date.todos.map((todo: UserTodo) => ({
-            ...todo,
-            type: t("tool-cards.todos"),
-          }))
-        )
-      );
-    } else if (type === t("tool-cards.journals")) {
-      setFilteredContent(
-        Object.values(calendarData.data).flatMap((date: any) =>
-          date.journals.map((journal: UserJournals) => ({
-            ...journal,
-            type: t("tool-cards.journals"),
-          }))
-        )
-      );
-    } else {
-      setFilteredContent([]);
-    }
-  };
-
-  const resetFilter = () => {
-    setSelectedChip("");
-    setFilteredContent([]);
+  const handleModalPress = () => {
+    setIsModalVisible(true);
   };
 
   return (
@@ -120,135 +55,26 @@ const CalendarScreen: React.FC = () => {
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <View style={styles.chipContainer}>
-        <Chip
-          text={t("tool-cards.goals")}
-          selected={selectedChip === t("tool-cards.goals")}
-          onPress={() => {
-            if (selectedChip === t("tool-cards.goals")) {
-              resetFilter();
-            } else {
-              filterContent(t("tool-cards.goals"));
-            }
-          }}
-        />
-        <Chip
-          text={t("tool-cards.todos")}
-          selected={selectedChip === t("tool-cards.todos")}
-          onPress={() => {
-            if (selectedChip === t("tool-cards.todos")) {
-              resetFilter();
-            } else {
-              filterContent(t("tool-cards.todos"));
-            }
-          }}
-        />
-        <Chip
-          text={t("tool-cards.journals")}
-          selected={selectedChip === t("tool-cards.journals")}
-          onPress={() => {
-            if (selectedChip === t("tool-cards.journals")) {
-              resetFilter();
-            } else {
-              filterContent(t("tool-cards.journals"));
-            }
-          }}
-        />
-      </View>
-      <TouchableWithoutFeedback onPress={handleModalPress}>
+      <ChipContainer
+        selectedChip={selectedChip}
+        setSelectedChip={setSelectedChip}
+      />
+      <TouchableOpacity onPress={handleModalPress}>
         <AppText fontStyle={"body"} colorStyle='black64' style={styles.margin}>
-          {formattedDateRange}
+          {currentWeek}
         </AppText>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
       <View style={styles.margin}>
-        {loading ? (
-          // IMPLEMENT LOADING SCREEN
+        {isLoading ? (
           <AppText>Loading...</AppText>
-        ) : error ? (
-          <EmptyState
-            type='calendar'
-            title='Keine Daten verfügbar'
-            description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
-            style={{ backgroundColor: AppColors.blueMuted30 }}
-          />
-        ) : calendarData && calendarData.data ? (
-          Object.keys(calendarData.data).map((date) => {
-            const {
-              goals = [],
-              todos = [],
-              journals = [],
-            } = calendarData.data[date] || {};
-
-            const content = [
-              ...goals.map((goal: UserGoals) => ({
-                id: goal.id,
-                title: goal.title,
-                completed: goal.completed,
-                type: t("tool-cards.goals"),
-              })),
-              ...todos.map((todo: UserTodo) => ({
-                id: todo.id,
-                title: todo.title,
-                completed: todo.completed,
-                type: t("tool-cards.todos"),
-              })),
-              ...journals.map((journal: UserJournals) => ({
-                id: journal.id,
-                title: journal.title,
-                type: t("tool-cards.journals"),
-              })),
-            ];
-
-            const itemsToRender = filteredContent.length
-              ? filteredContent
-              : content;
-
-            return (
-              <Fragment key={date}>
-                <View style={{ flexDirection: "row", gap: 30 }}>
-                  <View style={{ flexShrink: 1 }}>
-                    <DateCard date={new Date(date)} />
-                  </View>
-                  <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                    {itemsToRender.map((item: any) => (
-                      <CalendarCard
-                        key={item.id}
-                        title={item.title}
-                        type={item.type}
-                        icon={
-                          item.type === t("tool-cards.journals")
-                            ? ""
-                            : item.completed
-                            ? "checkmark-circle"
-                            : "close-circle"
-                        }
-                        iconStyle={
-                          item.type === t("tool-cards.journals")
-                            ? null
-                            : item.completed
-                            ? styles.reached
-                            : styles.notReached
-                        }
-                      />
-                    ))}
-                  </View>
-                </View>
-              </Fragment>
-            );
-          })
         ) : (
-          <EmptyState
-            type='calendar'
-            title='Keine Daten verfügbar'
-            description='Erstelle ein Ziel, ein Todo oder ein Journaleintrag'
-            style={{ backgroundColor: AppColors.blueMuted30 }}
-          />
+          <CalendarData calendar={weekData} />
         )}
       </View>
       <CalendarModal
         isVisible={isModalVisible}
-        onClose={closeModal}
-        onConfirm={closeModal}
+        datesOfWeek={datesOfWeek}
+        onDayPress={onDayPress}
       />
     </ScrollViewScreenWrapper>
   );
@@ -257,23 +83,7 @@ const CalendarScreen: React.FC = () => {
 export default CalendarScreen;
 
 const styles = StyleSheet.create({
-  chipContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   margin: {
     marginTop: 30,
-  },
-  calendarContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
-  },
-  reached: {
-    color: AppColors.blue100,
-  },
-  notReached: {
-    color: AppColors.red,
   },
 });

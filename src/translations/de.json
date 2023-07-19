@@ -171,7 +171,7 @@
       "future": "Zukünftige",
       "no-todos-title": "Keine Todos",
       "no-todos": "Du hast heute noch keine Todos",
-      "no-future-todos": "Du hast noch keine zukünftige Todos geplant",
+      "no-future-todos": "Du hast keine Todos in diesem Zeitraum",
       "today": "Heutige"
   },
   "tool-cards": {
