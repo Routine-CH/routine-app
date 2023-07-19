@@ -3,24 +3,18 @@ import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import CalendarData from "../components/calendar/calendar-data";
 import ChipContainer from "../components/calendar/chip-container";
 import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import { useCalendarData } from "../hooks/calendar/use-calendar-data";
-import AppColors from "../utils/constants/colors";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
 
 const CalendarScreen: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isModalVisible, setIsModalVisible] = useState(true);
-
-  const { calendar, isLoading } = useCalendarData(selectedDate);
-
-  if (calendar) {
-    console.log(calendar.map((element) => console.log(element)));
-  }
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const startDateOfWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const endDateOfWeek = endOfWeek(selectedDate, { weekStartsOn: 1 });
@@ -35,6 +29,12 @@ const CalendarScreen: React.FC = () => {
     locale: de,
   });
   const currentWeek = `${weekStart} - ${weekEnd}`;
+
+  const selectedWeek = datesOfWeek.map((date) => {
+    return format(date, "yyyy-MM-dd");
+  });
+
+  const { weekData, isLoading } = useCalendarData(selectedDate, selectedWeek);
 
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
@@ -59,7 +59,11 @@ const CalendarScreen: React.FC = () => {
         </AppText>
       </TouchableWithoutFeedback>
       <View style={styles.margin}>
-        {/* {loading ? <AppText>Loading...</AppText> : renderCalendarData()} */}
+        {isLoading ? (
+          <AppText>Loading...</AppText>
+        ) : (
+          <CalendarData calendar={weekData} />
+        )}
       </View>
       <CalendarModal
         isVisible={isModalVisible}
@@ -74,23 +78,7 @@ const CalendarScreen: React.FC = () => {
 export default CalendarScreen;
 
 const styles = StyleSheet.create({
-  chipContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   margin: {
     marginTop: 30,
-  },
-  calendarContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
-  },
-  reached: {
-    color: AppColors.blue100,
-  },
-  notReached: {
-    color: AppColors.red,
   },
 });

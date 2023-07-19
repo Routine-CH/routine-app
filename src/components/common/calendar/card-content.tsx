@@ -20,21 +20,21 @@ const CardContent: React.FC<ChipProps> = ({
 }) => {
   return (
     <Pressable style={[styles.container, cardStyle]}>
-      <View>
+      <View style={{ width: "100%", maxWidth: "90%" }}>
         {type && (
           <AppText
-            fontStyle="information"
-            colorStyle="black64"
+            fontStyle='information'
+            colorStyle='black64'
             style={{ marginBottom: 5 }}
           >
             {type}
           </AppText>
         )}
         <AppText
-          fontStyle="body"
-          colorStyle="black64"
+          fontStyle='body'
+          colorStyle='black64'
           numberOfLines={1}
-          ellipsizeMode="tail"
+          ellipsizeMode='tail'
         >
           {title}
         </AppText>

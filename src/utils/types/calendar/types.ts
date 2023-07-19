@@ -1,8 +1,9 @@
 type GoalTodoJournal = {
   id: string;
   title: string;
-  createdAt: string;
+  createdAt?: string;
   plannedDate?: string;
+  completed?: boolean;
 };
 
 type CalendarData = {
@@ -11,13 +12,13 @@ type CalendarData = {
   journals: GoalTodoJournal[];
 };
 
-export type CalendarItem = {
+export type CalendarItems = {
   date: string;
   data: CalendarData;
 };
 
 export type CalendarResponse = {
-  data: CalendarItem[];
+  data: CalendarItems[];
 };
 
 export enum CalendarDataTypes {

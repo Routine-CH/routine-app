@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { format, getMonth } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { API_BASE_URL } from "../../utils/config/config";
-import { CalendarItem } from "../../utils/types/calendar/types";
+import { CalendarItems } from "../../utils/types/calendar/types";
 
-export const useCalendarData = (selectedDate: Date) => {
+export const useCalendarData = (selectedDate: Date, selectedWeek: string[]) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [calendar, setCalendar] = useState<CalendarItem[] | null>(null);
+  const [calendar, setCalendar] = useState<CalendarItems[] | null>(null);
   const [currentMonth, setCurrentMonth] = useState(getMonth(selectedDate));
   const formattedDate = format(selectedDate, "yyyy-MM-dd");
 
@@ -17,7 +17,6 @@ export const useCalendarData = (selectedDate: Date) => {
     try {
       const token = await AsyncStorage.getItem("access_token");
       if (token) {
-        console.log("fetching");
         const response = await axios.post(
           `${API_BASE_URL}calendar`,
           {
@@ -29,6 +28,7 @@ export const useCalendarData = (selectedDate: Date) => {
             },
           }
         );
+
         setCalendar(response.data.data);
         setIsLoading(false);
       }
@@ -36,6 +36,13 @@ export const useCalendarData = (selectedDate: Date) => {
       console.error(error);
     }
   };
+
+  const weekData = useMemo(() => {
+    if (calendar && selectedWeek.length > 0) {
+      return calendar.filter((item) => selectedWeek.includes(item.date));
+    }
+    return null; // return null if calendar is null or selectedWeek is empty
+  }, [calendar, selectedWeek]);
 
   useEffect(() => {
     getCalendarData();
@@ -47,5 +54,5 @@ export const useCalendarData = (selectedDate: Date) => {
     }
   }, [selectedDate]);
 
-  return { calendar, isLoading };
+  return { weekData, isLoading };
 };
