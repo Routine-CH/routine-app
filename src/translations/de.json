@@ -70,7 +70,8 @@
   },
   "notes": {
       "date": "Datum",
-      "filter": "filtern"
+      "filter": "filtern",
+      "note": "Notizen"
   },
   "profile":{
       "gamification": {
