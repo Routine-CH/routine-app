@@ -7,12 +7,15 @@ import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
+import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
+import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
+import { deleteNoteRequest } from "../data/note/delete-request";
 import { useNoteData } from "../hooks/notes/use-note-data";
 import AppColors from "../utils/constants/colors";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/types";
 
 type NoteViewScreenRouteProps = RouteProp<
@@ -41,8 +44,22 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
     setIsModalVisible(true);
   };
 
-  const closeModal = () => {
+  const deleteNote = () => {
+    deleteNoteRequest(note);
     setIsModalVisible(false);
+    showToast(ToastType.success, "Notiz wurde gelöscht.");
+    setTimeout(() => {
+      navigation.navigate("Discover", {
+        screen: "Note",
+      });
+    }, 2000);
+  };
+
+  const navigateToNoteEditScreen = () => {
+    setIsModalVisible(false);
+    if (note) {
+      navigation.navigate("NotesEdit", { id: note.id });
+    }
   };
 
   return (
@@ -85,14 +102,14 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
           />
         ))}
       </View>
-      {/*       <EditDeleteModal
+      <EditDeleteModal
         title={t("modals.are-you-sure")}
         description={t("modals.notes")}
+        actionText={t("modals.delete")}
         isVisible={isModalVisible}
         onConfirm={deleteNote}
-        onClose={closeModal}
-        //   navigateTo={() => navigateToNoteEditScreen()}
-      /> */}
+        navigateTo={() => navigateToNoteEditScreen()}
+      />
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
