@@ -44,7 +44,7 @@ const NewNotesScreen = () => {
       showToast(ToastType.error, response);
       setErrorMessage("");
     } else if (response && response.status === 201) {
-      showToast(ToastType.success, "Erfolgreich gespeichert");
+      showToast(ToastType.success, "Notiz gespeichert");
       setTimeout(() => {
         navigation.navigate("Notes");
       }, 2000);

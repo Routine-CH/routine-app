@@ -12,11 +12,7 @@ import AppText from "../components/common/typography/app-text";
 import { useUserNote } from "../hooks/notes/use-user-note";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormNoteInputs,
-  UserNotes,
-} from "../utils/types/types";
+import { AuthenticatedStackParamList, UserNotes } from "../utils/types/types";
 
 const NotesScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -26,8 +22,8 @@ const NotesScreen: React.FC = () => {
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
-  const navigateToNoteScreen = (note: IFormNoteInputs) => {
-    if (note.id) {
+  const navigateToNoteScreen = (note: UserNotes) => {
+    if (note) {
       navigation.navigate("NoteView", { id: note.id });
     }
   };

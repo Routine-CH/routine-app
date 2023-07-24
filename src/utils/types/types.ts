@@ -206,7 +206,7 @@ export interface IFormJournalInputs {
 
 export interface IFormNoteInputs {
       note?: string;
-      id?: string;
+      noteId?: string;
       title: string;
       description: string;
       images?: image[];

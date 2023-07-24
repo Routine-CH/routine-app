@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import EditJournalScreen from "../../../screens/edit-journals-screen";
+import EditNotesScreen from "../../../screens/edit-notes-screen";
 import EditToolsScreen from "../../../screens/edit-tools-screen";
 import GoalsScreen from "../../../screens/goals-screen";
 import HomeScreen from "../../../screens/home-screen";
@@ -30,6 +31,8 @@ const HomeStackNavigator: React.FC = () => {
       <HomeStack.Screen name="Todos" component={TodosScreen} />
       <HomeStack.Screen name="Notes" component={NotesScreen} />
       <HomeStack.Screen name="NotesNew" component={NewNotesScreen} />
+      {/* @ts-ignore: TODO: fix this */}
+      <HomeStack.Screen name="NotesEdit" component={EditNotesScreen} />
       {/* @ts-ignore: TODO: fix this */}
       <HomeStack.Screen name="NoteView" component={NoteViewScreen} />
       <HomeStack.Screen name="Goals" component={GoalsScreen} />

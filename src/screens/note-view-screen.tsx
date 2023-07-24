@@ -69,7 +69,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
       defaultPadding
     >
       <View style={styles.buttonContainer}>
-        <BackButton type="true" style={styles.buttonStyle} />
+        <BackButton type={true} style={styles.buttonStyle} />
         <Pressable onPress={handleModalPress}>
           <Icon
             name={"ellipsis-vertical"}
