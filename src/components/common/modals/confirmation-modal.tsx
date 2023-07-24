@@ -11,9 +11,9 @@ import AppColors from "../../../utils/constants/colors";
 import AppText from "../typography/app-text";
 
 interface ConfirmationModalProps {
-  title: string;
-  description: string;
-  actionText: string;
+  title: string | undefined | null;
+  description: string | undefined | null;
+  actionText: string | undefined | null;
   isVisible: boolean;
   onConfirm: () => void;
   onClose: () => void;

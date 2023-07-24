@@ -80,7 +80,7 @@ const JournalsScreen: React.FC = () => {
             <TodaysJournal userJournal={todaysJournal} />
           ) : (
             <EmptyState
-              type='journal'
+              type="journal"
               title={t("journal.no-entry-title")}
               description={t("journal.no-entry-yet")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -98,8 +98,8 @@ const JournalsScreen: React.FC = () => {
         }}
       >
         <AppText
-          fontStyle='heading3'
-          colorStyle='black64'
+          fontStyle="heading3"
+          colorStyle="black64"
           style={{ marginBottom: 30 }}
         >
           {t("journal.past-entries")}
@@ -128,7 +128,7 @@ const JournalsScreen: React.FC = () => {
             })
         ) : (
           <EmptyState
-            type='journal'
+            type="journal"
             title={t("journal.no-entry-titles")}
             description={t("journal.no-entries-yet")}
             style={{ backgroundColor: AppColors.white }}
@@ -142,6 +142,9 @@ const JournalsScreen: React.FC = () => {
         />
       ) : null}
       <EditDeleteModal
+        title={t("modals.are-you-sure")}
+        description={t("modals.journal")}
+        actionText={t("modals.delete")}
         isVisible={isModalVisible}
         onConfirm={deleteJournal}
         navigateTo={() => navigateToJournalEditScreen()}

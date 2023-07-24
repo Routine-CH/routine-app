@@ -56,9 +56,11 @@
   },
   "modals": {
       "are-you-sure": "Bist du dir sicher?",
-      "your": "Dein",
-      "is-being-deleted": "wird gelöscht.",
-      "cancel": "Abbrechen"
+      "cancel": "Abbrechen",
+      "journal": "Dein Journal wird gelöscht",
+      "notes": "Deine Notiz wird gelöscht",
+      "delete": "Löschen",
+      "discard": "Verwerfen"
   },
   "my-day": {
     "hey": "Hey",
@@ -70,7 +72,8 @@
   },
   "notes": {
       "date": "Datum",
-      "filter": "filtern"
+      "filter": "filtern",
+      "note": "Notizen"
   },
   "profile":{
       "gamification": {

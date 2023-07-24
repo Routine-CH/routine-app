@@ -5,7 +5,7 @@ import AppColors from "../../../utils/constants/colors";
 
 type BackButtonProps = {
   style?: StyleProp<ViewStyle>;
-  type?: string;
+  type?: boolean;
 };
 
 const BackButton: React.FC<BackButtonProps> = ({ style, type }) => {

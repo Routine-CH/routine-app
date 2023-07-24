@@ -27,6 +27,7 @@ export type AuthenticatedStackParamList = {
     };
   };
   Notes: undefined;
+  NoteView: {id: string};
   NotesEdit: { id: string };
   NotesNew: undefined;
   Todos: undefined;
@@ -108,6 +109,7 @@ export interface UserNotes {
   title: string;
   description: string;
   images: Image[];
+  createdAt: Date;
 }
 
 export type UserTodo = {
@@ -185,7 +187,7 @@ export interface IFormLoginInputs {
 
 export interface IFormRegisterInputs {
   username: string;
-  email: string;
+  emaiI: string;
   password: string;
   repeatPassword: string;
   agreeTerms: boolean;
@@ -200,6 +202,18 @@ export interface IFormJournalInputs {
   toImprove: string;
   thoughtsAndIdeas?: string;
   moods: { id: string; type: string }[];
+}
+
+export interface IFormNoteInputs {
+      note?: string;
+      noteId?: string;
+      title: string;
+      description: string;
+      images?: image[];
+}
+export interface image {
+      id: string; 
+      imageUrl: string;
 }
 
 export type AxiosErrorWithData = AxiosError & {
