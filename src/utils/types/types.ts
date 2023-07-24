@@ -27,6 +27,7 @@ export type AuthenticatedStackParamList = {
     };
   };
   Notes: undefined;
+  NoteView: {id: string};
   NotesEdit: { id: string };
   NotesNew: undefined;
   Todos: undefined;
@@ -108,6 +109,7 @@ export interface UserNotes {
   title: string;
   description: string;
   images: Image[];
+  createdAt: Date;
 }
 
 export type UserTodo = {
@@ -204,7 +206,7 @@ export interface IFormJournalInputs {
 
 export interface IFormNoteInputs {
       note?: string;
-      noteId?: string;
+      id?: string;
       title: string;
       description: string;
       images?: image[];
