@@ -211,6 +211,16 @@ export interface IFormNoteInputs {
       description: string;
       images?: image[];
 }
+
+export interface IFormTodoInputs {
+      todo?: string;
+      id?: string;
+      title?: string;
+      description?: string;
+      plannedDate: Date;
+      completed?: boolean;
+}
+
 export interface image {
       id: string; 
       imageUrl: string;

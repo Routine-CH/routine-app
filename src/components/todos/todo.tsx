@@ -5,23 +5,51 @@ import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
 interface TodoProps {
-  icon: any;
+  completed: boolean;
   title: string;
   description?: string;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
+  onPressIcon?: () => void;
 }
 
 const Todo: React.FC<TodoProps> = ({
-  icon,
+  completed,
   title,
   description,
   style,
   onPress,
+  onPressIcon,
 }) => {
+  //   const [iconName, setIconName] = useState(
+  //     completed ? "checkbox" : "stop-outline"
+  //   );
+
+  //   const handleIconPress = () => {
+  //     setIconName((prevIconName) =>
+  //       prevIconName === "checkbox" ? "stop-outline" : "checkbox"
+  //     );
+  //     if (onPressIcon) {
+  //       onPressIcon();
+  //     }
+  //   };
+
+  const iconName = completed ? "checkbox" : "stop-outline";
+
+  const handleIconPress = () => {
+    if (onPressIcon) {
+      onPressIcon();
+    }
+  };
+
   return (
     <TouchableWithoutFeedback style={styles.todoContainer} onPress={onPress}>
-      <Icon name={icon} size={40} style={styles.iconStyle} />
+      <Icon
+        name={iconName}
+        size={40}
+        style={styles.iconStyle}
+        onPress={handleIconPress}
+      />
       <View>
         <AppText
           fontStyle="body"
