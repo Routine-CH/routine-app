@@ -13,18 +13,20 @@ type LabelInputFieldProps = {
   placeholder?: any;
   editText?: string;
   style?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<ViewStyle>;
 } & TextInputProps;
 
 const LabelInputField: React.FC<LabelInputFieldProps> = ({
   placeholder,
   editText,
   style,
+  inputStyle,
   ...textInputProps
 }) => {
   return (
     <View style={[styles.inputContainer, style]}>
       <TextInput
-        style={styles.inputStyle}
+        style={[styles.inputStyle, inputStyle]}
         placeholder={placeholder}
         placeholderTextColor={AppColors.black70}
         {...textInputProps}

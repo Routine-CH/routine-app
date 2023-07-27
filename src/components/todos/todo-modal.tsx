@@ -39,37 +39,37 @@ const TodoModal: React.FC<TodoModal> = ({ todo, isVisible, onClose }) => {
               <View>
                 <View style={styles.textContainer}>
                   <AppText
-                    fontStyle='bodyMedium'
-                    colorStyle='black70'
+                    fontStyle="bodyMedium"
+                    colorStyle="black70"
                     style={styles.title}
                   >
                     {t("journal.title")}
                   </AppText>
-                  <AppText fontStyle='body' colorStyle='black70'>
+                  <AppText fontStyle="body" colorStyle="black70">
                     {todo.title}
                   </AppText>
                 </View>
-                <View>
+                <View style={styles.textContainer}>
                   <AppText
-                    fontStyle='bodyMedium'
-                    colorStyle='black70'
+                    fontStyle="bodyMedium"
+                    colorStyle="black70"
                     style={styles.title}
                   >
                     {t("tool-cards.notes")}
                   </AppText>
-                  <AppText fontStyle='body' colorStyle='black70'>
+                  <AppText fontStyle="body" colorStyle="black70">
                     {todo.description}
                   </AppText>
                 </View>
                 <View>
                   <AppText
-                    fontStyle='bodyMedium'
-                    colorStyle='black70'
+                    fontStyle="bodyMedium"
+                    colorStyle="black70"
                     style={styles.title}
                   >
                     {t("notes.date")}
                   </AppText>
-                  <AppText fontStyle='body' colorStyle='black70'>
+                  <AppText fontStyle="body" colorStyle="black70">
                     {formattedDate}
                   </AppText>
                 </View>
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 30,
     width: "100%",
-    minHeight: 348,
   },
   textContainer: {
     marginBottom: 30,

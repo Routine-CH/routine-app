@@ -13,12 +13,18 @@ import AppText from "../typography/app-text";
 import ConfirmationModal from "./confirmation-modal";
 
 interface EditDeleteModalProps {
+  title?: string | null;
+  description?: string | null;
+  actionText?: string | null;
   isVisible: boolean;
   onConfirm: () => void;
   navigateTo: () => void;
 }
 
 const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
+  title,
+  description,
+  actionText,
   isVisible,
   onConfirm,
   navigateTo,
@@ -46,10 +52,10 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
                   onPress={navigateTo}
                   style={styles.optionsContainer}
                 >
-                  <IconButton iconName='pencil' />
+                  <IconButton iconName="pencil" />
                   <AppText
-                    fontStyle='heading4'
-                    colorStyle='black70'
+                    fontStyle="heading4"
+                    colorStyle="black70"
                     style={{ marginLeft: 55 }}
                   >
                     {t("general.edit")}
@@ -59,10 +65,10 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
                   style={styles.optionsContainer}
                   onPress={handleModalPress}
                 >
-                  <IconButton iconName='trash' />
+                  <IconButton iconName="trash" />
                   <AppText
-                    fontStyle='heading4'
-                    colorStyle='black70'
+                    fontStyle="heading4"
+                    colorStyle="black70"
                     style={{ marginLeft: 55 }}
                   >
                     {t("general.delete")}
@@ -74,15 +80,9 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
         </View>
       </TouchableWithoutFeedback>
       <ConfirmationModal
-        title={t("modals.are-you-sure")}
-        description={
-          t("modals.your") +
-          " " +
-          t("tool-cards.journals") +
-          " " +
-          t("modals.is-being-deleted")
-        }
-        actionText={t("general.delete")}
+        title={title}
+        description={description}
+        actionText={actionText}
         isVisible={isModalVisible}
         onConfirm={onConfirm}
         onClose={closeModal}

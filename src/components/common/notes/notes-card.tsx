@@ -1,3 +1,4 @@
+import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import { Image, StyleSheet, View } from "react-native";
 import AppColors from "../../../utils/constants/colors";
 import AppText from "../typography/app-text";
@@ -6,35 +7,44 @@ interface NotesProps {
   title: string;
   description: string;
   imageUrl?: string;
+  onPress?: () => void;
 }
 
-const NotesCard: React.FC<NotesProps> = ({ title, description, imageUrl }) => {
+const NotesCard: React.FC<NotesProps> = ({
+  title,
+  description,
+  imageUrl,
+  onPress,
+}) => {
   return (
-    <View style={styles.notesCardContainer}>
+    <TouchableWithoutFeedback
+      onPress={onPress}
+      style={styles.notesCardContainer}
+    >
       <View
         style={[styles.innerContainer, { marginBottom: imageUrl ? 30 : 15 }]}
       >
         <AppText
-          fontStyle='heading4'
-          colorStyle='black70'
+          fontStyle="heading4"
+          colorStyle="black70"
           numberOfLines={1}
-          ellipsizeMode='tail'
+          ellipsizeMode="tail"
           style={{ paddingBottom: 15 }}
         >
           {title}
         </AppText>
         <AppText
-          fontStyle='filters'
-          colorStyle='black70'
+          fontStyle="filters"
+          colorStyle="black70"
           numberOfLines={3}
-          ellipsizeMode='tail'
+          ellipsizeMode="tail"
           style={{ lineHeight: 25 }}
         >
           {description}
         </AppText>
       </View>
       {imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} />}
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

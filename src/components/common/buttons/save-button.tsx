@@ -14,16 +14,18 @@ import BackButton from "./back-button";
 type SaveButtonProps = {
   onPress: () => void;
   backButtonStyle?: StyleProp<ViewStyle>;
+  type?: boolean;
 };
 
 const SaveButton: React.FC<SaveButtonProps> = ({
   onPress,
   backButtonStyle,
+  type,
 }) => {
   const { t } = useTranslation();
   return (
     <View style={styles.container}>
-      <BackButton style={[styles.buttonStyle, backButtonStyle]} />
+      <BackButton style={[styles.buttonStyle, backButtonStyle]} type={type} />
       <Pressable style={styles.saveButton} onPress={onPress}>
         <Icon name="checkmark-outline" size={22} style={styles.textStyle} />
         <AppText
