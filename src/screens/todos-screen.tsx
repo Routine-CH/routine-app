@@ -25,7 +25,7 @@ import { useUserTodos } from "../hooks/todos/use-user-todos";
 import AppColors from "../utils/constants/colors";
 import { CalendarDataTypes } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
-import { IFormTodoInputs, UserTodo } from "../utils/types/types";
+import { UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -74,7 +74,7 @@ const TodosScreen: React.FC = () => {
     selectedChip
   );
 
-  const { userTodos, isLoading } = useUserTodos();
+  const { userTodos, isLoading, setUserTodos } = useUserTodos();
 
   const onDayPress = (day: { dateString: string }) => {
     setSelectedDate(new Date(day.dateString));
@@ -94,15 +94,18 @@ const TodosScreen: React.FC = () => {
     setIsTodoModalVisible(true);
   };
 
-  const handleIconPress = async (todo: IFormTodoInputs) => {
-    console.log("Pressed");
+  const handleIconPress = async (todo: UserTodo) => {
     try {
-      const response = await updateUserTodoCompletedRequest({
-        todoId: todo.todoId,
-        completed: todo.completed,
-      });
+      const updatedTodo = { ...todo, completed: !todo.completed };
+      await updateUserTodoCompletedRequest(updatedTodo);
+
+      setUserTodos((prevTodos) =>
+        prevTodos.map((t: UserTodo) =>
+          t.id === updatedTodo.id ? updatedTodo : t
+        )
+      );
     } catch (error) {
-      console.error(error);
+      console.error("Something is wrong: ", error);
     }
   };
 

@@ -13,7 +13,7 @@ import { UserTodo } from "../../utils/types/types";
     .finally(() => setIsLoading(false))
   }, []);
 
-  return { userTodos, isLoading };
+  return { userTodos, isLoading, setUserTodos };
 };
 
 export { useUserTodos };

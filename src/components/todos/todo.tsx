@@ -1,5 +1,4 @@
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
-import { useState } from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
@@ -22,14 +21,22 @@ const Todo: React.FC<TodoProps> = ({
   onPress,
   onPressIcon,
 }) => {
-  const [iconName, setIconName] = useState(
-    completed ? "checkbox" : "stop-outline"
-  );
+  //   const [iconName, setIconName] = useState(
+  //     completed ? "checkbox" : "stop-outline"
+  //   );
+
+  //   const handleIconPress = () => {
+  //     setIconName((prevIconName) =>
+  //       prevIconName === "checkbox" ? "stop-outline" : "checkbox"
+  //     );
+  //     if (onPressIcon) {
+  //       onPressIcon();
+  //     }
+  //   };
+
+  const iconName = completed ? "checkbox" : "stop-outline";
 
   const handleIconPress = () => {
-    setIconName((prevIconName) =>
-      prevIconName === "checkbox" ? "stop-outline" : "checkbox"
-    );
     if (onPressIcon) {
       onPressIcon();
     }

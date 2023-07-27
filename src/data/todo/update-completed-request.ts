@@ -4,32 +4,37 @@ import { API_BASE_URL } from "../../utils/config/config";
 import { IFormTodoInputs } from "../../utils/types/types";
 
 export const updateUserTodoCompletedRequest = async ({
-todoId,  completed
+id,  title, description, plannedDate, completed
     }: IFormTodoInputs) => {
       let errorMessage = "";
+      console.log("Selected: ", completed)
 
       try {
-        if (todoId && completed) {
+        if (id && title && description && plannedDate) {
+            console.log(completed)
           const token = await AsyncStorage.getItem("access_token");
           if (token) {
             const updatedTodoData = {
+              title: title,
+              description: description,
+              plannedDate: plannedDate,
               completed: completed
             };
+            console.log("Updated Data ", updatedTodoData)
     
-            const response = await apiClient.put(
-              `${API_BASE_URL}todos/${todoId}`,
+            const response = await apiClient.patch(
+              `${API_BASE_URL}todos/${id}`,
               updatedTodoData,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
               }
-            );
-    
+            );    
             return response;
           }
         } else {
-            return {error: "Etwas ging schied"}
+            return {error: "Etwas ging schief"}
         }
       } catch (error: any) {
             errorMessage = error;

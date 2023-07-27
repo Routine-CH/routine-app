@@ -214,9 +214,10 @@ export interface IFormNoteInputs {
 
 export interface IFormTodoInputs {
       todo?: string;
-      todoId?: string;
+      id?: string;
       title?: string;
       description?: string;
+      plannedDate: Date;
       completed?: boolean;
 }
 
