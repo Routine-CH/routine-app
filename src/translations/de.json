@@ -175,7 +175,8 @@
       "no-todos-title": "Keine Todos",
       "no-todos": "Du hast heute noch keine Todos",
       "no-future-todos": "Du hast keine Todos in diesem Zeitraum",
-      "today": "Heutige"
+      "todays": "Heutige",
+      "today": "Heute"
   },
   "tool-cards": {
     "timer": "Timer",

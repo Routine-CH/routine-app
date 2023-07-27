@@ -217,7 +217,7 @@ export interface IFormTodoInputs {
       id?: string;
       title?: string;
       description?: string;
-      plannedDate: Date;
+      plannedDate?: Date;
       completed?: boolean;
 }
 

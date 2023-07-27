@@ -127,7 +127,7 @@ const TodosScreen: React.FC = () => {
             colorStyle="black64"
             style={{ marginVertical: 30 }}
           >
-            {t("todos.today")} {t("profile.gamification.todos")}
+            {t("todos.todays")} {t("profile.gamification.todos")}
           </AppText>
           {isLoading ? (
             <AppText>Loading...</AppText>
