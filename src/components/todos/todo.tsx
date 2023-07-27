@@ -1,11 +1,12 @@
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
+import { useState } from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
 interface TodoProps {
-  icon: boolean;
+  completed: boolean;
   title: string;
   description?: string;
   style?: StyleProp<ViewStyle>;
@@ -14,22 +15,34 @@ interface TodoProps {
 }
 
 const Todo: React.FC<TodoProps> = ({
-  icon,
+  completed,
   title,
   description,
   style,
   onPress,
   onPressIcon,
 }) => {
+  const [iconName, setIconName] = useState(
+    completed ? "checkbox" : "stop-outline"
+  );
+
+  const handleIconPress = () => {
+    setIconName((prevIconName) =>
+      prevIconName === "checkbox" ? "stop-outline" : "checkbox"
+    );
+    if (onPressIcon) {
+      onPressIcon();
+    }
+  };
+
   return (
     <TouchableWithoutFeedback style={styles.todoContainer} onPress={onPress}>
-      <TouchableWithoutFeedback onPress={onPressIcon}>
-        <Icon
-          name={icon === false ? "stop-outline" : "checkbox"}
-          size={40}
-          style={styles.iconStyle}
-        />
-      </TouchableWithoutFeedback>
+      <Icon
+        name={iconName}
+        size={40}
+        style={styles.iconStyle}
+        onPress={handleIconPress}
+      />
       <View>
         <AppText
           fontStyle="body"

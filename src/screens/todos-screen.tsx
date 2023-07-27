@@ -19,12 +19,13 @@ import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wra
 import AppText from "../components/common/typography/app-text";
 import Todo from "../components/todos/todo";
 import TodoModal from "../components/todos/todo-modal";
+import { updateUserTodoCompletedRequest } from "../data/todo/update-completed-request";
 import { useCalendarData } from "../hooks/calendar/use-calendar-data";
 import { useUserTodos } from "../hooks/todos/use-user-todos";
 import AppColors from "../utils/constants/colors";
 import { CalendarDataTypes } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
-import { UserTodo } from "../utils/types/types";
+import { IFormTodoInputs, UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -93,9 +94,16 @@ const TodosScreen: React.FC = () => {
     setIsTodoModalVisible(true);
   };
 
-  const handleIconPress = (todo: UserTodo) => {
+  const handleIconPress = async (todo: IFormTodoInputs) => {
     console.log("Pressed");
-    const updatedTodo = { ...todo, completed: !todo.completed };
+    try {
+      const response = await updateUserTodoCompletedRequest({
+        todoId: todo.todoId,
+        completed: todo.completed,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const closeTodoModal = () => {
@@ -130,13 +138,13 @@ const TodosScreen: React.FC = () => {
           ) : userTodos && todaysTodo.length > 0 ? (
             todaysTodo.map((todo) => (
               <Todo
-                icon={todo.completed}
+                completed={todo.completed}
                 key={todo.id}
                 title={todo.title}
                 description={todo.description}
                 style={{ width: 240 }}
                 onPress={() => handleTodoModalPress(todo)}
-                onPressIcon={() => handleIconPress}
+                onPressIcon={() => handleIconPress(todo)}
               />
             ))
           ) : (
@@ -231,7 +239,7 @@ const TodosScreen: React.FC = () => {
                   <Todo
                     title={todo.title}
                     key={todo.id}
-                    icon={todo.completed}
+                    completed={todo.completed}
                   />
                 </View>
               </View>

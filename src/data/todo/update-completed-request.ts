@@ -1,15 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
-import { UserTodo } from "../../utils/types/types";
+import { IFormTodoInputs } from "../../utils/types/types";
 
 export const updateUserTodoCompletedRequest = async ({
-id,  completed
-    }: UserTodo) => {
+todoId,  completed
+    }: IFormTodoInputs) => {
       let errorMessage = "";
 
       try {
-        if (id && completed) {
+        if (todoId && completed) {
           const token = await AsyncStorage.getItem("access_token");
           if (token) {
             const updatedTodoData = {
@@ -17,7 +17,7 @@ id,  completed
             };
     
             const response = await apiClient.put(
-              `${API_BASE_URL}todos/${id}`,
+              `${API_BASE_URL}todos/${todoId}`,
               updatedTodoData,
               {
                 headers: {
