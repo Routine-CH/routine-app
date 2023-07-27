@@ -5,11 +5,12 @@ import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
 interface TodoProps {
-  icon: any;
+  icon: boolean;
   title: string;
   description?: string;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
+  onPressIcon?: () => void;
 }
 
 const Todo: React.FC<TodoProps> = ({
@@ -18,10 +19,17 @@ const Todo: React.FC<TodoProps> = ({
   description,
   style,
   onPress,
+  onPressIcon,
 }) => {
   return (
     <TouchableWithoutFeedback style={styles.todoContainer} onPress={onPress}>
-      <Icon name={icon} size={40} style={styles.iconStyle} />
+      <TouchableWithoutFeedback onPress={onPressIcon}>
+        <Icon
+          name={icon === false ? "stop-outline" : "checkbox"}
+          size={40}
+          style={styles.iconStyle}
+        />
+      </TouchableWithoutFeedback>
       <View>
         <AppText
           fontStyle="body"

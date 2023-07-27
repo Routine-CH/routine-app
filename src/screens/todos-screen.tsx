@@ -1,5 +1,11 @@
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
-import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
+import {
+  eachDayOfInterval,
+  endOfWeek,
+  format,
+  isSameDay,
+  startOfWeek,
+} from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -67,8 +73,7 @@ const TodosScreen: React.FC = () => {
     selectedChip
   );
 
-  const { todaysTodo, isLoadingTodaysTodo, userTodos, isLoading } =
-    useUserTodos();
+  const { userTodos, isLoading } = useUserTodos();
 
   const onDayPress = (day: { dateString: string }) => {
     setSelectedDate(new Date(day.dateString));
@@ -88,9 +93,21 @@ const TodosScreen: React.FC = () => {
     setIsTodoModalVisible(true);
   };
 
+  const handleIconPress = (todo: UserTodo) => {
+    console.log("Pressed");
+    const updatedTodo = { ...todo, completed: !todo.completed };
+  };
+
   const closeTodoModal = () => {
     setIsTodoModalVisible(false);
   };
+
+  const todaysTodo = userTodos.filter((todo) => {
+    const todoDate = new Date(todo.plannedDate);
+    const today = new Date();
+    const sameDay = isSameDay(todoDate, today);
+    return sameDay;
+  });
 
   return (
     <>
@@ -108,59 +125,20 @@ const TodosScreen: React.FC = () => {
           >
             {t("todos.today")} {t("profile.gamification.todos")}
           </AppText>
-          {/*           {isLoading ? (
-            // IMPLEMENT LOADING SCREEN
+          {isLoading ? (
             <AppText>Loading...</AppText>
-          ) : userTodos.filter((todo) => {
-              const todoDate = new Date(todo.plannedDate);
-              const today = new Date();
-              return (
-                todoDate.getFullYear() === today.getFullYear() &&
-                todoDate.getMonth() === today.getMonth() &&
-                todoDate.getDate() === today.getDate()
-              );
-            }).length > 0 ? (
-            userTodos
-              .filter((todo) => {
-                const todoDate = new Date(todo.plannedDate);
-                const today = new Date();
-                return (
-                  todoDate.getFullYear() === today.getFullYear() &&
-                  todoDate.getMonth() === today.getMonth() &&
-                  todoDate.getDate() === today.getDate()
-                );
-              })
-              .map((todo) => (
-                <Todo
-                  icon={todo.completed === false ? "stop-outline" : "checkbox"}
-                  key={todo.id}
-                  title={todo.title}
-                  description={todo.description}
-                  style={{ width: 240 }}
-                  onPress={() => handleTodoModalPress(todo)}
-                />
-              ))
-          ) : (
-            <EmptyState
-              type="todo"
-              title={t("todos.no-todos-title")}
-              description={t("todos.no-todos")}
-              style={{ backgroundColor: AppColors.blueMuted30 }}
-            />
-          )} */}
-          {isLoadingTodaysTodo ? (
-            <AppText>Loading...</AppText>
-          ) : todaysTodo ? (
-            <Todo
-              icon={
-                todaysTodo.completed === false ? "stop-outline" : "checkbox"
-              }
-              key={todaysTodo.id}
-              title={todaysTodo.title}
-              description={todaysTodo.description}
-              style={{ width: 240 }}
-              onPress={() => handleTodoModalPress(todaysTodo)}
-            />
+          ) : userTodos && todaysTodo.length > 0 ? (
+            todaysTodo.map((todo) => (
+              <Todo
+                icon={todo.completed}
+                key={todo.id}
+                title={todo.title}
+                description={todo.description}
+                style={{ width: 240 }}
+                onPress={() => handleTodoModalPress(todo)}
+                onPressIcon={() => handleIconPress}
+              />
+            ))
           ) : (
             <EmptyState
               type="todo"
@@ -253,9 +231,7 @@ const TodosScreen: React.FC = () => {
                   <Todo
                     title={todo.title}
                     key={todo.id}
-                    icon={
-                      todo.completed === false ? "stop-outline" : "checkbox"
-                    }
+                    icon={todo.completed}
                   />
                 </View>
               </View>
