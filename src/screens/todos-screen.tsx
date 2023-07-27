@@ -1,5 +1,5 @@
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
-import { addDays, format, isSameDay } from "date-fns";
+import { addDays, eachDayOfInterval, format, isSameDay } from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,7 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import DateCard from "../components/common/calendar/date-card";
 import EmptyState from "../components/common/empty-state";
+import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import Todo from "../components/todos/todo";
@@ -24,18 +25,23 @@ const TodosScreen: React.FC = () => {
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const { userTodos, isLoading, setUserTodos } = useUserTodos();
+  //   const { selectedDate, setSelectedDate } = useState(new Date());
 
-  const getNextSevenDays = () => {
-    const tomorrow = addDays(new Date(), 1);
-    const nextSevenDaysEnd = addDays(tomorrow, 6);
-    const formattedStart = format(tomorrow, "dd MMMM", { locale: de });
-    const formattedEnd = format(nextSevenDaysEnd, "dd MMMM yyyy", {
-      locale: de,
-    });
-    return `${formattedStart} - ${formattedEnd}`;
+  const tomorrow = addDays(new Date(), 1);
+  const nextSevenDaysEnd = addDays(tomorrow, 6);
+  const datesOfWeek = eachDayOfInterval({
+    start: tomorrow,
+    end: nextSevenDaysEnd,
+  });
+
+  const weekStart = format(tomorrow, "dd MMMM", { locale: de });
+  const weekEnd = format(nextSevenDaysEnd, "dd MMMM yyyy", { locale: de });
+  const currentWeek = `${weekStart} - ${weekEnd}`;
+
+  const onDayPress = (/* day: Day */) => {
+    // setSelectedDate(new Date(day.dateString));
+    // setIsModalVisible(false);
   };
-
-  const nextSevenDays = getNextSevenDays();
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -139,7 +145,7 @@ const TodosScreen: React.FC = () => {
         </AppText>
         <TouchableWithoutFeedback onPress={handleModalPress}>
           <AppText fontStyle={"body"} colorStyle="black64">
-            {nextSevenDays}
+            {currentWeek}
           </AppText>
         </TouchableWithoutFeedback>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
@@ -176,11 +182,11 @@ const TodosScreen: React.FC = () => {
             />
           )}
         </View>
-        {/*         <CalendarModal
+        <CalendarModal
           isVisible={isModalVisible}
-          datesOfWeek={nextSevenDays}
+          datesOfWeek={datesOfWeek}
           onDayPress={onDayPress}
-        /> */}
+        />
         <TodoModal
           isVisible={isTodoModalVisible}
           onClose={closeTodoModal}
