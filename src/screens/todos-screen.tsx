@@ -1,11 +1,5 @@
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
-import {
-  eachDayOfInterval,
-  endOfWeek,
-  format,
-  isSameDay,
-  startOfWeek,
-} from "date-fns";
+import { addDays, format, isSameDay } from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,16 +8,13 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import DateCard from "../components/common/calendar/date-card";
 import EmptyState from "../components/common/empty-state";
-import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import Todo from "../components/todos/todo";
 import TodoModal from "../components/todos/todo-modal";
 import { updateUserTodoCompletedRequest } from "../data/todo/update-completed-request";
-import { useCalendarData } from "../hooks/calendar/use-calendar-data";
 import { useUserTodos } from "../hooks/todos/use-user-todos";
 import AppColors from "../utils/constants/colors";
-import { CalendarDataTypes } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
 import { UserTodo } from "../utils/types/types";
 
@@ -32,38 +23,19 @@ const TodosScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedChip, setSelectedChip] = useState<CalendarDataTypes>();
-  const startDateOfWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
-  const endDateOfWeek = endOfWeek(selectedDate, { weekStartsOn: 1 });
-  const datesOfWeek = eachDayOfInterval({
-    start: startDateOfWeek,
-    end: endDateOfWeek,
-  });
-  const weekStart = format(startDateOfWeek, "dd MMMM", {
-    locale: de,
-  });
-  const weekEnd = format(endDateOfWeek, "dd MMMM yyyy", {
-    locale: de,
-  });
-  const currentWeek = `${weekStart} - ${weekEnd}`;
-
-  const selectedWeek = datesOfWeek.map((date) => {
-    return format(date, "yyyy-MM-dd");
-  });
-
-  const { weekData } = useCalendarData(
-    selectedDate,
-    selectedWeek,
-    selectedChip
-  );
-
   const { userTodos, isLoading, setUserTodos } = useUserTodos();
 
-  const onDayPress = (day: { dateString: string }) => {
-    setSelectedDate(new Date(day.dateString));
-    setIsModalVisible(false);
+  const getNextSevenDays = () => {
+    const tomorrow = addDays(new Date(), 1);
+    const nextSevenDaysEnd = addDays(tomorrow, 6);
+    const formattedStart = format(tomorrow, "dd MMMM", { locale: de });
+    const formattedEnd = format(nextSevenDaysEnd, "dd MMMM yyyy", {
+      locale: de,
+    });
+    return `${formattedStart} - ${formattedEnd}`;
   };
+
+  const nextSevenDays = getNextSevenDays();
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -102,6 +74,21 @@ const TodosScreen: React.FC = () => {
     const today = new Date();
     const sameDay = isSameDay(todoDate, today);
     return sameDay;
+  });
+
+  const sortedTodos = userTodos.sort(
+    (a, b) =>
+      new Date(a.plannedDate).getTime() - new Date(b.plannedDate).getTime()
+  );
+
+  const groupedTodos: { [date: string]: UserTodo[] } = {};
+  sortedTodos.forEach((todo) => {
+    const date = new Date(todo.plannedDate).toISOString().split("T")[0];
+    if (!groupedTodos[date]) {
+      groupedTodos[date] = [todo];
+    } else {
+      groupedTodos[date].push(todo);
+    }
   });
 
   return (
@@ -152,36 +139,34 @@ const TodosScreen: React.FC = () => {
         </AppText>
         <TouchableWithoutFeedback onPress={handleModalPress}>
           <AppText fontStyle={"body"} colorStyle="black64">
-            {currentWeek}
+            {nextSevenDays}
           </AppText>
         </TouchableWithoutFeedback>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
           {isLoading ? (
             <AppText>Loading Future Todos</AppText>
           ) : userTodos ? (
-            userTodos.map((todo) => {
-              return (
-                <View
-                  key={todo.id}
-                  style={{
-                    flexDirection: "row",
-                    gap: 30,
-                    width: "100%",
-                  }}
-                >
-                  <View style={{ flexShrink: 1 }}>
-                    <DateCard date={new Date(todo.plannedDate)} />
-                  </View>
-                  <View style={{ flexShrink: 1, flexGrow: 1 }}>
+            Object.entries(groupedTodos).map(([date, todos]) => (
+              <View
+                key={date}
+                style={{ flexDirection: "row", gap: 30, width: "100%" }}
+              >
+                <View style={{ flexShrink: 1 }}>
+                  <DateCard date={new Date(date)} />
+                </View>
+                <View style={{ flexShrink: 1, flexGrow: 1 }}>
+                  {todos.map((todo) => (
                     <Todo
                       title={todo.title}
                       key={todo.id}
                       completed={todo.completed}
+                      onPress={() => handleTodoModalPress(todo)}
+                      onPressIcon={() => handleIconPress(todo)}
                     />
-                  </View>
+                  ))}
                 </View>
-              );
-            })
+              </View>
+            ))
           ) : (
             <EmptyState
               type="todo"
@@ -191,11 +176,11 @@ const TodosScreen: React.FC = () => {
             />
           )}
         </View>
-        <CalendarModal
+        {/*         <CalendarModal
           isVisible={isModalVisible}
-          datesOfWeek={datesOfWeek}
+          datesOfWeek={nextSevenDays}
           onDayPress={onDayPress}
-        />
+        /> */}
         <TodoModal
           isVisible={isTodoModalVisible}
           onClose={closeTodoModal}

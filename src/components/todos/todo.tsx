@@ -21,19 +21,6 @@ const Todo: React.FC<TodoProps> = ({
   onPress,
   onPressIcon,
 }) => {
-  //   const [iconName, setIconName] = useState(
-  //     completed ? "checkbox" : "stop-outline"
-  //   );
-
-  //   const handleIconPress = () => {
-  //     setIconName((prevIconName) =>
-  //       prevIconName === "checkbox" ? "stop-outline" : "checkbox"
-  //     );
-  //     if (onPressIcon) {
-  //       onPressIcon();
-  //     }
-  //   };
-
   const iconName = completed ? "checkbox" : "stop-outline";
 
   const handleIconPress = () => {
