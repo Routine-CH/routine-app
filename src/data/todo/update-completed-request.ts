@@ -7,12 +7,11 @@ export const updateUserTodoCompletedRequest = async ({
 id,  title, description, plannedDate, completed
     }: IFormTodoInputs) => {
       let errorMessage = "";
-      console.log("Selected: ", completed)
 
       try {
         if (id && title && description && plannedDate) {
-            console.log(completed)
           const token = await AsyncStorage.getItem("access_token");
+          
           if (token) {
             const updatedTodoData = {
               title: title,
@@ -20,8 +19,7 @@ id,  title, description, plannedDate, completed
               plannedDate: plannedDate,
               completed: completed
             };
-            console.log("Updated Data ", updatedTodoData)
-    
+
             const response = await apiClient.patch(
               `${API_BASE_URL}todos/${id}`,
               updatedTodoData,

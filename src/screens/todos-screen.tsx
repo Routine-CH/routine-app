@@ -29,22 +29,6 @@ import { UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const { t } = useTranslation();
-  const now = new Date();
-  const startOfCurrentWeek = startOfWeek(now, { weekStartsOn: 1 });
-  const endOfCurrentWeek = endOfWeek(now, { weekStartsOn: 1 });
-  const startOfCurrentWeekFormatted = format(startOfCurrentWeek, "dd MMMM", {
-    locale: de,
-  });
-  const endOfCurrentWeekFormatted = format(endOfCurrentWeek, "dd MMMM yyyy", {
-    locale: de,
-  });
-  const formattedCurrentWeek = `${startOfCurrentWeekFormatted} - ${endOfCurrentWeekFormatted}`;
-
-  //   const { userTodos, isLoading } = useUserTodos();
-  const [futureTodos, setFutureTodos] = useState<{ [key: string]: UserTodo[] }>(
-    {}
-  );
-  const [_, setIsLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
@@ -171,47 +155,32 @@ const TodosScreen: React.FC = () => {
             {currentWeek}
           </AppText>
         </TouchableWithoutFeedback>
-        {/*         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
+        <View style={[styles.calendarContainer, { marginTop: 30 }]}>
           {isLoading ? (
-            // IMPLEMENT LOADING SCREEN
-            <AppText>Loading...</AppText>
-          ) : uniqueDates.length > 0 ? (
-            uniqueDates.map((date: string) => {
-              const currentDate = new Date(date);
-              if (
-                currentDate >= selectedWeek.startDate &&
-                currentDate <= selectedWeek.endDate
-              ) {
-                return (
-                  <View
-                    key={date}
-                    style={{
-                      flexDirection: "row",
-                      gap: 30,
-                      width: "100%",
-                    }}
-                  >
-                    <View style={{ flexShrink: 1 }}>
-                      <DateCard date={new Date(date)} />
-                    </View>
-                    <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                      {futureTodos[date].map((todo: UserTodo) => (
-                        <Calendar
-                          title={todo.title}
-                          key={todo.id}
-                          displayTodoCard={true}
-                          icon={
-                            todo.completed === false
-                              ? "stop-outline"
-                              : "checkbox"
-                          }
-                        />
-                      ))}
-                    </View>
+            <AppText>Loading Future Todos</AppText>
+          ) : userTodos ? (
+            userTodos.map((todo) => {
+              return (
+                <View
+                  key={todo.id}
+                  style={{
+                    flexDirection: "row",
+                    gap: 30,
+                    width: "100%",
+                  }}
+                >
+                  <View style={{ flexShrink: 1 }}>
+                    <DateCard date={new Date(todo.plannedDate)} />
                   </View>
-                );
-              }
-              return null;
+                  <View style={{ flexShrink: 1, flexGrow: 1 }}>
+                    <Todo
+                      title={todo.title}
+                      key={todo.id}
+                      completed={todo.completed}
+                    />
+                  </View>
+                </View>
+              );
             })
           ) : (
             <EmptyState
@@ -221,41 +190,7 @@ const TodosScreen: React.FC = () => {
               style={{ backgroundColor: AppColors.greenMuted30 }}
             />
           )}
-        </View> */}
-        {isLoading ? (
-          <AppText>Loading Future Todos</AppText>
-        ) : userTodos ? (
-          userTodos.map((todo) => {
-            return (
-              <View
-                key={todo.id}
-                style={{
-                  flexDirection: "row",
-                  gap: 30,
-                  width: "100%",
-                }}
-              >
-                <View style={{ flexShrink: 1 }}>
-                  <DateCard date={new Date(todo.plannedDate)} />
-                </View>
-                <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                  <Todo
-                    title={todo.title}
-                    key={todo.id}
-                    completed={todo.completed}
-                  />
-                </View>
-              </View>
-            );
-          })
-        ) : (
-          <EmptyState
-            type="todo"
-            title={t("todos.no-todos-title")}
-            description={t("todos.no-future-todos")}
-            style={{ backgroundColor: AppColors.greenMuted30 }}
-          />
-        )}
+        </View>
         <CalendarModal
           isVisible={isModalVisible}
           datesOfWeek={datesOfWeek}
