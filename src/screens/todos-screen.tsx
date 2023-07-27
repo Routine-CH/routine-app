@@ -1,3 +1,5 @@
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import {
   eachDayOfInterval,
@@ -25,11 +27,13 @@ import { useUserTodos } from "../hooks/todos/use-user-todos";
 import AppColors from "../utils/constants/colors";
 import { CalendarDataTypes } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
-import { UserTodo } from "../utils/types/types";
+import { AuthenticatedStackParamList, UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -103,6 +107,11 @@ const TodosScreen: React.FC = () => {
     const sameDay = isSameDay(todoDate, today);
     return sameDay;
   });
+
+  const navigateToNewTodoScreen = () => {
+    setIsModalVisible(false);
+    navigation.navigate("TodosNew");
+  };
 
   return (
     <>
@@ -202,7 +211,7 @@ const TodosScreen: React.FC = () => {
           todo={selectedTodo}
         />
       </ScrollViewScreenWrapper>
-      <AddButton />
+      <AddButton navigateTo={() => navigateToNewTodoScreen()} />
     </>
   );
 };
