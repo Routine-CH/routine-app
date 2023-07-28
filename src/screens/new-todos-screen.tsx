@@ -33,11 +33,18 @@ const NewTodosScreen = () => {
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const currentDate = new Date();
 
+  const onDayPress = (day: Day) => {
+    console.log("Clicked");
+    setSelectedDate(new Date(day.dateString));
+    setIsModalVisible(false);
+  };
+
   const handleNewTodo = async ({ title, description }: IFormTodoInputs) => {
+    const plannedDate = new Date(selectedDate);
     const response = await createTodoRequest({
       title,
       description,
-      plannedDate: selectedDate,
+      plannedDate,
     });
     if (typeof response === "string") {
       setErrorMessage(response);
@@ -69,13 +76,6 @@ const NewTodosScreen = () => {
       setErrorMessage("");
     }
   }, [errorMessage]);
-
-  const onDayPress = (day: Day) => {
-    console.log("Clicked");
-    const selectedDateString = day.dateString; // Use the dateString directly
-    setSelectedDate(new Date(selectedDateString)); // Create a new Date object from the dateString
-    setIsModalVisible(false);
-  };
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -150,7 +150,7 @@ const NewTodosScreen = () => {
       <RoutineToast />
       <SimpleCalendarModal
         isVisible={isModalVisible}
-        currentDate={currentDate}
+        selectedDate={selectedDate}
         onDayPress={onDayPress}
       />
     </ScrollViewScreenWrapper>

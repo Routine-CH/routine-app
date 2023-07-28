@@ -7,17 +7,17 @@ import { Day } from "../../../utils/types/calendar/types";
 
 interface ConfirmationModalProps {
   isVisible: boolean;
-  currentDate: Date;
+  selectedDate: Date;
   onDayPress: (day: Day) => void;
 }
 
 const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
   isVisible,
-  currentDate,
+  selectedDate,
   onDayPress,
 }) => {
   const markedDates = {
-    [format(currentDate, "yyyy-MM-dd")]: { selected: true, marked: true },
+    [format(selectedDate, "yyyy-MM-dd")]: { selected: true, marked: true },
   };
 
   return (
