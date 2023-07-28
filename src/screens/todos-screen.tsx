@@ -89,21 +89,6 @@ const TodosScreen: React.FC = () => {
     return sameDay;
   });
 
-  /*   const sortedTodos = upcomingTodos.sort(
-    (a, b) =>
-      new Date(a.plannedDate).getTime() - new Date(b.plannedDate).getTime()
-  );
-
-  const groupedTodos: { [date: string]: UserTodo[] } = {};
-  sortedTodos.forEach((todo) => {
-    const date = new Date(todo.plannedDate).toISOString().split("T")[0];
-    if (!groupedTodos[date]) {
-      groupedTodos[date] = [todo];
-    } else {
-      groupedTodos[date].push(todo);
-    }
-  }); */
-
   return (
     <>
       <ScrollViewScreenWrapper
