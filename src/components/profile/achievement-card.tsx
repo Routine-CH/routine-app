@@ -7,13 +7,16 @@ import AppText from "../common/typography/app-text";
 type AchievementCardProps = {
   exp: number;
   badgesCount: number;
+  streakCount: number;
 };
 
 const AchievementCard: React.FC<AchievementCardProps> = ({
   exp,
   badgesCount,
+  streakCount,
 }) => {
   const { t } = useTranslation();
+  console.log(streakCount);
 
   return (
     <View style={styles.achievementContainer}>

@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import apiClient from "../utils/config/api-client";
 import { API_BASE_URL } from "../utils/config/config";
+import { AxiosErrorWithData } from "../utils/types/types";
 
 type AuthContextType = {
   userIsAuthenticated: boolean;
@@ -43,13 +44,56 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     async function restoreSession() {
+      const access_token = await AsyncStorage.getItem("access_token");
+      const refresh_token = await AsyncStorage.getItem("refresh_token");
+
+      if (!access_token || !refresh_token) {
+        return;
+      }
+
       try {
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
+        const response = await axios.get(`${API_BASE_URL}auth/auth-check`, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        });
+
+        if (response.status === 200) {
           setUserIsAuthenticated(true);
         }
       } catch (error) {
-        console.error("Failed to restore session", error);
+        const axiosError = error as AxiosErrorWithData;
+        if (axiosError.response) {
+          if (axiosError.response.status === 401) {
+            try {
+              const response = await axios.get(
+                `${API_BASE_URL}auth/refresh-token`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${refresh_token}`,
+                    "x-refresh-token": refresh_token,
+                  },
+                }
+              );
+              console.log(response.status);
+            } catch (error) {
+              const axiosError = error as AxiosErrorWithData;
+              console.log(axiosError.response.data);
+              await AsyncStorage.multiRemove([
+                "access_token",
+                "refresh_token",
+              ]).then(() => {
+                setUserIsAuthenticated(false);
+              });
+            }
+          }
+        } else if (axiosError.request) {
+          // The request was made but no response was received
+          console.log(axiosError.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log("Error", axiosError.message);
+        }
       }
     }
 

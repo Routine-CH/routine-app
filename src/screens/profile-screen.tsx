@@ -73,6 +73,7 @@ const ProfileScreen = () => {
         <AchievementCard
           exp={currentUser.experience}
           badgesCount={currentUser.badges.length}
+          streakCount={currentUser.streakCount}
         />
         <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
       </View>
