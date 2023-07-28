@@ -24,7 +24,7 @@ import { UserTodo } from "../../utils/types/types";
 
 //   console.log(upcomingTodos)
 
-  return { userTodos, isLoading, setUserTodos, upcomingTodos, isLoadingUpcomingTodos, setUpcomingTodos };
+  return { userTodos, isLoading, setUserTodos, upcomingTodos, isLoadingUpcomingTodos };
 };
 
 export { useUserTodos };

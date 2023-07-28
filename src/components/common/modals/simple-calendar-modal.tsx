@@ -1,4 +1,4 @@
-import { format, startOfDay } from "date-fns";
+import { addDays, format, startOfDay } from "date-fns";
 import React from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import { Calendar } from "react-native-calendars";
@@ -7,20 +7,39 @@ import { Day } from "../../../utils/types/calendar/types";
 
 interface ConfirmationModalProps {
   isVisible: boolean;
-  selectedDate: Date;
+  selectedDate?: Date;
+  datesOfWeek?: Date[];
   onDayPress: (day: Day) => void;
 }
 
 const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
   isVisible,
   selectedDate,
+  datesOfWeek,
   onDayPress,
 }) => {
-  const markedDates = {
-    [format(selectedDate, "yyyy-MM-dd")]: { selected: true, marked: true },
-  };
+  let markedDates = {};
+
+  if (selectedDate) {
+    markedDates = {
+      [format(selectedDate, "yyyy-MM-dd")]: { selected: true, marked: true },
+    };
+  }
+
+  if (datesOfWeek) {
+    markedDates = datesOfWeek.reduce((accumulator, date) => {
+      const dateString = format(date, "yyyy-MM-dd");
+      return {
+        ...accumulator,
+        [dateString]: { selected: true, marked: true },
+      };
+    }, {});
+  }
 
   const currentDate = format(startOfDay(new Date()), "yyyy-MM-dd");
+  const tomorrow = addDays(startOfDay(new Date()), 1);
+  const formattedTomorrow = format(tomorrow, "yyyy-MM-dd");
+  const todayTextColor = datesOfWeek ? AppColors.grey : AppColors.black70;
 
   return (
     <Modal visible={isVisible} transparent>
@@ -33,15 +52,15 @@ const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
             monthFormat="MMMM yyyy"
             enableSwipeMonths={true}
             allowSelectionOutOfRange={false}
+            minDate={selectedDate ? currentDate : formattedTomorrow}
             markedDates={markedDates}
             onDayPress={onDayPress}
-            minDate={currentDate}
             theme={{
               textSectionTitleColor: AppColors.black70,
               textSectionTitleDisabledColor: AppColors.black70,
               selectedDayBackgroundColor: AppColors.blue100Muted20,
               selectedDayTextColor: AppColors.black70,
-              todayTextColor: AppColors.black70,
+              todayTextColor: todayTextColor,
               dayTextColor: AppColors.black70,
               textDisabledColor: AppColors.grey,
               dotColor: AppColors.blue100Muted20,

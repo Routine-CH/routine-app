@@ -10,7 +10,7 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import DateCard from "../components/common/calendar/date-card";
 import EmptyState from "../components/common/empty-state";
-import CalendarModal from "../components/common/modals/calendar-modal";
+import SimpleCalendarModal from "../components/common/modals/simple-calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import Todo from "../components/todos/todo";
@@ -18,6 +18,7 @@ import TodoModal from "../components/todos/todo-modal";
 import { updateUserTodoCompletedRequest } from "../data/todo/update-completed-request";
 import { useUserTodos } from "../hooks/todos/use-user-todos";
 import AppColors from "../utils/constants/colors";
+import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList, UserTodo } from "../utils/types/types";
 
@@ -28,15 +29,14 @@ const TodosScreen: React.FC = () => {
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const {
     userTodos,
     isLoading,
     setUserTodos,
     upcomingTodos,
     isLoadingUpcomingTodos,
-    setUpcomingTodos,
   } = useUserTodos();
-  //   const { selectedDate, setSelectedDate } = useState(new Date());
 
   const tomorrow = addDays(new Date(), 1);
   const nextSevenDaysEnd = addDays(tomorrow, 6);
@@ -49,17 +49,13 @@ const TodosScreen: React.FC = () => {
   const weekEnd = format(nextSevenDaysEnd, "dd MMMM yyyy", { locale: de });
   const currentWeek = `${weekStart} - ${weekEnd}`;
 
-  const onDayPress = (/* day: Day */) => {
-    // setSelectedDate(new Date(day.dateString));
-    // setIsModalVisible(false);
+  const onDayPress = (day: Day) => {
+    setSelectedDate(new Date(day.dateString));
+    setIsModalVisible(false);
   };
 
   const handleModalPress = () => {
     setIsModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setIsModalVisible(false);
   };
 
   const handleTodoModalPress = (todo: UserTodo) => {
@@ -185,7 +181,7 @@ const TodosScreen: React.FC = () => {
             />
           )}
         </View>
-        <CalendarModal
+        <SimpleCalendarModal
           isVisible={isModalVisible}
           datesOfWeek={datesOfWeek}
           onDayPress={onDayPress}
