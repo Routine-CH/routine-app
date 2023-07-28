@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, startOfDay } from "date-fns";
 import React from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import { Calendar } from "react-native-calendars";
@@ -20,6 +20,8 @@ const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
     [format(selectedDate, "yyyy-MM-dd")]: { selected: true, marked: true },
   };
 
+  const currentDate = format(startOfDay(new Date()), "yyyy-MM-dd");
+
   return (
     <Modal visible={isVisible} transparent>
       <View style={styles.overlay}>
@@ -30,9 +32,10 @@ const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
             firstDay={1}
             monthFormat="MMMM yyyy"
             enableSwipeMonths={true}
-            allowSelectionOutOfRange={true}
+            allowSelectionOutOfRange={false}
             markedDates={markedDates}
             onDayPress={onDayPress}
+            minDate={currentDate}
             theme={{
               textSectionTitleColor: AppColors.black70,
               textSectionTitleDisabledColor: AppColors.black70,
@@ -40,7 +43,7 @@ const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
               selectedDayTextColor: AppColors.black70,
               todayTextColor: AppColors.black70,
               dayTextColor: AppColors.black70,
-              textDisabledColor: AppColors.black70,
+              textDisabledColor: AppColors.grey,
               dotColor: AppColors.blue100Muted20,
               selectedDotColor: AppColors.blue100Muted20,
               arrowColor: AppColors.blue100,

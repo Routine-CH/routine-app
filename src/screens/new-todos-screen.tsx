@@ -31,7 +31,6 @@ const NewTodosScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
-  const currentDate = new Date();
 
   const onDayPress = (day: Day) => {
     console.log("Clicked");
