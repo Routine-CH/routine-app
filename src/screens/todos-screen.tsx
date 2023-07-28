@@ -1,13 +1,7 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
-import {
-  eachDayOfInterval,
-  endOfWeek,
-  format,
-  isSameDay,
-  startOfWeek,
-} from "date-fns";
+import { addDays, eachDayOfInterval, format, isSameDay } from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,10 +16,8 @@ import AppText from "../components/common/typography/app-text";
 import Todo from "../components/todos/todo";
 import TodoModal from "../components/todos/todo-modal";
 import { updateUserTodoCompletedRequest } from "../data/todo/update-completed-request";
-import { useCalendarData } from "../hooks/calendar/use-calendar-data";
 import { useUserTodos } from "../hooks/todos/use-user-todos";
 import AppColors from "../utils/constants/colors";
-import { CalendarDataTypes } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList, UserTodo } from "../utils/types/types";
 
@@ -36,37 +28,30 @@ const TodosScreen: React.FC = () => {
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedChip, setSelectedChip] = useState<CalendarDataTypes>();
-  const startDateOfWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
-  const endDateOfWeek = endOfWeek(selectedDate, { weekStartsOn: 1 });
+  const {
+    userTodos,
+    isLoading,
+    setUserTodos,
+    upcomingTodos,
+    isLoadingUpcomingTodos,
+    setUpcomingTodos,
+  } = useUserTodos();
+  //   const { selectedDate, setSelectedDate } = useState(new Date());
+
+  const tomorrow = addDays(new Date(), 1);
+  const nextSevenDaysEnd = addDays(tomorrow, 6);
   const datesOfWeek = eachDayOfInterval({
-    start: startDateOfWeek,
-    end: endDateOfWeek,
+    start: tomorrow,
+    end: nextSevenDaysEnd,
   });
-  const weekStart = format(startDateOfWeek, "dd MMMM", {
-    locale: de,
-  });
-  const weekEnd = format(endDateOfWeek, "dd MMMM yyyy", {
-    locale: de,
-  });
+
+  const weekStart = format(tomorrow, "dd MMMM", { locale: de });
+  const weekEnd = format(nextSevenDaysEnd, "dd MMMM yyyy", { locale: de });
   const currentWeek = `${weekStart} - ${weekEnd}`;
 
-  const selectedWeek = datesOfWeek.map((date) => {
-    return format(date, "yyyy-MM-dd");
-  });
-
-  const { weekData } = useCalendarData(
-    selectedDate,
-    selectedWeek,
-    selectedChip
-  );
-
-  const { userTodos, isLoading, setUserTodos } = useUserTodos();
-
-  const onDayPress = (day: { dateString: string }) => {
-    setSelectedDate(new Date(day.dateString));
-    setIsModalVisible(false);
+  const onDayPress = (/* day: Day */) => {
+    // setSelectedDate(new Date(day.dateString));
+    // setIsModalVisible(false);
   };
 
   const handleModalPress = () => {
@@ -165,32 +150,32 @@ const TodosScreen: React.FC = () => {
           </AppText>
         </TouchableWithoutFeedback>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
-          {isLoading ? (
+          {isLoadingUpcomingTodos ? (
             <AppText>Loading Future Todos</AppText>
-          ) : userTodos ? (
-            userTodos.map((todo) => {
-              return (
+          ) : upcomingTodos && Object.keys(upcomingTodos).length > 0 ? (
+            Object.entries(upcomingTodos).map(
+              ([date, todos]: [string, UserTodo[]]) => (
                 <View
-                  key={todo.id}
-                  style={{
-                    flexDirection: "row",
-                    gap: 30,
-                    width: "100%",
-                  }}
+                  key={date}
+                  style={{ flexDirection: "row", gap: 30, width: "100%" }}
                 >
                   <View style={{ flexShrink: 1 }}>
-                    <DateCard date={new Date(todo.plannedDate)} />
+                    <DateCard date={new Date(date)} />
                   </View>
                   <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                    <Todo
-                      title={todo.title}
-                      key={todo.id}
-                      completed={todo.completed}
-                    />
+                    {todos.map((todo: UserTodo) => (
+                      <Todo
+                        title={todo.title}
+                        key={todo.id}
+                        completed={todo.completed}
+                        onPress={() => handleTodoModalPress(todo)}
+                        onPressIcon={() => handleIconPress(todo)}
+                      />
+                    ))}
                   </View>
                 </View>
-              );
-            })
+              )
+            )
           ) : (
             <EmptyState
               type="todo"
