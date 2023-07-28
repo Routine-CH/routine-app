@@ -16,7 +16,7 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import DateCard from "../components/common/calendar/date-card";
 import EmptyState from "../components/common/empty-state";
-import SimpleCalendarModal from "../components/common/modals/simple-calendar-modal";
+import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import Todo from "../components/todos/todo";
@@ -36,16 +36,20 @@ const TodosScreen: React.FC = () => {
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const tomorrow = addDays(startOfDay(new Date()), 1);
-  const nextSevenDaysEnd = addDays(tomorrow, 6);
+  const [manualDate, setManualDate] = useState<boolean>(false);
+  const today = selectedDate;
+  const initialDate = format(addDays(startOfDay(new Date()), 1), "yyyy-MM-dd");
+  const tomorrow = addDays(startOfDay(selectedDate), 1);
+  const nextSevenDaysEnd = addDays(manualDate ? today : tomorrow, 6);
   const datesOfWeek = eachDayOfInterval({
-    start: tomorrow,
+    start: manualDate ? today : tomorrow,
     end: nextSevenDaysEnd,
   });
-  const weekStart = format(tomorrow, "dd. MMMM", { locale: de });
+  const weekStart = format(manualDate ? today : tomorrow, "dd. MMMM", {
+    locale: de,
+  });
   const weekEnd = format(nextSevenDaysEnd, "dd. MMMM yyyy", { locale: de });
   const currentWeek = `${weekStart} - ${weekEnd}`;
-  const [selectedDateText, setSelectedDateText] = useState(currentWeek);
   const [startDate, setStartDate] = useState<Date | null>(new Date(tomorrow));
   const [endDate, setEndDate] = useState<Date | null>(
     new Date(nextSevenDaysEnd)
@@ -93,20 +97,22 @@ const TodosScreen: React.FC = () => {
       setIsModalVisible(false);
       setStartDate(new Date(day.dateString));
       setEndDate(null);
-      setSelectedDateText(
-        format(new Date(day.dateString), "dd. MMMM yyyy", { locale: de })
+      setManualDate(
+        format(selectedDate, "dd. MMMM yyyy", { locale: de }) ===
+          format(addDays(new Date(), 1), "dd. MMMM yyyy", { locale: de })
+          ? false
+          : true
       );
     } else {
       setSelectedDate(day.startDate);
       setIsModalVisible(false);
       setStartDate(day.startDate);
       setEndDate(day.endDate);
-      setSelectedDateText(
-        `${format(day.startDate, "dd. MMMM", { locale: de })} - ${format(
-          day.endDate,
-          "dd. MMMM yyyy",
-          { locale: de }
-        )}`
+      setManualDate(
+        format(selectedDate, "dd. MMMM yyyy", { locale: de }) ===
+          format(addDays(new Date(), 1), "dd. MMMM yyyy", { locale: de })
+          ? false
+          : true
       );
     }
   };
@@ -143,15 +149,15 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor="white"
+        backgroundColor='white'
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <View>
           <AppText
-            fontStyle="heading3"
-            colorStyle="black64"
+            fontStyle='heading3'
+            colorStyle='black64'
             style={{ marginVertical: 30 }}
           >
             {t("todos.todays")} {t("profile.gamification.todos")}
@@ -172,7 +178,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type="todo"
+              type='todo'
               title={t("todos.no-todos-title")}
               description={t("todos.no-todos")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -180,15 +186,15 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
         <AppText
-          fontStyle="heading3"
-          colorStyle="black64"
+          fontStyle='heading3'
+          colorStyle='black64'
           style={{ marginTop: 60, marginBottom: 30 }}
         >
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         <TouchableWithoutFeedback onPress={handleModalPress}>
-          <AppText fontStyle={"body"} colorStyle="black64">
-            {selectedDateText}
+          <AppText fontStyle={"body"} colorStyle='black64'>
+            {currentWeek}
           </AppText>
         </TouchableWithoutFeedback>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
@@ -220,17 +226,18 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type="todo"
+              type='todo'
               title={t("todos.no-todos-title")}
               description={t("todos.no-future-todos")}
               style={{ backgroundColor: AppColors.greenMuted30 }}
             />
           )}
         </View>
-        <SimpleCalendarModal
+        <CalendarModal
           isVisible={isModalVisible}
           datesOfWeek={datesOfWeek}
           onDayPress={onDayPress}
+          initialDate={initialDate}
         />
         <TodoModal
           isVisible={isTodoModalVisible}
