@@ -1,7 +1,13 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
-import { addDays, eachDayOfInterval, format, isSameDay } from "date-fns";
+import {
+  addDays,
+  eachDayOfInterval,
+  format,
+  isSameDay,
+  startOfDay,
+} from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,9 +36,7 @@ const TodosScreen: React.FC = () => {
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const tomorrow = addDays(new Date(), 1);
+  const tomorrow = addDays(startOfDay(new Date()), 1);
   const nextSevenDaysEnd = addDays(tomorrow, 6);
   const datesOfWeek = eachDayOfInterval({
     start: tomorrow,
@@ -42,6 +46,10 @@ const TodosScreen: React.FC = () => {
   const weekEnd = format(nextSevenDaysEnd, "dd. MMMM yyyy", { locale: de });
   const currentWeek = `${weekStart} - ${weekEnd}`;
   const [selectedDateText, setSelectedDateText] = useState(currentWeek);
+  const [startDate, setStartDate] = useState<Date | null>(new Date(tomorrow));
+  const [endDate, setEndDate] = useState<Date | null>(
+    new Date(nextSevenDaysEnd)
+  );
 
   const {
     userTodos,

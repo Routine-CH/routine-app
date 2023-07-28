@@ -37,6 +37,16 @@ const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
   useEffect(() => {
     let newMarkedDates: MarkedDates = {};
 
+    const upcomingDates = eachDayOfInterval({
+      start: addDays(startOfDay(new Date()), 1),
+      end: addDays(startOfDay(new Date()), 7),
+    });
+
+    upcomingDates.forEach((date) => {
+      const dateString = format(date, "yyyy-MM-dd");
+      newMarkedDates[dateString] = { selected: true, marked: true };
+    });
+
     if (selectedDate) {
       newMarkedDates = {
         [format(selectedDate, "yyyy-MM-dd")]: { selected: true, marked: true },
