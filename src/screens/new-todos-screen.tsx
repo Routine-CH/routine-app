@@ -32,9 +32,14 @@ const NewTodosScreen = () => {
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
-  const onDayPress = (day: Day) => {
-    setSelectedDate(new Date(day.dateString));
-    setIsModalVisible(false);
+  const onDayPress = (day: Day | { startDate: Date; endDate: Date }) => {
+    if ("dateString" in day) {
+      setSelectedDate(new Date(day.dateString));
+      setIsModalVisible(false);
+    } else {
+      setSelectedDate(day.startDate);
+      setIsModalVisible(false);
+    }
   };
 
   const handleNewTodo = async ({ title, description }: IFormTodoInputs) => {

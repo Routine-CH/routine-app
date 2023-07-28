@@ -45,13 +45,29 @@ const TodosScreen: React.FC = () => {
     end: nextSevenDaysEnd,
   });
 
-  const weekStart = format(tomorrow, "dd MMMM", { locale: de });
-  const weekEnd = format(nextSevenDaysEnd, "dd MMMM yyyy", { locale: de });
+  const weekStart = format(tomorrow, "dd. MMMM", { locale: de });
+  const weekEnd = format(nextSevenDaysEnd, "dd. MMMM yyyy", { locale: de });
   const currentWeek = `${weekStart} - ${weekEnd}`;
+  const [selectedDateText, setSelectedDateText] = useState(currentWeek);
 
-  const onDayPress = (day: Day) => {
-    setSelectedDate(new Date(day.dateString));
-    setIsModalVisible(false);
+  const onDayPress = (day: Day | { startDate: Date; endDate: Date }) => {
+    if ("dateString" in day) {
+      setSelectedDate(new Date(day.dateString));
+      setIsModalVisible(false);
+      setSelectedDateText(
+        format(new Date(day.dateString), "dd MMMM yyyy", { locale: de })
+      );
+    } else {
+      setSelectedDate(day.startDate);
+      setIsModalVisible(false);
+      setSelectedDateText(
+        `${format(day.startDate, "dd. MMMM", { locale: de })} - ${format(
+          day.endDate,
+          "dd. MMMM yyyy",
+          { locale: de }
+        )}`
+      );
+    }
   };
 
   const handleModalPress = () => {
@@ -142,7 +158,7 @@ const TodosScreen: React.FC = () => {
         </AppText>
         <TouchableWithoutFeedback onPress={handleModalPress}>
           <AppText fontStyle={"body"} colorStyle="black64">
-            {currentWeek}
+            {selectedDateText}
           </AppText>
         </TouchableWithoutFeedback>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
