@@ -10,21 +10,18 @@ export const createTodoRequest = async ({
       description,
       plannedDate,
     }: IFormTodoInputs) => {
-      console.log("Data received");
+      let errorMessage = "";
+
       try {
         if (title && description && plannedDate) {
           const token = await AsyncStorage.getItem("access_token");
           if (token) {
-            // Format plannedDate to the desired string format
-            const plannedDateString = plannedDate.toISOString().split("T")[0];
-    
-            // Initialize newTodoData as FormData
-            let newTodoData = new FormData();
-            newTodoData.append("title", title);
-            newTodoData.append("description", description);
-            newTodoData.append("plannedDate", plannedDateString);
-    
-            console.log(newTodoData);
+            const formattedDate =  plannedDate.toISOString().split("T")[0];
+            const newTodoData = {
+                  title: title,
+                  description: description,
+                  plannedDate: formattedDate
+            }
     
             const response = await apiClient.post(
               `${API_BASE_URL}todos`,
@@ -32,24 +29,23 @@ export const createTodoRequest = async ({
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
-                  'Content-Type': 'multipart/form-data'
+                  "Content-Type": "application/json",
                 },
               }
             );
     
             if (response.status !== 201) {
-              showToast(ToastType.error, response.data?.message || "Note creation failed");
-              throw new Error("Note creation failed");
+              showToast(ToastType.error, response.data?.message || "Todo creation failed");
+              throw new Error("Todo creation failed");
             }
     
-            console.log("Note created successfully", response);
             return response;
           }
         } else {
           console.log("Some data is empty");
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error: any) {
+            errorMessage = error;
+            return errorMessage      }
     };
     

@@ -33,7 +33,6 @@ const NewTodosScreen = () => {
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
   const onDayPress = (day: Day) => {
-    console.log("Clicked");
     setSelectedDate(new Date(day.dateString));
     setIsModalVisible(false);
   };
@@ -50,9 +49,9 @@ const NewTodosScreen = () => {
       showToast(ToastType.error, response);
       setErrorMessage("");
     } else if (response && response.status === 201) {
-      showToast(ToastType.success, "Notiz gespeichert");
+      showToast(ToastType.success, "Todo gespeichert");
       setTimeout(() => {
-        navigation.navigate("Notes");
+        navigation.navigate("Todos");
       }, 2000);
     } else {
       setErrorMessage("Something is wrong");
