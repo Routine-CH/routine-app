@@ -24,7 +24,14 @@ const TodosScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
-  const { userTodos, isLoading, setUserTodos } = useUserTodos();
+  const {
+    userTodos,
+    isLoading,
+    setUserTodos,
+    upcomingTodos,
+    isLoadingUpcomingTodos,
+    setUpcomingTodos,
+  } = useUserTodos();
   //   const { selectedDate, setSelectedDate } = useState(new Date());
 
   const tomorrow = addDays(new Date(), 1);
@@ -82,7 +89,7 @@ const TodosScreen: React.FC = () => {
     return sameDay;
   });
 
-  const sortedTodos = userTodos.sort(
+  /*   const sortedTodos = upcomingTodos.sort(
     (a, b) =>
       new Date(a.plannedDate).getTime() - new Date(b.plannedDate).getTime()
   );
@@ -95,7 +102,7 @@ const TodosScreen: React.FC = () => {
     } else {
       groupedTodos[date].push(todo);
     }
-  });
+  }); */
 
   return (
     <>
@@ -149,30 +156,32 @@ const TodosScreen: React.FC = () => {
           </AppText>
         </TouchableWithoutFeedback>
         <View style={[styles.calendarContainer, { marginTop: 30 }]}>
-          {isLoading ? (
+          {isLoadingUpcomingTodos ? (
             <AppText>Loading Future Todos</AppText>
-          ) : userTodos ? (
-            Object.entries(groupedTodos).map(([date, todos]) => (
-              <View
-                key={date}
-                style={{ flexDirection: "row", gap: 30, width: "100%" }}
-              >
-                <View style={{ flexShrink: 1 }}>
-                  <DateCard date={new Date(date)} />
+          ) : upcomingTodos && Object.keys(upcomingTodos).length > 0 ? (
+            Object.entries(upcomingTodos).map(
+              ([date, todos]: [string, UserTodo[]]) => (
+                <View
+                  key={date}
+                  style={{ flexDirection: "row", gap: 30, width: "100%" }}
+                >
+                  <View style={{ flexShrink: 1 }}>
+                    <DateCard date={new Date(date)} />
+                  </View>
+                  <View style={{ flexShrink: 1, flexGrow: 1 }}>
+                    {todos.map((todo: UserTodo) => (
+                      <Todo
+                        title={todo.title}
+                        key={todo.id}
+                        completed={todo.completed}
+                        onPress={() => handleTodoModalPress(todo)}
+                        onPressIcon={() => handleIconPress(todo)}
+                      />
+                    ))}
+                  </View>
                 </View>
-                <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                  {todos.map((todo) => (
-                    <Todo
-                      title={todo.title}
-                      key={todo.id}
-                      completed={todo.completed}
-                      onPress={() => handleTodoModalPress(todo)}
-                      onPressIcon={() => handleIconPress(todo)}
-                    />
-                  ))}
-                </View>
-              </View>
-            ))
+              )
+            )
           ) : (
             <EmptyState
               type="todo"
