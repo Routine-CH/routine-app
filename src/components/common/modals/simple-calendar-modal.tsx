@@ -1,81 +1,26 @@
-import { addDays, eachDayOfInterval, format, startOfDay } from "date-fns";
-import React, { useEffect, useState } from "react";
+import { format, startOfDay } from "date-fns";
+import React from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import AppColors from "../../../utils/constants/colors";
 import { Day } from "../../../utils/types/calendar/types";
 
-interface DateRange {
-  startDate: Date;
-  endDate: Date;
-}
-
-interface MarkedDates {
-  [date: string]: { selected: boolean; marked: boolean };
-}
-
 interface ConfirmationModalProps {
   isVisible: boolean;
-  selectedDate?: Date;
-  datesOfWeek?: Date[];
-  onDayPress: (day: Day | DateRange) => void;
+  selectedDate: Date;
+  onDayPress: (day: Day) => void;
 }
 
 const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
   isVisible,
   selectedDate,
-  datesOfWeek,
   onDayPress,
 }) => {
-  const currentDate = format(startOfDay(new Date()), "yyyy-MM-dd");
-  const tomorrow = addDays(startOfDay(new Date()), 1);
-  const formattedTomorrow = format(tomorrow, "yyyy-MM-dd");
-  const todayTextColor = datesOfWeek ? AppColors.grey : AppColors.black70;
-  const [selectedWeek, setSelectedWeek] = useState<DateRange | null>(null);
-  const [markedDatesState, setMarkedDatesState] = useState<MarkedDates>({});
-
-  useEffect(() => {
-    let newMarkedDates: MarkedDates = {};
-
-    const upcomingDates = eachDayOfInterval({
-      start: addDays(startOfDay(new Date()), 1),
-      end: addDays(startOfDay(new Date()), 7),
-    });
-
-    upcomingDates.forEach((date) => {
-      const dateString = format(date, "yyyy-MM-dd");
-      newMarkedDates[dateString] = { selected: true, marked: true };
-    });
-
-    if (selectedDate) {
-      newMarkedDates = {
-        [format(selectedDate, "yyyy-MM-dd")]: { selected: true, marked: true },
-      };
-    }
-
-    if (datesOfWeek && selectedWeek) {
-      const { startDate, endDate } = selectedWeek;
-      const weekRange = eachDayOfInterval({ start: startDate, end: endDate });
-      weekRange.forEach((date) => {
-        const dateString = format(date, "yyyy-MM-dd");
-        newMarkedDates[dateString] = { selected: true, marked: true };
-      });
-    }
-
-    setMarkedDatesState(newMarkedDates);
-  }, [selectedDate, datesOfWeek, selectedWeek]);
-
-  const handleDayPress = (day: Day) => {
-    if (datesOfWeek) {
-      const startDate = new Date(day.dateString);
-      const endDate = addDays(startDate, 6);
-      setSelectedWeek({ startDate, endDate });
-      onDayPress({ startDate, endDate });
-    } else {
-      setSelectedWeek(null);
-      onDayPress(day);
-    }
+  const markedDates = {
+    [format(selectedDate, "yyyy-MM-dd")]: { selected: true, marked: true },
   };
+
+  const currentDate = format(startOfDay(new Date()), "yyyy-MM-dd");
 
   return (
     <Modal visible={isVisible} transparent>
@@ -88,15 +33,15 @@ const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
             monthFormat="MMMM yyyy"
             enableSwipeMonths={true}
             allowSelectionOutOfRange={false}
-            minDate={selectedDate ? currentDate : formattedTomorrow}
-            markedDates={markedDatesState}
-            onDayPress={(day) => handleDayPress(day)}
+            markedDates={markedDates}
+            onDayPress={onDayPress}
+            minDate={currentDate}
             theme={{
               textSectionTitleColor: AppColors.black70,
               textSectionTitleDisabledColor: AppColors.black70,
               selectedDayBackgroundColor: AppColors.blue100Muted20,
               selectedDayTextColor: AppColors.black70,
-              todayTextColor: todayTextColor,
+              todayTextColor: AppColors.black70,
               dayTextColor: AppColors.black70,
               textDisabledColor: AppColors.grey,
               dotColor: AppColors.blue100Muted20,

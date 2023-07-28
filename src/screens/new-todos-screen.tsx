@@ -32,14 +32,9 @@ const NewTodosScreen = () => {
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
-  const onDayPress = (day: Day | { startDate: Date; endDate: Date }) => {
-    if ("dateString" in day) {
-      setSelectedDate(new Date(day.dateString));
-      setIsModalVisible(false);
-    } else {
-      setSelectedDate(day.startDate);
-      setIsModalVisible(false);
-    }
+  const onDayPress = (day: Day) => {
+    setSelectedDate(new Date(day.dateString));
+    setIsModalVisible(false);
   };
 
   const handleNewTodo = async ({ title, description }: IFormTodoInputs) => {
@@ -108,7 +103,7 @@ const NewTodosScreen = () => {
               value={value}
             />
           )}
-          name='title'
+          name="title"
           rules={{
             required: "Bitte gib deinem Todo ein Titel",
             minLength: {
@@ -130,7 +125,7 @@ const NewTodosScreen = () => {
               value={value}
             />
           )}
-          name='description'
+          name="description"
           rules={{
             minLength: {
               value: 5,
@@ -142,8 +137,8 @@ const NewTodosScreen = () => {
           onPress={handleModalPress}
           style={styles.iconContainer}
         >
-          <Icon name='calendar' size={18} color={AppColors.white} />
-          <AppText fontStyle='filters' colorStyle='white'>
+          <Icon name="calendar" size={18} color={AppColors.white} />
+          <AppText fontStyle="filters" colorStyle="white">
             {isToday(selectedDate)
               ? t("todos.today")
               : format(selectedDate, "dd.MM.yy", { locale: de })}

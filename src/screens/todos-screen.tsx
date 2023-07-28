@@ -92,6 +92,7 @@ const TodosScreen: React.FC = () => {
   };
 
   const onDayPress = (day: Day | { startDate: Date; endDate: Date }) => {
+    console.log("Startdate: ", startDate);
     if ("dateString" in day) {
       setSelectedDate(new Date(day.dateString));
       setIsModalVisible(false);
@@ -149,15 +150,15 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor='white'
+        backgroundColor="white"
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <View>
           <AppText
-            fontStyle='heading3'
-            colorStyle='black64'
+            fontStyle="heading3"
+            colorStyle="black64"
             style={{ marginVertical: 30 }}
           >
             {t("todos.todays")} {t("profile.gamification.todos")}
@@ -178,7 +179,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type='todo'
+              type="todo"
               title={t("todos.no-todos-title")}
               description={t("todos.no-todos")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -186,14 +187,14 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
         <AppText
-          fontStyle='heading3'
-          colorStyle='black64'
+          fontStyle="heading3"
+          colorStyle="black64"
           style={{ marginTop: 60, marginBottom: 30 }}
         >
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         <TouchableWithoutFeedback onPress={handleModalPress}>
-          <AppText fontStyle={"body"} colorStyle='black64'>
+          <AppText fontStyle={"body"} colorStyle="black64">
             {currentWeek}
           </AppText>
         </TouchableWithoutFeedback>
@@ -226,7 +227,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type='todo'
+              type="todo"
               title={t("todos.no-todos-title")}
               description={t("todos.no-future-todos")}
               style={{ backgroundColor: AppColors.greenMuted30 }}
