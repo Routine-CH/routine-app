@@ -33,6 +33,5 @@ export const getUpcomingTodos =async () => {
 
       const upcomingTodos = response.data.data
 
-      // return upcomingTodos.length > 0 ? upcomingTodos : null
       return upcomingTodos
 }

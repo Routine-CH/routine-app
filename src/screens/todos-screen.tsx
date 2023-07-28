@@ -30,6 +30,19 @@ const TodosScreen: React.FC = () => {
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const tomorrow = addDays(new Date(), 1);
+  const nextSevenDaysEnd = addDays(tomorrow, 6);
+  const datesOfWeek = eachDayOfInterval({
+    start: tomorrow,
+    end: nextSevenDaysEnd,
+  });
+  const weekStart = format(tomorrow, "dd. MMMM", { locale: de });
+  const weekEnd = format(nextSevenDaysEnd, "dd. MMMM yyyy", { locale: de });
+  const currentWeek = `${weekStart} - ${weekEnd}`;
+  const [selectedDateText, setSelectedDateText] = useState(currentWeek);
+
   const {
     userTodos,
     isLoading,
@@ -38,38 +51,6 @@ const TodosScreen: React.FC = () => {
     isLoadingUpcomingTodos,
   } = useUserTodos();
 
-  const tomorrow = addDays(new Date(), 1);
-  const nextSevenDaysEnd = addDays(tomorrow, 6);
-  const datesOfWeek = eachDayOfInterval({
-    start: tomorrow,
-    end: nextSevenDaysEnd,
-  });
-
-  const weekStart = format(tomorrow, "dd. MMMM", { locale: de });
-  const weekEnd = format(nextSevenDaysEnd, "dd. MMMM yyyy", { locale: de });
-  const currentWeek = `${weekStart} - ${weekEnd}`;
-  const [selectedDateText, setSelectedDateText] = useState(currentWeek);
-
-  const onDayPress = (day: Day | { startDate: Date; endDate: Date }) => {
-    if ("dateString" in day) {
-      setSelectedDate(new Date(day.dateString));
-      setIsModalVisible(false);
-      setSelectedDateText(
-        format(new Date(day.dateString), "dd MMMM yyyy", { locale: de })
-      );
-    } else {
-      setSelectedDate(day.startDate);
-      setIsModalVisible(false);
-      setSelectedDateText(
-        `${format(day.startDate, "dd. MMMM", { locale: de })} - ${format(
-          day.endDate,
-          "dd. MMMM yyyy",
-          { locale: de }
-        )}`
-      );
-    }
-  };
-
   const handleModalPress = () => {
     setIsModalVisible(true);
   };
@@ -77,6 +58,10 @@ const TodosScreen: React.FC = () => {
   const handleTodoModalPress = (todo: UserTodo) => {
     setSelectedTodo(todo);
     setIsTodoModalVisible(true);
+  };
+
+  const closeTodoModal = () => {
+    setIsTodoModalVisible(false);
   };
 
   const handleIconPress = async (todo: UserTodo) => {
@@ -94,16 +79,53 @@ const TodosScreen: React.FC = () => {
     }
   };
 
-  const closeTodoModal = () => {
-    setIsTodoModalVisible(false);
+  const onDayPress = (day: Day | { startDate: Date; endDate: Date }) => {
+    if ("dateString" in day) {
+      setSelectedDate(new Date(day.dateString));
+      setIsModalVisible(false);
+      setStartDate(new Date(day.dateString));
+      setEndDate(null);
+      setSelectedDateText(
+        format(new Date(day.dateString), "dd. MMMM yyyy", { locale: de })
+      );
+    } else {
+      setSelectedDate(day.startDate);
+      setIsModalVisible(false);
+      setStartDate(day.startDate);
+      setEndDate(day.endDate);
+      setSelectedDateText(
+        `${format(day.startDate, "dd. MMMM", { locale: de })} - ${format(
+          day.endDate,
+          "dd. MMMM yyyy",
+          { locale: de }
+        )}`
+      );
+    }
   };
 
   const todaysTodo = userTodos.filter((todo) => {
     const todoDate = new Date(todo.plannedDate);
     const today = new Date();
-    const sameDay = isSameDay(todoDate, today);
+    const sameDay = isSameDay(new Date(todoDate), new Date(today));
     return sameDay;
   });
+
+  const filterTodosByDateRange = (
+    todos: { [date: string]: UserTodo[] },
+    startDate: Date | null,
+    endDate: Date | null
+  ) => {
+    const filteredTodos: { [date: string]: UserTodo[] } = {};
+    if (startDate && endDate) {
+      Object.entries(todos).forEach(([date, todos]) => {
+        const todoDate = new Date(date);
+        if (todoDate >= startDate && todoDate <= endDate) {
+          filteredTodos[date] = todos;
+        }
+      });
+    }
+    return filteredTodos;
+  };
 
   const navigateToNewTodoScreen = () => {
     setIsModalVisible(false);
@@ -165,29 +187,29 @@ const TodosScreen: React.FC = () => {
           {isLoadingUpcomingTodos ? (
             <AppText>Loading Future Todos</AppText>
           ) : upcomingTodos && Object.keys(upcomingTodos).length > 0 ? (
-            Object.entries(upcomingTodos).map(
-              ([date, todos]: [string, UserTodo[]]) => (
-                <View
-                  key={date}
-                  style={{ flexDirection: "row", gap: 30, width: "100%" }}
-                >
-                  <View style={{ flexShrink: 1 }}>
-                    <DateCard date={new Date(date)} />
-                  </View>
-                  <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                    {todos.map((todo: UserTodo) => (
-                      <Todo
-                        title={todo.title}
-                        key={todo.id}
-                        completed={todo.completed}
-                        onPress={() => handleTodoModalPress(todo)}
-                        onPressIcon={() => handleIconPress(todo)}
-                      />
-                    ))}
-                  </View>
+            Object.entries(
+              filterTodosByDateRange(upcomingTodos, startDate, endDate)
+            ).map(([date, todos]: [string, UserTodo[]]) => (
+              <View
+                key={date}
+                style={{ flexDirection: "row", gap: 30, width: "100%" }}
+              >
+                <View style={{ flexShrink: 1 }}>
+                  <DateCard date={new Date(date)} />
                 </View>
-              )
-            )
+                <View style={{ flexShrink: 1, flexGrow: 1 }}>
+                  {todos.map((todo: UserTodo) => (
+                    <Todo
+                      title={todo.title}
+                      key={todo.id}
+                      completed={todo.completed}
+                      onPress={() => handleTodoModalPress(todo)}
+                      onPressIcon={() => handleIconPress(todo)}
+                    />
+                  ))}
+                </View>
+              </View>
+            ))
           ) : (
             <EmptyState
               type="todo"
