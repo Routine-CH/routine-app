@@ -16,7 +16,6 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
   streakCount,
 }) => {
   const { t } = useTranslation();
-  console.log(streakCount);
 
   return (
     <View style={styles.achievementContainer}>
@@ -52,7 +51,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
           colorStyle='black64'
           style={{ marginBottom: 5 }}
         >
-          2
+          {streakCount}
         </AppText>
         <AppText fontStyle='body' colorStyle='black64'>
           {t("profile.gamification.level")}

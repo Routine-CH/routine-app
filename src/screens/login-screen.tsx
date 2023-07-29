@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Platform, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import LoginForm from "../components/auth/login-form";
 import RegisterNavigation from "../components/auth/register-navigation";
 import FlatButton from "../components/common/buttons/flat-button";
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   outerContainer2: { backgroundColor: AppColors.blue100, flex: 2 },
   innerContainer: {
     backgroundColor: AppColors.white,
-    flex: Platform.OS === "ios" ? 18 : 10,
+    flex: 18,
     borderRadius: 20,
     paddingHorizontal: 30,
     width: "100%",
