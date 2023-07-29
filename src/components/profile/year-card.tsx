@@ -2,14 +2,14 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
-import { FullUserData } from "../../utils/types/types";
+import { UserGamification } from "../../utils/types/profile/types";
 import AppText from "../common/typography/app-text";
 
-interface userProps {
-  currentUser: FullUserData;
+interface YearCardProps {
+  currentUser: UserGamification;
 }
 
-const YearCard: React.FC<userProps> = ({ currentUser }) => {
+const YearCard: React.FC<YearCardProps> = ({ currentUser }) => {
   const { t } = useTranslation();
 
   return (
@@ -20,7 +20,7 @@ const YearCard: React.FC<userProps> = ({ currentUser }) => {
       <View style={styles.cardContainer}>
         <View style={styles.textContainer}>
           <AppText fontStyle='bodyMedium' style={styles.text}>
-            32
+            {currentUser.completedTodoCount}
           </AppText>
           <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.gamification.reached")}
@@ -29,7 +29,7 @@ const YearCard: React.FC<userProps> = ({ currentUser }) => {
         </View>
         <View style={styles.textContainer}>
           <AppText fontStyle='bodyMedium' style={styles.text}>
-            105
+            {currentUser.completedGoalsCount}
           </AppText>
           <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.gamification.reached")}{" "}
@@ -38,7 +38,7 @@ const YearCard: React.FC<userProps> = ({ currentUser }) => {
         </View>
         <View style={styles.textContainer}>
           <AppText fontStyle='bodyMedium' style={styles.text}>
-            8
+            {currentUser.meditationMinutes / 60}
           </AppText>
           <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.gamification.meditated")}{" "}
@@ -47,7 +47,7 @@ const YearCard: React.FC<userProps> = ({ currentUser }) => {
         </View>
         <View style={styles.textContainer}>
           <AppText fontStyle='bodyMedium' style={styles.text}>
-            24
+            {currentUser.journalCount}
           </AppText>
           <AppText fontStyle='body' colorStyle='black64'>
             {t("profile.gamification.journal-entries")} 📓

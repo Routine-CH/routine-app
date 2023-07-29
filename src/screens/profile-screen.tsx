@@ -11,13 +11,13 @@ import Badge from "../components/profile/badge";
 import BadgesView from "../components/profile/badges-view";
 import WeekView from "../components/profile/week-view";
 import YearCard from "../components/profile/year-card";
-import useCurrentFullUser from "../hooks/use-current-full-user";
+import { useGamificationUser } from "../hooks/profile/use-gamification-user";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const ProfileScreen = () => {
   const { t } = useTranslation();
-  const { currentUser } = useCurrentFullUser();
+  const { userProfileData } = useGamificationUser();
 
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
@@ -28,11 +28,14 @@ const ProfileScreen = () => {
   };
 
   const navigateToProfileSettingsScreen = () => {
-    if (!currentUser) return;
-    navigation.navigate("ProfileSettings", { id: currentUser.id });
+    if (userProfileData && userProfileData.id !== null) {
+      navigation.navigate("ProfileSettings", { id: userProfileData.id });
+    } else {
+      console.log("No user gamification data");
+    }
   };
 
-  return currentUser ? (
+  return userProfileData ? (
     <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
@@ -60,28 +63,28 @@ const ProfileScreen = () => {
               colorStyle='black70'
               style={{ marginBottom: 10 }}
             >
-              {t("profile.hi")} {currentUser.username} 😄
+              {t("profile.hi")} {userProfileData.username} 😄
             </AppText>
             <AppText fontStyle='body' colorStyle='black64'>
               {`${t("profile.since")} ${format(
-                parseISO(currentUser.createdAt.toString()),
+                parseISO(userProfileData.createdAt.toString()),
                 "MMMM yyyy"
               )} ${t("profile.here")}`}
             </AppText>
           </View>
         </View>
         <AchievementCard
-          exp={currentUser.experience}
-          badgesCount={currentUser.badges.length}
-          streakCount={currentUser.userLogins[0].streakCount}
+          exp={userProfileData.experience}
+          badgesCount={userProfileData.badges.length}
+          streakCount={userProfileData.userStreakCount}
         />
         <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
       </View>
       <Badge />
       <View style={styles.wrapper}>
-        <YearCard currentUser={currentUser} />
+        <YearCard currentUser={userProfileData} />
       </View>
-      <WeekView />
+      <WeekView journalDays={userProfileData.journalDaysThisWeek} />
     </ScrollViewScreenWrapper>
   ) : (
     <></>

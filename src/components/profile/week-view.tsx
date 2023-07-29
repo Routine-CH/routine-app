@@ -2,11 +2,17 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
+import { JournalDay } from "../../utils/types/profile/types";
 import AppText from "../common/typography/app-text";
 import JournalCard from "./journal-card";
 import WeekCard from "./week-card";
 
-const WeekView = () => {
+type WeekViewProps = {
+  journalDays: JournalDay[];
+};
+
+const WeekView: React.FC<WeekViewProps> = (journalDays) => {
+  console.log(journalDays);
   const { t } = useTranslation();
   const data1 = [7, 12, 3, 19, 2, 0, 5];
   const data2 = [4, 13, 11, 9, 1, 1, 8];
@@ -17,15 +23,15 @@ const WeekView = () => {
   return (
     <View style={styles.container}>
       <AppText
-        fontStyle="heading3"
-        colorStyle="black64"
+        fontStyle='heading3'
+        colorStyle='black64'
         style={{ marginLeft: 20 }}
       >
         {t("profile.gamification.your")} {t("profile.gamification.week")}
       </AppText>
       <ScrollView horizontal>
         <View style={[styles.statisticsContainer, { marginLeft: 20 }]}>
-          <AppText fontStyle="heading4" colorStyle="black64">
+          <AppText fontStyle='heading4' colorStyle='black64'>
             {t("profile.gamification.completed")}{" "}
             {t("profile.gamification.todos")}
           </AppText>
@@ -34,7 +40,7 @@ const WeekView = () => {
           </View>
         </View>
         <View style={[styles.statisticsContainer, { marginRight: 20 }]}>
-          <AppText fontStyle="heading4" colorStyle="black64">
+          <AppText fontStyle='heading4' colorStyle='black64'>
             {t("profile.gamification.reached")}{" "}
             {t("profile.gamification.goals")}
           </AppText>
@@ -44,7 +50,7 @@ const WeekView = () => {
         </View>
       </ScrollView>
       <View style={{ marginHorizontal: 20, marginTop: 30 }}>
-        <AppText fontStyle="heading4" colorStyle="black64">
+        <AppText fontStyle='heading4' colorStyle='black64'>
           {t("profile.gamification.written")}{" "}
           {t("profile.gamification.journal-entries")}
         </AppText>
