@@ -11,8 +11,7 @@ type WeekViewProps = {
   journalDays: JournalDay[];
 };
 
-const WeekView: React.FC<WeekViewProps> = (journalDays) => {
-  console.log(journalDays);
+const WeekView: React.FC<WeekViewProps> = ({ journalDays }) => {
   const { t } = useTranslation();
   const data1 = [7, 12, 3, 19, 2, 0, 5];
   const data2 = [4, 13, 11, 9, 1, 1, 8];
@@ -54,7 +53,7 @@ const WeekView: React.FC<WeekViewProps> = (journalDays) => {
           {t("profile.gamification.written")}{" "}
           {t("profile.gamification.journal-entries")}
         </AppText>
-        <JournalCard />
+        <JournalCard journalDays={journalDays} />
       </View>
     </View>
   );

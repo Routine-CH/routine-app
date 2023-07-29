@@ -1,48 +1,67 @@
+import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
+import { de } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
+import { JournalDay } from "../../utils/types/profile/types";
 import AppText from "../common/typography/app-text";
 
-const JournalCard = () => {
+type JournalCardProps = {
+  journalDays: JournalDay[];
+};
+
+const JournalCard: React.FC<JournalCardProps> = ({ journalDays }) => {
   const { t } = useTranslation();
+
+  const startDateOfWeek = startOfWeek(new Date(), {
+    weekStartsOn: 1,
+    locale: de,
+  });
+  const endDateOfWeek = endOfWeek(new Date(), { weekStartsOn: 1, locale: de });
+  const datesOfWeek = eachDayOfInterval({
+    start: startDateOfWeek,
+    end: endDateOfWeek,
+  });
+
+  const formattedDatesOfWeek = datesOfWeek.map((date) =>
+    format(date, "yyyy-MM-dd", { locale: de })
+  );
+  const formattedJournalDays = journalDays.map((day) =>
+    format(new Date(day.date), "yyyy-MM-dd", { locale: de })
+  );
+
+  const checkIfJournalDay = (date: string) => {
+    return formattedJournalDays.includes(date);
+  };
 
   return (
     <View style={styles.outerContainer}>
-      <View style={[styles.innerContainer, styles.noEntryContainer]}>
-        <AppText fontStyle="body" colorStyle="black64">
-          {t("profile.gamification.mon")}
-        </AppText>
-      </View>
-      <View style={[styles.innerContainer, styles.entryAvailableContainer]}>
-        <AppText fontStyle="body" colorStyle="white">
-          {t("profile.gamification.tue")}
-        </AppText>
-      </View>
-      <View style={[styles.innerContainer, styles.entryAvailableContainer]}>
-        <AppText fontStyle="body" colorStyle="white">
-          {t("profile.gamification.wed")}
-        </AppText>
-      </View>
-      <View style={[styles.innerContainer, styles.entryAvailableContainer]}>
-        <AppText fontStyle="body" colorStyle="white">
-          {t("profile.gamification.thu")}
-        </AppText>
-      </View>
-      <View style={[styles.innerContainer, styles.noEntryContainer]}>
-        <AppText fontStyle="body" colorStyle="black64">
-          {t("profile.gamification.fri")}
-        </AppText>
-      </View>
-      <View style={[styles.innerContainer, styles.noEntryContainer]}>
-        <AppText fontStyle="body" colorStyle="black64">
-          {t("profile.gamification.sat")}
-        </AppText>
-      </View>
-      <View style={[styles.innerContainer, styles.entryAvailableContainer]}>
-        <AppText fontStyle="body" colorStyle="white">
-          {t("profile.gamification.sun")}
-        </AppText>
-      </View>
+      {formattedDatesOfWeek.map((date, index) => {
+        const isJournalDay = checkIfJournalDay(date);
+        return (
+          <View
+            key={index}
+            style={[
+              styles.innerContainer,
+              isJournalDay
+                ? styles.entryAvailableContainer
+                : styles.noEntryContainer,
+            ]}
+          >
+            <AppText
+              fontStyle='body'
+              colorStyle={isJournalDay ? "white" : "black64"}
+            >
+              {t(
+                `profile.gamification.${format(
+                  datesOfWeek[index],
+                  "iii"
+                ).toLowerCase()}`
+              )}
+            </AppText>
+          </View>
+        );
+      })}
     </View>
   );
 };
@@ -53,6 +72,7 @@ const styles = StyleSheet.create({
     height: 77,
     width: "100%",
     marginTop: 30,
+    marginBottom: 30,
     borderRadius: 13,
     backgroundColor: AppColors.blueMuted40,
     flexDirection: "row",
