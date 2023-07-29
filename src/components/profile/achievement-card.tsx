@@ -54,7 +54,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
           {streakCount}
         </AppText>
         <AppText fontStyle='body' colorStyle='black64'>
-          {t("profile.gamification.level")}
+          {t("profile.gamification.streak")}
         </AppText>
       </View>
     </View>
