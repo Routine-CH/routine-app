@@ -1,8 +1,6 @@
-import * as eva from "@eva-design/eva";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ApplicationProvider } from "@ui-kitten/components";
 import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import React, { useContext, useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
@@ -159,17 +157,15 @@ const MainApp: React.FC = () => {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <SafeAreaProvider>
-          <NavigationContainer>
-            {userIsAuthenticated ? (
-              <AuthenticatedNavigator />
-            ) : (
-              <UnauthenticatedNavigator />
-            )}
-          </NavigationContainer>
-        </SafeAreaProvider>
-      </ApplicationProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          {userIsAuthenticated ? (
+            <AuthenticatedNavigator />
+          ) : (
+            <UnauthenticatedNavigator />
+          )}
+        </NavigationContainer>
+      </SafeAreaProvider>
     </I18nextProvider>
   );
 };

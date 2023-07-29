@@ -1,5 +1,10 @@
-import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+  ViewStyle,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
@@ -52,20 +57,20 @@ const Todo: React.FC<TodoProps> = ({
       />
       <View>
         <AppText
-          fontStyle="body"
-          colorStyle="black64"
+          fontStyle='body'
+          colorStyle='black64'
           numberOfLines={1}
-          ellipsizeMode="tail"
+          ellipsizeMode='tail'
           style={[style, description ? { marginBottom: 5 } : null]}
         >
           {title}
         </AppText>
         {description && (
           <AppText
-            fontStyle="information"
-            colorStyle="black64"
+            fontStyle='information'
+            colorStyle='black64'
             numberOfLines={1}
-            ellipsizeMode="tail"
+            ellipsizeMode='tail'
             style={style}
           >
             {description}

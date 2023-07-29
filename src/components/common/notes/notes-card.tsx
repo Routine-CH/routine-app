@@ -1,5 +1,9 @@
-import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
-import { Image, StyleSheet, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import AppColors from "../../../utils/constants/colors";
 import AppText from "../typography/app-text";
 
@@ -25,19 +29,19 @@ const NotesCard: React.FC<NotesProps> = ({
         style={[styles.innerContainer, { marginBottom: imageUrl ? 30 : 15 }]}
       >
         <AppText
-          fontStyle="heading4"
-          colorStyle="black70"
+          fontStyle='heading4'
+          colorStyle='black70'
           numberOfLines={1}
-          ellipsizeMode="tail"
+          ellipsizeMode='tail'
           style={{ paddingBottom: 15 }}
         >
           {title}
         </AppText>
         <AppText
-          fontStyle="filters"
-          colorStyle="black70"
+          fontStyle='filters'
+          colorStyle='black70'
           numberOfLines={3}
-          ellipsizeMode="tail"
+          ellipsizeMode='tail'
           style={{ lineHeight: 25 }}
         >
           {description}
@@ -52,7 +56,7 @@ export default NotesCard;
 
 const styles = StyleSheet.create({
   notesCardContainer: {
-    width: "100%%",
+    width: "100%",
     marginBottom: 30,
     backgroundColor: AppColors.white,
     borderRadius: 8,
