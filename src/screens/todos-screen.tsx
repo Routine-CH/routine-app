@@ -48,12 +48,17 @@ const TodosScreen: React.FC = () => {
   const weekStart = format(manualDate ? today : tomorrow, "dd. MMMM", {
     locale: de,
   });
-  const weekEnd = format(nextSevenDaysEnd, "dd. MMMM yyyy", { locale: de });
+  const weekEnd = format(nextSevenDaysEnd, "dd MMMM yyyy", { locale: de });
   const currentWeek = `${weekStart} - ${weekEnd}`;
   const [startDate, setStartDate] = useState<Date | null>(new Date(tomorrow));
   const [endDate, setEndDate] = useState<Date | null>(
     new Date(nextSevenDaysEnd)
   );
+
+  console.log("Tomorrow: ", tomorrow);
+  console.log("Next Seven Days", nextSevenDaysEnd);
+  console.log("Start", startDate);
+  console.log("End Date", endDate);
 
   const {
     userTodos,
@@ -91,31 +96,9 @@ const TodosScreen: React.FC = () => {
     }
   };
 
-  const onDayPress = (day: Day | { startDate: Date; endDate: Date }) => {
-    console.log("Startdate: ", startDate);
-    if ("dateString" in day) {
-      setSelectedDate(new Date(day.dateString));
-      setIsModalVisible(false);
-      setStartDate(new Date(day.dateString));
-      setEndDate(null);
-      setManualDate(
-        format(selectedDate, "dd. MMMM yyyy", { locale: de }) ===
-          format(addDays(new Date(), 1), "dd. MMMM yyyy", { locale: de })
-          ? false
-          : true
-      );
-    } else {
-      setSelectedDate(day.startDate);
-      setIsModalVisible(false);
-      setStartDate(day.startDate);
-      setEndDate(day.endDate);
-      setManualDate(
-        format(selectedDate, "dd. MMMM yyyy", { locale: de }) ===
-          format(addDays(new Date(), 1), "dd. MMMM yyyy", { locale: de })
-          ? false
-          : true
-      );
-    }
+  const onDayPress = (day: Day) => {
+    setSelectedDate(new Date(day.dateString));
+    setIsModalVisible(false);
   };
 
   const todaysTodo = userTodos.filter((todo) => {
