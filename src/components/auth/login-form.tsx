@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
 
 import { IFormLoginInputs } from "../../utils/types/types";
@@ -11,6 +11,8 @@ type LoginFormProps = {
   onErrors: (errors: any) => void;
   onSubmit: (data: IFormLoginInputs) => void;
 };
+
+const windowHeight = Dimensions.get("window").height;
 
 const LoginForm: React.FC<LoginFormProps> = ({ onErrors, onSubmit }) => {
   const { control, handleSubmit } = useForm<IFormLoginInputs>();
@@ -70,16 +72,16 @@ export default LoginForm;
 
 const styles = StyleSheet.create({
   formContainer: {
-    marginTop: 60,
+    marginTop: windowHeight * 0.06,
     width: "100%",
-    marginBottom: 27.5,
+    marginBottom: windowHeight * 0.027,
   },
   loginButton: {
     backgroundColor: AppColors.blue100,
     width: "100%",
     alignItems: "center",
     borderRadius: 13,
-    marginTop: 60,
+    marginTop: windowHeight * 0.065,
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
