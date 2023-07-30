@@ -35,7 +35,7 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
           <Calendar
             style={styles.calendar}
             firstDay={1}
-            monthFormat='MMMM yyyy'
+            monthFormat="MMMM yyyy"
             enableSwipeMonths={true}
             allowSelectionOutOfRange={initialDate !== undefined ? false : true}
             minDate={initialDate !== undefined ? initialDate : undefined}
@@ -46,7 +46,7 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
               textSectionTitleDisabledColor: AppColors.black70,
               selectedDayBackgroundColor: AppColors.blue100Muted20,
               selectedDayTextColor: AppColors.black70,
-              todayTextColor: AppColors.black70,
+              todayTextColor: initialDate ? AppColors.grey : AppColors.black70,
               dayTextColor: AppColors.black70,
               textDisabledColor: AppColors.grey,
               dotColor: AppColors.blue100Muted20,

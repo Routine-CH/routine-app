@@ -14,8 +14,6 @@ type FutureTodosSectionProps = {
   upcomingTodos: {
     [date: string]: UserTodo[];
   };
-  startDate: Date | null;
-  endDate: Date | null;
   handleTodoModalPress: (todo: UserTodo) => void;
   handleIconPress: (todo: UserTodo) => Promise<void>;
 };
@@ -25,8 +23,6 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
   currentWeek,
   isLoadingUpcomingTodos,
   upcomingTodos,
-  startDate,
-  endDate,
   handleTodoModalPress,
   handleIconPress,
 }) => {
