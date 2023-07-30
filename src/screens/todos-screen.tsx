@@ -1,6 +1,6 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import { addDays, format, isSameDay, startOfDay } from "date-fns";
+import { addDays, format, startOfDay } from "date-fns";
 import { de } from "date-fns/locale";
 import { useMemo, useState } from "react";
 import AddButton from "../components/common/buttons/add-button";
@@ -29,6 +29,7 @@ const TodosScreen: React.FC = () => {
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [manualDate, setManualDate] = useState<boolean>(false);
+  const todaysDate = new Date().toDateString();
   const today = selectedDate;
   const tomorrow = addDays(startOfDay(selectedDate), 1);
   const nextSevenDaysEnd = addDays(manualDate ? today : tomorrow, 6);
@@ -37,13 +38,8 @@ const TodosScreen: React.FC = () => {
     new Date(nextSevenDaysEnd)
   );
 
-  const {
-    userTodos,
-    isLoading,
-    setUserTodos,
-    upcomingTodos,
-    isLoadingUpcomingTodos,
-  } = useUserTodos();
+  const { upcomingTodos, setUpcomingTodos, isLoadingUpcomingTodos } =
+    useUserTodos();
 
   const { initialDate, datesOfWeek, currentWeek } = useMemo(() => {
     const today = selectedDate;
@@ -71,12 +67,15 @@ const TodosScreen: React.FC = () => {
     };
   }, [selectedDate, manualDate]);
 
-  const todaysTodo = userTodos.filter((todo) => {
-    const todoDate = new Date(todo.plannedDate);
-    const today = new Date();
-    const sameDay = isSameDay(new Date(todoDate), new Date(today));
-    return sameDay;
-  });
+  console.log(upcomingTodos);
+
+  const todaysTodo = Object.entries(upcomingTodos)
+    .filter(([date]) => {
+      const todoDate = new Date(date).toDateString(); // Convert the date to a string
+      return todoDate === todaysDate;
+    })
+    .map(([, todos]) => todos)
+    .flat();
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -96,9 +95,15 @@ const TodosScreen: React.FC = () => {
       const updatedTodo = { ...todo, completed: !todo.completed };
       await updateUserTodoCompletedRequest(updatedTodo);
 
-      setUserTodos((prevTodos) =>
-        prevTodos.map((t: UserTodo) =>
-          t.id === updatedTodo.id ? updatedTodo : t
+      setUpcomingTodos((prevTodos) =>
+        Object.keys(prevTodos).reduce<{ [date: string]: UserTodo[] }>(
+          (updatedUpcomingTodos, date) => {
+            updatedUpcomingTodos[date] = prevTodos[date].map((t) =>
+              t.id === updatedTodo.id ? updatedTodo : t
+            );
+            return updatedUpcomingTodos;
+          },
+          {}
         )
       );
     } catch (error) {
@@ -143,14 +148,14 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor='white'
+        backgroundColor="white"
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <TodosSection
-          isLoading={isLoading}
-          userTodos={userTodos}
+          isLoading={isLoadingUpcomingTodos}
+          userTodos={todaysTodo}
           todaysTodo={todaysTodo}
           handleTodoModalPress={handleTodoModalPress}
           handleIconPress={handleIconPress}
