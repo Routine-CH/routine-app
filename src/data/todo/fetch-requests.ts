@@ -19,19 +19,19 @@ export const getUserTodos = async () => {
   return todosData.length > 0 ? todosData : null;
 };
 
-export const getUpcomingTodos =async () => {
-      const token = await AsyncStorage.getItem("access_token")
-      if (!token) {
-            throw new Error("No access token found.");
-      }
+export const getUpcomingTodos = async () => {
+  const token = await AsyncStorage.getItem("access_token");
+  if (!token) {
+    throw new Error("No access token found.");
+  }
 
-      const response = await axios.get(`${API_BASE_URL}todos/upcoming`, {
-            headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-      })
+  const response = await axios.get(`${API_BASE_URL}todos/upcoming`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-      const upcomingTodos = response.data.data
+  const upcomingTodos = response.data.data;
 
-      return upcomingTodos
-}
+  return upcomingTodos;
+};
