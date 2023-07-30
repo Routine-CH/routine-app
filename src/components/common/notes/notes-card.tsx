@@ -23,24 +23,26 @@ const NotesCard: React.FC<NotesProps> = ({
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.notesCardContainer}>
-        <AppText
-          fontStyle='heading4'
-          colorStyle='black70'
-          numberOfLines={1}
-          ellipsizeMode='tail'
-          style={{ paddingBottom: 15 }}
-        >
-          {title}
-        </AppText>
-        <AppText
-          fontStyle='filters'
-          colorStyle='black70'
-          numberOfLines={3}
-          ellipsizeMode='tail'
-          style={{ lineHeight: 25 }}
-        >
-          {description}
-        </AppText>
+        <View style={styles.notesDescription}>
+          <AppText
+            fontStyle='heading4'
+            colorStyle='black70'
+            numberOfLines={1}
+            ellipsizeMode='tail'
+            style={{ paddingBottom: 15 }}
+          >
+            {title}
+          </AppText>
+          <AppText
+            fontStyle='filters'
+            colorStyle='black70'
+            numberOfLines={3}
+            ellipsizeMode='tail'
+            style={{ lineHeight: 25 }}
+          >
+            {description}
+          </AppText>
+        </View>
         {imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} />}
       </View>
     </TouchableWithoutFeedback>
@@ -61,10 +63,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.35,
     shadowRadius: 11.9,
+    overflow: "hidden",
+    marginBottom: 15,
+  },
+  notesDescription: {
     paddingHorizontal: 10,
     paddingVertical: 15,
-    overflow: "hidden",
-    minHeight: 150,
   },
   image: {
     width: "100%",
