@@ -27,6 +27,10 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
     };
   }, {});
 
+  const showSelectedDate: string | undefined = markedDates
+    ? Object.keys(markedDates)[0]
+    : undefined;
+
   return (
     <Modal visible={isVisible} transparent>
       <View style={styles.overlay}>
@@ -40,6 +44,7 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
             allowSelectionOutOfRange={initialDate !== undefined ? false : true}
             minDate={initialDate !== undefined ? initialDate : undefined}
             markedDates={markedDates}
+            initialDate={showSelectedDate}
             onDayPress={onDayPress}
             theme={{
               textSectionTitleColor: AppColors.black70,

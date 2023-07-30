@@ -22,6 +22,10 @@ const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
 
   const currentDate = format(startOfDay(new Date()), "yyyy-MM-dd");
 
+  const showSelectedDate: string | undefined = markedDates
+    ? Object.keys(markedDates)[0]
+    : undefined;
+
   return (
     <Modal visible={isVisible} transparent>
       <View style={styles.overlay}>
@@ -34,6 +38,7 @@ const SimpleCalendarModal: React.FC<ConfirmationModalProps> = ({
             enableSwipeMonths={true}
             allowSelectionOutOfRange={false}
             markedDates={markedDates}
+            initialDate={showSelectedDate}
             onDayPress={onDayPress}
             minDate={currentDate}
             theme={{
