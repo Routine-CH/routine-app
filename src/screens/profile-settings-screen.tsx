@@ -1,6 +1,5 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
+import { RouteProp, useNavigation } from "@react-navigation/native";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
@@ -9,23 +8,37 @@ import DeteleAccount from "../components/profile/profile-settings/delete-account
 import LogOut from "../components/profile/profile-settings/log-out";
 import Notifications from "../components/profile/profile-settings/notifications";
 import ResetPassword from "../components/profile/profile-settings/reset-password";
-import YourInformation from "../components/profile/profile-settings/your-information";
+import UserInformation from "../components/profile/profile-settings/user-information";
+import { useMinimalUser } from "../hooks/profile/use-minimal-user";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/types";
 
-const ProfileSettingsScreen: React.FC = () => {
-  const { t } = useTranslation();
+type ProfileSettingsRouteProp = RouteProp<
+  AuthenticatedStackParamList,
+  "ProfileSettings"
+>;
+
+type ProfileSettingsProps = {
+  route: ProfileSettingsRouteProp;
+};
+
+const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+  const userId = route.params.id;
+  const { user, isLoading } = useMinimalUser(userId);
 
-  const navigateToProfileNotifications = (screenName: string) => {
-    navigation.navigate("Profile", { screen: screenName });
+  const navigateToProfileNotifications = () => {
+    if (!user) return;
+    navigation.navigate("ProfileNotifications", {
+      notificationSettings: user.notificationSettings,
+    });
   };
 
   const defaultAvatar = "../assets/misc/stones.jpg";
 
-  return (
+  return !isLoading && user ? (
     <ScrollViewScreenWrapper
       backgroundColor={AppColors.white}
       statusBarColor={StatusBarColor.dark}
@@ -35,19 +48,20 @@ const ProfileSettingsScreen: React.FC = () => {
       <View style={styles.profilePictureContainer}>
         <Image source={require(defaultAvatar)} style={styles.profilePicture} />
         <TouchableOpacity style={styles.button}>
-          <Icon name="pencil" size={15} color={AppColors.white} />
+          <Icon name='pencil' size={15} color={AppColors.white} />
         </TouchableOpacity>
       </View>
-      <YourInformation />
+      <UserInformation username={user.username} email={user.email} />
       <ResetPassword />
       <Notifications
-        navigateTo={() =>
-          navigateToProfileNotifications("ProfileNotifications")
-        }
+        navigateTo={navigateToProfileNotifications}
+        mutedAllNotifications={user.notificationSettings.muteAllNotifications}
       />
       <LogOut />
       <DeteleAccount />
     </ScrollViewScreenWrapper>
+  ) : (
+    <></>
   );
 };
 

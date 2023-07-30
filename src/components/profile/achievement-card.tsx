@@ -4,47 +4,57 @@ import { StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
-const AchievementCard = () => {
+type AchievementCardProps = {
+  exp: number;
+  badgesCount: number;
+  streakCount: number;
+};
+
+const AchievementCard: React.FC<AchievementCardProps> = ({
+  exp,
+  badgesCount,
+  streakCount,
+}) => {
   const { t } = useTranslation();
 
   return (
     <View style={styles.achievementContainer}>
       <View style={styles.achievementContent}>
         <AppText
-          fontStyle="bodyMedium"
-          colorStyle="black64"
+          fontStyle='bodyMedium'
+          colorStyle='black64'
           style={{ marginBottom: 5 }}
         >
-          4
+          {badgesCount}
         </AppText>
-        <AppText fontStyle="body" colorStyle="black64">
+        <AppText fontStyle='body' colorStyle='black64'>
           {t("profile.gamification.badges")}
         </AppText>
       </View>
       <View style={styles.verticalLine} />
       <View style={styles.achievementContent}>
         <AppText
-          fontStyle="bodyMedium"
-          colorStyle="black64"
+          fontStyle='bodyMedium'
+          colorStyle='black64'
           style={{ marginBottom: 5 }}
         >
-          80
+          {exp}
         </AppText>
-        <AppText fontStyle="body" colorStyle="black64">
+        <AppText fontStyle='body' colorStyle='black64'>
           {t("profile.gamification.points")}
         </AppText>
       </View>
       <View style={styles.verticalLine} />
       <View style={styles.achievementContent}>
         <AppText
-          fontStyle="bodyMedium"
-          colorStyle="black64"
+          fontStyle='bodyMedium'
+          colorStyle='black64'
           style={{ marginBottom: 5 }}
         >
-          2
+          {streakCount}
         </AppText>
-        <AppText fontStyle="body" colorStyle="black64">
-          {t("profile.gamification.level")}
+        <AppText fontStyle='body' colorStyle='black64'>
+          {t("profile.gamification.streak")}
         </AppText>
       </View>
     </View>

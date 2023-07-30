@@ -1,27 +1,27 @@
 {
-      "audio": {
-            "anxiety": "Angststörung",
-            "concentration": "Konzentration",
-            "confidence": "Selbstbewusstsein",
-            "insomnia": "Schlafstörung", 
-            "meditation-exercises": "Meditationsübungen",
-            "mindfulness": "Achtsamkeitsmeditation",
-            "mindfullness-text": "Achtsamkeitsmeditation ist eine Form der Meditation, die sich auf die bewusste Wahrnehmung von Moment zu Moment konzentriert, ohne dabei zu bewerten oder zu beurteilen. Es geht darum, sich auf den gegenwärtigen Moment zu konzentrieren, indem man seine Aufmerksamkeit auf den Atem, die körperlichen Empfindungen oder Gedanken richtet, ohne von ihnen mitgerissen zu werden.",
-            "minutes": "Minuten",
-            "motivation": "Motivation",
-            "pmr": "Progressive Muskelrelaxation",
-            "pmr-text": "Progressive Muskelentspannung (PMR) ist eine Entspannungstechnik, die darauf abzielt, die körperliche Anspannung zu reduzieren, um eine tiefere Entspannung des gesamten Körpers zu erreichen. Diese Technik basiert auf der Vorstellung, dass körperliche und geistige Anspannung miteinander verbunden sind und dass das Entspannen der Muskeln dazu beitragen kann, Stress und Angst abzubauen.",
-            "stress": "Stressabbau",
-            "toolsFor": "Tools für",
-            "visualisation": "Visualisierungsmeditation",
-            "visualisation-text": "Visualisierungsmeditation ist eine Meditationspraxis, bei der man eine bildliche Vorstellung von etwas in seiner Vorstellung kreiert und sich darauf konzentriert, um einen bestimmten Zustand oder ein bestimmtes Ziel zu erreichen. Die Praxis kann auf verschiedene Arten durchgeführt werden, z.B. durch das Erstellen eines mentalen Bildes eines Ortes oder einer Situation, die beruhigend oder inspirierend ist, oder durch das Visualisieren von sich selbst, wie man ein Ziel erreicht oder eine bestimmte Fähigkeit verbessert.",
-            "5": "5",
-            "10": "10",
-            "15": "15",
-            "05-00": "05:00", 
-            "10-00": "10:00", 
-            "15-00": "15:00"
-      },
+  "audio": {
+    "anxiety": "Angststörung",
+    "concentration": "Konzentration",
+    "confidence": "Selbstbewusstsein",
+    "insomnia": "Schlafstörung",
+    "meditation-exercises": "Meditationsübungen",
+    "mindfulness": "Achtsamkeitsmeditation",
+    "mindfullness-text": "Achtsamkeitsmeditation ist eine Form der Meditation, die sich auf die bewusste Wahrnehmung von Moment zu Moment konzentriert, ohne dabei zu bewerten oder zu beurteilen. Es geht darum, sich auf den gegenwärtigen Moment zu konzentrieren, indem man seine Aufmerksamkeit auf den Atem, die körperlichen Empfindungen oder Gedanken richtet, ohne von ihnen mitgerissen zu werden.",
+    "minutes": "Minuten",
+    "motivation": "Motivation",
+    "pmr": "Progressive Muskelrelaxation",
+    "pmr-text": "Progressive Muskelentspannung (PMR) ist eine Entspannungstechnik, die darauf abzielt, die körperliche Anspannung zu reduzieren, um eine tiefere Entspannung des gesamten Körpers zu erreichen. Diese Technik basiert auf der Vorstellung, dass körperliche und geistige Anspannung miteinander verbunden sind und dass das Entspannen der Muskeln dazu beitragen kann, Stress und Angst abzubauen.",
+    "stress": "Stressabbau",
+    "toolsFor": "Tools für",
+    "visualisation": "Visualisierungsmeditation",
+    "visualisation-text": "Visualisierungsmeditation ist eine Meditationspraxis, bei der man eine bildliche Vorstellung von etwas in seiner Vorstellung kreiert und sich darauf konzentriert, um einen bestimmten Zustand oder ein bestimmtes Ziel zu erreichen. Die Praxis kann auf verschiedene Arten durchgeführt werden, z.B. durch das Erstellen eines mentalen Bildes eines Ortes oder einer Situation, die beruhigend oder inspirierend ist, oder durch das Visualisieren von sich selbst, wie man ein Ziel erreicht oder eine bestimmte Fähigkeit verbessert.",
+    "5": "5",
+    "10": "10",
+    "15": "15",
+    "05-00": "05:00",
+    "10-00": "10:00",
+    "15-00": "15:00"
+  },
   "forgot-pw": {
     "dont-worry": "Keine Sorge!",
     "description": "Wir schicken dir eine E-Mail, um dein Passwort zurückzusetzen.",
@@ -35,32 +35,32 @@
     "save": "Speichern"
   },
   "goals": {
-      "show-all": "Alle anzeigen"
+    "show-all": "Alle anzeigen"
   },
   "journal": {
-      "activity": "Was hast du daraus gemacht?",
-      "mood": "Wie fühlst du dich heute?",
-      "mood-description": "Wieso fühlst du dich so?",
-      "no-entry-title": "Keinen Journal-Eintrag",
-      "no-entry-titles": "Keine Journal-Einträge",
-      "no-entry-yet": "Du hast heute noch keinen Journal-Eintrag erstellt.",
-      "no-entries-yet": "Du hast heute noch keine Journal-Einträge erstellt.",
-      "past-entries": "Vergangene Einträge",
-      "title": "Titel",
-      "thoughts-and-ideas": "Weitere Gedanken und Ideen",
-      "to-improve": "Was hättest du anders machen können?"
+    "activity": "Was hast du daraus gemacht?",
+    "mood": "Wie fühlst du dich heute?",
+    "mood-description": "Wieso fühlst du dich so?",
+    "no-entry-title": "Keinen Journal-Eintrag",
+    "no-entry-titles": "Keine Journal-Einträge",
+    "no-entry-yet": "Du hast heute noch keinen Journal-Eintrag erstellt.",
+    "no-entries-yet": "Du hast heute noch keine Journal-Einträge erstellt.",
+    "past-entries": "Vergangene Einträge",
+    "title": "Titel",
+    "thoughts-and-ideas": "Weitere Gedanken und Ideen",
+    "to-improve": "Was hättest du anders machen können?"
   },
   "login": {
     "welcome": "WILLKOMMEN ZURÜCK",
     "login": "LOGIN"
   },
   "modals": {
-      "are-you-sure": "Bist du dir sicher?",
-      "cancel": "Abbrechen",
-      "journal": "Dein Journal wird gelöscht",
-      "notes": "Deine Notiz wird gelöscht",
-      "delete": "Löschen",
-      "discard": "Verwerfen"
+    "are-you-sure": "Bist du dir sicher?",
+    "cancel": "Abbrechen",
+    "journal": "Dein Journal wird gelöscht",
+    "notes": "Deine Notiz wird gelöscht",
+    "delete": "Löschen",
+    "discard": "Verwerfen"
   },
   "my-day": {
     "hey": "Hey",
@@ -71,83 +71,83 @@
     "favourite-tools": "Lieblings-Tools an"
   },
   "notes": {
-      "date": "Datum",
-      "filter": "filtern",
-      "note": "Notizen"
+    "date": "Datum",
+    "filter": "filtern",
+    "note": "Notizen"
   },
-  "profile":{
-      "gamification": {
-            "all": "Alle",
-            "badges": "Badges",
-            "completed": "Erledigte",
-            "fri": "FR",
-            "goals": "Ziele",
-            "level": "Level",
-            "levels": "Levels",
-            "meditated": "Meditierte",
-            "minutes": "Minuten",
-            "mon": "MO",
-            "points": "Punkte",
-            "reached": "Erreichte",
-            "sat": "SA",
-            "sun": "SO",
-            "todos": "Todos",
-            "thu": "DO",
-            "tue": "DI",
-            "week": "Woche",
-            "written": "Geschriebene",
-            "wed": "MI",
-            "journal-entries": "Journaleinträge",
-            "your-year-in-numbers": "Dein Jahr in Zahlen",
-            "your": "Deine",
-            "trailblazer": "Trailblazer",
-            "voyager": "Voyager",
-            "pathfinder": "Pathfinder",
-            "maverick": "Maverick",
-            "adventurer": "Adventurer",
-            "seeker": "Seeker",
-            "pioneer": "Pioneer",
-            "conqueror": "Conqueror",
-            "titan": "Titan",
-            "zenith": "Zenith",
-            "collected-points": "gesammelte Punkte"
-        },
-        "hi": "Hi,",
-        "here": "dabei",
-        "profile-settings": {
-            "current": "Aktuelles",
-            "delete-account": "Account löschen",
-            "delete-account-text-1": "Wenn du deinen Account einmal gelöscht hast, kannst du es ",
-            "delete-account-text-2": "nicht mehr zurückholen. ",
-            "delete-account-text-3": "Stell sicher, dass du das wirklich willst.",
-            "delete-account-cap": "ACCOUNT LÖSCHEN",
-            "logout-cap": "AUSLOGGEN",
-            "logout": "Ausloggen",
-            "logout-text": "Mission erfüllt! 🚀 Du hast grosse Fortschritte gemacht. Mach eine Pause und tanken Kraft. Wir sehen uns bald wieder!",
-            "new": "Neues",
-            "notifications": {
-                  "activate-all-notifications":"Alle Benachrichtigungen aktivieren",
-                  "change-notifications": "Benachrichtigungen anpassen",
-                  "email": "E-Mail",
-                  "email_in-app_combo": "E-Mail, In-App",
-                  "in-app": "In-App",
-                  "none": "Keine",
-                  "notifications-you-will-receive":"Benachrichtigungen, die du erhältst",
-                  "reminders-goals": "Erinnerungen Ziele",
-                  "reminder-goals-text": "Dies sind Erinnerungen für unerledigte Ziele",
-                  "reminders-todos": "Erinnerungen Todos",
-                  "reminder-todos-text": "Dies sind Erinnerungen für unerledigte Todos",
-                  "reminders-journal": "Erinnerungen Journal",
-                  "reminder-journal-text":  "Dies sind Erinnerungen für noch zu schreibende Journal-Einträge",
-                  "where-you-will-receive-notificatons": "Wo du diese Benachrichtigungen erhalten wirst."
-            },
-            "repeat": "wiederholen",
-            "reset-password": "Password zurücksetzen",
-            "save-cap": "SPEICHERN",
-            "your-information":"Deine Informationen"
-
-        },
-        "since": "seit"
+  "profile": {
+    "gamification": {
+      "all": "Alle",
+      "badges": "Badges",
+      "completed": "Erledigte",
+      "fri": "FR",
+      "goals": "Ziele",
+      "level": "Level",
+      "levels": "Levels",
+      "meditated": "Meditierte",
+      "minutes": "Minuten",
+      "mon": "MO",
+      "points": "Punkte",
+      "reached": "Erreichte",
+      "sat": "SA",
+      "sun": "SO",
+      "todos": "Todos",
+      "thu": "DO",
+      "tue": "DI",
+      "week": "Woche",
+      "streak": "Streak",
+      "written": "Geschriebene",
+      "wed": "MI",
+      "journal-entries": "Journaleinträge",
+      "your-year-in-numbers": "Dein Jahr in Zahlen",
+      "your": "Deine",
+      "trailblazer": "Trailblazer",
+      "voyager": "Voyager",
+      "pathfinder": "Pathfinder",
+      "maverick": "Maverick",
+      "adventurer": "Adventurer",
+      "seeker": "Seeker",
+      "pioneer": "Pioneer",
+      "conqueror": "Conqueror",
+      "titan": "Titan",
+      "zenith": "Zenith",
+      "collected-points": "gesammelte Punkte"
+    },
+    "hi": "Hi,",
+    "here": "dabei",
+    "profile-settings": {
+      "current": "Aktuelles",
+      "delete-account": "Account löschen",
+      "delete-account-text-1": "Wenn du deinen Account einmal gelöscht hast, kannst du es ",
+      "delete-account-text-2": "nicht mehr zurückholen. ",
+      "delete-account-text-3": "Stell sicher, dass du das wirklich willst.",
+      "delete-account-cap": "ACCOUNT LÖSCHEN",
+      "logout-cap": "AUSLOGGEN",
+      "logout": "Ausloggen",
+      "logout-text": "Mission erfüllt! 🚀 Du hast grosse Fortschritte gemacht. Mach eine Pause und tanken Kraft. Wir sehen uns bald wieder!",
+      "new": "Neues",
+      "notifications": {
+        "activate-all-notifications": "Alle Benachrichtigungen aktivieren",
+        "change-notifications": "Benachrichtigungen anpassen",
+        "email": "E-Mail",
+        "email_in-app_combo": "E-Mail, In-App",
+        "in-app": "In-App",
+        "none": "Keine",
+        "notifications-you-will-receive": "Benachrichtigungen, die du erhältst",
+        "reminders-goals": "Erinnerungen Ziele",
+        "reminder-goals-text": "Dies sind Erinnerungen für unerledigte Ziele",
+        "reminders-todos": "Erinnerungen Todos",
+        "reminder-todos-text": "Dies sind Erinnerungen für unerledigte Todos",
+        "reminders-journal": "Erinnerungen Journal",
+        "reminder-journal-text": "Dies sind Erinnerungen für noch zu schreibende Journal-Einträge",
+        "where-you-will-receive-notificatons": "Wo du diese Benachrichtigungen erhalten wirst."
+      },
+      "repeat": "wiederholen",
+      "reset-password": "Password zurücksetzen",
+      "save-cap": "SPEICHERN",
+      "your-information": "Deine Informationen"
+    },
+    "since": "seit"
   },
   "register": {
     "register": "Registriere",
@@ -167,16 +167,15 @@
     "repeat-password": "Passwort wiederholden"
   },
   "timer": {
-      "start-working": "Starte mit deiner Arbeit",
-      "take-a-break": "Mach eine Pause"
+    "start-working": "Starte mit deiner Arbeit",
+    "take-a-break": "Mach eine Pause"
   },
   "todos": {
-      "future": "Zukünftige",
-      "no-todos-title": "Keine Todos",
-      "no-todos": "Du hast heute noch keine Todos",
-      "no-future-todos": "Du hast keine Todos in diesem Zeitraum",
-      "todays": "Heutige",
-      "today": "Heute"
+    "future": "Zukünftige",
+    "no-todos-title": "Keine Todos",
+    "no-todos": "Du hast heute noch keine Todos",
+    "no-future-todos": "Du hast keine Todos in diesem Zeitraum",
+    "today": "Heutige"
   },
   "tool-cards": {
     "timer": "Timer",
@@ -185,4 +184,4 @@
     "notes": "Notizen",
     "goals": "Ziele"
   }
-}  
+}

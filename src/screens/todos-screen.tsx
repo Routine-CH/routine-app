@@ -1,11 +1,10 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableWithoutFeedback } from "@ui-kitten/components/devsupport";
 import { addDays, eachDayOfInterval, format, isSameDay } from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import DateCard from "../components/common/calendar/date-card";
@@ -101,15 +100,15 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor="white"
+        backgroundColor='white'
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <View>
           <AppText
-            fontStyle="heading3"
-            colorStyle="black64"
+            fontStyle='heading3'
+            colorStyle='black64'
             style={{ marginVertical: 30 }}
           >
             {t("todos.todays")} {t("profile.gamification.todos")}
@@ -130,7 +129,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type="todo"
+              type='todo'
               title={t("todos.no-todos-title")}
               description={t("todos.no-todos")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -138,14 +137,14 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
         <AppText
-          fontStyle="heading3"
-          colorStyle="black64"
+          fontStyle='heading3'
+          colorStyle='black64'
           style={{ marginTop: 60, marginBottom: 30 }}
         >
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         <TouchableWithoutFeedback onPress={handleModalPress}>
-          <AppText fontStyle={"body"} colorStyle="black64">
+          <AppText fontStyle={"body"} colorStyle='black64'>
             {currentWeek}
           </AppText>
         </TouchableWithoutFeedback>
@@ -178,7 +177,7 @@ const TodosScreen: React.FC = () => {
             )
           ) : (
             <EmptyState
-              type="todo"
+              type='todo'
               title={t("todos.no-todos-title")}
               description={t("todos.no-future-todos")}
               style={{ backgroundColor: AppColors.greenMuted30 }}

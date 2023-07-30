@@ -43,13 +43,38 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     async function restoreSession() {
+      const access_token = await AsyncStorage.getItem("access_token");
+      const refresh_token = await AsyncStorage.getItem("refresh_token");
+
+      if (!access_token || !refresh_token) {
+        return;
+      }
+
       try {
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
-          setUserIsAuthenticated(true);
+        const response = await axios.get(`${API_BASE_URL}auth/refresh-token`, {
+          headers: {
+            Authorization: `Bearer ${refresh_token}`,
+            "x-refresh-token": refresh_token,
+          },
+        });
+        if (response.status === 200) {
+          await AsyncStorage.multiRemove(["access_token", "refresh_token"])
+            .then(() => {
+              AsyncStorage.multiSet([
+                ["access_token", response.data.data.access_token],
+                ["refresh_token", response.data.data.refresh_token],
+              ]);
+            })
+            .finally(() => {
+              setUserIsAuthenticated(true);
+            });
         }
       } catch (error) {
-        console.error("Failed to restore session", error);
+        await AsyncStorage.multiRemove(["access_token", "refresh_token"]).then(
+          () => {
+            setUserIsAuthenticated(false);
+          }
+        );
       }
     }
 

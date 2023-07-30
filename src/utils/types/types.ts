@@ -27,7 +27,7 @@ export type AuthenticatedStackParamList = {
     };
   };
   Notes: undefined;
-  NoteView: {id: string};
+  NoteView: { id: string };
   NotesEdit: { id: string };
   NotesNew: undefined;
   Todos: undefined;
@@ -40,11 +40,11 @@ export type AuthenticatedStackParamList = {
   Profile: {
     screen?: string;
     params?: {
-      ProfileBadges: undefined;
-      ProfileSettings: undefined;
-      ProfileNotifications: undefined;
+      ProfileBadges?: undefined;
     };
   };
+  ProfileNotifications: { notificationSettings: NotificationSettings };
+  ProfileSettings: { id: string };
 };
 
 export type UserBadges = {
@@ -53,7 +53,7 @@ export type UserBadges = {
   description: string;
   imageUrl?: string;
   activityType: string;
-};
+}[];
 
 interface UserLogins {
   id: string;
@@ -133,20 +133,18 @@ export type UserMeditations = {
 };
 
 export type NotificationSettings = {
-  id: string;
   goalsEmailNotification: boolean;
   goalsPushNotification: boolean;
   todosEmailNotification: boolean;
   todosPushNotification: boolean;
   journalsEmailNotification: boolean;
   journalsPushNotification: boolean;
-  muteAllEmailNotification: boolean;
+  muteAllNotifications: boolean;
   muteGamification: boolean;
 };
 
 export interface FullUserData
-  extends UserBadges,
-    UserLogins,
+  extends UserLogins,
     UserJournals,
     UserGoals,
     UserTodo,
@@ -158,7 +156,10 @@ export interface FullUserData
   username: string;
   avatarUrl?: string;
   password: string;
+  badges: UserBadges[];
+  userLogins: UserLogins[];
   experience: number;
+  createdAt: Date;
 }
 
 export interface UserMe {
@@ -170,6 +171,14 @@ export interface UserMe {
   userTools: { tool: UserTool }[];
   // TODO: FIX ANY TYPE
   createdAt: any;
+}
+
+export interface UserSettings {
+  id: string;
+  email: string;
+  username: string;
+  avatarUrl?: string;
+  notificationSettings: NotificationSettings;
 }
 
 export interface AudioParams {
@@ -187,7 +196,7 @@ export interface IFormLoginInputs {
 
 export interface IFormRegisterInputs {
   username: string;
-  emaiI: string;
+  email: string;
   password: string;
   repeatPassword: string;
   agreeTerms: boolean;
@@ -205,25 +214,25 @@ export interface IFormJournalInputs {
 }
 
 export interface IFormNoteInputs {
-      note?: string;
-      noteId?: string;
-      title: string;
-      description: string;
-      images?: image[];
+  note?: string;
+  noteId?: string;
+  title: string;
+  description: string;
+  images?: image[];
 }
 
 export interface IFormTodoInputs {
-      todo?: string;
-      id?: string;
-      title?: string;
-      description?: string;
-      plannedDate?: Date;
-      completed?: boolean;
+  todo?: string;
+  id?: string;
+  title?: string;
+  description?: string;
+  plannedDate: Date;
+  completed?: boolean;
 }
 
 export interface image {
-      id: string; 
-      imageUrl: string;
+  id: string;
+  imageUrl: string;
 }
 
 export type AxiosErrorWithData = AxiosError & {

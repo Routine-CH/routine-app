@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ImageBackground, Platform, StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import RegisterForm from "../components/auth/register-form";
 import BackButton from "../components/common/buttons/back-button";
 import ScreenWrapper from "../components/common/screen-wrapper";
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     width: 237,
     height: 223,
     right: 0,
-    top: Platform.OS === "ios" ? -20 : -60,
+    top: -20,
   },
   textPlacement: {
     position: "relative",

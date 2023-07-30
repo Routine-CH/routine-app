@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { API_BASE_URL } from "../../../utils/config/config";
 import { UserGoals } from "../../../utils/types/types";
@@ -13,7 +12,6 @@ import NoGoalsCard from "./goals-container/no-goals-card";
 const GoalsContainer: React.FC = () => {
   const [userGoals, setUserGoals] = useState<UserGoals[]>([]);
   const [_, setIsDisplayHorizontalScroll] = useState<boolean>(false);
-  const { t } = useTranslation();
 
   useEffect(() => {
     async function getUserGoals() {
