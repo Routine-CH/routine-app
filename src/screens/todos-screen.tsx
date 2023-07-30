@@ -13,6 +13,7 @@ import TodosSection from "../components/todos/todos-section";
 import { updateUserTodoCompletedRequest } from "../data/todo/update-completed-request";
 import { useUserTodos } from "../hooks/todos/use-user-todos";
 import {
+  filterAndFormatUpcomingTodos,
   getDatesOfWeek,
   getFormattedWeekEnd,
   getFormattedWeekStart,
@@ -67,8 +68,6 @@ const TodosScreen: React.FC = () => {
     };
   }, [selectedDate, manualDate]);
 
-  console.log(upcomingTodos);
-
   const todaysTodo = Object.entries(upcomingTodos)
     .filter(([date]) => {
       const todoDate = new Date(date).toDateString(); // Convert the date to a string
@@ -76,6 +75,10 @@ const TodosScreen: React.FC = () => {
     })
     .map(([, todos]) => todos)
     .flat();
+
+  const futureTodos = useMemo(() => {
+    return filterAndFormatUpcomingTodos(upcomingTodos, datesOfWeek);
+  }, [upcomingTodos, datesOfWeek]);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -127,24 +130,6 @@ const TodosScreen: React.FC = () => {
     navigation.navigate("TodosNew");
   };
 
-  // step 1:
-  // first adjust the fetch to only go to the endpoing of the upcoming todos
-  // adjust the existing logic so that it has the same functionality as before
-  // that means, heutige todos have only the todos of today
-  // and the upcoming todos have the todos of the next 7 days OR the selected week, which will be furhter in step 2
-
-  // step 2:
-  // new function to filter setting the upcoming todos
-  // you can start from the dates of week, because this is the one that is being used to display the calendar
-  // those are the right dates to use
-  // filter the the userTodos plannedDate with the datesOfWeek
-  // you can see something like it in the journal-card.tsx as a reference, it's not the same logic
-  // but it's the same idea
-  // once you have the filtered todos, you can set them to the upcomingTodos state
-  console.log(
-    datesOfWeek.map((date) => format(date, "yyyy-MM-dd"), { locale: de })
-  );
-
   return (
     <>
       <ScrollViewScreenWrapper
@@ -164,7 +149,7 @@ const TodosScreen: React.FC = () => {
           handleModalPress={handleModalPress}
           currentWeek={currentWeek}
           isLoadingUpcomingTodos={isLoadingUpcomingTodos}
-          upcomingTodos={upcomingTodos}
+          upcomingTodos={futureTodos}
           startDate={startDate}
           endDate={endDate}
           handleTodoModalPress={handleTodoModalPress}

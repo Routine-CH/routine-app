@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
-import { filterTodosByDateRange } from "../../lib/todos/todo-dates";
 import AppColors from "../../utils/constants/colors";
 import { UserTodo } from "../../utils/types/types";
 import DateCard from "../common/calendar/date-card";
@@ -36,14 +35,14 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
   return (
     <>
       <AppText
-        fontStyle='heading3'
-        colorStyle='black64'
+        fontStyle="heading3"
+        colorStyle="black64"
         style={{ marginTop: 60, marginBottom: 30 }}
       >
         {t("todos.future")} {t("profile.gamification.todos")}
       </AppText>
       <TouchableWithoutFeedback onPress={handleModalPress}>
-        <AppText fontStyle={"body"} colorStyle='black64'>
+        <AppText fontStyle={"body"} colorStyle="black64">
           {currentWeek}
         </AppText>
       </TouchableWithoutFeedback>
@@ -51,9 +50,7 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
         {isLoadingUpcomingTodos ? (
           <AppText>Loading Future Todos</AppText>
         ) : upcomingTodos && Object.keys(upcomingTodos).length > 0 ? (
-          Object.entries(
-            filterTodosByDateRange(upcomingTodos, startDate, endDate)
-          ).map(([date, todos]: [string, UserTodo[]]) => (
+          Object.entries(upcomingTodos).map(([date, todos]) => (
             <View
               key={date}
               style={{ flexDirection: "row", gap: 30, width: "100%" }}
@@ -76,7 +73,7 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
           ))
         ) : (
           <EmptyState
-            type='todo'
+            type="todo"
             title={t("todos.no-todos-title")}
             description={t("todos.no-future-todos")}
             style={{ backgroundColor: AppColors.greenMuted30 }}

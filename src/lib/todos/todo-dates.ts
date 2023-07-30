@@ -25,19 +25,17 @@ export function getTodaysTodos(userTodos: UserTodo[]) {
   });
 }
 
-export const filterTodosByDateRange = (
-  todos: { [date: string]: UserTodo[] },
-  startDate: Date | null,
-  endDate: Date | null
-) => {
-  const filteredTodos: { [date: string]: UserTodo[] } = {};
-  if (startDate && endDate) {
-    Object.entries(todos).forEach(([date, todos]) => {
-      const todoDate = new Date(date);
-      if (todoDate >= startDate && todoDate <= endDate) {
-        filteredTodos[date] = todos;
-      }
-    });
-  }
-  return filteredTodos;
-};
+export const filterAndFormatUpcomingTodos = (todos: { [date: string]: UserTodo[] }, dates: Date[]) => {
+      const filteredTodos: { [date: string]: UserTodo[] } = {};
+    
+      dates.forEach((date) => {
+        const dateString = format(date, "yyyy-MM-dd");
+        const todosForDate = todos[dateString] || [];
+        if (todosForDate.length > 0) {
+          filteredTodos[dateString] = todosForDate;
+        }
+      });
+    
+      return filteredTodos;
+    };
+    
