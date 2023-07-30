@@ -8,10 +8,10 @@ export const deleteTodoRequest =async (todo: UserTodo | null) => {
             if (todo) {
                   const token = await AsyncStorage.getItem("access_token")
                   if (token) {
-                        const todoId = todo.id;
+                        const id = todo.id;
 
                         const response = await apiClient.delete(
-                              `${API_BASE_URL}todos/${todoId}`,
+                              `${API_BASE_URL}todos/${id}`,
                               {
                                     headers: {
                                           Authorization: `Bearer ${token}`
