@@ -21,13 +21,8 @@ const NotesCard: React.FC<NotesProps> = ({
   onPress,
 }) => {
   return (
-    <TouchableWithoutFeedback
-      onPress={onPress}
-      style={styles.notesCardContainer}
-    >
-      <View
-        style={[styles.innerContainer, { marginBottom: imageUrl ? 30 : 15 }]}
-      >
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.notesCardContainer}>
         <AppText
           fontStyle='heading4'
           colorStyle='black70'
@@ -57,7 +52,6 @@ export default NotesCard;
 const styles = StyleSheet.create({
   notesCardContainer: {
     width: "100%",
-    marginBottom: 30,
     backgroundColor: AppColors.white,
     borderRadius: 8,
     shadowColor: "#959DA5",
@@ -67,15 +61,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.35,
     shadowRadius: 11.9,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     overflow: "hidden",
-  },
-  innerContainer: {
-    flex: 1,
-    marginHorizontal: 10,
-    marginTop: 15,
+    minHeight: 150,
   },
   image: {
     width: "100%",
-    height: 121,
+    height: 120,
   },
 });
