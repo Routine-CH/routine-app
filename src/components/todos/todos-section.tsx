@@ -12,6 +12,7 @@ type TodosSectionProps = {
   todaysTodo: UserTodo[];
   handleTodoModalPress: (todo: UserTodo) => void;
   handleIconPress: (todo: UserTodo) => Promise<void>;
+  onDeleteTodo: (todo: UserTodo) => void;
 };
 
 const TodosSection: React.FC<TodosSectionProps> = ({
@@ -20,14 +21,15 @@ const TodosSection: React.FC<TodosSectionProps> = ({
   todaysTodo,
   handleTodoModalPress,
   handleIconPress,
+  onDeleteTodo,
 }) => {
   const { t } = useTranslation();
 
   return (
     <View>
       <AppText
-        fontStyle='heading3'
-        colorStyle='black64'
+        fontStyle="heading3"
+        colorStyle="black64"
         style={{ marginVertical: 30 }}
       >
         {t("todos.today")} {t("profile.gamification.todos")}
@@ -44,11 +46,12 @@ const TodosSection: React.FC<TodosSectionProps> = ({
             style={{ width: 240 }}
             onPress={() => handleTodoModalPress(todo)}
             onPressIcon={() => handleIconPress(todo)}
+            onDeleteTodo={() => onDeleteTodo(todo)}
           />
         ))
       ) : (
         <EmptyState
-          type='todo'
+          type="todo"
           title={t("todos.no-todos-title")}
           description={t("todos.no-todos")}
           style={{ backgroundColor: AppColors.blueMuted30 }}

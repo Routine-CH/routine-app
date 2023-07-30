@@ -59,6 +59,7 @@
     "cancel": "Abbrechen",
     "journal": "Dein Journal wird gelöscht",
     "notes": "Deine Notiz wird gelöscht",
+    "todo": "Deine Todo wird gelöscht",
     "delete": "Löschen",
     "discard": "Verwerfen"
   },
