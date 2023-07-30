@@ -159,8 +159,11 @@ const Todo: React.FC<TodoProps> = ({
         description={t("modals.todo")}
         actionText={t("modals.delete")}
         isVisible={isModalVisible}
-        onConfirm={onDeleteTodo}
-        onClose={closeModal}
+        onConfirm={() => {
+          onDeleteTodo();
+          setIsModalVisible(false);
+        }}
+        onClose={() => setIsModalVisible(false)}
       />
     </View>
   );
