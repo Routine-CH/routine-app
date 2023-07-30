@@ -43,7 +43,7 @@ const Todo: React.FC<TodoProps> = ({
           style={styles.iconStyle}
           onPress={handleIconPress}
         />
-        <View>
+        <View style={{ width: "100%" }}>
           <AppText
             fontStyle="body"
             colorStyle="black64"
