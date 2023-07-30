@@ -46,8 +46,8 @@ const NotesCard: React.FC<NotesProps> = ({
         >
           {description}
         </AppText>
+        {imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} />}
       </View>
-      {imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} />}
     </TouchableWithoutFeedback>
   );
 };

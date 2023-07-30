@@ -16,7 +16,7 @@ import { AuthenticatedStackParamList, UserNotes } from "../utils/types/types";
 
 const NotesScreen: React.FC = () => {
   const { t } = useTranslation();
-  const { userNotes, isLoading } = useUserNote();
+  const { userNotes } = useUserNote();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
@@ -42,7 +42,7 @@ const NotesScreen: React.FC = () => {
       >
         <BackButton />
         <Pressable style={styles.margin}>
-          <AppText fontStyle="body" colorStyle="black64">
+          <AppText fontStyle='body' colorStyle='black64'>
             {t("notes.date")} {t("notes.filter")}
           </AppText>
         </Pressable>
@@ -72,10 +72,10 @@ const NotesScreen: React.FC = () => {
     >
       <BackButton />
       <View style={styles.noNotescontainer}>
-        <NotesIcon width={200} height={200} fill="#296879" />
+        <NotesIcon width={200} height={200} fill='#296879' />
         <AppText
-          fontStyle="heading2"
-          colorStyle="black64"
+          fontStyle='heading2'
+          colorStyle='black64'
           style={styles.textMargin}
         >
           Du hast noch keine Notizen, erstelle eins :)

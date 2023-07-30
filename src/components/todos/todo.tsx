@@ -35,34 +35,40 @@ const Todo: React.FC<TodoProps> = ({
   };
 
   return (
-    <TouchableWithoutFeedback style={styles.todoContainer} onPress={onPress}>
-      <Icon
-        name={iconName}
-        size={40}
-        style={styles.iconStyle}
-        onPress={handleIconPress}
-      />
-      <View>
-        <AppText
-          fontStyle='body'
-          colorStyle='black64'
-          numberOfLines={1}
-          ellipsizeMode='tail'
-          style={[style, description ? { marginBottom: 5 } : null]}
-        >
-          {title}
-        </AppText>
-        {description && (
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.todoContainer}>
+        <Icon
+          name={iconName}
+          size={40}
+          style={styles.iconStyle}
+          onPress={handleIconPress}
+        />
+        <View style={{ width: "100%" }}>
           <AppText
-            fontStyle='information'
-            colorStyle='black64'
+            fontStyle="body"
+            colorStyle="black64"
             numberOfLines={1}
-            ellipsizeMode='tail'
-            style={style}
+            ellipsizeMode="tail"
+            style={[
+              styles.textStyle,
+              style,
+              description ? { marginBottom: 5 } : null,
+            ]}
           >
-            {description}
+            {title}
           </AppText>
-        )}
+          {description && (
+            <AppText
+              fontStyle="information"
+              colorStyle="black64"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={style}
+            >
+              {description}
+            </AppText>
+          )}
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -84,5 +90,8 @@ const styles = StyleSheet.create({
   iconStyle: {
     color: AppColors.blue200,
     marginRight: 10,
+  },
+  textStyle: {
+    width: "80%",
   },
 });

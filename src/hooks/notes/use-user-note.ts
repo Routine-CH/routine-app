@@ -9,27 +9,24 @@ export const useUserNote = () => {
   const [userNotes, setUserNotes] = useState<UserNotes[]>([]);
 
   useEffect(() => {
-      async function getUserNotes() {
-            try {
-                  const token = await AsyncStorage.getItem("access_token");
-                  if (token) {
-                    const response = await axios.get(
-                      `${API_BASE_URL}notes`,
-                      {
-                        headers: {
-                          Authorization: `Bearer ${token}`,
-                        },
-                      }
-                    );
-          
-                    setUserNotes(response.data.data);
-                    setIsLoading(false);
-                  }
-                } catch (error) {
-                  console.log(error);
-                }
-            }
-                getUserNotes();
+    async function getUserNotes() {
+      try {
+        const token = await AsyncStorage.getItem("access_token");
+        if (token) {
+          const response = await axios.get(`${API_BASE_URL}notes`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          setUserNotes(response.data.data);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUserNotes();
   }, []);
 
   return {
