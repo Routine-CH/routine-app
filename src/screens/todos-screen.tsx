@@ -47,12 +47,17 @@ const TodosScreen: React.FC = () => {
   const weekStart = format(manualDate ? today : tomorrow, "dd. MMMM", {
     locale: de,
   });
-  const weekEnd = format(nextSevenDaysEnd, "dd. MMMM yyyy", { locale: de });
+  const weekEnd = format(nextSevenDaysEnd, "dd MMMM yyyy", { locale: de });
   const currentWeek = `${weekStart} - ${weekEnd}`;
   const [startDate, setStartDate] = useState<Date | null>(new Date(tomorrow));
   const [endDate, setEndDate] = useState<Date | null>(
     new Date(nextSevenDaysEnd)
   );
+
+  console.log("Tomorrow: ", tomorrow);
+  console.log("Next Seven Days", nextSevenDaysEnd);
+  console.log("Start", startDate);
+  console.log("End Date", endDate);
 
   const {
     userTodos,
@@ -90,30 +95,9 @@ const TodosScreen: React.FC = () => {
     }
   };
 
-  const onDayPress = (day: Day | { startDate: Date; endDate: Date }) => {
-    if ("dateString" in day) {
-      setSelectedDate(new Date(day.dateString));
-      setIsModalVisible(false);
-      setStartDate(new Date(day.dateString));
-      setEndDate(null);
-      setManualDate(
-        format(selectedDate, "dd. MMMM yyyy", { locale: de }) ===
-          format(addDays(new Date(), 1), "dd. MMMM yyyy", { locale: de })
-          ? false
-          : true
-      );
-    } else {
-      setSelectedDate(day.startDate);
-      setIsModalVisible(false);
-      setStartDate(day.startDate);
-      setEndDate(day.endDate);
-      setManualDate(
-        format(selectedDate, "dd. MMMM yyyy", { locale: de }) ===
-          format(addDays(new Date(), 1), "dd. MMMM yyyy", { locale: de })
-          ? false
-          : true
-      );
-    }
+  const onDayPress = (day: Day) => {
+    setSelectedDate(new Date(day.dateString));
+    setIsModalVisible(false);
   };
 
   const todaysTodo = userTodos.filter((todo) => {
@@ -148,15 +132,15 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor='white'
+        backgroundColor="white"
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
         <BackButton />
         <View>
           <AppText
-            fontStyle='heading3'
-            colorStyle='black64'
+            fontStyle="heading3"
+            colorStyle="black64"
             style={{ marginVertical: 30 }}
           >
             {t("todos.todays")} {t("profile.gamification.todos")}
@@ -177,7 +161,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type='todo'
+              type="todo"
               title={t("todos.no-todos-title")}
               description={t("todos.no-todos")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -185,14 +169,14 @@ const TodosScreen: React.FC = () => {
           )}
         </View>
         <AppText
-          fontStyle='heading3'
-          colorStyle='black64'
+          fontStyle="heading3"
+          colorStyle="black64"
           style={{ marginTop: 60, marginBottom: 30 }}
         >
           {t("todos.future")} {t("profile.gamification.todos")}
         </AppText>
         <TouchableWithoutFeedback onPress={handleModalPress}>
-          <AppText fontStyle={"body"} colorStyle='black64'>
+          <AppText fontStyle={"body"} colorStyle="black64">
             {currentWeek}
           </AppText>
         </TouchableWithoutFeedback>
@@ -225,7 +209,7 @@ const TodosScreen: React.FC = () => {
             ))
           ) : (
             <EmptyState
-              type='todo'
+              type="todo"
               title={t("todos.no-todos-title")}
               description={t("todos.no-future-todos")}
               style={{ backgroundColor: AppColors.greenMuted30 }}
