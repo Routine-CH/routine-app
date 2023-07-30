@@ -24,6 +24,7 @@ interface TodoProps {
   onPress?: () => void;
   onPressIcon?: () => void;
   onDeleteTodo: () => void;
+  onEditTodo: () => void;
 }
 
 const Todo: React.FC<TodoProps> = ({
@@ -35,6 +36,7 @@ const Todo: React.FC<TodoProps> = ({
   onPress,
   onPressIcon,
   onDeleteTodo,
+  onEditTodo,
 }) => {
   const iconName = completed ? "checkbox" : "stop-outline";
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -75,10 +77,6 @@ const Todo: React.FC<TodoProps> = ({
       }
     },
   });
-
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -148,6 +146,7 @@ const Todo: React.FC<TodoProps> = ({
                 styles.iconContainer,
                 { backgroundColor: AppColors.blue200 },
               ]}
+              onPress={onEditTodo}
             >
               <Icon name="pencil" size={40} style={styles.actionIconStyle} />
             </Pressable>

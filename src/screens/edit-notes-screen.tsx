@@ -34,8 +34,8 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
-  const [image, setImage] = useState(null);
-  const { note, isLoading } = useNoteData(noteId);
+  const [image] = useState(null);
+  const { note } = useNoteData(noteId);
   const [images, setImages] = useState<ImageItem[]>(note?.images || []);
 
   const { control, handleSubmit, handleUpdate, onErrors } = useNoteFormHandling(

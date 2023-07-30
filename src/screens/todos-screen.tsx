@@ -112,6 +112,12 @@ const TodosScreen: React.FC = () => {
     }
   };
 
+  const navigateToTodoEditScreen = (todo: UserTodo) => {
+    if (todo) {
+      navigation.navigate("TodosEdit", { id: todo.id });
+    }
+  };
+
   const onDeleteTodo = async (todo: UserTodo) => {
     deleteTodoRequest(todo);
     setIsConfirmationModalVisible(false);
@@ -154,6 +160,7 @@ const TodosScreen: React.FC = () => {
           handleTodoModalPress={handleTodoModalPress}
           handleIconPress={handleIconPress}
           onDeleteTodo={onDeleteTodo}
+          onEditTodo={navigateToTodoEditScreen}
         />
         <FutureTodosSection
           handleModalPress={handleModalPress}
@@ -163,6 +170,7 @@ const TodosScreen: React.FC = () => {
           handleTodoModalPress={handleTodoModalPress}
           handleIconPress={handleIconPress}
           onDeleteTodo={onDeleteTodo}
+          onEditTodo={navigateToTodoEditScreen}
         />
         <CalendarModal
           isVisible={isModalVisible}

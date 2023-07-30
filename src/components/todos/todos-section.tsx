@@ -13,6 +13,7 @@ type TodosSectionProps = {
   handleTodoModalPress: (todo: UserTodo) => void;
   handleIconPress: (todo: UserTodo) => Promise<void>;
   onDeleteTodo: (todo: UserTodo) => void;
+  onEditTodo: (todo: UserTodo) => void;
 };
 
 const TodosSection: React.FC<TodosSectionProps> = ({
@@ -22,6 +23,7 @@ const TodosSection: React.FC<TodosSectionProps> = ({
   handleTodoModalPress,
   handleIconPress,
   onDeleteTodo,
+  onEditTodo,
 }) => {
   const { t } = useTranslation();
 
@@ -44,9 +46,11 @@ const TodosSection: React.FC<TodosSectionProps> = ({
             title={todo.title}
             description={todo.description}
             style={{ width: 240 }}
+            futureTodo={false}
             onPress={() => handleTodoModalPress(todo)}
             onPressIcon={() => handleIconPress(todo)}
             onDeleteTodo={() => onDeleteTodo(todo)}
+            onEditTodo={() => onEditTodo(todo)}
           />
         ))
       ) : (
