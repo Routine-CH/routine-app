@@ -45,20 +45,24 @@ const Todo: React.FC<TodoProps> = ({
         />
         <View>
           <AppText
-            fontStyle='body'
-            colorStyle='black64'
+            fontStyle="body"
+            colorStyle="black64"
             numberOfLines={1}
-            ellipsizeMode='tail'
-            style={[style, description ? { marginBottom: 5 } : null]}
+            ellipsizeMode="tail"
+            style={[
+              styles.textStyle,
+              style,
+              description ? { marginBottom: 5 } : null,
+            ]}
           >
             {title}
           </AppText>
           {description && (
             <AppText
-              fontStyle='information'
-              colorStyle='black64'
+              fontStyle="information"
+              colorStyle="black64"
               numberOfLines={1}
-              ellipsizeMode='tail'
+              ellipsizeMode="tail"
               style={style}
             >
               {description}
@@ -86,5 +90,8 @@ const styles = StyleSheet.create({
   iconStyle: {
     color: AppColors.blue200,
     marginRight: 10,
+  },
+  textStyle: {
+    width: "80%",
   },
 });
