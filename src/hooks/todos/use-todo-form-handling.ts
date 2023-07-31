@@ -1,23 +1,25 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { NavigationProp } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateTodoRequest } from "../../data/todo/update-request";
 import { ToastType } from "../../utils/types/enums";
 import {
-      AuthenticatedStackParamList,
-      IFormTodoInputs,
-      UserTodo
+  AuthenticatedStackParamList,
+  IFormTodoInputs,
+  UserTodo,
 } from "../../utils/types/types";
 
 export const useTodoFormHandling = (
   todo: UserTodo | null,
-  navigation: BottomTabNavigationProp<AuthenticatedStackParamList>,
+  navigation: NavigationProp<AuthenticatedStackParamList>,
   id: string,
-  selectedDate: Date,
+  selectedDate: Date
 ) => {
   const [errorMessage, setErrorMessage] = useState("");
-  const [plannedDate, setPlannedDate] = useState<Date | undefined>(selectedDate);
+  const [plannedDate, setPlannedDate] = useState<Date | undefined>(
+    selectedDate
+  );
 
   const {
     control,
@@ -34,14 +36,14 @@ export const useTodoFormHandling = (
   });
 
   useEffect(() => {
-      setPlannedDate(selectedDate)
-  }, [selectedDate])
+    setPlannedDate(selectedDate);
+  }, [selectedDate]);
 
   useEffect(() => {
     setValue("title", todo?.title || "");
     setValue("description", todo?.description || "");
     if (plannedDate) {
-      setValue("plannedDate", plannedDate)
+      setValue("plannedDate", plannedDate);
     }
   }, [todo, plannedDate, setValue]);
 
@@ -71,7 +73,7 @@ export const useTodoFormHandling = (
       setErrorMessage(errors.title.message);
     } else if (errors.description) {
       setErrorMessage(errors.description.message);
-    } 
+    }
   };
 
   useEffect(() => {
