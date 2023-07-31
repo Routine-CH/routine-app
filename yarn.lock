@@ -3756,6 +3756,11 @@ expo-linear-gradient@~12.3.0:
   resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-12.3.0.tgz#7abd8fedbf0138c86805aebbdfbbf5e5fa865f19"
   integrity sha512-f9e+Oxe5z7fNQarTBZXilMyswlkbYWQHONVfq8MqmiEnW3h9XsxxmVJLG8uVQSQPUsbW+x1UUT/tnU6mkMWeLg==
 
+expo-media-library@~15.4.1:
+  version "15.4.1"
+  resolved "https://registry.yarnpkg.com/expo-media-library/-/expo-media-library-15.4.1.tgz#577efb13d912e28e9c3fcc5022156e204a59b7e8"
+  integrity sha512-lpWcT4pynWcE7TyNMUkLFH4YcueCTnq7UOJYRR0vewPEJeQXwRscka7zBtrhA+RSsJda013Q0615K+5lRLt14Q==
+
 expo-modules-autolinking@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-1.5.0.tgz#64d6ea4fd77ba2d578dd5c98af0a7630e30f2be3"

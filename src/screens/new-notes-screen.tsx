@@ -1,4 +1,5 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
@@ -20,10 +21,33 @@ const windowWidth = Dimensions.get("window").width;
 const NewNotesScreen = () => {
   const { t } = useTranslation();
   const { control, handleSubmit, handleNewNote, onErrors } = useNewNote();
+
   const images = useStore((state) => state.images);
-  const { removeImage } = useStore();
+  const { removeImage, addImage } = useStore();
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
+
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need access to your photos to make this work!");
+    } else {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [9, 16],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        result.assets.forEach((asset) => {
+          if (asset.uri) {
+            addImage(asset.uri);
+          }
+        });
+      }
+    }
+  };
 
   return (
     <ScrollViewScreenWrapper
@@ -89,7 +113,11 @@ const NewNotesScreen = () => {
             })
           }
         />
-        <IconButton iconName='images' style={styles.iconStyle} />
+        <IconButton
+          iconName='images'
+          style={styles.iconStyle}
+          onPress={pickImage}
+        />
       </View>
       <View style={styles.imageContainer}>
         {images.length > 0 &&
