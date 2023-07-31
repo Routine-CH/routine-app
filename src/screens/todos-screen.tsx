@@ -68,7 +68,7 @@ const TodosScreen: React.FC = () => {
 
   const todaysTodo = Object.entries(upcomingTodos)
     .filter(([date]) => {
-      const todoDate = new Date(date).toDateString(); // Convert the date to a string
+      const todoDate = new Date(date).toDateString();
       return todoDate === today;
     })
     .map(([, todos]) => todos)

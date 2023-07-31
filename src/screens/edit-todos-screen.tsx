@@ -2,7 +2,7 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RouteProp, useNavigation } from "@react-navigation/native";
 import { format, isToday } from "date-fns";
 import { de } from "date-fns/locale";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -31,13 +31,18 @@ type TodosEditProps = {
 
 const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
   const { t } = useTranslation();
-  const [errorMessage, setErrorMessage] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const id = route.params.id;
   const { todo } = useTodoData(id);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  useEffect(() => {
+    if (todo?.plannedDate) {
+      setSelectedDate(new Date(todo.plannedDate));
+    }
+  }, [todo?.plannedDate]);
 
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
