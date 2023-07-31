@@ -29,7 +29,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
         style={[
           {
             flex: 1,
-            backgroundColor,
+            backgroundColor: backgroundColor,
             paddingHorizontal: defaultPadding ? 30 : 0,
           },
           style,

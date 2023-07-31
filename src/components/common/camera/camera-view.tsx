@@ -1,13 +1,19 @@
+import { useNavigation } from "@react-navigation/native";
 import { Camera, CameraType, PermissionStatus } from "expo-camera";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { useStore } from "../../../store/camera-image-store";
+import CameraBackButton from "./camera-back-button";
+import CaptureButton from "./capture-button";
 
-export const CameraView = () => {
+export const CameraView: React.FC = () => {
   const [camera, setCamera] = useState<Camera | null>(null);
-  const [image, setImage] = useState<string | null>(null);
   const [type, setType] = useState(CameraType.back);
   const [permission, setPermission] = useState<PermissionStatus | null>(null);
   const cameraRef = useRef<Camera | null>(null);
+  const addImage = useStore((state) => state.addImage);
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -29,18 +35,19 @@ export const CameraView = () => {
   const takePicture = async () => {
     if (cameraRef.current) {
       const options = { quality: 0.5, base64: true };
-      const data = await cameraRef.current.takePictureAsync(options);
+      await cameraRef.current
+        .takePictureAsync(options)
+        .then((data) => addImage(data.uri))
+        .finally(() => navigation.goBack());
     }
   };
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden />
       <Camera style={styles.camera} type={type} ref={cameraRef}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <Text style={styles.text}>Capture</Text>
-          </TouchableOpacity>
-        </View>
+        <CameraBackButton />
+        <CaptureButton onPress={takePicture} />
       </Camera>
     </View>
   );
@@ -52,12 +59,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    backgroundColor: "transparent",
-    flexDirection: "row",
-    margin: 20,
+    position: "relative",
   },
   button: {
     flex: 0.1,

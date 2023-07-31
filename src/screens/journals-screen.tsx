@@ -32,8 +32,6 @@ const JournalsScreen: React.FC = () => {
 
   const { userJournals, isLoading } = useUserJournal();
 
-  // console.log(userJournals);
-
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
 
