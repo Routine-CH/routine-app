@@ -44,15 +44,13 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
     setIsModalVisible(false);
   };
 
-  /*   const plannedDate = todo?.plannedDate
-    ? new Date(todo.plannedDate)
-    : undefined; */
+  //   const dateSelected = new Date(selectedDate);
 
   const { control, handleSubmit, handleUpdate, onErrors } = useTodoFormHandling(
     todo,
     navigation,
-    id
-    //     plannedDate
+    id,
+    selectedDate
   );
 
   const handleModalPress = () => {

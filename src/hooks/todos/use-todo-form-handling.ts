@@ -14,11 +14,10 @@ export const useTodoFormHandling = (
   todo: UserTodo | null,
   navigation: BottomTabNavigationProp<AuthenticatedStackParamList>,
   id: string,
-//   plannedDate: Date | undefined
+  selectedDate: Date,
 ) => {
   const [errorMessage, setErrorMessage] = useState("");
-
-//   const formattedDate =  plannedDate?.toISOString().split("T")[0];
+  const [plannedDate, setPlannedDate] = useState<Date | undefined>(selectedDate);
 
   const {
     control,
@@ -30,14 +29,21 @@ export const useTodoFormHandling = (
       id: id,
       title: todo?.title || "",
       description: todo?.description || "",
-      // plannedDate: formattedDate,
+      plannedDate: plannedDate,
     },
   });
 
   useEffect(() => {
+      setPlannedDate(selectedDate)
+  }, [selectedDate])
+
+  useEffect(() => {
     setValue("title", todo?.title || "");
     setValue("description", todo?.description || "");
-  }, [todo, setValue]);
+    if (plannedDate) {
+      setValue("plannedDate", plannedDate)
+    }
+  }, [todo, plannedDate, setValue]);
 
   const handleUpdate = async (data: IFormTodoInputs) => {
     try {
