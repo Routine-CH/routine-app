@@ -7,9 +7,12 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
+import { showToast } from "../components/common/toast/show-toast";
 import FutureTodosSection from "../components/todos/future-todos-section";
 import TodoModal from "../components/todos/todo-modal";
 import TodosSection from "../components/todos/todos-section";
+import { deleteTodoRequest } from "../data/todo/delete-request";
 import { updateUserTodoCompletedRequest } from "../data/todo/update-completed-request";
 import { useUserTodos } from "../hooks/todos/use-user-todos";
 import {
@@ -19,11 +22,13 @@ import {
   getFormattedWeekStart,
 } from "../lib/todos/todo-dates";
 import { Day } from "../utils/types/calendar/types";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList, UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
+    useState(false);
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
@@ -63,7 +68,7 @@ const TodosScreen: React.FC = () => {
 
   const todaysTodo = Object.entries(upcomingTodos)
     .filter(([date]) => {
-      const todoDate = new Date(date).toDateString(); // Convert the date to a string
+      const todoDate = new Date(date).toDateString();
       return todoDate === today;
     })
     .map(([, todos]) => todos)
@@ -107,6 +112,23 @@ const TodosScreen: React.FC = () => {
     }
   };
 
+  const navigateToTodoEditScreen = (todo: UserTodo) => {
+    if (todo) {
+      navigation.navigate("TodosEdit", { id: todo.id });
+    }
+  };
+
+  const onDeleteTodo = async (todo: UserTodo) => {
+    deleteTodoRequest(todo);
+    setIsConfirmationModalVisible(false);
+    showToast(ToastType.success, "Todo wurde gelöscht.");
+    setTimeout(() => {
+      navigation.navigate("Discover", {
+        screen: "Todo",
+      });
+    }, 2000);
+  };
+
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
     setIsModalVisible(false);
@@ -137,6 +159,8 @@ const TodosScreen: React.FC = () => {
           todaysTodo={todaysTodo}
           handleTodoModalPress={handleTodoModalPress}
           handleIconPress={handleIconPress}
+          onDeleteTodo={onDeleteTodo}
+          onEditTodo={navigateToTodoEditScreen}
         />
         <FutureTodosSection
           handleModalPress={handleModalPress}
@@ -145,6 +169,8 @@ const TodosScreen: React.FC = () => {
           upcomingTodos={futureTodos}
           handleTodoModalPress={handleTodoModalPress}
           handleIconPress={handleIconPress}
+          onDeleteTodo={onDeleteTodo}
+          onEditTodo={navigateToTodoEditScreen}
         />
         <CalendarModal
           isVisible={isModalVisible}
@@ -159,6 +185,7 @@ const TodosScreen: React.FC = () => {
         />
       </ScrollViewScreenWrapper>
       <AddButton navigateTo={() => navigateToNewTodoScreen()} />
+      <RoutineToast />
     </>
   );
 };

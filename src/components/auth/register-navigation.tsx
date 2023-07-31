@@ -1,11 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import FlatButton from "../common/buttons/flat-button";
 import AppText from "../common/typography/app-text";
 
 type RegisterNavigationProps = {
   onPress: () => void;
 };
+
+const windowHeight = Dimensions.get("window").height;
 
 const RegisterNavigation: React.FC<RegisterNavigationProps> = ({ onPress }) => {
   const { t } = useTranslation();
@@ -32,7 +34,7 @@ export default RegisterNavigation;
 const styles = StyleSheet.create({
   registerContainer: {
     width: "100%",
-    marginTop: 30,
+    marginTop: windowHeight * 0.04,
     flexDirection: "row",
     justifyContent: "center",
   },

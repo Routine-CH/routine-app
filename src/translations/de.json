@@ -51,7 +51,7 @@
     "to-improve": "Was hättest du anders machen können?"
   },
   "login": {
-    "welcome": "WILLKOMMEN ZURÜCK",
+    "welcome": "FIND YOUR FLOW",
     "login": "LOGIN"
   },
   "modals": {
@@ -59,6 +59,7 @@
     "cancel": "Abbrechen",
     "journal": "Dein Journal wird gelöscht",
     "notes": "Deine Notiz wird gelöscht",
+    "todo": "Deine Todo wird gelöscht",
     "delete": "Löschen",
     "discard": "Verwerfen"
   },
@@ -175,7 +176,8 @@
     "no-todos-title": "Keine Todos",
     "no-todos": "Du hast heute noch keine Todos",
     "no-future-todos": "Du hast keine Todos in diesem Zeitraum",
-    "today": "Heutige"
+    "todays": "Heutige",
+    "today": "Heute"
   },
   "tool-cards": {
     "timer": "Timer",

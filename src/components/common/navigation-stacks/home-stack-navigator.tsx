@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import EditJournalScreen from "../../../screens/edit-journals-screen";
 import EditNotesScreen from "../../../screens/edit-notes-screen";
+import EditTodosScreen from "../../../screens/edit-todos-screen";
 import EditToolsScreen from "../../../screens/edit-tools-screen";
 import GoalsScreen from "../../../screens/goals-screen";
 import HomeScreen from "../../../screens/home-screen";
@@ -30,11 +31,13 @@ const HomeStackNavigator: React.FC = () => {
       <HomeStack.Screen name="JournalEdit" component={EditJournalScreen} />
       <HomeStack.Screen name="JournalNew" component={NewJournalScreen} />
       <HomeStack.Screen name="Todos" component={TodosScreen} />
+      {/* @ts-ignore: TODO: fix this */}
+      <HomeStack.Screen name="TodosEdit" component={EditTodosScreen} />
       <HomeStack.Screen name="TodosNew" component={NewTodosScreen} />
       <HomeStack.Screen name="Notes" component={NotesScreen} />
-      <HomeStack.Screen name="NotesNew" component={NewNotesScreen} />
       {/* @ts-ignore: TODO: fix this */}
       <HomeStack.Screen name="NotesEdit" component={EditNotesScreen} />
+      <HomeStack.Screen name="NotesNew" component={NewNotesScreen} />
       {/* @ts-ignore: TODO: fix this */}
       <HomeStack.Screen name="NoteView" component={NoteViewScreen} />
       <HomeStack.Screen name="Goals" component={GoalsScreen} />

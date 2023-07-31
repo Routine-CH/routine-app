@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { ReactNode } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity } from "react-native";
 import AppColors from "../../../utils/constants/colors";
 import ToolCard from "./tool-card";
 
@@ -11,6 +11,8 @@ type RoutineToolProps = {
   favouriteOnPress?: () => void;
   children: ReactNode;
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const RoutineTool: React.FC<RoutineToolProps> = ({
   title,
@@ -52,10 +54,10 @@ export default RoutineTool;
 
 const styles = StyleSheet.create({
   toolContainer: {
-    height: 157.5,
-    width: 157.5,
+    height: windowWidth * 0.395,
+    width: windowWidth * 0.395,
     borderRadius: 13,
-    marginVertical: 7.5,
+    marginVertical: windowWidth * 0.025,
     backgroundColor: AppColors.blue100,
     position: "relative",
     alignItems: "center",

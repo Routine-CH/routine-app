@@ -1,4 +1,4 @@
-import { eachDayOfInterval, format, isSameDay } from "date-fns";
+import { eachDayOfInterval, format } from "date-fns";
 import { de } from "date-fns/locale";
 import { UserTodo } from "../../utils/types/types";
 
@@ -15,14 +15,6 @@ export function getFormattedWeekStart(date: Date) {
 
 export function getFormattedWeekEnd(date: Date) {
   return format(date, "dd MMMM yyyy", { locale: de });
-}
-
-export function getTodaysTodos(userTodos: UserTodo[]) {
-  return userTodos.filter((todo) => {
-    const todoDate = new Date(todo.plannedDate);
-    const today = new Date();
-    return isSameDay(new Date(todoDate), new Date(today));
-  });
 }
 
 export const filterAndFormatUpcomingTodos = (todos: { [date: string]: UserTodo[] }, dates: Date[]) => {

@@ -137,7 +137,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const login = async (username: string, password: string) => {
+    console.log("username", username);
+    console.log("password", password);
     try {
+      console.log("Attempting to reach:", `${API_BASE_URL}auth/login`); // Add this
       const response = await apiClient.post(`${API_BASE_URL}auth/login`, {
         username,
         password,
@@ -156,12 +159,17 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         };
       }
     } catch (error) {
+      console.log("API Call Error:", error); // Add this
       if (axios.isAxiosError(error) && error.response) {
+        console.log("Login failed:", error.response.data);
+        console.log("Login failed:", error.response.headers);
+        console.log("Login failed:", error.response.status);
         return { status: error.response.status, data: error.response.data };
+      } else {
+        console.error("Login failed:", error);
+        // default value return
+        return { status: 500, data: { message: "Unexpected error occurred" } };
       }
-      console.error("Login failed:", error);
-      // default value return
-      return { status: 500, data: { message: "Unexpected error occurred" } };
     }
   };
 

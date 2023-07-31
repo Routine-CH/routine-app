@@ -34,8 +34,8 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const navigation =
     useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
-  const [image, setImage] = useState(null);
-  const { note, isLoading } = useNoteData(noteId);
+  const [image] = useState(null);
+  const { note } = useNoteData(noteId);
   const [images, setImages] = useState<ImageItem[]>(note?.images || []);
 
   const { control, handleSubmit, handleUpdate, onErrors } = useNoteFormHandling(
@@ -52,7 +52,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -68,7 +68,6 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <LabelInputField
-              /* @ts-ignore: TODO: fix this  */
               inputStyle={styles.labelInput}
               multiline
               onBlur={onBlur}
@@ -76,7 +75,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
               value={value}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deiner Notiz einen Titel",
             minLength: {
@@ -89,7 +88,6 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <LabelInputField
-              /* @ts-ignore: TODO: fix this  */
               inputStyle={styles.labelDescriptionInput}
               multiline
               onBlur={onBlur}
@@ -97,7 +95,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
               value={value}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             required: "Bitte gib deiner Notiz eine Beschreibung",
             minLength: {
@@ -112,7 +110,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
           <View key={image.id} style={{ marginBottom: 30 }}>
             <View style={styles.closeIcon}>
               <Icon
-                name="close"
+                name='close'
                 size={25}
                 color={AppColors.white}
                 onPress={() => handleDelete(image.id)}
@@ -128,10 +126,10 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
       </View>
       <View style={styles.iconContainer}>
         <IconButton
-          iconName="camera"
+          iconName='camera'
           style={[styles.iconStyle, { marginRight: 15 }]}
         />
-        <IconButton iconName="images" style={styles.iconStyle} />
+        <IconButton iconName='images' style={styles.iconStyle} />
       </View>
       {image && (
         <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />

@@ -3,6 +3,7 @@ import {
   StyleSheet,
   TextInput,
   TextInputProps,
+  TextStyle,
   View,
   ViewStyle,
 } from "react-native";
@@ -13,7 +14,7 @@ type LabelInputFieldProps = {
   placeholder?: any;
   editText?: string;
   style?: StyleProp<ViewStyle>;
-  inputStyle?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<TextStyle>;
 } & TextInputProps;
 
 const LabelInputField: React.FC<LabelInputFieldProps> = ({

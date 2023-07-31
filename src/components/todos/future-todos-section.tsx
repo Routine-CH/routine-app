@@ -16,6 +16,8 @@ type FutureTodosSectionProps = {
   };
   handleTodoModalPress: (todo: UserTodo) => void;
   handleIconPress: (todo: UserTodo) => Promise<void>;
+  onDeleteTodo: (todo: UserTodo) => void;
+  onEditTodo: (todo: UserTodo) => void;
 };
 
 const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
@@ -25,6 +27,8 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
   upcomingTodos,
   handleTodoModalPress,
   handleIconPress,
+  onDeleteTodo,
+  onEditTodo,
 }) => {
   const { t } = useTranslation();
 
@@ -60,8 +64,11 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
                     title={todo.title}
                     key={todo.id}
                     completed={todo.completed}
+                    futureTodo={true}
                     onPress={() => handleTodoModalPress(todo)}
                     onPressIcon={() => handleIconPress(todo)}
+                    onDeleteTodo={() => onDeleteTodo(todo)}
+                    onEditTodo={() => onEditTodo(todo)}
                   />
                 ))}
               </View>

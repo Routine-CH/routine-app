@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import LoginForm from "../components/auth/login-form";
 import RegisterNavigation from "../components/auth/register-navigation";
 import FlatButton from "../components/common/buttons/flat-button";
@@ -14,6 +14,9 @@ import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthStackParamList, IFormLoginInputs } from "../utils/types/types";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 const LoginScreen: React.FC = () => {
   const { login } = useContext(AuthContext);
@@ -66,12 +69,12 @@ const LoginScreen: React.FC = () => {
       <View style={styles.innerContainer}>
         <Image
           source={require("../assets/logo/logo.png")}
-          style={{ width: 270, height: 41 }}
+          style={{ width: windowWidth * 0.76, height: windowHeight * 0.053 }}
         />
         <AppText
           fontStyle='heading3'
           colorStyle='blue100'
-          style={{ marginTop: 60 }}
+          style={{ marginTop: windowHeight * 0.07 }}
         >
           {t("login.welcome")}
         </AppText>
@@ -96,13 +99,19 @@ const LoginScreen: React.FC = () => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  outerContainer1: { backgroundColor: AppColors.blue100, flex: 1 },
-  outerContainer2: { backgroundColor: AppColors.blue100, flex: 2 },
+  outerContainer1: {
+    backgroundColor: AppColors.blue100,
+    height: windowHeight * 0.03,
+  },
+  outerContainer2: {
+    backgroundColor: AppColors.blue100,
+    height: windowHeight * 0.1,
+  },
   innerContainer: {
     backgroundColor: AppColors.white,
     flex: 18,
     borderRadius: 20,
-    paddingHorizontal: 30,
+    paddingHorizontal: windowWidth * 0.06,
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
