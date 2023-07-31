@@ -1,4 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { NavigationProp } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
@@ -12,7 +12,7 @@ import {
 
 export const useFormHandling = (
   journal: UserJournals | null,
-  navigation: BottomTabNavigationProp<AuthenticatedStackParamList>,
+  navigation: NavigationProp<AuthenticatedStackParamList>,
   journalId: string
 ) => {
   const [selectedMoods, setSelectedMoods] = useState<

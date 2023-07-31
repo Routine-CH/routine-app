@@ -1,5 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
@@ -14,7 +13,7 @@ const useNewNote = () => {
   const { control, handleSubmit } = useForm<IFormNoteInputs>();
   const [errorMessage, setErrorMessage] = useState("");
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const handleNewNote = useCallback(
     async ({ title, description, images = [] }: IFormNoteInputs) => {

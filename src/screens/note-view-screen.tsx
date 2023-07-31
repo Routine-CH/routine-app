@@ -1,5 +1,8 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { RouteProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from "@react-navigation/native";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import React, { useState } from "react";
@@ -38,7 +41,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
     : "";
 
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -49,8 +52,8 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
     setIsModalVisible(false);
     showToast(ToastType.success, "Notiz wurde gelöscht.");
     setTimeout(() => {
-      navigation.navigate("Discover", {
-        screen: "Note",
+      navigation.navigate("SubRoutes", {
+        screen: "Notes",
       });
     }, 2000);
   };
@@ -58,7 +61,10 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   const navigateToNoteEditScreen = () => {
     setIsModalVisible(false);
     if (note) {
-      navigation.navigate("NotesEdit", { id: note.id });
+      navigation.navigate("SubRoutes", {
+        screen: "NoteEdit",
+        params: { id: note.id },
+      });
     }
   };
 
@@ -79,17 +85,17 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
         </Pressable>
       </View>
       <View style={styles.contentContainer}>
-        <AppText fontStyle="toast" colorStyle="black70">
+        <AppText fontStyle='toast' colorStyle='black70'>
           {formattedDate}
         </AppText>
         <AppText
-          fontStyle="heading3"
-          colorStyle="black70"
+          fontStyle='heading3'
+          colorStyle='black70'
           style={{ marginVertical: 15 }}
         >
           {note?.title}
         </AppText>
-        <AppText fontStyle="body" colorStyle="black70">
+        <AppText fontStyle='body' colorStyle='black70'>
           {note?.description}
         </AppText>
       </View>

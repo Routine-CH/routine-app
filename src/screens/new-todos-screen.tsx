@@ -1,5 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { format, isToday } from "date-fns";
 import { de } from "date-fns/locale";
 import { useEffect, useState } from "react";
@@ -30,7 +29,7 @@ const NewTodosScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
@@ -103,7 +102,7 @@ const NewTodosScreen = () => {
               value={value}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deinem Todo ein Titel",
             minLength: {
@@ -125,7 +124,7 @@ const NewTodosScreen = () => {
               value={value}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             minLength: {
               value: 5,
@@ -137,8 +136,8 @@ const NewTodosScreen = () => {
           onPress={handleModalPress}
           style={styles.iconContainer}
         >
-          <Icon name="calendar" size={18} color={AppColors.white} />
-          <AppText fontStyle="filters" colorStyle="white">
+          <Icon name='calendar' size={18} color={AppColors.white} />
+          <AppText fontStyle='filters' colorStyle='white'>
             {isToday(selectedDate)
               ? t("todos.today")
               : format(selectedDate, "dd.MM.yy", { locale: de })}

@@ -1,5 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -20,7 +19,7 @@ const NewNotesScreen = () => {
   const { control, handleSubmit, handleNewNote, onErrors } = useNewNote();
   const [image, setImage] = useState();
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   return (
     <ScrollViewScreenWrapper

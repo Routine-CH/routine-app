@@ -1,6 +1,5 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import { format, getDate, isToday, parseISO } from "date-fns";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { format, getDate, parseISO } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -25,17 +24,33 @@ const JournalsScreen: React.FC = () => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const handleModalPress = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  const { todaysJournal, userJournals, isLoading, isLoadingTodaysJournal } =
-    useUserJournal();
+  const { userJournals, isLoading } = useUserJournal();
+
+  // console.log(userJournals);
+
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  const todayJournal = userJournals?.find((journal) => {
+    const journalDate = new Date(journal.createdAt);
+    journalDate.setHours(0, 0, 0, 0);
+    return journalDate.getTime() === currentDate.getTime();
+  });
+
+  const pastJournals = userJournals?.filter((journal) => {
+    const journalDate = new Date(journal.createdAt);
+    journalDate.setHours(0, 0, 0, 0);
+    return journalDate.getTime() !== currentDate.getTime();
+  });
 
   const deleteJournal = () => {
-    deleteUserJournalRequest(todaysJournal);
+    deleteUserJournalRequest(todayJournal);
     setIsModalVisible(false);
     showToast(ToastType.success, "Journal gelöscht");
     setTimeout(() => {
@@ -45,14 +60,17 @@ const JournalsScreen: React.FC = () => {
 
   const navigateToJournalEditScreen = () => {
     setIsModalVisible(false);
-    if (todaysJournal) {
-      navigation.navigate("JournalEdit", { id: todaysJournal.id });
+    if (todayJournal) {
+      navigation.navigate("SubRoutes", {
+        screen: "JournalEdit",
+        params: { id: todayJournal.id },
+      });
     }
   };
 
   const navigateToNewJournalScreen = () => {
     setIsModalVisible(false);
-    navigation.navigate("JournalNew");
+    navigation.navigate("SubRoutes", { screen: "JournalNew" });
   };
 
   return (
@@ -62,7 +80,7 @@ const JournalsScreen: React.FC = () => {
     >
       <View style={styles.buttonContainer}>
         <BackButton />
-        {todaysJournal ? (
+        {todayJournal ? (
           <Pressable onPress={handleModalPress}>
             <Icon
               name={"ellipsis-vertical"}
@@ -74,13 +92,13 @@ const JournalsScreen: React.FC = () => {
       </View>
       <View style={styles.outerContainer}>
         <View style={styles.innerContainer}>
-          {isLoadingTodaysJournal ? (
+          {isLoading ? (
             <AppText>Loading...</AppText>
-          ) : todaysJournal ? (
-            <TodaysJournal userJournal={todaysJournal} />
+          ) : todayJournal ? (
+            <TodaysJournal userJournal={todayJournal} />
           ) : (
             <EmptyState
-              type="journal"
+              type='journal'
               title={t("journal.no-entry-title")}
               description={t("journal.no-entry-yet")}
               style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -98,44 +116,39 @@ const JournalsScreen: React.FC = () => {
         }}
       >
         <AppText
-          fontStyle="heading3"
-          colorStyle="black64"
+          fontStyle='heading3'
+          colorStyle='black64'
           style={{ marginBottom: 30 }}
         >
           {t("journal.past-entries")}
         </AppText>
         {isLoading ? (
           <AppText>Loading Past Journals</AppText>
-        ) : userJournals ? (
-          userJournals
-            .filter((journal) => {
-              const parsedDate = parseISO(journal.createdAt.toString());
-              return !isToday(parsedDate);
-            })
-            .map((journal) => {
-              const parsedDate = parseISO(journal.createdAt.toString());
-              const day = getDate(parsedDate);
-              const month = format(parsedDate, "MMMM");
-              return (
-                <CalendarCardSimple
-                  key={journal.id}
-                  date={day}
-                  month={month}
-                  title={journal.title}
-                  journalStyles={styles.journal}
-                />
-              );
-            })
+        ) : pastJournals ? (
+          pastJournals.map((journal) => {
+            const parsedDate = parseISO(journal.createdAt.toString());
+            const day = getDate(parsedDate);
+            const month = format(parsedDate, "MMMM");
+            return (
+              <CalendarCardSimple
+                key={journal.id}
+                date={day}
+                month={month}
+                title={journal.title}
+                journalStyles={styles.journal}
+              />
+            );
+          })
         ) : (
           <EmptyState
-            type="journal"
+            type='journal'
             title={t("journal.no-entry-titles")}
             description={t("journal.no-entries-yet")}
             style={{ backgroundColor: AppColors.white }}
           />
         )}
       </View>
-      {!todaysJournal ? (
+      {!todayJournal ? (
         <AddButton
           style={{ position: "absolute", bottom: 10, right: 30 }}
           navigateTo={() => navigateToNewJournalScreen()}

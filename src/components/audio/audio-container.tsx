@@ -1,8 +1,7 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { AuthenticatedStackParamList } from "../../utils/types/types";
 import AppText from "../common/typography/app-text";
 import AudioCard from "./audio-card";
@@ -12,7 +11,7 @@ interface AudioContainerProps {}
 const AudioContainer: React.FC<AudioContainerProps> = () => {
   const { t } = useTranslation();
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const audioData = [
     {
@@ -50,8 +49,8 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
   ];
 
   const navigateToAudioScreen = (audio: any) => {
-    navigation.navigate("Discover", {
-      screen: "DiscoverAudio",
+    navigation.navigate("SubRoutes", {
+      screen: "Audio",
       params: {
         DiscoverAudio: audio,
       },
@@ -61,8 +60,8 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
   return (
     <>
       <AppText
-        fontStyle="heading3"
-        colorStyle="black70"
+        fontStyle='heading3'
+        colorStyle='black70'
         style={{ marginBottom: 30, marginTop: 60 }}
       >
         {t("audio.meditation-exercises")}

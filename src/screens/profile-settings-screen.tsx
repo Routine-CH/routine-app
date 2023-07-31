@@ -1,5 +1,8 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { RouteProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from "@react-navigation/native";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
@@ -25,7 +28,7 @@ type ProfileSettingsProps = {
 
 const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const userId = route.params.id;
   const { user, isLoading } = useMinimalUser(userId);
 

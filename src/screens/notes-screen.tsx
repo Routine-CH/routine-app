@@ -1,5 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -20,17 +19,20 @@ const NotesScreen: React.FC = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const navigateToNoteScreen = (note: UserNotes) => {
     if (note) {
-      navigation.navigate("NoteView", { id: note.id });
+      navigation.navigate("SubRoutes", {
+        screen: "NoteView",
+        params: { id: note.id },
+      });
     }
   };
 
   const navigateToNewNotesScreen = () => {
     setIsModalVisible(false);
-    navigation.navigate("NotesNew");
+    navigation.navigate("SubRoutes", { screen: "NotesNew" });
   };
 
   const leftColumnNotes = userNotes.filter((_, i) => i % 2 === 0);

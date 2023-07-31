@@ -1,5 +1,8 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { RouteProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from "@react-navigation/native";
 import { format, isToday } from "date-fns";
 import { de } from "date-fns/locale";
 import React, { useEffect, useState } from "react";
@@ -20,20 +23,18 @@ import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/types";
 
-type TodosEditScreenRouteProps = RouteProp<
-  AuthenticatedStackParamList,
-  "TodosEdit"
->;
-
 type TodosEditProps = {
-  route: TodosEditScreenRouteProps;
+  route: RouteProp<AuthenticatedStackParamList, "TodosEdit"> & {
+    params: { id: string };
+  };
+  navigation: NavigationProp<AuthenticatedStackParamList, "TodosEdit">;
 };
 
 const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const id = route.params.id;
   const { todo } = useTodoData(id);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -62,7 +63,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -87,7 +88,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
               value={value}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deinem Todo ein Titel",
             minLength: {
@@ -109,7 +110,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
               value={value}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             minLength: {
               value: 5,
@@ -121,8 +122,8 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
           onPress={handleModalPress}
           style={styles.iconContainer}
         >
-          <Icon name="calendar" size={18} color={AppColors.white} />
-          <AppText fontStyle="filters" colorStyle="white">
+          <Icon name='calendar' size={18} color={AppColors.white} />
+          <AppText fontStyle='filters' colorStyle='white'>
             {isToday(selectedDate)
               ? t("todos.today")
               : format(selectedDate, "dd.MM.yy", { locale: de })}

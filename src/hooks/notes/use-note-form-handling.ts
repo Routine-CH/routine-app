@@ -1,18 +1,18 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { NavigationProp } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateNoteRequest } from "../../data/note/update-request";
 import { ToastType } from "../../utils/types/enums";
 import {
-      AuthenticatedStackParamList,
-      IFormNoteInputs,
-      UserNotes
+  AuthenticatedStackParamList,
+  IFormNoteInputs,
+  UserNotes,
 } from "../../utils/types/types";
 
 export const useNoteFormHandling = (
   note: UserNotes | null,
-  navigation: BottomTabNavigationProp<AuthenticatedStackParamList>,
+  navigation: NavigationProp<AuthenticatedStackParamList>,
   noteId: string
 ) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,7 +60,7 @@ export const useNoteFormHandling = (
       setErrorMessage(errors.title.message);
     } else if (errors.description) {
       setErrorMessage(errors.description.message);
-    } 
+    }
   };
 
   useEffect(() => {

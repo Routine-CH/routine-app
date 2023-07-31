@@ -1,5 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../../utils/constants/colors";
@@ -9,11 +8,11 @@ import RoutineTool from "./routine-tool";
 
 const ToolsContainer: React.FC = () => {
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
 
   const navigateToScreen = (screenName: string) => {
-    navigation.navigate("Discover", { screen: screenName });
+    navigation.navigate("SubRoutes", { screen: screenName });
   };
   return (
     <View style={styles.outerContainer}>

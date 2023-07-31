@@ -1,6 +1,9 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { RouteProp, useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -32,17 +35,22 @@ type ImageItem = {
 
 const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
   const [image] = useState(null);
   const { note } = useNoteData(noteId);
-  const [images, setImages] = useState<ImageItem[]>(note?.images || []);
+  const [images, setImages] = useState<ImageItem[]>([]);
 
   const { control, handleSubmit, handleUpdate, onErrors } = useNoteFormHandling(
     note,
     navigation,
     noteId
   );
+
+  useEffect(() => {
+    if (!note) return;
+    setImages(note.images);
+  });
 
   const handleDelete = (imageId: string) => {
     setImages((prevImages) =>

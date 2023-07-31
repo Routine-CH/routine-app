@@ -1,5 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { addDays, format, startOfDay } from "date-fns";
 import { de } from "date-fns/locale";
 import { useMemo, useState } from "react";
@@ -30,7 +29,7 @@ const TodosScreen: React.FC = () => {
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
     useState(false);
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -114,7 +113,10 @@ const TodosScreen: React.FC = () => {
 
   const navigateToTodoEditScreen = (todo: UserTodo) => {
     if (todo) {
-      navigation.navigate("TodosEdit", { id: todo.id });
+      navigation.navigate("SubRoutes", {
+        screen: "TodosEdit",
+        params: { id: todo.id },
+      });
     }
   };
 
@@ -122,11 +124,6 @@ const TodosScreen: React.FC = () => {
     deleteTodoRequest(todo);
     setIsConfirmationModalVisible(false);
     showToast(ToastType.success, "Todo wurde gelöscht.");
-    setTimeout(() => {
-      navigation.navigate("Discover", {
-        screen: "Todo",
-      });
-    }, 2000);
   };
 
   const onDayPress = (day: Day) => {
@@ -142,13 +139,13 @@ const TodosScreen: React.FC = () => {
 
   const navigateToNewTodoScreen = () => {
     setIsModalVisible(false);
-    navigation.navigate("TodosNew");
+    navigation.navigate("SubRoutes", { screen: "TodosNew" });
   };
 
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor="white"
+        backgroundColor='white'
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >

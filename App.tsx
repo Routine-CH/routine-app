@@ -3,6 +3,7 @@ import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import React, { useContext, useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 import { Text, View } from "react-native";
+import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AuthenticatedNavigator from "./src/components/common/navigation-stacks/authenticated-navigator";
 import UnauthenticatedNavigator from "./src/components/common/navigation-stacks/unauthenticated-navigator";
