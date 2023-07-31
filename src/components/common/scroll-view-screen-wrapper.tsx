@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { ReactNode } from "react";
-import { ScrollView, View, ViewStyle } from "react-native";
+import { Dimensions, ScrollView, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { StatusBarColor } from "../../utils/types/enums";
@@ -12,6 +12,8 @@ type ScrollViewScreenWrapperProps = {
   defaultPadding?: boolean;
   children: ReactNode;
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
   statusBarColor,
@@ -35,7 +37,7 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
       <ScrollView
         style={{
           flex: 1,
-          paddingHorizontal: defaultPadding ? 30 : 0,
+          paddingHorizontal: defaultPadding ? windowWidth * 0.05 : 0,
           ...style,
         }}
       >

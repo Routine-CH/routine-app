@@ -15,6 +15,7 @@ import NotesScreen from "../../../screens/notes-screen";
 import ProfileSettingsScreen from "../../../screens/profile-settings-screen";
 import TimerScreen from "../../../screens/timer-screen";
 import TodosScreen from "../../../screens/todos-screen";
+import { CameraView } from "../camera/camera-view";
 
 const SubRoutes: React.FC = () => {
   const SubRoutesStack = createNativeStackNavigator();
@@ -105,6 +106,11 @@ const SubRoutes: React.FC = () => {
         name='ProfileBadges'
         component={BadgesScreen}
         options={{ headerShown: false }}
+      />
+      <SubRoutesStack.Screen
+        name='CameraView'
+        component={CameraView}
+        options={{ headerShown: false, animation: "slide_from_bottom" }}
       />
     </SubRoutesStack.Navigator>
   );

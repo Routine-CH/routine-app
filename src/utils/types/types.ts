@@ -18,7 +18,10 @@ export type AuthenticatedStackParamList = {
   CameraView: undefined;
   SubRoutes: {
     screen?: string;
-    params?: { id?: string; DiscoverAudio?: any };
+    params?: {
+      id?: string;
+      DiscoverAudio?: any;
+    };
   };
   Notes: undefined;
   NoteView: { id: string };
@@ -221,7 +224,6 @@ export interface IFormTodoInputs {
 }
 
 export interface image {
-  id: string;
   imageUrl: string;
 }
 

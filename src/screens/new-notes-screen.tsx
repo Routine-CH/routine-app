@@ -1,23 +1,27 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
 import useNewNote from "../hooks/notes/use-new-note";
+import { useStore } from "../store/camera-image-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/types";
 
+const windowWidth = Dimensions.get("window").width;
+
 const NewNotesScreen = () => {
   const { t } = useTranslation();
   const { control, handleSubmit, handleNewNote, onErrors } = useNewNote();
-  const [image, setImage] = useState();
+  const images = useStore((state) => state.images);
+  const { removeImage } = useStore();
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
@@ -79,10 +83,33 @@ const NewNotesScreen = () => {
         <IconButton
           iconName='camera'
           style={[styles.iconStyle, { marginRight: 15 }]}
-          onPress={() => navigation.navigate("CameraView")}
+          onPress={() =>
+            navigation.navigate("SubRoutes", {
+              screen: "CameraView",
+            })
+          }
         />
         <IconButton iconName='images' style={styles.iconStyle} />
       </View>
+      <View style={styles.imageContainer}>
+        {images.length > 0 &&
+          images.map((image) => {
+            return (
+              <View key={image} style={{ marginBottom: 15 }}>
+                <View style={styles.closeIcon}>
+                  <Icon
+                    name='close'
+                    size={25}
+                    color={AppColors.white}
+                    onPress={() => removeImage(image)}
+                  />
+                </View>
+                <Image source={{ uri: image }} style={styles.image} />
+              </View>
+            );
+          })}
+      </View>
+
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
@@ -115,5 +142,29 @@ const styles = StyleSheet.create({
   iconStyle: {
     height: 58,
     width: 58,
+  },
+  imageContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    width: "100%",
+    marginVertical: 30,
+  },
+  closeIcon: {
+    position: "absolute",
+    zIndex: 2,
+    right: 7,
+    top: 7,
+    height: 30,
+    width: 30,
+    backgroundColor: AppColors.red,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+  },
+  image: {
+    height: windowWidth * 0.43,
+    width: windowWidth * 0.43,
+    borderRadius: 10,
   },
 });
