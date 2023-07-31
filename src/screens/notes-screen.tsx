@@ -2,7 +2,7 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import NotesIcon from "../components/card/tools/tools-svg/notes-icon";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
@@ -16,7 +16,7 @@ import { AuthenticatedStackParamList, UserNotes } from "../utils/types/types";
 
 const NotesScreen: React.FC = () => {
   const { t } = useTranslation();
-  const { userNotes } = useUserNote();
+  const { userNotes, isLoading } = useUserNote();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
@@ -33,7 +33,10 @@ const NotesScreen: React.FC = () => {
     navigation.navigate("NotesNew");
   };
 
-  return userNotes ? (
+  const leftColumnNotes = userNotes.filter((_, i) => i % 2 === 0);
+  const rightColumnNotes = userNotes.filter((_, i) => i % 2 !== 0);
+
+  return !isLoading && userNotes.length > 0 ? (
     <>
       <ScrollViewScreenWrapper
         backgroundColor={AppColors.blueMuted20}
@@ -41,14 +44,9 @@ const NotesScreen: React.FC = () => {
         defaultPadding
       >
         <BackButton />
-        <Pressable style={styles.margin}>
-          <AppText fontStyle='body' colorStyle='black64'>
-            {t("notes.date")} {t("notes.filter")}
-          </AppText>
-        </Pressable>
-        <View>
-          {userNotes.map((note: UserNotes) => {
-            return (
+        <View style={styles.notesContainer}>
+          <View style={styles.noteColumn}>
+            {leftColumnNotes.map((note) => (
               <NotesCard
                 key={note.id}
                 title={note.title}
@@ -58,8 +56,21 @@ const NotesScreen: React.FC = () => {
                 }
                 onPress={() => navigateToNoteScreen(note)}
               />
-            );
-          })}
+            ))}
+          </View>
+          <View style={styles.noteColumn}>
+            {rightColumnNotes.map((note) => (
+              <NotesCard
+                key={note.id}
+                title={note.title}
+                description={note.description}
+                imageUrl={
+                  note.images.length > 0 ? note.images[0].imageUrl : undefined
+                }
+                onPress={() => navigateToNoteScreen(note)}
+              />
+            ))}
+          </View>
         </View>
       </ScrollViewScreenWrapper>
       <AddButton navigateTo={() => navigateToNewNotesScreen()} />
@@ -88,9 +99,7 @@ const NotesScreen: React.FC = () => {
 export default NotesScreen;
 
 const styles = StyleSheet.create({
-  margin: {
-    marginVertical: 30,
-  },
+  grivView: { marginTop: 10, marginHorizontal: -15 },
   noNotescontainer: {
     flex: 1,
     alignItems: "center",
@@ -99,5 +108,13 @@ const styles = StyleSheet.create({
   },
   textMargin: {
     marginTop: 20,
+  },
+  notesContainer: {
+    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  noteColumn: {
+    width: "48%",
   },
 });

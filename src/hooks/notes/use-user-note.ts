@@ -18,7 +18,6 @@ export const useUserNote = () => {
               Authorization: `Bearer ${token}`,
             },
           });
-
           setUserNotes(response.data.data);
           setIsLoading(false);
         }
