@@ -1,3 +1,6 @@
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -10,10 +13,14 @@ import useNewNote from "../hooks/notes/use-new-note";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor } from "../utils/types/enums";
+import { AuthenticatedStackParamList } from "../utils/types/types";
 
 const NewNotesScreen = () => {
   const { t } = useTranslation();
   const { control, handleSubmit, handleNewNote, onErrors } = useNewNote();
+  const [image, setImage] = useState();
+  const navigation =
+    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
 
   return (
     <ScrollViewScreenWrapper
@@ -73,6 +80,7 @@ const NewNotesScreen = () => {
         <IconButton
           iconName='camera'
           style={[styles.iconStyle, { marginRight: 15 }]}
+          onPress={() => navigation.navigate("CameraView")}
         />
         <IconButton iconName='images' style={styles.iconStyle} />
       </View>

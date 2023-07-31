@@ -15,6 +15,7 @@ export type AuthenticatedStackParamList = {
   JournalEdit: { id: string };
   JournalNew: undefined;
   Calendar: undefined;
+  CameraView: undefined;
   Discover: {
     screen?: string;
     params?: {
