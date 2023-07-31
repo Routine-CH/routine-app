@@ -26,24 +26,76 @@ const HomeStackNavigator: React.FC = () => {
       screenOptions={{ headerShown: false }}
     >
       <HomeStack.Screen name='UserHome' component={HomeScreen} />
-      <HomeStack.Screen name='CameraView' component={CameraView} />
-      <HomeStack.Screen name='Timer' component={TimerScreen} />
-      <HomeStack.Screen name='Journals' component={JournalsScreen} />
+      <HomeStack.Screen
+        name='CameraView'
+        component={CameraView}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name='Timer'
+        component={TimerScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name='Journals'
+        component={JournalsScreen}
+        options={{ headerShown: false }}
+      />
       {/* @ts-ignore: TODO: fix this */}
-      <HomeStack.Screen name='JournalEdit' component={EditJournalScreen} />
-      <HomeStack.Screen name='JournalNew' component={NewJournalScreen} />
+      <HomeStack.Screen
+        name='JournalEdit'
+        component={EditJournalScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name='JournalNew'
+        component={NewJournalScreen}
+        options={{ headerShown: false }}
+      />
       <HomeStack.Screen name='Todos' component={TodosScreen} />
       {/* @ts-ignore: TODO: fix this */}
-      <HomeStack.Screen name='TodosEdit' component={EditTodosScreen} />
-      <HomeStack.Screen name='TodosNew' component={NewTodosScreen} />
-      <HomeStack.Screen name='Notes' component={NotesScreen} />
+      <HomeStack.Screen
+        name='TodosEdit'
+        component={EditTodosScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name='TodosNew'
+        component={NewTodosScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name='Notes'
+        component={NotesScreen}
+        options={{ headerShown: false }}
+      />
       {/* @ts-ignore: TODO: fix this */}
-      <HomeStack.Screen name='NotesEdit' component={EditNotesScreen} />
-      <HomeStack.Screen name='NotesNew' component={NewNotesScreen} />
+      <HomeStack.Screen
+        name='NotesEdit'
+        component={EditNotesScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name='NotesNew'
+        component={NewNotesScreen}
+        options={{ headerShown: false }}
+      />
       {/* @ts-ignore: TODO: fix this */}
-      <HomeStack.Screen name='NoteView' component={NoteViewScreen} />
-      <HomeStack.Screen name='Goals' component={GoalsScreen} />
-      <HomeStack.Screen name='EditTools' component={EditToolsScreen} />
+      <HomeStack.Screen
+        name='NoteView'
+        component={NoteViewScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name='Goals'
+        component={GoalsScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name='EditTools'
+        component={EditToolsScreen}
+        options={{ headerShown: false }}
+      />
     </HomeStack.Navigator>
   );
 };
