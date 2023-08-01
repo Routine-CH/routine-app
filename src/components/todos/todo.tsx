@@ -98,7 +98,7 @@ const Todo: React.FC<TodoProps> = ({
               onPress={handleIconPress}
             />
             <TouchableWithoutFeedback onPress={onPress}>
-              <View style={{ justifyContent: "space-between" }}>
+              <View>
                 <AppText
                   fontStyle="body"
                   colorStyle="black64"
@@ -176,8 +176,6 @@ const styles = StyleSheet.create({
   },
   futureTodoTextStyle: { maxWidth: 150 },
   rightAction: {
-    maxWidth: "100%",
-    width: "100%",
     flexDirection: "row",
     justifyContent: "flex-end",
   },
