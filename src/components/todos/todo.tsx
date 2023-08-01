@@ -103,10 +103,10 @@ const Todo: React.FC<TodoProps> = ({
         <TouchableWithoutFeedback onPress={onPress}>
           <View style={{ justifyContent: "space-between" }}>
             <AppText
-              fontStyle="body"
-              colorStyle="black64"
+              fontStyle='body'
+              colorStyle='black64'
               numberOfLines={1}
-              ellipsizeMode="tail"
+              ellipsizeMode='tail'
               style={[
                 styles.textStyle,
                 style,
@@ -118,10 +118,10 @@ const Todo: React.FC<TodoProps> = ({
             </AppText>
             {description && (
               <AppText
-                fontStyle="information"
-                colorStyle="black64"
+                fontStyle='information'
+                colorStyle='black64'
                 numberOfLines={1}
-                ellipsizeMode="tail"
+                ellipsizeMode='tail'
                 style={style}
               >
                 {description}
@@ -136,7 +136,7 @@ const Todo: React.FC<TodoProps> = ({
               onPress={handleModalPress}
             >
               <Icon
-                name="trash-outline"
+                name='trash-outline'
                 size={40}
                 style={styles.actionIconStyle}
               />
@@ -148,7 +148,7 @@ const Todo: React.FC<TodoProps> = ({
               ]}
               onPress={onEditTodo}
             >
-              <Icon name="pencil" size={40} style={styles.actionIconStyle} />
+              <Icon name='pencil' size={40} style={styles.actionIconStyle} />
             </Pressable>
           </View>
         )}
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   futureTodoContainer: {
-    minWidth: 245,
+    minWidth: 0,
   },
   iconStyle: {
     color: AppColors.blue200,
