@@ -21,7 +21,7 @@ const CalendarCard: React.FC<DateProps> = ({
 }) => {
   return (
     <View style={styles.calendarContainer}>
-      {displayTodoCard && <Todo icon={icon} title={title} />}
+      {displayTodoCard && <Todo title={title} />}
       {!displayTodoCard && (
         <CardContent
           type={type}

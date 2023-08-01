@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import React from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Dimensions, Modal, StyleSheet, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import AppColors from "../../../utils/constants/colors";
 import { Day } from "../../../utils/types/calendar/types";
@@ -11,6 +11,8 @@ interface ConfirmationModalProps {
   onDayPress: (day: Day) => void;
   initialDate?: string;
 }
+
+const windowWidth = Dimensions.get("window").width;
 
 const CalendarModal: React.FC<ConfirmationModalProps> = ({
   isVisible,
@@ -39,7 +41,7 @@ const CalendarModal: React.FC<ConfirmationModalProps> = ({
           <Calendar
             style={styles.calendar}
             firstDay={1}
-            monthFormat="MMMM yyyy"
+            monthFormat='MMMM yyyy'
             enableSwipeMonths={true}
             allowSelectionOutOfRange={initialDate !== undefined ? false : true}
             minDate={initialDate !== undefined ? initialDate : undefined}
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
   },
   calendar: {
     marginVertical: 30,
-    minWidth: 350,
+    width: windowWidth * 0.9,
     height: 380,
   },
 });
