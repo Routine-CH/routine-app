@@ -8,8 +8,7 @@ import CameraBackButton from "./camera-back-button";
 import CaptureButton from "./capture-button";
 
 export const CameraView: React.FC = () => {
-  const [camera, setCamera] = useState<Camera | null>(null);
-  const [type, setType] = useState(CameraType.back);
+  const [type, _] = useState(CameraType.back);
   const [permission, setPermission] = useState<PermissionStatus | null>(null);
   const cameraRef = useRef<Camera | null>(null);
   const addImage = useStore((state) => state.addImage);

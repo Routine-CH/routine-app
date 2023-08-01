@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
 import AppText from "../typography/app-text";
@@ -10,6 +10,8 @@ interface ChipProps {
   iconStyle?: any;
   cardStyle?: any;
 }
+
+const windowWidth = Dimensions.get("window").width;
 
 const CardContent: React.FC<ChipProps> = ({
   type,
@@ -52,7 +54,7 @@ export default CardContent;
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: windowWidth * 0.65,
     height: 72,
     borderRadius: 6,
     paddingHorizontal: 15,
