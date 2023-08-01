@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import {
+  Dimensions,
   Pressable,
   StyleProp,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
+import AppFontStyle from "../../../utils/constants/font-style";
 import AppText from "../typography/app-text";
 import BackButton from "./back-button";
 
@@ -16,6 +18,8 @@ type SaveButtonProps = {
   backButtonStyle?: StyleProp<ViewStyle>;
   type?: boolean;
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const SaveButton: React.FC<SaveButtonProps> = ({
   onPress,
@@ -27,13 +31,8 @@ const SaveButton: React.FC<SaveButtonProps> = ({
     <View style={styles.container}>
       <BackButton style={[styles.buttonStyle, backButtonStyle]} type={type} />
       <Pressable style={styles.saveButton} onPress={onPress}>
-        <Icon name="checkmark-outline" size={22} style={styles.textStyle} />
-        <AppText
-          fontStyle="filters"
-          style={[styles.textStyle, { marginLeft: 10 }]}
-        >
-          {t("general.save")}
-        </AppText>
+        <Icon name='checkmark-outline' size={22} color={AppColors.white} />
+        <AppText style={[styles.textStyle]}>{t("general.save")}</AppText>
       </Pressable>
     </View>
   );
@@ -53,14 +52,16 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     height: 32,
-    width: "40%",
-    borderRadius: 14,
+    width: windowWidth * 0.35,
+    borderRadius: 50,
     backgroundColor: AppColors.blue100,
   },
   textStyle: {
     color: AppColors.white,
+    fontFamily: AppFontStyle.filters.fontFamily,
+    fontSize: windowWidth * 0.045,
   },
 });
