@@ -19,15 +19,15 @@ import ConfirmationModal from "../common/modals/confirmation-modal";
 import AppText from "../common/typography/app-text";
 
 interface TodoProps {
-  completed: boolean;
+  completed?: boolean;
   title: string;
   description?: string;
   style?: StyleProp<ViewStyle>;
-  futureTodo: boolean;
+  futureTodo?: boolean;
   onPress?: () => void;
   onPressIcon?: () => void;
-  onDeleteTodo: () => void;
-  onEditTodo: () => void;
+  onDeleteTodo?: () => void;
+  onEditTodo?: () => void;
 }
 
 const Todo: React.FC<TodoProps> = ({
@@ -135,6 +135,7 @@ const Todo: React.FC<TodoProps> = ({
         actionText={t("modals.delete")}
         isVisible={isModalVisible}
         onConfirm={() => {
+          if (!onDeleteTodo) return;
           onDeleteTodo();
           setIsModalVisible(false);
         }}
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     flexDirection: "row",
-    paddingLeft: 15,
+    paddingLeft: 20,
     height: "100%",
     minWidth: "100%",
     alignItems: "center",

@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import {
   CalendarDataTypes,
@@ -11,6 +11,8 @@ import EmptyState from "../common/empty-state";
 type CalendarDataProps = {
   calendar: CalendarItems[] | null;
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const CalendarData: React.FC<CalendarDataProps> = ({ calendar }) => {
   if (!calendar || calendar.length === 0) {
@@ -51,37 +53,33 @@ const CalendarData: React.FC<CalendarDataProps> = ({ calendar }) => {
         ];
 
         return (
-          <View
-            key={calendarItem.date}
-            style={{ flexDirection: "row", gap: 30 }}
-          >
-            <View style={{ flexShrink: 1 }}>
+          <View key={calendarItem.date} style={{ flexDirection: "row" }}>
+            <View>
               <DateCard date={new Date(calendarItem.date)} />
             </View>
-            <View style={{ flexShrink: 1 }}>
-              <View style={{ flexShrink: 1, flexGrow: 1 }}>
-                {items.map((item) => (
-                  <CalendarCard
-                    key={item.id}
-                    title={item.title}
-                    type={item.type}
-                    icon={
-                      item.type === CalendarDataTypes.JOURNALS
-                        ? ""
-                        : item.completed
-                        ? "checkmark-circle"
-                        : "close-circle"
-                    }
-                    iconStyle={
-                      item.type === CalendarDataTypes.JOURNALS
-                        ? null
-                        : item.completed
-                        ? styles.reached
-                        : styles.notReached
-                    }
-                  />
-                ))}
-              </View>
+            <View>
+              {items.map((item) => (
+                <CalendarCard
+                  key={item.id}
+                  title={item.title}
+                  type={item.type}
+                  icon={
+                    item.type === CalendarDataTypes.JOURNALS
+                      ? ""
+                      : item.completed
+                      ? "checkmark-circle"
+                      : "close-circle"
+                  }
+                  iconStyle={
+                    item.type === CalendarDataTypes.JOURNALS
+                      ? null
+                      : item.completed
+                      ? styles.reached
+                      : styles.notReached
+                  }
+                  journalStyles={{ marginLeft: windowWidth * 0.045 }}
+                />
+              ))}
             </View>
           </View>
         );

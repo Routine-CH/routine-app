@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import { UserGamification } from "../../utils/types/profile/types";
 import AppText from "../common/typography/app-text";
@@ -8,6 +8,8 @@ import AppText from "../common/typography/app-text";
 interface YearCardProps {
   currentUser: UserGamification;
 }
+
+const windowWidth = Dimensions.get("window").width;
 
 const YearCard: React.FC<YearCardProps> = ({ currentUser }) => {
   const { t } = useTranslation();
@@ -62,23 +64,24 @@ export default YearCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: "100%",
-    height: 264,
     backgroundColor: AppColors.blueMuted30,
     borderRadius: 13,
     marginTop: 30,
     justifyContent: "center",
+    paddingVertical: windowWidth * 0.06,
   },
   textContainer: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 15,
+    marginVertical: windowWidth * 0.015,
+    paddingHorizontal: windowWidth * 0.03,
   },
   text: {
     color: AppColors.black64,
-    width: 35,
     textAlign: "right",
-    marginRight: 40,
-    marginLeft: 15,
+    width: windowWidth * 0.07,
+    justifyContent: "flex-start",
+    marginLeft: windowWidth * 0.06,
+    marginRight: windowWidth * 0.1,
   },
 });

@@ -1,18 +1,18 @@
 import { RouteProp } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import InformationModal from "../components/audio/information-modal";
 import BackButton from "../components/common/buttons/back-button";
 import IconButton from "../components/common/buttons/icon-button";
-import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { AudioParams, AuthenticatedStackParamList } from "../utils/types/types";
 
-type AudioScreenRouteProp = RouteProp<AuthenticatedStackParamList, "Discover">;
+type AudioScreenRouteProp = RouteProp<AuthenticatedStackParamList, "SubRoutes">;
 
 type AudioProps = {
   route?: AudioScreenRouteProp & {
@@ -21,6 +21,8 @@ type AudioProps = {
     };
   };
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const AudioScreen: React.FC<AudioProps> = ({ route }) => {
   const { t } = useTranslation();
@@ -36,32 +38,32 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
   };
 
   return audio ? (
-    <ScrollViewScreenWrapper
-      backgroundColor="white"
+    <ScreenWrapper
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
       <View>
         <View style={styles.buttonContainer}>
           <BackButton />
-          <IconButton iconName="information" onPress={handleModalPress} />
+          <IconButton iconName='information' onPress={handleModalPress} />
         </View>
         <View style={styles.audioplayer}>
           <Image source={audio.image} style={styles.image} />
           <AppText
-            fontStyle="audioPlayer"
-            colorStyle="black70"
-            style={{ textAlign: "center", marginVertical: 60 }}
+            fontStyle='audioPlayer'
+            colorStyle='black70'
+            style={{ textAlign: "center", marginVertical: windowWidth * 0.15 }}
           >
             {audio.title}
           </AppText>
           <View style={styles.timeContainer}>
             <View style={styles.horizontalLine} />
             <View style={styles.time}>
-              <AppText fontStyle="body" colorStyle="black70">
+              <AppText fontStyle='body' colorStyle='black70'>
                 00:00
               </AppText>
-              <AppText fontStyle="body" colorStyle="black70">
+              <AppText fontStyle='body' colorStyle='black70'>
                 {audio.minutes}
               </AppText>
             </View>
@@ -77,8 +79,8 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
                 }}
               />
               <AppText
-                fontStyle="bodyBold"
-                colorStyle="blue100"
+                fontStyle='bodyBold'
+                colorStyle='blue100'
                 style={{ position: "absolute", top: 35 }}
               >
                 {t("audio.10")}
@@ -92,8 +94,8 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
                 color={AppColors.blue100}
               />
               <AppText
-                fontStyle="bodyBold"
-                colorStyle="blue100"
+                fontStyle='bodyBold'
+                colorStyle='blue100'
                 style={{ position: "absolute", top: 35 }}
               >
                 {t("audio.10")}
@@ -107,7 +109,7 @@ const AudioScreen: React.FC<AudioProps> = ({ route }) => {
         onClose={closeModal}
         audio={audio}
       />
-    </ScrollViewScreenWrapper>
+    </ScreenWrapper>
   ) : (
     <></>
   );
@@ -119,14 +121,12 @@ const styles = StyleSheet.create({
   buttonContainer: { flexDirection: "row", justifyContent: "space-between" },
   cardContainer: {
     width: 330,
-    height: 172,
     borderRadius: 10,
     overflow: "hidden",
-    backgroundColor: "white",
   },
   image: {
-    width: 270,
-    height: 270,
+    width: windowWidth * 0.75,
+    height: windowWidth * 0.75,
     borderRadius: 20,
   },
   audioplayer: {
@@ -148,8 +148,6 @@ const styles = StyleSheet.create({
   time: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 15,
-    marginBottom: 30,
   },
   iconContainer: {
     flexDirection: "row",

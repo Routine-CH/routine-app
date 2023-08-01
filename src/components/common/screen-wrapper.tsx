@@ -1,7 +1,7 @@
 // src/components/ScreenWrapper.tsx
 import { StatusBar } from "expo-status-bar";
 import { ReactNode } from "react";
-import { LayoutChangeEvent, ViewStyle } from "react-native";
+import { Dimensions, LayoutChangeEvent, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBarColor } from "../../utils/types/enums";
 
@@ -13,6 +13,8 @@ type ScreenWrapperProps = {
   children: ReactNode;
   onLayout?: (event: LayoutChangeEvent) => void;
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   statusBarColor,
@@ -30,7 +32,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
           {
             flex: 1,
             backgroundColor: backgroundColor,
-            paddingHorizontal: defaultPadding ? 30 : 0,
+            paddingHorizontal: defaultPadding ? windowWidth * 0.05 : 0,
           },
           style,
         ]}

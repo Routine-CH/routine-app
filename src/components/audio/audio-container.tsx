@@ -1,14 +1,15 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { TouchableOpacity } from "react-native";
+import { Dimensions, TouchableOpacity } from "react-native";
+import AppFontStyle from "../../utils/constants/font-style";
 import { AuthenticatedStackParamList } from "../../utils/types/types";
 import AppText from "../common/typography/app-text";
 import AudioCard from "./audio-card";
 
-interface AudioContainerProps {}
+const windowWidth = Dimensions.get("window").width;
 
-const AudioContainer: React.FC<AudioContainerProps> = () => {
+const AudioContainer: React.FC = () => {
   const { t } = useTranslation();
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
@@ -60,9 +61,13 @@ const AudioContainer: React.FC<AudioContainerProps> = () => {
   return (
     <>
       <AppText
-        fontStyle='heading3'
         colorStyle='black70'
-        style={{ marginBottom: 30, marginTop: 60 }}
+        style={{
+          marginBottom: 30,
+          marginTop: 60,
+          fontSize: windowWidth * 0.08,
+          fontFamily: AppFontStyle.heading3.fontFamily,
+        }}
       >
         {t("audio.meditation-exercises")}
       </AppText>

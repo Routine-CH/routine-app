@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import Todo from "../../todos/todo";
 
 import CardContent from "./card-content";
@@ -15,6 +15,8 @@ interface DateProps {
   displayTodoCard?: boolean;
 }
 
+const windowWidth = Dimensions.get("window").width;
+
 const CalendarCardSimple: React.FC<DateProps> = ({
   date,
   month,
@@ -27,11 +29,11 @@ const CalendarCardSimple: React.FC<DateProps> = ({
 }) => {
   return (
     <View style={styles.calendarContainer}>
-      <View style={{ flex: 1 }}>
+      <View>
         <DateCardSimple date={date} month={month} />
       </View>
-      <View style={{ flex: 3 }}>
-        {displayTodoCard && <Todo icon={icon} title={title} />}
+      <View style={{ marginLeft: windowWidth * 0.0093 }}>
+        {displayTodoCard && <Todo title={title} />}
         {!displayTodoCard && (
           <CardContent
             type={type}
@@ -53,5 +55,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
+    justifyContent: "center",
   },
 });
