@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import AppColors from "../../../utils/constants/colors";
 import FlatButton from "../../common/buttons/flat-button";
 import InputField from "../../common/input/input-field";
@@ -10,6 +10,8 @@ type UserInformationProps = {
   username: string;
   email: string;
 };
+
+const windowHeight = Dimensions.get("window").height;
 
 const UserInformation: React.FC<UserInformationProps> = ({
   username,
@@ -59,14 +61,14 @@ const UserInformation: React.FC<UserInformationProps> = ({
 export default UserInformation;
 
 const styles = StyleSheet.create({
-  container: { marginTop: 60 },
+  container: { marginTop: 30 },
   formContainer: {
-    height: 280,
+    height: windowHeight * 0.35,
     width: "100%",
     borderRadius: 13,
     backgroundColor: AppColors.blueMuted30,
     padding: 15,
-    marginBottom: 60,
+    marginBottom: 30,
     marginTop: 30,
     justifyContent: "center",
   },

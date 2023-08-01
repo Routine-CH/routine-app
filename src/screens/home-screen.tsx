@@ -6,7 +6,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import RoutineTool from "../components/card/tools/routine-tool";
 import GoalsIcon from "../components/card/tools/tools-svg/goals-icon";
 import JournalIcon from "../components/card/tools/tools-svg/journal-icon";
@@ -39,6 +39,8 @@ const getIconComponent = (titleKey: string) => {
   }
 };
 
+const windowWidth = Dimensions.get("window").width;
+
 const HomeScreen: React.FC = () => {
   const { currentUser, refetch } = useUserMe();
   const navigation =
@@ -59,27 +61,22 @@ const HomeScreen: React.FC = () => {
     <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
+      defaultPadding
     >
-      <View style={{ paddingTop: 10, flex: 1 }}>
-        <View style={{ marginHorizontal: 30 }}>
-          <AppText fontStyle='heading1' colorStyle='black64'>
-            {t("my-day.hey")}
-          </AppText>
-          <AppText style={styles.userName} colorStyle='black64'>
-            {currentUser.username} 😊
-          </AppText>
-        </View>
-        <View style={styles.goalsContainer}>
-          <AppText
-            fontStyle='heading3'
-            colorStyle='black64'
-            style={{ marginBottom: 30, marginHorizontal: 30 }}
-          >
-            {t("my-day.your-goals")}
-          </AppText>
-          <GoalsContainer />
-        </View>
-      </View>
+      <AppText fontStyle='heading1' colorStyle='black64'>
+        {t("my-day.hey")}
+      </AppText>
+      <AppText style={styles.userName} colorStyle='black64'>
+        {currentUser.username} 😊
+      </AppText>
+      <AppText
+        fontStyle='heading3'
+        colorStyle='black64'
+        style={{ marginBottom: 30, marginTop: 40 }}
+      >
+        {t("my-day.your-goals")}
+      </AppText>
+      <GoalsContainer />
       <View style={styles.toolsContainer}>
         <AppText fontStyle='heading3' colorStyle='black64'>
           {t("my-day.your-tools")}
@@ -114,7 +111,9 @@ const HomeScreen: React.FC = () => {
         ) : (
           <TouchableOpacity
             style={styles.noToolsContainer}
-            onPress={() => navigation.navigate("EditTools")}
+            onPress={() =>
+              navigation.navigate("SubRoutes", { screen: "EditTools" })
+            }
           >
             <LinearGradient
               colors={["#296879", "#6F99A5"]}
@@ -146,7 +145,6 @@ const styles = StyleSheet.create({
   },
   toolsContainer: {
     marginTop: 60,
-    marginHorizontal: 30,
   },
   favouriteToolsContainer: {
     marginTop: 30,
@@ -163,10 +161,9 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: "100%",
     height: 100,
+    paddingHorizontal: windowWidth * 0.045,
     borderRadius: 13,
     backgroundColor: AppColors.blue300,
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -183,6 +180,7 @@ const styles = StyleSheet.create({
   textPlacement: {
     width: 200,
     height: 55,
+    marginLeft: windowWidth * 0.05,
     justifyContent: "center",
   },
 });

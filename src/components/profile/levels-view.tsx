@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   badgesContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
   },
   image: {
     height: 90,

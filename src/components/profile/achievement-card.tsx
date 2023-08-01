@@ -1,7 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
+import AppFontStyle from "../../utils/constants/font-style";
 import AppText from "../common/typography/app-text";
 
 type AchievementCardProps = {
@@ -9,6 +10,8 @@ type AchievementCardProps = {
   badgesCount: number;
   streakCount: number;
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const AchievementCard: React.FC<AchievementCardProps> = ({
   exp,
@@ -21,9 +24,12 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
     <View style={styles.achievementContainer}>
       <View style={styles.achievementContent}>
         <AppText
-          fontStyle='bodyMedium'
           colorStyle='black64'
-          style={{ marginBottom: 5 }}
+          style={{
+            marginBottom: 5,
+            fontFamily: AppFontStyle.bodyMedium.fontFamily,
+            fontSize: windowWidth * 0.055,
+          }}
         >
           {badgesCount}
         </AppText>
@@ -34,9 +40,12 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
       <View style={styles.verticalLine} />
       <View style={styles.achievementContent}>
         <AppText
-          fontStyle='bodyMedium'
           colorStyle='black64'
-          style={{ marginBottom: 5 }}
+          style={{
+            marginBottom: 5,
+            fontFamily: AppFontStyle.bodyMedium.fontFamily,
+            fontSize: windowWidth * 0.055,
+          }}
         >
           {exp}
         </AppText>
@@ -47,9 +56,12 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
       <View style={styles.verticalLine} />
       <View style={styles.achievementContent}>
         <AppText
-          fontStyle='bodyMedium'
           colorStyle='black64'
-          style={{ marginBottom: 5 }}
+          style={{
+            marginBottom: 5,
+            fontFamily: AppFontStyle.bodyMedium.fontFamily,
+            fontSize: windowWidth * 0.055,
+          }}
         >
           {streakCount}
         </AppText>
@@ -65,22 +77,20 @@ export default AchievementCard;
 
 const styles = StyleSheet.create({
   achievementContainer: {
-    marginTop: 60,
+    marginVertical: 30,
     height: 83,
     borderRadius: 13,
     backgroundColor: AppColors.blueMuted40,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
   achievementContent: {
     alignItems: "center",
-    marginHorizontal: 15,
   },
   verticalLine: {
     height: "80%",
     width: 1,
     backgroundColor: AppColors.white,
-    marginHorizontal: 15,
   },
 });

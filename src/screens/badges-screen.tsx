@@ -19,6 +19,8 @@ const { width: screenWidth } = Dimensions.get("window");
 const MAX_TRANSLATION_PERCENT = -50; // Adjust this value as needed
 const MIN_TRANSLATION_PERCENT = 42; // Adjust this value as needed
 
+const windowWidth = Dimensions.get("window").width;
+
 const BadgesScreen = () => {
   const [selectedView, setSelectedView] = useState<"badges" | "levels">(
     "badges"
@@ -82,7 +84,7 @@ const BadgesScreen = () => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -93,8 +95,8 @@ const BadgesScreen = () => {
           onPress={() => handleViewChange("badges")}
         >
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.titleButton}
           >
             {t("profile.gamification.badges")}
@@ -111,8 +113,8 @@ const BadgesScreen = () => {
           onPress={() => handleViewChange("levels")}
         >
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.titleButton}
           >
             {t("profile.gamification.levels")}
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 4,
     borderRadius: 50,
     borderBottomColor: AppColors.blue300,
-    width: 150,
+    width: windowWidth * 0.39,
   },
   selectedHorizontalLine: {
     borderBottomColor: AppColors.blue100,

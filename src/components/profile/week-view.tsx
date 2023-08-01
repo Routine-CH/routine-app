@@ -21,15 +21,11 @@ const WeekView: React.FC<WeekViewProps> = ({ journalDays }) => {
 
   return (
     <View style={styles.container}>
-      <AppText
-        fontStyle='heading3'
-        colorStyle='black64'
-        style={{ marginLeft: 20 }}
-      >
+      <AppText fontStyle='heading3' colorStyle='black64'>
         {t("profile.gamification.your")} {t("profile.gamification.week")}
       </AppText>
       <ScrollView horizontal>
-        <View style={[styles.statisticsContainer, { marginLeft: 20 }]}>
+        <View style={[styles.statisticsContainer]}>
           <AppText fontStyle='heading4' colorStyle='black64'>
             {t("profile.gamification.completed")}{" "}
             {t("profile.gamification.todos")}
@@ -38,9 +34,9 @@ const WeekView: React.FC<WeekViewProps> = ({ journalDays }) => {
             <WeekCard data={data1} labels={labels} color={color1} />
           </View>
         </View>
-        <View style={[styles.statisticsContainer, { marginRight: 20 }]}>
+        <View style={[styles.statisticsContainer]}>
           <AppText fontStyle='heading4' colorStyle='black64'>
-            {t("profile.gamification.reached")}{" "}
+            {t("profile.gamification.reached")}
             {t("profile.gamification.goals")}
           </AppText>
           <View style={styles.card}>
@@ -48,7 +44,7 @@ const WeekView: React.FC<WeekViewProps> = ({ journalDays }) => {
           </View>
         </View>
       </ScrollView>
-      <View style={{ marginHorizontal: 20, marginTop: 30 }}>
+      <View style={{ marginTop: 30 }}>
         <AppText fontStyle='heading4' colorStyle='black64'>
           {t("profile.gamification.written")}{" "}
           {t("profile.gamification.journal-entries")}
@@ -63,14 +59,14 @@ export default WeekView;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 60,
+    marginTop: 50,
   },
   statisticsContainer: {
     marginTop: 30,
     marginRight: 10,
   },
   card: {
-    marginTop: 30,
+    marginTop: 20,
     width: 350,
     height: 350,
     backgroundColor: AppColors.blueMuted30,

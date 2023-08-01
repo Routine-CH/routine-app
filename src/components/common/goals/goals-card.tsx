@@ -1,20 +1,20 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import Svg, { LinearGradient, Rect, Stop } from "react-native-svg";
 import AppColors from "../../../utils/constants/colors";
+import AppFontStyle from "../../../utils/constants/font-style";
 import AppText from "../typography/app-text";
 import WorldIcon from "./icons-svg/world-icon";
+
 interface GoalProps {
-  //   image: any;
   title: string;
   description: string;
   displayHorizontalScroll?: boolean;
 }
 
-const GoalsCard: React.FC<GoalProps> = ({
-  /*  image,  */ title,
-  description,
-}) => {
+const windowWidth = Dimensions.get("window").width;
+
+const GoalsCard: React.FC<GoalProps> = ({ title, description }) => {
   return (
     <View style={[styles.container]}>
       <View style={styles.card}>
@@ -37,13 +37,26 @@ const GoalsCard: React.FC<GoalProps> = ({
         </Svg>
         <View style={styles.textfields}>
           <AppText
-            fontStyle='heading4'
             colorStyle='black64'
-            style={{ marginBottom: 10 }}
+            style={{
+              fontFamily: AppFontStyle.bodyMedium.fontFamily,
+              fontSize: AppFontStyle.heading4.fontSize,
+            }}
+            numberOfLines={1}
+            ellipsizeMode='tail'
           >
             {title}
           </AppText>
-          <AppText fontStyle='body' colorStyle='black64'>
+          <AppText
+            colorStyle='black64'
+            style={{
+              marginTop: 5,
+              fontFamily: AppFontStyle.body.fontFamily,
+              fontSize: AppFontStyle.body.fontSize,
+            }}
+            numberOfLines={2}
+            ellipsizeMode='tail'
+          >
             {description}
           </AppText>
         </View>
@@ -57,17 +70,18 @@ export default GoalsCard;
 const styles = StyleSheet.create({
   container: { alignItems: "center", flex: 1, marginRight: 15 },
   card: {
-    width: "100%",
-    height: 120,
+    width: windowWidth * 0.84,
     backgroundColor: AppColors.blueMuted40,
     borderRadius: 13,
     flexDirection: "row",
     alignItems: "center",
-    padding: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
   },
   textfields: {
-    width: 210,
     marginLeft: 15,
+    height: 72,
+    width: windowWidth * 0.49,
   },
   iconContainer: {
     height: 72,

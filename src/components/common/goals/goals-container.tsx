@@ -1,13 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { API_BASE_URL } from "../../../utils/config/config";
 import { UserGoals } from "../../../utils/types/types";
 import AddButton from "../buttons/add-button";
 import GoalsCard from "./goals-card";
 import GoalsScrollView from "./goals-container/goals-scroll-view";
 import NoGoalsCard from "./goals-container/no-goals-card";
+
+const windowWidth = Dimensions.get("window").width;
 
 const GoalsContainer: React.FC = () => {
   const [userGoals, setUserGoals] = useState<UserGoals[]>([]);
@@ -70,11 +72,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 30,
   },
   buttonStyles: {
     position: "absolute",
     bottom: -30,
-    right: 35,
+    right: windowWidth * 0.06,
   },
 });

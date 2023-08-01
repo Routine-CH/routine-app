@@ -23,7 +23,7 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
   children,
 }) => {
   // get current status bar height of device to add it as a padding in the view
-  const statusBarHeight = getStatusBarHeight();
+  const statusBarHeight = Math.max(getStatusBarHeight(), 40);
 
   return (
     <View
@@ -37,6 +37,7 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
       <ScrollView
         style={{
           flex: 1,
+          paddingVertical: 10,
           paddingHorizontal: defaultPadding ? windowWidth * 0.05 : 0,
           ...style,
         }}

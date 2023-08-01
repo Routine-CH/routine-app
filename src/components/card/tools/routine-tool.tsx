@@ -54,10 +54,10 @@ export default RoutineTool;
 
 const styles = StyleSheet.create({
   toolContainer: {
-    height: windowWidth * 0.395,
-    width: windowWidth * 0.395,
+    height: windowWidth * 0.43,
+    width: windowWidth * 0.43,
     borderRadius: 13,
-    marginVertical: windowWidth * 0.025,
+    marginVertical: windowWidth * 0.022,
     backgroundColor: AppColors.blue100,
     position: "relative",
     alignItems: "center",

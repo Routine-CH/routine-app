@@ -13,7 +13,7 @@ const ResetPassword: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <AppText fontStyle="heading3" colorStyle="black70">
+      <AppText fontStyle='heading3' colorStyle='black70'>
         {t("profile.profile-settings.reset-password")}
       </AppText>
       <View style={styles.formContainer}>
@@ -44,8 +44,8 @@ const ResetPassword: React.FC = () => {
       </View>
       <View style={styles.buttonContainer}>
         <FlatButton
-          fontStyle="bodyMedium"
-          colorStyle="white"
+          fontStyle='bodyMedium'
+          colorStyle='white'
           buttonStyle={styles.button}
           onPress={() => navigation.goBack()}
         >
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   container: { marginTop: 60 },
   formContainer: {
     width: "100%",
-    marginBottom: 60,
+    marginBottom: 30,
     marginTop: 30,
     justifyContent: "center",
   },
