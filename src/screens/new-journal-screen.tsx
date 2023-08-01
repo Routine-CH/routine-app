@@ -143,7 +143,6 @@ const NewJournalScreen = () => {
             />
           ))}
         </View>
-
         <IconTextButton
           iconName='add-outline'
           size={30}

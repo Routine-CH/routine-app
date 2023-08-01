@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Dimensions,
   StyleProp,
   StyleSheet,
   TouchableOpacity,
@@ -17,6 +18,8 @@ interface ButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
+const windowWidth = Dimensions.get("window").width;
+
 const IconTextButton: React.FC<ButtonProps> = ({
   iconName,
   size,
@@ -30,11 +33,14 @@ const IconTextButton: React.FC<ButtonProps> = ({
         name={iconName}
         size={size}
         color={AppColors.blue100}
-        style={{ marginLeft: 18, marginRight: 20 }}
+        style={{
+          marginLeft: windowWidth * 0.05,
+          marginRight: windowWidth * 0.03,
+        }}
       />
       <AppText
-        fontStyle="body"
-        colorStyle="black70"
+        fontStyle='body'
+        colorStyle='black70'
         style={{ paddingVertical: 16 }}
       >
         {title}
