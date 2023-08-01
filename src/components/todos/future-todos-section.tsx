@@ -58,7 +58,7 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
               <View style={{ flexShrink: 1 }}>
                 <DateCard date={new Date(date)} />
               </View>
-              <View style={{ flexShrink: 1, flexGrow: 1 }}>
+              <View style={{ flexShrink: 1, flexGrow: 1, marginLeft: 15 }}>
                 {todos.map((todo: UserTodo) => (
                   <Todo
                     title={todo.title}
