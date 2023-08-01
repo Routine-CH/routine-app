@@ -1,5 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { format, parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
@@ -20,16 +19,19 @@ const ProfileScreen = () => {
   const { userProfileData } = useGamificationUser();
 
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const defaultAvatar = "../assets/misc/stones.jpg";
   const navigateToScreen = (screenName: string) => {
-    navigation.navigate("Profile", { screen: screenName });
+    navigation.navigate("SubRoutes", { screen: screenName });
   };
 
   const navigateToProfileSettingsScreen = () => {
     if (userProfileData && userProfileData.id !== null) {
-      navigation.navigate("ProfileSettings", { id: userProfileData.id });
+      navigation.navigate("SubRoutes", {
+        screen: "ProfileSettings",
+        params: { id: userProfileData.id },
+      });
     } else {
       console.log("No user gamification data");
     }

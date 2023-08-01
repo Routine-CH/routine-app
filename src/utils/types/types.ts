@@ -15,15 +15,12 @@ export type AuthenticatedStackParamList = {
   JournalEdit: { id: string };
   JournalNew: undefined;
   Calendar: undefined;
-  Discover: {
+  CameraView: undefined;
+  SubRoutes: {
     screen?: string;
     params?: {
-      DiscoverTimer?: undefined;
-      DiscoverJournals?: undefined;
-      DiscoverTodos?: undefined;
-      DiscoverNotes?: undefined;
-      DiscoverGoals?: undefined;
-      DiscoverAudio?: { audio: AudioParams | null };
+      id?: string;
+      DiscoverAudio?: any;
     };
   };
   Notes: undefined;
@@ -37,12 +34,8 @@ export type AuthenticatedStackParamList = {
   GoalsEdit: { id: string };
   GoalsNew: undefined;
   Timer: undefined;
-  Profile: {
-    screen?: string;
-    params?: {
-      ProfileBadges?: undefined;
-    };
-  };
+  ProfileBadges?: undefined;
+  Profile: undefined;
   ProfileNotifications: { notificationSettings: NotificationSettings };
   ProfileSettings: { id: string };
 };
@@ -231,7 +224,6 @@ export interface IFormTodoInputs {
 }
 
 export interface image {
-  id: string;
   imageUrl: string;
 }
 

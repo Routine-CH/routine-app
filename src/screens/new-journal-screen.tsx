@@ -1,5 +1,4 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -23,7 +22,7 @@ import {
 const NewJournalScreen = () => {
   const { t } = useTranslation();
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedMoods, setSelectedMoods] = useState<
     { id: string; type: string }[]
@@ -136,7 +135,7 @@ const NewJournalScreen = () => {
               key={index}
               text={typeof mood === "string" ? mood : mood.type}
               style={styles.chip}
-              onDelete={() => {
+              onPress={() => {
                 if (typeof mood === "object") {
                   handleDeleteMood(mood.id);
                 }

@@ -17,13 +17,13 @@ const AudioCard: React.FC<AudioProps> = ({ image, title, time }) => {
         <View style={styles.bottomContainer}>
           <View>
             <AppText
-              fontStyle="bodyMedium"
-              colorStyle="blue100"
+              fontStyle='bodyMedium'
+              colorStyle='blue100'
               style={{ marginBottom: 5 }}
             >
               {title}
             </AppText>
-            <AppText fontStyle="information" colorStyle="black70">
+            <AppText fontStyle='information' colorStyle='black70'>
               {time}
             </AppText>
           </View>
@@ -39,6 +39,8 @@ export default AudioCard;
 const styles = StyleSheet.create({
   container: {
     shadowColor: "#959DA5",
+    backgroundColor: AppColors.white,
+    borderRadius: 10,
     shadowOffset: { width: 0, height: 9 } as {
       width: number;
       height: number;

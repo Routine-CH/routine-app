@@ -1,5 +1,8 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -39,11 +42,10 @@ const getIconComponent = (titleKey: string) => {
 const HomeScreen: React.FC = () => {
   const { currentUser, refetch } = useUserMe();
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
   const navigateToScreen = (screenName: string) => {
-    // @ts-ignore: TODO: fix this
-    navigation.navigate(`${screenName}`);
+    navigation.navigate("SubRoutes", { screen: screenName });
   };
 
   // refetching of data when changing tabs, so that favourite tools are updated
@@ -99,7 +101,9 @@ const HomeScreen: React.FC = () => {
             </View>
             <View style={styles.editToolsContainer}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("EditTools")}
+                onPress={() =>
+                  navigation.navigate("SubRoutes", { screen: "EditTools" })
+                }
               >
                 <AppText fontStyle='body' colorStyle='black64'>
                   {t("general.edit")}

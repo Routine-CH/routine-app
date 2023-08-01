@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../../utils/config/config";
 import { UserJournals } from "../../utils/types/types";
 
 export const deleteUserJournalRequest = async (
-  journal: UserJournals | null
+  journal: UserJournals | undefined
 ) => {
   try {
     if (journal) {

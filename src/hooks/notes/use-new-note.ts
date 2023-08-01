@@ -1,9 +1,9 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { createNoteRequest } from "../../data/note/create-request";
+import { useStore } from "../../store/camera-image-store";
 import { ToastType } from "../../utils/types/enums";
 import {
   AuthenticatedStackParamList,
@@ -13,17 +13,17 @@ import {
 const useNewNote = () => {
   const { control, handleSubmit } = useForm<IFormNoteInputs>();
   const [errorMessage, setErrorMessage] = useState("");
+  const images = useStore((state) => state.images);
   const navigation =
-    useNavigation<BottomTabNavigationProp<AuthenticatedStackParamList>>();
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const handleNewNote = useCallback(
-    async ({ title, description, images = [] }: IFormNoteInputs) => {
+    async ({ title, description }: IFormNoteInputs) => {
       const response = await createNoteRequest({
         title,
         description,
         images: images.map((image) => ({
-          id: image.id,
-          imageUrl: image.imageUrl,
+          imageUrl: image,
         })),
       });
 
