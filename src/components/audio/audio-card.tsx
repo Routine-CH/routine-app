@@ -1,6 +1,7 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
+import AppFontStyle from "../../utils/constants/font-style";
 import AppText from "../common/typography/app-text";
 
 interface AudioProps {
@@ -8,6 +9,8 @@ interface AudioProps {
   title: string;
   time: string;
 }
+
+const windowWidth = Dimensions.get("window").width;
 
 const AudioCard: React.FC<AudioProps> = ({ image, title, time }) => {
   return (
@@ -17,9 +20,12 @@ const AudioCard: React.FC<AudioProps> = ({ image, title, time }) => {
         <View style={styles.bottomContainer}>
           <View>
             <AppText
-              fontStyle='bodyMedium'
               colorStyle='blue100'
-              style={{ marginBottom: 5 }}
+              style={{
+                marginBottom: 5,
+                fontSize: windowWidth * 0.047,
+                fontFamily: AppFontStyle.bodyMedium.fontFamily,
+              }}
             >
               {title}
             </AppText>
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
     height: 104,
   },
   bottomContainer: {
-    marginHorizontal: 20,
+    marginHorizontal: windowWidth * 0.045,
     height: 68,
     flexDirection: "row",
     alignItems: "center",
