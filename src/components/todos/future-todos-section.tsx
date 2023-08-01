@@ -33,16 +33,16 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
   const { t } = useTranslation();
 
   return (
-    <>
+    <View style={styles.container}>
       <AppText
-        fontStyle="heading3"
-        colorStyle="black64"
+        fontStyle='heading3'
+        colorStyle='black64'
         style={{ marginTop: 60, marginBottom: 30 }}
       >
         {t("todos.future")} {t("profile.gamification.todos")}
       </AppText>
       <TouchableWithoutFeedback onPress={handleModalPress}>
-        <AppText fontStyle={"body"} colorStyle="black64">
+        <AppText fontStyle={"body"} colorStyle='black64'>
           {currentWeek}
         </AppText>
       </TouchableWithoutFeedback>
@@ -58,7 +58,7 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
               <View style={{ flexShrink: 1 }}>
                 <DateCard date={new Date(date)} />
               </View>
-              <View style={{ flexShrink: 1, flexGrow: 1, marginLeft: 15 }}>
+              <View style={{ flexShrink: 1, flexGrow: 1 }}>
                 {todos.map((todo: UserTodo) => (
                   <Todo
                     title={todo.title}
@@ -76,20 +76,21 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
           ))
         ) : (
           <EmptyState
-            type="todo"
+            type='todo'
             title={t("todos.no-todos-title")}
             description={t("todos.no-future-todos")}
             style={{ backgroundColor: AppColors.greenMuted30 }}
           />
         )}
       </View>
-    </>
+    </View>
   );
 };
 
 export default FutureTodosSection;
 
 const styles = StyleSheet.create({
+  container: { marginBottom: 50 },
   calendarContainer: {
     flexDirection: "row",
     flexWrap: "wrap",

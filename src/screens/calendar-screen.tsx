@@ -60,7 +60,11 @@ const CalendarScreen: React.FC = () => {
         setSelectedChip={setSelectedChip}
       />
       <TouchableOpacity onPress={handleModalPress}>
-        <AppText fontStyle={"body"} colorStyle='black64' style={styles.margin}>
+        <AppText
+          fontStyle={"body"}
+          colorStyle='black64'
+          style={styles.calendarText}
+        >
           {currentWeek}
         </AppText>
       </TouchableOpacity>
@@ -83,7 +87,10 @@ const CalendarScreen: React.FC = () => {
 export default CalendarScreen;
 
 const styles = StyleSheet.create({
-  margin: {
+  calendarText: {
     marginTop: 30,
+  },
+  margin: {
+    marginVertical: 30,
   },
 });

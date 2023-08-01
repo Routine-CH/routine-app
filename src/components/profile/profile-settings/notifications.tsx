@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
+import AppFontStyle from "../../../utils/constants/font-style";
 import AppText from "../../common/typography/app-text";
 import IndividualNotifications from "./individual-notifications";
 
@@ -10,6 +11,8 @@ type NotificationsProp = {
   navigateTo: () => void;
   mutedAllNotifications: boolean;
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const Notifications: React.FC<NotificationsProp> = ({
   navigateTo,
@@ -36,31 +39,38 @@ const Notifications: React.FC<NotificationsProp> = ({
             name='notifications-off'
             size={35}
             color={AppColors.blue100}
-            style={{ marginRight: 20 }}
+            style={{ marginRight: windowWidth * 0.05 }}
           />
           <AppText
-            fontStyle='body'
             colorStyle='black70'
-            style={{ width: "65%", flexWrap: "wrap" }}
+            style={{
+              width: windowWidth * 0.55,
+              flexWrap: "wrap",
+              fontSize: windowWidth * 0.046,
+              fontFamily: AppFontStyle.body.fontFamily,
+            }}
           >
             {t(
               "profile.profile-settings.notifications.activate-all-notifications"
             )}
           </AppText>
+          <Icon
+            name='toggle'
+            size={56}
+            color={isToggled ? AppColors.blue100 : AppColors.greyMuted}
+            style={{
+              transform: [{ scaleX: isToggled ? 1 : -1 }],
+            }}
+          />
         </View>
-        <Icon
-          name='toggle'
-          size={56}
-          color={isToggled ? AppColors.blue100 : AppColors.greyMuted}
-          style={{
-            transform: [{ scaleX: isToggled ? 1 : -1 }],
-          }}
-        />
       </TouchableOpacity>
       <AppText
-        fontStyle='bodyMedium'
         colorStyle='black70'
-        style={{ marginBottom: 30 }}
+        style={{
+          marginBottom: 30,
+          fontSize: windowWidth * 0.05,
+          fontFamily: AppFontStyle.bodyMedium.fontFamily,
+        }}
       >
         {t(
           "profile.profile-settings.notifications.notifications-you-will-receive"
@@ -97,12 +107,15 @@ const styles = StyleSheet.create({
   allNotificationsContainer: {
     width: "100%",
     marginTop: 30,
-    marginBottom: 60,
+    marginBottom: 30,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   textContainer: {
     flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });

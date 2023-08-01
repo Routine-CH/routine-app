@@ -1,6 +1,7 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
+import AppFontStyle from "../../utils/constants/font-style";
 import AppText from "../common/typography/app-text";
 
 interface levelProps {
@@ -10,6 +11,8 @@ interface levelProps {
   points: string;
   status: boolean;
 }
+
+const windowWidth = Dimensions.get("window").width;
 
 const Level: React.FC<levelProps> = ({
   image,
@@ -25,18 +28,34 @@ const Level: React.FC<levelProps> = ({
         {!isTrailblazer && status && <View style={styles.line} />}
         <Image style={styles.image} source={image} />
       </View>
-      <View>
-        <AppText colorStyle="black70" fontStyle="filters" style={styles.text}>
+      <View style={styles.textContainer}>
+        <AppText
+          colorStyle='black70'
+          style={{
+            fontSize: windowWidth * 0.043,
+            fontFamily: AppFontStyle.filters.fontFamily,
+          }}
+        >
           {level}
         </AppText>
         <AppText
-          colorStyle="black70"
-          fontStyle="bodyMedium"
-          style={styles.text}
+          colorStyle='black70'
+          fontStyle='bodyMedium'
+          style={{
+            fontSize: windowWidth * 0.05,
+            fontFamily: AppFontStyle.bodyMedium.fontFamily,
+            marginVertical: 3,
+          }}
         >
           {title}
         </AppText>
-        <AppText colorStyle="black70" fontStyle="filters" style={styles.text}>
+        <AppText
+          colorStyle='black70'
+          style={{
+            fontSize: windowWidth * 0.043,
+            fontFamily: AppFontStyle.filters.fontFamily,
+          }}
+        >
           {points}
         </AppText>
       </View>
@@ -58,7 +77,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     alignItems: "center",
-    marginRight: 40,
+    marginRight: windowWidth * 0.07,
   },
   line: {
     position: "absolute",
@@ -76,7 +95,9 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderRadius: 50,
   },
-  text: {
-    marginBottom: 5,
+  textContainer: {
+    height: 90,
+    justifyContent: "center",
+    width: windowWidth * 0.5,
   },
 });

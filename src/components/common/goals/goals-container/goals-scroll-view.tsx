@@ -16,7 +16,6 @@ const GoalsScrollView: React.FC<GoalsScrollViewProps> = ({ children }) => {
 const styles = StyleSheet.create({
   horizontalScroll: {
     flexDirection: "row",
-    marginLeft: 15,
     flex: 1,
   },
 });

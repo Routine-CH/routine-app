@@ -3,7 +3,13 @@ import {
   RouteProp,
   useNavigation,
 } from "@react-navigation/native";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -25,6 +31,8 @@ type ProfileSettingsRouteProp = RouteProp<
 type ProfileSettingsProps = {
   route: ProfileSettingsRouteProp;
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
   const navigation =
@@ -49,10 +57,21 @@ const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
     >
       <BackButton />
       <View style={styles.profilePictureContainer}>
-        <Image source={require(defaultAvatar)} style={styles.profilePicture} />
-        <TouchableOpacity style={styles.button}>
-          <Icon name='pencil' size={15} color={AppColors.white} />
-        </TouchableOpacity>
+        <View style={styles.pictureContainer}>
+          <Image
+            source={require(defaultAvatar)}
+            style={styles.profilePicture}
+          />
+          <View style={styles.pictureOuterStyle}>
+            <TouchableOpacity style={styles.button}>
+              <Icon
+                name='pencil'
+                size={windowWidth * 0.055}
+                color={AppColors.white}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
       <UserInformation username={user.username} email={user.email} />
       <ResetPassword />
@@ -72,25 +91,34 @@ export default ProfileSettingsScreen;
 
 const styles = StyleSheet.create({
   profilePictureContainer: {
-    position: "relative",
     justifyContent: "center",
     alignItems: "center",
   },
+  pictureContainer: {
+    position: "relative",
+  },
+  pictureOuterStyle: {
+    width: windowWidth * 0.12,
+    height: windowWidth * 0.12,
+    position: "absolute",
+    bottom: -5,
+    right: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    backgroundColor: AppColors.white,
+  },
   profilePicture: {
-    height: 125,
-    width: 125,
+    height: windowWidth * 0.4,
+    width: windowWidth * 0.4,
     borderRadius: 100,
-    marginBottom: 30,
   },
   button: {
     backgroundColor: AppColors.blue100,
-    width: 25,
-    height: 25,
+    width: windowWidth * 0.1,
+    height: windowWidth * 0.1,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute",
-    right: 110,
-    top: 95,
   },
 });

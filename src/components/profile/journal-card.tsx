@@ -1,14 +1,17 @@
 import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
 import { de } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
+import AppFontStyle from "../../utils/constants/font-style";
 import { JournalDay } from "../../utils/types/profile/types";
 import AppText from "../common/typography/app-text";
 
 type JournalCardProps = {
   journalDays: JournalDay[];
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const JournalCard: React.FC<JournalCardProps> = ({ journalDays }) => {
   const { t } = useTranslation();
@@ -49,8 +52,11 @@ const JournalCard: React.FC<JournalCardProps> = ({ journalDays }) => {
             ]}
           >
             <AppText
-              fontStyle='body'
               colorStyle={isJournalDay ? "white" : "black64"}
+              style={{
+                fontSize: windowWidth * 0.045,
+                fontFamily: AppFontStyle.body.fontFamily,
+              }}
             >
               {t(
                 `profile.gamification.${format(
@@ -69,9 +75,9 @@ const JournalCard: React.FC<JournalCardProps> = ({ journalDays }) => {
 export default JournalCard;
 const styles = StyleSheet.create({
   outerContainer: {
-    height: 77,
+    paddingVertical: windowWidth * 0.034,
     width: "100%",
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 30,
     borderRadius: 13,
     backgroundColor: AppColors.blueMuted40,
@@ -80,8 +86,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   innerContainer: {
-    height: 43,
-    width: 43,
+    height: windowWidth * 0.11,
+    width: windowWidth * 0.11,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",

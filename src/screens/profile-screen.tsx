@@ -41,8 +41,9 @@ const ProfileScreen = () => {
     <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
+      defaultPadding
     >
-      <View style={{ paddingHorizontal: 20 }}>
+      <View>
         <View
           style={{
             flexDirection: "row",
@@ -98,7 +99,6 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   wrapper: {
     marginTop: 60,
-    marginHorizontal: 20,
   },
   iconContainer: {
     position: "absolute",

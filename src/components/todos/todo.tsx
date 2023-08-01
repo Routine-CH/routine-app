@@ -67,13 +67,13 @@ const Todo: React.FC<TodoProps> = ({
           style={[styles.iconContainer, { backgroundColor: AppColors.red }]}
           onPress={handleModalPress}
         >
-          <Icon name="trash-outline" size={25} style={styles.actionIconStyle} />
+          <Icon name='trash-outline' size={25} style={styles.actionIconStyle} />
         </RectButton>
         <RectButton
           style={[styles.iconContainer, { backgroundColor: AppColors.blue200 }]}
           onPress={onEditTodo}
         >
-          <Icon name="pencil" size={25} style={styles.actionIconStyle} />
+          <Icon name='pencil' size={25} style={styles.actionIconStyle} />
         </RectButton>
       </View>
     );
@@ -100,10 +100,10 @@ const Todo: React.FC<TodoProps> = ({
             <TouchableWithoutFeedback onPress={onPress}>
               <View>
                 <AppText
-                  fontStyle="body"
-                  colorStyle="black64"
+                  fontStyle='body'
+                  colorStyle='black64'
                   numberOfLines={1}
-                  ellipsizeMode="tail"
+                  ellipsizeMode='tail'
                   style={[
                     styles.textStyle,
                     style,
@@ -115,10 +115,10 @@ const Todo: React.FC<TodoProps> = ({
                 </AppText>
                 {description && (
                   <AppText
-                    fontStyle="information"
-                    colorStyle="black64"
+                    fontStyle='information'
+                    colorStyle='black64'
                     numberOfLines={1}
-                    ellipsizeMode="tail"
+                    ellipsizeMode='tail'
                     style={style}
                   >
                     {description}
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   futureTodoContainer: {
-    minWidth: 205,
+    width: "100%",
   },
   iconStyle: {
     color: AppColors.blue200,
