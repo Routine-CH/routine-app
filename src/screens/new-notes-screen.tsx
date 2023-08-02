@@ -20,9 +20,9 @@ const windowWidth = Dimensions.get("window").width;
 
 const NewNotesScreen = () => {
   const { t } = useTranslation();
-  const { control, handleSubmit, handleNewNote, onErrors } = useNewNote();
-
   const images = useStore((state) => state.images);
+  const { control, handleSubmit, handleNewNote, onErrors } = useNewNote(images);
+
   const { removeImage, addImage } = useStore();
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
@@ -42,12 +42,20 @@ const NewNotesScreen = () => {
       if (!result.canceled) {
         result.assets.forEach((asset) => {
           if (asset.uri) {
-            addImage(asset.uri);
+            const image = {
+              uri: asset.uri,
+              type: asset.type || "",
+              filename: asset.fileName || "",
+            };
+
+            addImage(image);
           }
         });
       }
     }
   };
+
+  console.log(images);
 
   return (
     <ScrollViewScreenWrapper
@@ -123,16 +131,16 @@ const NewNotesScreen = () => {
         {images.length > 0 &&
           images.map((image) => {
             return (
-              <View key={image} style={{ marginBottom: 15 }}>
+              <View key={image.uri} style={{ marginBottom: 15 }}>
                 <View style={styles.closeIcon}>
                   <Icon
                     name='close'
                     size={25}
                     color={AppColors.white}
-                    onPress={() => removeImage(image)}
+                    onPress={() => removeImage(image.uri)}
                   />
                 </View>
-                <Image source={{ uri: image }} style={styles.image} />
+                <Image source={{ uri: image.uri }} style={styles.image} />
               </View>
             );
           })}

@@ -36,7 +36,13 @@ export const CameraView: React.FC = () => {
       const options = { quality: 0.5, base64: true };
       await cameraRef.current
         .takePictureAsync(options)
-        .then((data) => addImage(data.uri))
+        .then((data) => {
+          const image = {
+            uri: data.uri,
+          };
+
+          addImage(image);
+        })
         .finally(() => navigation.goBack());
     }
   };

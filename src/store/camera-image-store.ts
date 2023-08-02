@@ -1,25 +1,26 @@
 import { create } from "zustand";
+import { Image } from "../utils/types/types";
 
-type ImageState = {
-  images: string[];
-  addImage: (imageUri: string) => void;
+export type ImageState = {
+  images: Image[];
+  addImage: (image: Image) => void;
   removeImage: (imageUri: string) => void;
   resetImages: () => void;
 };
 
 export const useStore = create<ImageState>((set) => ({
   images: [],
-  addImage: (imageUri) =>
-    set((state) => {
+  addImage: (image) =>
+    set((state: ImageState) => {
       if (state.images.length < 4) {
-        return { images: [...state.images, imageUri] };
+        return { images: [...state.images, image] };
       } else {
         return state;
       }
     }),
   removeImage: (imageUri) =>
-    set((state) => ({
-      images: state.images.filter((image) => image !== imageUri),
+    set((state: ImageState) => ({
+      images: state.images.filter((image) => image.uri !== imageUri),
     })),
   resetImages: () => set({ images: [] }),
 }));

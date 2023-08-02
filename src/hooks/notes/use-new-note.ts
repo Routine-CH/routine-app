@@ -3,17 +3,16 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { createNoteRequest } from "../../data/note/create-request";
-import { useStore } from "../../store/camera-image-store";
 import { ToastType } from "../../utils/types/enums";
 import {
   AuthenticatedStackParamList,
   IFormNoteInputs,
+  Image,
 } from "../../utils/types/types";
 
-const useNewNote = () => {
+const useNewNote = (images: Image[]) => {
   const { control, handleSubmit } = useForm<IFormNoteInputs>();
   const [errorMessage, setErrorMessage] = useState("");
-  const images = useStore((state) => state.images);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
@@ -22,10 +21,10 @@ const useNewNote = () => {
       const response = await createNoteRequest({
         title,
         description,
-        images: images.map((image) => ({
-          imageUrl: image,
-        })),
+        images,
       });
+
+      // console.log(response);
 
       if (typeof response === "string") {
         setErrorMessage(response);

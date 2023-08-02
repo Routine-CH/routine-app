@@ -3,19 +3,24 @@ import { showToast } from "../../components/common/toast/show-toast";
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
 import { ToastType } from "../../utils/types/enums";
-import { IFormNoteInputs } from "../../utils/types/types";
+import {
+  AxiosErrorWithData,
+  IFormNoteInputs,
+  Image,
+} from "../../utils/types/types";
 
 export const createNoteRequest = async ({
   title,
   description,
-  images = [],
-}: IFormNoteInputs) => {
+  images,
+}: IFormNoteInputs & { images: Image[] }) => {
   console.log("Data received");
   try {
     if (title && description) {
       const token = await AsyncStorage.getItem("access_token");
       if (token) {
         console.log("token available");
+        console.log("here images", images);
 
         // Initialize newNoteData as FormData
         let newNoteData = new FormData();
@@ -24,9 +29,16 @@ export const createNoteRequest = async ({
 
         // Check if images are available before adding to newNoteData
         if (images && images.length > 0) {
-          images.forEach((image, index) => {
-            newNoteData.append(`images[${index}][id]`, image.imageUrl);
-            newNoteData.append(`images[${index}][imageUrl]`, image.imageUrl);
+          images.forEach((image) => {
+            const randomIndex = Math.floor(Math.random() * images.length);
+            // @ts-ignore: Unreachable code error
+            newNoteData.append("images", {
+              uri: image.uri.replace("file://", ""),
+              type: image.type || "image/jpeg",
+              name: `image${randomIndex}.${
+                image.type ? image.type.split("/")[1] : "jpg"
+              }}`,
+            });
           });
         }
 
@@ -58,6 +70,9 @@ export const createNoteRequest = async ({
       console.log("Some data is empty");
     }
   } catch (error) {
-    console.log(error);
+    const axiosError = error as AxiosErrorWithData;
+    console.log("headers", axiosError.response.headers);
+    console.log("data", axiosError.response.data);
+    console.log("response", axiosError.response);
   }
 };
