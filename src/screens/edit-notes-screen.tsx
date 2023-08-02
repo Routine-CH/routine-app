@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
@@ -33,11 +33,12 @@ type ImageItem = {
   imageUrl: string;
 };
 
+const windowWidth = Dimensions.get("window").width;
+
 const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
-  const [image] = useState(null);
   const { note } = useNoteData(noteId);
   const [images, setImages] = useState<ImageItem[]>([]);
 
@@ -113,25 +114,6 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
           }}
         />
       </View>
-      <View style={styles.imageContainer}>
-        {images.map((image) => (
-          <View key={image.id} style={{ marginBottom: 30 }}>
-            <View style={styles.closeIcon}>
-              <Icon
-                name='close'
-                size={25}
-                color={AppColors.white}
-                onPress={() => handleDelete(image.id)}
-              />
-            </View>
-            <Image
-              key={image.id}
-              source={{ uri: image.imageUrl }}
-              style={styles.image}
-            />
-          </View>
-        ))}
-      </View>
       <View style={styles.iconContainer}>
         <IconButton
           iconName='camera'
@@ -139,9 +121,26 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
         />
         <IconButton iconName='images' style={styles.iconStyle} />
       </View>
-      {image && (
-        <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
-      )}
+      <View style={styles.imageContainer}>
+        {images.length > 0 &&
+          images.map((image) => (
+            <View key={image.id} style={{ marginBottom: 30 }}>
+              <View style={styles.closeIcon}>
+                <Icon
+                  name='close'
+                  size={25}
+                  color={AppColors.white}
+                  onPress={() => handleDelete(image.id)}
+                />
+              </View>
+              <Image
+                key={image.id}
+                source={{ uri: image.imageUrl }}
+                style={styles.image}
+              />
+            </View>
+          ))}
+      </View>
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
@@ -155,19 +154,21 @@ const styles = StyleSheet.create({
     color: AppColors.blue100,
   },
   contentContainer: {
-    minHeight: 330,
+    minHeight: 300,
     marginVertical: 30,
     backgroundColor: AppColors.blueMuted20,
     borderRadius: 10,
   },
   imageContainer: {
     flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     width: "100%",
-    gap: 10,
+    marginVertical: 30,
   },
   image: {
-    height: 158,
-    width: 157,
+    height: windowWidth * 0.43,
+    width: windowWidth * 0.43,
     borderRadius: 10,
   },
   inputHeadingStyle: {

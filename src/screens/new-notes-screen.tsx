@@ -137,7 +137,6 @@ const NewNotesScreen = () => {
             );
           })}
       </View>
-
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
     color: AppColors.white,
   },
   contentContainer: {
-    minHeight: 330,
+    minHeight: 300,
     marginVertical: 30,
     backgroundColor: AppColors.blueMuted20,
     borderRadius: 10,
