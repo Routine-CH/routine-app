@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -74,49 +75,55 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
       backgroundColor={AppColors.white}
       defaultPadding
     >
-      <View style={styles.buttonContainer}>
-        <BackButton type={true} style={styles.buttonStyle} />
-        <Pressable onPress={handleModalPress}>
-          <Icon
-            name={"ellipsis-vertical"}
-            size={26}
-            color={AppColors.black64}
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <>
+          <View style={styles.buttonContainer}>
+            <BackButton type={true} style={styles.buttonStyle} />
+            <Pressable onPress={handleModalPress}>
+              <Icon
+                name={"ellipsis-vertical"}
+                size={26}
+                color={AppColors.black64}
+              />
+            </Pressable>
+          </View>
+          <View style={styles.contentContainer}>
+            <AppText fontStyle="toast" colorStyle="black70">
+              {formattedDate}
+            </AppText>
+            <AppText
+              fontStyle="heading3"
+              colorStyle="black70"
+              style={{ marginVertical: 15 }}
+            >
+              {note?.title}
+            </AppText>
+            <AppText fontStyle="body" colorStyle="black70">
+              {note?.description}
+            </AppText>
+          </View>
+          <View>
+            {note?.images.map((image, index) => (
+              <Image
+                key={index}
+                source={{ uri: image.imageUrl }}
+                style={styles.image}
+              />
+            ))}
+          </View>
+          <EditDeleteModal
+            title={t("modals.are-you-sure")}
+            description={t("modals.notes")}
+            actionText={t("modals.delete")}
+            isVisible={isModalVisible}
+            onConfirm={deleteNote}
+            navigateTo={() => navigateToNoteEditScreen()}
           />
-        </Pressable>
-      </View>
-      <View style={styles.contentContainer}>
-        <AppText fontStyle='toast' colorStyle='black70'>
-          {formattedDate}
-        </AppText>
-        <AppText
-          fontStyle='heading3'
-          colorStyle='black70'
-          style={{ marginVertical: 15 }}
-        >
-          {note?.title}
-        </AppText>
-        <AppText fontStyle='body' colorStyle='black70'>
-          {note?.description}
-        </AppText>
-      </View>
-      <View>
-        {note?.images.map((image, index) => (
-          <Image
-            key={index}
-            source={{ uri: image.imageUrl }}
-            style={styles.image}
-          />
-        ))}
-      </View>
-      <EditDeleteModal
-        title={t("modals.are-you-sure")}
-        description={t("modals.notes")}
-        actionText={t("modals.delete")}
-        isVisible={isModalVisible}
-        onConfirm={deleteNote}
-        navigateTo={() => navigateToNoteEditScreen()}
-      />
-      <RoutineToast />
+          <RoutineToast />
+        </>
+      )}
     </ScrollViewScreenWrapper>
   );
 };

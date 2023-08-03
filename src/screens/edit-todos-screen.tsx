@@ -12,6 +12,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import SimpleCalendarModal from "../components/common/modals/simple-calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -36,7 +37,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const id = route.params.id;
-  const { todo } = useTodoData(id);
+  const { todo, isLoading } = useTodoData(id);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
@@ -63,79 +64,86 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor='white'
+      backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <SaveButton
-        type={true}
-        onPress={handleSubmit(
-          (data) => handleUpdate({ ...data, id }),
-          onErrors
-        )}
-      />
-      <View style={styles.formContainer}>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <LabelInputField
-              placeholder={t("journal.title")}
-              /* @ts-ignore: TODO: fix this */
-              style={styles.inputField}
-              multiline={true}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value}
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <>
+          <SaveButton
+            type={true}
+            onPress={handleSubmit(
+              (data) => handleUpdate({ ...data, id }),
+              onErrors
+            )}
+          />
+          <View style={styles.formContainer}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <LabelInputField
+                  placeholder={t("journal.title")}
+                  /* @ts-ignore: TODO: fix this */
+                  style={styles.inputField}
+                  multiline={true}
+                  onBlur={onBlur}
+                  onChangeText={(value) => onChange(value)}
+                  value={value}
+                />
+              )}
+              name="title"
+              rules={{
+                required: "Bitte gib deinem Todo ein Titel",
+                minLength: {
+                  value: 5,
+                  message: "Der Titel muss mindestens 5 Zeichen lang sein",
+                },
+              }}
             />
-          )}
-          name='title'
-          rules={{
-            required: "Bitte gib deinem Todo ein Titel",
-            minLength: {
-              value: 5,
-              message: "Der Titel muss mindestens 5 Zeichen lang sein",
-            },
-          }}
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <LabelInputField
-              placeholder={t("notes.note")}
-              /* @ts-ignore: TODO: fix this */
-              style={styles.inputField}
-              multiline={true}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <LabelInputField
+                  placeholder={t("notes.note")}
+                  /* @ts-ignore: TODO: fix this */
+                  style={styles.inputField}
+                  multiline={true}
+                  onBlur={onBlur}
+                  onChangeText={(value) => onChange(value)}
+                  value={value}
+                />
+              )}
+              name="description"
+              rules={{
+                minLength: {
+                  value: 5,
+                  message:
+                    "Deine Notizen müssen mindestens 5 Zeichen lang sein",
+                },
+              }}
             />
-          )}
-          name='description'
-          rules={{
-            minLength: {
-              value: 5,
-              message: "Deine Notizen müssen mindestens 5 Zeichen lang sein",
-            },
-          }}
-        />
-        <TouchableOpacity
-          onPress={handleModalPress}
-          style={styles.iconContainer}
-        >
-          <Icon name='calendar' size={18} color={AppColors.white} />
-          <AppText fontStyle='filters' colorStyle='white'>
-            {isToday(selectedDate)
-              ? t("todos.today")
-              : format(selectedDate, "dd.MM.yy", { locale: de })}
-          </AppText>
-        </TouchableOpacity>
-      </View>
-      <RoutineToast />
-      <SimpleCalendarModal
-        isVisible={isModalVisible}
-        selectedDate={selectedDate}
-        onDayPress={onDayPress}
-      />
+            <TouchableOpacity
+              onPress={handleModalPress}
+              style={styles.iconContainer}
+            >
+              <Icon name="calendar" size={18} color={AppColors.white} />
+              <AppText fontStyle="filters" colorStyle="white">
+                {isToday(selectedDate)
+                  ? t("todos.today")
+                  : format(selectedDate, "dd.MM.yy", { locale: de })}
+              </AppText>
+            </TouchableOpacity>
+          </View>
+          <RoutineToast />
+          <SimpleCalendarModal
+            isVisible={isModalVisible}
+            selectedDate={selectedDate}
+            onDayPress={onDayPress}
+          />
+        </>
+      )}
     </ScrollViewScreenWrapper>
   );
 };

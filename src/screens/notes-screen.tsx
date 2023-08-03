@@ -2,12 +2,12 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import NotesIcon from "../components/card/tools/tools-svg/notes-icon";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
+import EmptyState from "../components/common/empty-state";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import NotesCard from "../components/common/notes/notes-card";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
-import AppText from "../components/common/typography/app-text";
 import { useUserNote } from "../hooks/notes/use-user-note";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
@@ -38,63 +38,61 @@ const NotesScreen: React.FC = () => {
   const leftColumnNotes = userNotes.filter((_, i) => i % 2 === 0);
   const rightColumnNotes = userNotes.filter((_, i) => i % 2 !== 0);
 
-  return !isLoading && userNotes.length > 0 ? (
+  return (
     <>
       <ScrollViewScreenWrapper
         backgroundColor={AppColors.blueMuted20}
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
-        <BackButton />
-        <View style={styles.notesContainer}>
-          <View style={styles.noteColumn}>
-            {leftColumnNotes.map((note) => (
-              <NotesCard
-                key={note.id}
-                title={note.title}
-                description={note.description}
-                imageUrl={
-                  note.images.length > 0 ? note.images[0].imageUrl : undefined
-                }
-                onPress={() => navigateToNoteScreen(note)}
-              />
-            ))}
-          </View>
-          <View style={styles.noteColumn}>
-            {rightColumnNotes.map((note) => (
-              <NotesCard
-                key={note.id}
-                title={note.title}
-                description={note.description}
-                imageUrl={
-                  note.images.length > 0 ? note.images[0].imageUrl : undefined
-                }
-                onPress={() => navigateToNoteScreen(note)}
-              />
-            ))}
-          </View>
-        </View>
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : !isLoading && userNotes.length > 0 ? (
+          <>
+            <BackButton />
+            <View style={styles.notesContainer}>
+              <View style={styles.noteColumn}>
+                {leftColumnNotes.map((note) => (
+                  <NotesCard
+                    key={note.id}
+                    title={note.title}
+                    description={note.description}
+                    imageUrl={
+                      note.images.length > 0
+                        ? note.images[0].imageUrl
+                        : undefined
+                    }
+                    onPress={() => navigateToNoteScreen(note)}
+                  />
+                ))}
+              </View>
+              <View style={styles.noteColumn}>
+                {rightColumnNotes.map((note) => (
+                  <NotesCard
+                    key={note.id}
+                    title={note.title}
+                    description={note.description}
+                    imageUrl={
+                      note.images.length > 0
+                        ? note.images[0].imageUrl
+                        : undefined
+                    }
+                    onPress={() => navigateToNoteScreen(note)}
+                  />
+                ))}
+              </View>
+            </View>
+          </>
+        ) : (
+          <EmptyState
+            type="notes"
+            title={t("notes.no-notes-titles")}
+            description={t("notes.no-notes-yet")}
+          />
+        )}
       </ScrollViewScreenWrapper>
       <AddButton navigateTo={() => navigateToNewNotesScreen()} />
     </>
-  ) : (
-    <ScrollViewScreenWrapper
-      backgroundColor={AppColors.blueMuted20}
-      statusBarColor={StatusBarColor.dark}
-      defaultPadding
-    >
-      <BackButton />
-      <View style={styles.noNotescontainer}>
-        <NotesIcon width={200} height={200} fill='#296879' />
-        <AppText
-          fontStyle='heading2'
-          colorStyle='black64'
-          style={styles.textMargin}
-        >
-          Du hast noch keine Notizen, erstelle eins :)
-        </AppText>
-      </View>
-    </ScrollViewScreenWrapper>
   );
 };
 

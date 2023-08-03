@@ -3,6 +3,7 @@ import { View } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import { UserTodo } from "../../utils/types/types";
 import EmptyState from "../common/empty-state";
+import { LoadingIndicator } from "../common/loading-indicator";
 import AppText from "../common/typography/app-text";
 import Todo from "./todo";
 
@@ -37,7 +38,7 @@ const TodosSection: React.FC<TodosSectionProps> = ({
         {t("todos.todays")} {t("profile.gamification.todos")}
       </AppText>
       {isLoading ? (
-        <AppText>Loading...</AppText>
+        <LoadingIndicator />
       ) : userTodos && todaysTodo.length > 0 ? (
         todaysTodo.map((todo) => (
           <Todo

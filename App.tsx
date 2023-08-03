@@ -2,9 +2,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import React, { useContext, useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
-import { Text, View } from "react-native";
 import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { LoadingIndicator } from "./src/components/common/loading-indicator";
 import AuthenticatedNavigator from "./src/components/common/navigation-stacks/authenticated-navigator";
 import UnauthenticatedNavigator from "./src/components/common/navigation-stacks/unauthenticated-navigator";
 import AuthProvider, { AuthContext } from "./src/contexts/auth-context";
@@ -33,13 +33,8 @@ const MainApp: React.FC = () => {
     prepare();
   }, []);
 
-  // if app is not ready, return loading screen
   if (!appIsReady) {
-    return (
-      <View>
-        <Text>LOADING</Text>
-      </View>
-    );
+    return <LoadingIndicator />;
   }
 
   return (

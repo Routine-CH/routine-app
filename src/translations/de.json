@@ -74,7 +74,9 @@
   "notes": {
     "date": "Datum",
     "filter": "filtern",
-    "note": "Notizen"
+    "note": "Notizen",
+    "no-notes-titles": "Keine Notizen",
+    "no-notes-yet": "Du hast heute noch Notizen erstellt."
   },
   "profile": {
     "gamification": {

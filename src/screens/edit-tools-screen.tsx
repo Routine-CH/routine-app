@@ -1,9 +1,10 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import RoutineTool from "../components/card/tools/routine-tool";
 import FlatButton from "../components/common/buttons/flat-button";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import { setFavouriteToolsRequest } from "../data/edit-favourite-tools.ts/requests";
@@ -68,10 +69,10 @@ const EditToolsScreen: React.FC = () => {
 
   return currentUser ? (
     <ScrollViewScreenWrapper defaultPadding>
-      <AppText fontStyle='heading3' colorStyle='black64'>
+      <AppText fontStyle="heading3" colorStyle="black64">
         {t("my-day.choose-your")}
       </AppText>
-      <AppText fontStyle='heading3' colorStyle='black64'>
+      <AppText fontStyle="heading3" colorStyle="black64">
         {t("my-day.favourite-tools")}
       </AppText>
       <View style={styles.innerContainer}>
@@ -94,8 +95,8 @@ const EditToolsScreen: React.FC = () => {
       </View>
       {arrayHasChanged ? (
         <FlatButton
-          fontStyle='bodyMedium'
-          colorStyle='white'
+          fontStyle="bodyMedium"
+          colorStyle="white"
           buttonStyle={styles.saveButton}
           onPress={() => {
             handleChangeFavTools(favouriteToolIds);
@@ -105,8 +106,8 @@ const EditToolsScreen: React.FC = () => {
         </FlatButton>
       ) : (
         <FlatButton
-          fontStyle='bodyMedium'
-          colorStyle='white'
+          fontStyle="bodyMedium"
+          colorStyle="white"
           buttonStyle={styles.goBackButton}
           onPress={() => {
             navigation.goBack();
@@ -117,7 +118,7 @@ const EditToolsScreen: React.FC = () => {
       )}
     </ScrollViewScreenWrapper>
   ) : (
-    <Text>Loading...</Text>
+    <LoadingIndicator />
   );
 };
 
