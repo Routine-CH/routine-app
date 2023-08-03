@@ -4,6 +4,7 @@ import AppColors from "../../utils/constants/colors";
 import { UserTodo } from "../../utils/types/types";
 import DateCard from "../common/calendar/date-card";
 import EmptyState from "../common/empty-state";
+import { LoadingIndicator } from "../common/loading-indicator";
 import AppText from "../common/typography/app-text";
 import Todo from "./todo";
 
@@ -35,20 +36,20 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
   return (
     <View style={styles.container}>
       <AppText
-        fontStyle='heading3'
-        colorStyle='black64'
+        fontStyle="heading3"
+        colorStyle="black64"
         style={{ marginTop: 60, marginBottom: 30 }}
       >
         {t("todos.future")} {t("profile.gamification.todos")}
       </AppText>
       <TouchableWithoutFeedback onPress={handleModalPress}>
-        <AppText fontStyle={"body"} colorStyle='black64'>
+        <AppText fontStyle={"body"} colorStyle="black64">
           {currentWeek}
         </AppText>
       </TouchableWithoutFeedback>
       <View style={[styles.calendarContainer, { marginTop: 30 }]}>
         {isLoadingUpcomingTodos ? (
-          <AppText>Loading Future Todos</AppText>
+          <LoadingIndicator />
         ) : upcomingTodos && Object.keys(upcomingTodos).length > 0 ? (
           Object.entries(upcomingTodos).map(([date, todos]) => (
             <View
@@ -76,7 +77,7 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
           ))
         ) : (
           <EmptyState
-            type='todo'
+            type="todo"
             title={t("todos.no-todos-title")}
             description={t("todos.no-future-todos")}
             style={{ backgroundColor: AppColors.greenMuted30 }}

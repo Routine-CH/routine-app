@@ -8,6 +8,7 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import CalendarCardSimple from "../components/common/calendar/calendar-card-simple";
 import EmptyState from "../components/common/empty-state";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -95,12 +96,12 @@ const JournalsScreen: React.FC = () => {
         <View style={styles.outerContainer}>
           <View style={styles.innerContainer}>
             {isLoading ? (
-              <AppText>Loading...</AppText>
+              <LoadingIndicator />
             ) : todayJournal ? (
               <TodaysJournal userJournal={todayJournal} />
             ) : (
               <EmptyState
-                type='journal'
+                type="journal"
                 title={t("journal.no-entry-title")}
                 description={t("journal.no-entry-yet")}
                 style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -118,7 +119,7 @@ const JournalsScreen: React.FC = () => {
           }}
         >
           <AppText
-            colorStyle='black64'
+            colorStyle="black64"
             style={{
               marginBottom: 30,
               fontSize: windowWidth * 0.07,
@@ -128,7 +129,7 @@ const JournalsScreen: React.FC = () => {
             {t("journal.past-entries")}
           </AppText>
           {isLoading ? (
-            <AppText>Loading Past Journals</AppText>
+            <LoadingIndicator />
           ) : pastJournals ? (
             pastJournals.slice(0, 7).map((journal) => {
               const parsedDate = parseISO(journal.createdAt.toString());
@@ -146,7 +147,7 @@ const JournalsScreen: React.FC = () => {
             })
           ) : (
             <EmptyState
-              type='journal'
+              type="journal"
               title={t("journal.no-entry-titles")}
               description={t("journal.no-entries-yet")}
               style={{ backgroundColor: AppColors.white }}

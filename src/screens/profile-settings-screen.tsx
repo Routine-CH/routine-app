@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import DeteleAccount from "../components/profile/profile-settings/delete-account";
 import LogOut from "../components/profile/profile-settings/log-out";
@@ -49,41 +50,49 @@ const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
 
   const defaultAvatar = "../assets/misc/stones.jpg";
 
-  return !isLoading && user ? (
+  return (
     <ScrollViewScreenWrapper
       backgroundColor={AppColors.white}
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
-      <BackButton />
-      <View style={styles.profilePictureContainer}>
-        <View style={styles.pictureContainer}>
-          <Image
-            source={require(defaultAvatar)}
-            style={styles.profilePicture}
-          />
-          <View style={styles.pictureOuterStyle}>
-            <TouchableOpacity style={styles.button}>
-              <Icon
-                name='pencil'
-                size={windowWidth * 0.055}
-                color={AppColors.white}
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : !isLoading && user ? (
+        <>
+          <BackButton />
+          <View style={styles.profilePictureContainer}>
+            <View style={styles.pictureContainer}>
+              <Image
+                source={require(defaultAvatar)}
+                style={styles.profilePicture}
               />
-            </TouchableOpacity>
+              <View style={styles.pictureOuterStyle}>
+                <TouchableOpacity style={styles.button}>
+                  <Icon
+                    name="pencil"
+                    size={windowWidth * 0.055}
+                    color={AppColors.white}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-      <UserInformation username={user.username} email={user.email} />
-      <ResetPassword />
-      <Notifications
-        navigateTo={navigateToProfileNotifications}
-        mutedAllNotifications={user.notificationSettings.muteAllNotifications}
-      />
-      <LogOut />
-      <DeteleAccount />
+          <UserInformation username={user.username} email={user.email} />
+          <ResetPassword />
+          <Notifications
+            navigateTo={navigateToProfileNotifications}
+            mutedAllNotifications={
+              user.notificationSettings.muteAllNotifications
+            }
+          />
+          <LogOut />
+          <DeteleAccount />
+        </>
+      ) : (
+        <></>
+      )}
     </ScrollViewScreenWrapper>
-  ) : (
-    <></>
   );
 };
 
