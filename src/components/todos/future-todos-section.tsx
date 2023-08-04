@@ -95,5 +95,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
+    justifyContent: "center",
   },
 });

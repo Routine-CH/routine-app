@@ -1,6 +1,7 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { Controller } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -9,23 +10,60 @@ import SaveButton from "../components/common/buttons/save-button";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import useNewNote from "../hooks/notes/use-new-note";
-import { useStore } from "../store/camera-image-store";
+import { showToast } from "../components/common/toast/show-toast";
+import { createNoteRequest } from "../data/note/create-request";
+import { useImageStore } from "../store/camera-image-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
-import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
+import {
+  AuthenticatedStackParamList,
+  IFormNoteInputs,
+} from "../utils/types/types";
 
 const windowWidth = Dimensions.get("window").width;
 
 const NewNotesScreen = () => {
   const { t } = useTranslation();
-  const images = useStore((state) => state.images);
-  const { control, handleSubmit, handleNewNote, onErrors } = useNewNote(images);
-
-  const { removeImage, addImage } = useStore();
+  const images = useImageStore.getState().images;
+  const { control, handleSubmit } = useForm<IFormNoteInputs>();
+  const [errorMessage, setErrorMessage] = useState("");
+  const { removeImage, addImage, resetImages } = useImageStore();
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
+
+  const handleNewNote = async ({ title, description }: IFormNoteInputs) => {
+    const response = await createNoteRequest({
+      title,
+      description,
+      images,
+    });
+
+    if (typeof response === "string") {
+      setErrorMessage(response);
+    } else if (response && response.status === 201) {
+      showToast(ToastType.success, "Notiz gespeichert");
+      resetImages();
+      setTimeout(() => navigation.navigate("Notes"), 2000);
+    } else {
+      setErrorMessage("Something is wrong");
+    }
+  };
+
+  const onErrors = (errors: any) => {
+    if (errors.title) {
+      setErrorMessage(errors.title.message);
+    } else if (errors.description) {
+      setErrorMessage(errors.description.message);
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();

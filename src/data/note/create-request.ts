@@ -14,14 +14,10 @@ export const createNoteRequest = async ({
   description,
   images,
 }: IFormNoteInputs & { images: Image[] }) => {
-  console.log("Data received");
   try {
     if (title && description) {
       const token = await AsyncStorage.getItem("access_token");
       if (token) {
-        console.log("token available");
-        console.log("here images", images);
-
         // Initialize newNoteData as FormData
         let newNoteData = new FormData();
         newNoteData.append("title", title);
@@ -30,19 +26,15 @@ export const createNoteRequest = async ({
         // Check if images are available before adding to newNoteData
         if (images && images.length > 0) {
           images.forEach((image) => {
-            const randomIndex = Math.floor(Math.random() * images.length);
+            const randomIndex = Math.floor(Math.random() * 500);
             // @ts-ignore: Unreachable code error
             newNoteData.append("images", {
               uri: image.uri.replace("file://", ""),
               type: image.type || "image/jpeg",
-              name: `image${randomIndex}.${
-                image.type ? image.type.split("/")[1] : "jpg"
-              }}`,
+              name: `image${randomIndex}.jpg`,
             });
           });
         }
-
-        console.log(newNoteData);
 
         const response = await apiClient.post(
           `${API_BASE_URL}notes`,
@@ -63,7 +55,6 @@ export const createNoteRequest = async ({
           throw new Error("Note creation failed");
         }
 
-        console.log("Note created successfully", response);
         return response;
       }
     } else {

@@ -1,14 +1,18 @@
 import { create } from "zustand";
+
 import { Image } from "../utils/types/types";
 
 export type ImageState = {
   images: Image[];
+};
+
+type ImageActions = {
   addImage: (image: Image) => void;
   removeImage: (imageUri: string) => void;
   resetImages: () => void;
 };
 
-export const useStore = create<ImageState>((set) => ({
+export const useImageStore = create<ImageState & ImageActions>((set) => ({
   images: [],
   addImage: (image) =>
     set((state: ImageState) => {

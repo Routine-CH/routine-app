@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import { Dimensions, ImageBackground, StyleSheet, View } from "react-native";
 import RegisterForm from "../components/auth/register-form";
 import BackButton from "../components/common/buttons/back-button";
 import ScreenWrapper from "../components/common/screen-wrapper";
@@ -9,8 +9,12 @@ import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
+import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { IFormRegisterInputs } from "../utils/types/types";
+
+const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get("window").width;
 
 const RegisterScreen: React.FC = () => {
   const { register } = useContext(AuthContext);
@@ -69,6 +73,7 @@ const RegisterScreen: React.FC = () => {
     <ScreenWrapper
       backgroundColor={AppColors.white}
       statusBarColor={StatusBarColor.dark}
+      defaultPadding
     >
       <ImageBackground
         source={require("../assets/misc/ellipse.png")}
@@ -90,11 +95,27 @@ const RegisterScreen: React.FC = () => {
       </ImageBackground>
       <View style={styles.container}>
         <BackButton />
-        <View style={{ marginTop: 26 }}>
-          <AppText fontStyle='heading1' colorStyle='black64'>
+        <View style={{ marginTop: windowWidth * 0.05 }}>
+          <AppText
+            colorStyle='black64'
+            style={{
+              position: "relative",
+              top: windowWidth * 0.05,
+              fontSize: windowWidth * 0.1,
+              fontFamily: AppFontStyle.heading1.fontFamily,
+            }}
+          >
             {t("register.register")}
           </AppText>
-          <AppText fontStyle='heading1' colorStyle='black64'>
+          <AppText
+            colorStyle='black64'
+            style={{
+              position: "relative",
+              top: windowWidth * 0.05,
+              fontSize: windowWidth * 0.1,
+              fontFamily: AppFontStyle.heading1.fontFamily,
+            }}
+          >
             {t("register.yourself")}
           </AppText>
         </View>
@@ -110,19 +131,17 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
   splatterContainer: {
     position: "absolute",
-    width: 237,
-    height: 223,
+    width: windowWidth * 0.6,
+    height: windowHeight * 0.24,
     right: 0,
-    top: -20,
+    top: windowWidth * -0.09,
   },
   textPlacement: {
     position: "relative",
-    top: 90,
-    left: 55,
+    top: windowWidth * 0.2,
+    left: windowWidth * 0.15,
   },
   container: {
     flex: 1,
-    marginVertical: 20,
-    marginHorizontal: 30,
   },
 });
