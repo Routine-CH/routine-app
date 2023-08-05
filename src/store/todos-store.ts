@@ -1,15 +1,15 @@
 import { create } from "zustand";
 import { getUpcomingTodos } from "../data/todo/fetch-requests";
-import { AllUserTodos } from "../utils/types/types";
+import { UserTodo } from "../utils/types/types";
 
 export type TodoState = {
-      userTodos: AllUserTodos;
+      userTodos: UserTodo[];
       isLoading: boolean;
       dataUpdated: boolean;
 }
 
 type TodoActions = {
-      setUserTodos: (todos: AllUserTodos) => void;
+      setUserTodos: (todos: UserTodo[]) => void;
       loadUserTodos: () => Promise<void>
       setDataUpdated: (updated: boolean) => void;
 }
