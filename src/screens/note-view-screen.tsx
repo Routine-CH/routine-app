@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -35,6 +36,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   const { t } = useTranslation();
   const noteId = route.params.id;
   const { note, isLoading } = useNoteData(noteId);
+  const [isDeletingNote, setIsDeletingNote] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const createdAt = note?.createdAt ? new Date(note.createdAt) : null;
   const formattedDate = createdAt
@@ -48,15 +50,22 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
     setIsModalVisible(true);
   };
 
-  const deleteNote = () => {
-    deleteNoteRequest(note);
-    setIsModalVisible(false);
-    showToast(ToastType.success, "Notiz wurde gelöscht.");
-    setTimeout(() => {
-      navigation.navigate("SubRoutes", {
-        screen: "Notes",
-      });
-    }, 2000);
+  const deleteNote = async () => {
+    try {
+      setIsDeletingNote(true);
+      setIsModalVisible(false);
+      await deleteNoteRequest(note);
+      showToast(ToastType.success, "Notiz wurde gelöscht.");
+      setTimeout(() => {
+        navigation.navigate("SubRoutes", {
+          screen: "Notes",
+        });
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to delete note", error);
+    } finally {
+      setIsDeletingNote(false);
+    }
   };
 
   const navigateToNoteEditScreen = () => {
@@ -124,6 +133,9 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
           <RoutineToast />
         </>
       )}
+      {isDeletingNote && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
+      )}
     </ScrollViewScreenWrapper>
   );
 };
@@ -151,5 +163,8 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
     marginBottom: 15,
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });
