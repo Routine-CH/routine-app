@@ -124,8 +124,13 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
         <IconButton
           iconName="camera"
           style={[styles.iconStyle, { marginRight: 15 }]}
+          isEditable={!isEditable}
         />
-        <IconButton iconName="images" style={styles.iconStyle} />
+        <IconButton
+          iconName="images"
+          style={styles.iconStyle}
+          isEditable={!isEditable}
+        />
       </View>
       <View style={styles.imageContainer}>
         {images.length > 0 &&
