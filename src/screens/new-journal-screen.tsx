@@ -6,6 +6,7 @@ import { StyleSheet, View } from "react-native";
 import Chip from "../components/calendar/chip";
 import IconTextButton from "../components/common/buttons/icon-text-button";
 import SaveButton from "../components/common/buttons/save-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -28,6 +29,8 @@ const NewJournalScreen: React.FC = () => {
   >([]);
   const [errorMessage, setErrorMessage] = useState("");
   const { setDataUpdated } = useJournalStore();
+  const [creatingJournal, setCreatingJournal] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
 
   const { control, handleSubmit } = useForm<IFormJournalInputs>();
 
@@ -46,6 +49,7 @@ const NewJournalScreen: React.FC = () => {
     toImprove,
     thoughtsAndIdeas,
   }: IFormJournalInputs) => {
+    setCreatingJournal(true);
     const response = await createUserJournalRequest({
       title,
       moodDescription,
@@ -59,6 +63,7 @@ const NewJournalScreen: React.FC = () => {
       showToast(ToastType.error, response);
       setErrorMessage("");
     } else if (response && response.status === 201) {
+      setIsEditable(false);
       showToast(ToastType.success, "Journal gespeichert");
       setDataUpdated(true);
       setTimeout(() => {
@@ -69,6 +74,7 @@ const NewJournalScreen: React.FC = () => {
       showToast(ToastType.error, errorMessage);
       setErrorMessage("");
     }
+    setCreatingJournal(false);
   };
 
   const onErrors = (errors: any) => {
@@ -107,6 +113,7 @@ const NewJournalScreen: React.FC = () => {
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
         onPress={handleSubmit(handleNewJournal, onErrors)}
+        isEditable={!isEditable}
       />
       <View style={styles.contentContainer}>
         <Controller
@@ -118,6 +125,7 @@ const NewJournalScreen: React.FC = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
           name='title'
@@ -140,6 +148,7 @@ const NewJournalScreen: React.FC = () => {
                   handleDeleteMood(mood.id);
                 }
               }}
+              isEditable={!isEditable}
             />
           ))}
         </View>
@@ -149,6 +158,7 @@ const NewJournalScreen: React.FC = () => {
           title={t("journal.mood")}
           style={styles.iconTextButton}
           handleModalPress={handleModalPress}
+          isEditable={!isEditable}
         />
         <Controller
           control={control}
@@ -161,6 +171,7 @@ const NewJournalScreen: React.FC = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
           name='moodDescription'
@@ -179,6 +190,7 @@ const NewJournalScreen: React.FC = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
           name='activity'
@@ -197,6 +209,7 @@ const NewJournalScreen: React.FC = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
           name='toImprove'
@@ -215,6 +228,7 @@ const NewJournalScreen: React.FC = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
           name='thoughtsAndIdeas'
@@ -239,6 +253,9 @@ const NewJournalScreen: React.FC = () => {
           }}
         />
       </View>
+      {creatingJournal && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
+      )}
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
@@ -271,5 +288,8 @@ const styles = StyleSheet.create({
   },
   chip: {
     width: "47%",
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });
