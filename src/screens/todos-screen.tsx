@@ -161,7 +161,7 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor="white"
+        backgroundColor='white'
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
