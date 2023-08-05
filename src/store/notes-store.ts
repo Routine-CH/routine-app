@@ -24,7 +24,7 @@ export const useNotesStore = create<NotesState & NotesAction> ((set) => ({
             set({isLoading: true})
             try {
                   const notes = await useUserNote();
-                  // set({userNotes: notes, dataUpdated: false})
+                  set({userNotes: notes, dataUpdated: false})
             } catch (error) {
                   console.error("Failed to get user notes", error)
             } finally {
