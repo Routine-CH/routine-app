@@ -68,6 +68,7 @@ const JournalsScreen: React.FC = () => {
       setIsDeletingJournal(true);
       const response = await deleteUserJournalRequest(todayJournal);
       if (response!.status === 204) {
+        setIsModalVisible(false);
         showToast(ToastType.success, "Journal gelöscht");
         setDataUpdated(true);
         setTimeout(() => {
@@ -77,6 +78,8 @@ const JournalsScreen: React.FC = () => {
         showToast(ToastType.error, "Journal konnte nicht gelöscht werden");
       }
     } catch (error) {
+      setIsModalVisible(false);
+      setIsDeletingJournal(false);
       console.error("Failed to delete journal", error);
     } finally {
       setIsDeletingJournal(false);

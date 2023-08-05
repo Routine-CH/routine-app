@@ -132,6 +132,7 @@ const TodosScreen: React.FC = () => {
       showToast(ToastType.success, "Todo wurde gelöscht.");
     } catch (error) {
       console.error("Failed to delete todo", error);
+      setIsDeletingTodo(false);
     } finally {
       setIsDeletingTodo(false);
     }
@@ -156,7 +157,7 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor="white"
+        backgroundColor='white'
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >

@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,6 +7,7 @@ import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import { API_BASE_URL } from "../../../utils/config/config";
 import AppColors from "../../../utils/constants/colors";
 import AppFontStyle from "../../../utils/constants/font-style";
+import { AuthenticatedStackParamList } from "../../../utils/types/routes/types";
 import { UserGoals } from "../../../utils/types/types";
 import AddButton from "../buttons/add-button";
 import AppText from "../typography/app-text";
@@ -18,6 +20,8 @@ const windowWidth = Dimensions.get("window").width;
 const GoalsContainer: React.FC = () => {
   const [userGoals, setUserGoals] = useState<UserGoals[]>([]);
   const [_, setIsDisplayHorizontalScroll] = useState<boolean>(false);
+  const navigation =
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -45,6 +49,10 @@ const GoalsContainer: React.FC = () => {
     setIsDisplayHorizontalScroll(userGoals.length > 0);
   }, [userGoals]);
 
+  const navigateToAllGoals = () => {
+    navigation.navigate("SubRoutes", { screen: "Goals" });
+  };
+
   return (
     <View style={styles.relativeContainer}>
       {userGoals.length === 0 ? (
@@ -62,7 +70,10 @@ const GoalsContainer: React.FC = () => {
             />
           ))}
           {userGoals.length > 3 && (
-            <Pressable style={styles.showAllButton}>
+            <Pressable
+              style={styles.showAllButton}
+              onPress={navigateToAllGoals}
+            >
               <AppText
                 colorStyle='white'
                 style={{
