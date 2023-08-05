@@ -5,9 +5,9 @@ import { showToast } from "../../components/common/toast/show-toast";
 import { updateUserJournalRequest } from "../../data/journal/update-request";
 import { ToastType } from "../../utils/types/enums";
 import {
-  AuthenticatedStackParamList,
-  IFormJournalInputs,
-  UserJournals,
+      AuthenticatedStackParamList,
+      IFormJournalInputs,
+      UserJournals,
 } from "../../utils/types/types";
 
 export const useFormHandling = (
@@ -23,6 +23,8 @@ export const useFormHandling = (
       type: journalMood.mood.type,
     })) || []
   );
+  const [updatingJournal, setUpdatingJournal] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   const {
@@ -61,6 +63,7 @@ export const useFormHandling = (
 
   const handleUpdate = async (data: IFormJournalInputs) => {
     try {
+      setUpdatingJournal(true)
       const response = await updateUserJournalRequest({
         ...data,
         journalId,
@@ -71,6 +74,7 @@ export const useFormHandling = (
         showToast(ToastType.error, response);
         setErrorMessage("Something went wrong");
       } else if (response && "status" in response && response.status === 200) {
+        setIsEditable(false);
         showToast(ToastType.success, "Journal gespeichert");
         setTimeout(() => {
           navigation.navigate("Journals");
@@ -81,6 +85,7 @@ export const useFormHandling = (
     } catch (error) {
       showToast(ToastType.error, errorMessage);
     }
+    setUpdatingJournal(false)
   };
 
   const onErrors = (errors: any) => {
@@ -118,5 +123,6 @@ export const useFormHandling = (
     onErrors,
     handleDeleteMood,
     setSelectedMoods,
+    updatingJournal, isEditable
   };
 };

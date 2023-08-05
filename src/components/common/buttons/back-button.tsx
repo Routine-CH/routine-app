@@ -6,15 +6,17 @@ import AppColors from "../../../utils/constants/colors";
 type BackButtonProps = {
   style?: StyleProp<ViewStyle>;
   type?: boolean;
+  isEditable?: boolean;
 };
 
-const BackButton: React.FC<BackButtonProps> = ({ style, type }) => {
+const BackButton: React.FC<BackButtonProps> = ({ style, type, isEditable }) => {
   const navigation = useNavigation();
 
   return (
     <Pressable
       style={[styles.container, style]}
       onPress={() => navigation.goBack()}
+      disabled={isEditable}
     >
       <Icon
         name="arrow-back-outline"

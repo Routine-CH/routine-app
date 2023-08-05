@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import SaveButton from "../components/common/buttons/save-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import SimpleCalendarModal from "../components/common/modals/simple-calendar-modal";
@@ -51,12 +52,14 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
     setIsModalVisible(false);
   };
 
-  const { control, handleSubmit, handleUpdate, onErrors } = useTodoFormHandling(
-    todo,
-    navigation,
-    id,
-    selectedDate
-  );
+  const {
+    control,
+    handleSubmit,
+    handleUpdate,
+    onErrors,
+    isEditable,
+    updatingTodo,
+  } = useTodoFormHandling(todo, navigation, id, selectedDate);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -78,6 +81,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
               (data) => handleUpdate({ ...data, id }),
               onErrors
             )}
+            isEditable={!isEditable}
           />
           <View style={styles.formContainer}>
             <Controller
@@ -91,6 +95,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
                   value={value}
+                  isEditable={isEditable}
                 />
               )}
               name="title"
@@ -113,6 +118,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
                   value={value}
+                  isEditable={isEditable}
                 />
               )}
               name="description"
@@ -126,6 +132,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
             />
             <TouchableOpacity
               onPress={handleModalPress}
+              disabled={!isEditable}
               style={styles.iconContainer}
             >
               <Icon name="calendar" size={18} color={AppColors.white} />
@@ -143,6 +150,9 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
             onDayPress={onDayPress}
           />
         </>
+      )}
+      {updatingTodo && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
       )}
     </ScrollViewScreenWrapper>
   );
@@ -170,5 +180,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: AppColors.blue100,
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });

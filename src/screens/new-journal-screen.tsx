@@ -6,6 +6,7 @@ import { StyleSheet, View } from "react-native";
 import Chip from "../components/calendar/chip";
 import IconTextButton from "../components/common/buttons/icon-text-button";
 import SaveButton from "../components/common/buttons/save-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -28,6 +29,8 @@ const NewJournalScreen = () => {
     { id: string; type: string }[]
   >([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [creatingJournal, setCreatingJournal] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
 
   const { control, handleSubmit } = useForm<IFormJournalInputs>();
 
@@ -47,6 +50,7 @@ const NewJournalScreen = () => {
     thoughtsAndIdeas,
     moods,
   }: IFormJournalInputs) => {
+    setCreatingJournal(true);
     const response = await createUserJournalRequest({
       title,
       moodDescription,
@@ -60,6 +64,7 @@ const NewJournalScreen = () => {
       showToast(ToastType.error, response);
       setErrorMessage("");
     } else if (response && response.status === 201) {
+      setIsEditable(false);
       showToast(ToastType.success, "Journal gespeichert");
       setTimeout(() => {
         navigation.navigate("Journals");
@@ -69,6 +74,7 @@ const NewJournalScreen = () => {
       showToast(ToastType.error, errorMessage);
       setErrorMessage("");
     }
+    setCreatingJournal(false);
   };
 
   const onErrors = (errors: any) => {
@@ -107,6 +113,7 @@ const NewJournalScreen = () => {
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
         onPress={handleSubmit(handleNewJournal, onErrors)}
+        isEditable={!isEditable}
       />
       <View style={styles.contentContainer}>
         <Controller
@@ -118,9 +125,10 @@ const NewJournalScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='title'
+          name="title"
           rules={{
             required: "Bitte gib deinem Journal einen Titel",
             minLength: {
@@ -140,15 +148,17 @@ const NewJournalScreen = () => {
                   handleDeleteMood(mood.id);
                 }
               }}
+              isEditable={!isEditable}
             />
           ))}
         </View>
         <IconTextButton
-          iconName='add-outline'
+          iconName="add-outline"
           size={30}
           title={t("journal.mood")}
           style={styles.iconTextButton}
           handleModalPress={handleModalPress}
+          isEditable={!isEditable}
         />
         <Controller
           control={control}
@@ -161,9 +171,10 @@ const NewJournalScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='moodDescription'
+          name="moodDescription"
           rules={{
             required: "Bitte beschreibe deine Gefühle.",
           }}
@@ -179,9 +190,10 @@ const NewJournalScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='activity'
+          name="activity"
           rules={{
             required: "Bitte beschreibe, was du anders machen hättest können.",
           }}
@@ -197,9 +209,10 @@ const NewJournalScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='toImprove'
+          name="toImprove"
           rules={{
             required: "Bitte beschreibe, was du noch verbessern könntest.",
           }}
@@ -215,9 +228,10 @@ const NewJournalScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='thoughtsAndIdeas'
+          name="thoughtsAndIdeas"
         />
         <EmotionModal
           isVisible={isModalVisible}
@@ -239,6 +253,9 @@ const NewJournalScreen = () => {
           }}
         />
       </View>
+      {creatingJournal && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
+      )}
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
@@ -271,5 +288,8 @@ const styles = StyleSheet.create({
   },
   chip: {
     width: "47%",
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });

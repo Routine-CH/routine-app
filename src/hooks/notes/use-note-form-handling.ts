@@ -5,9 +5,9 @@ import { showToast } from "../../components/common/toast/show-toast";
 import { updateNoteRequest } from "../../data/note/update-request";
 import { ToastType } from "../../utils/types/enums";
 import {
-  AuthenticatedStackParamList,
-  IFormNoteInputs,
-  UserNotes,
+      AuthenticatedStackParamList,
+      IFormNoteInputs,
+      UserNotes,
 } from "../../utils/types/types";
 
 export const useNoteFormHandling = (
@@ -16,6 +16,8 @@ export const useNoteFormHandling = (
   noteId: string
 ) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [updatingNote, setUpdatingNote] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
 
   const {
     control,
@@ -36,6 +38,7 @@ export const useNoteFormHandling = (
 
   const handleUpdate = async (data: IFormNoteInputs) => {
     try {
+      setUpdatingNote(true)
       const response = await updateNoteRequest({
         ...data,
         noteId,
@@ -45,6 +48,7 @@ export const useNoteFormHandling = (
         showToast(ToastType.error, response);
         setErrorMessage("Something went wrong");
       } else if (response && "status" in response && response.status === 200) {
+        setIsEditable(false);
         showToast(ToastType.success, "Notiz gespeichert");
         setTimeout(() => {
           navigation.navigate("Notes");
@@ -53,6 +57,7 @@ export const useNoteFormHandling = (
     } catch (error) {
       showToast(ToastType.error, errorMessage);
     }
+    setUpdatingNote(false)
   };
 
   const onErrors = (errors: any) => {
@@ -75,5 +80,7 @@ export const useNoteFormHandling = (
     handleSubmit,
     handleUpdate,
     onErrors,
+    updatingNote,
+    isEditable
   };
 };

@@ -7,6 +7,7 @@ import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -29,10 +30,13 @@ const NewNotesScreen = () => {
   const { control, handleSubmit } = useForm<IFormNoteInputs>();
   const [errorMessage, setErrorMessage] = useState("");
   const { removeImage, addImage, resetImages } = useImageStore();
+  const [creatingNote, setCreatingNote] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const handleNewNote = async ({ title, description }: IFormNoteInputs) => {
+    setCreatingNote(true);
     const response = await createNoteRequest({
       title,
       description,
@@ -42,12 +46,14 @@ const NewNotesScreen = () => {
     if (typeof response === "string") {
       setErrorMessage(response);
     } else if (response && response.status === 201) {
+      setIsEditable(false);
       showToast(ToastType.success, "Notiz gespeichert");
       resetImages();
       setTimeout(() => navigation.navigate("Notes"), 2000);
     } else {
       setErrorMessage("Something is wrong");
     }
+    setCreatingNote(false);
   };
 
   const onErrors = (errors: any) => {
@@ -104,6 +110,7 @@ const NewNotesScreen = () => {
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
         onPress={handleSubmit(handleNewNote, onErrors)}
+        isEditable={!isEditable}
       />
       <View style={styles.contentContainer}>
         <Controller
@@ -116,9 +123,10 @@ const NewNotesScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='title'
+          name="title"
           rules={{
             required: "Bitte gib deiner Notiz einen Titel",
             minLength: {
@@ -137,9 +145,10 @@ const NewNotesScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='description'
+          name="description"
           rules={{
             required: "Bitte gib deiner Notiz eine Beschreibung",
             minLength: {
@@ -151,18 +160,20 @@ const NewNotesScreen = () => {
       </View>
       <View style={styles.iconContainer}>
         <IconButton
-          iconName='camera'
+          iconName="camera"
           style={[styles.iconStyle, { marginRight: 15 }]}
           onPress={() =>
             navigation.navigate("SubRoutes", {
               screen: "CameraView",
             })
           }
+          isEditable={!isEditable}
         />
         <IconButton
-          iconName='images'
+          iconName="images"
           style={styles.iconStyle}
           onPress={pickImage}
+          isEditable={!isEditable}
         />
       </View>
       <View style={styles.imageContainer}>
@@ -172,10 +183,11 @@ const NewNotesScreen = () => {
               <View key={image.uri} style={{ marginBottom: 15 }}>
                 <View style={styles.closeIcon}>
                   <Icon
-                    name='close'
+                    name="close"
                     size={25}
                     color={AppColors.white}
                     onPress={() => removeImage(image.uri)}
+                    disabled={!isEditable}
                   />
                 </View>
                 <Image source={{ uri: image.uri }} style={styles.image} />
@@ -183,6 +195,9 @@ const NewNotesScreen = () => {
             );
           })}
       </View>
+      {creatingNote && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
+      )}
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
@@ -239,5 +254,8 @@ const styles = StyleSheet.create({
     height: windowWidth * 0.43,
     width: windowWidth * 0.43,
     borderRadius: 10,
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });

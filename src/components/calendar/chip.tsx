@@ -13,11 +13,18 @@ interface ChipProps {
   style?: StyleProp<ViewStyle>;
   selected?: boolean;
   onPress?: () => void;
+  isEditable?: boolean;
 }
 
 const windowWidth = Dimensions.get("window").width;
 
-const Chip: React.FC<ChipProps> = ({ text, style, selected, onPress }) => {
+const Chip: React.FC<ChipProps> = ({
+  text,
+  style,
+  selected,
+  onPress,
+  isEditable,
+}) => {
   return (
     <Pressable
       style={[
@@ -28,6 +35,7 @@ const Chip: React.FC<ChipProps> = ({ text, style, selected, onPress }) => {
         },
       ]}
       onPress={onPress}
+      disabled={isEditable}
     >
       <AppText
         fontStyle={selected ? "filtersSelected" : "filters"}
