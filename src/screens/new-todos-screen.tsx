@@ -160,7 +160,9 @@ const NewTodosScreen = () => {
         selectedDate={selectedDate}
         onDayPress={onDayPress}
       />
-      {creatingTodo && <FullscreenLoadingIndicator />}
+      {creatingTodo && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
+      )}
     </ScrollViewScreenWrapper>
   );
 };
@@ -187,5 +189,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: AppColors.blue100,
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });

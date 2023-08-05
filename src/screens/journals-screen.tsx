@@ -8,6 +8,7 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import CalendarCardSimple from "../components/common/calendar/calendar-card-simple";
 import EmptyState from "../components/common/empty-state";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -27,6 +28,7 @@ const windowWidth = Dimensions.get("window").width;
 const JournalsScreen: React.FC = () => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDeletingJournal, setIsDeletingJournal] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
@@ -51,13 +53,20 @@ const JournalsScreen: React.FC = () => {
     return journalDate.getTime() !== currentDate.getTime();
   });
 
-  const deleteJournal = () => {
-    deleteUserJournalRequest(todayJournal);
-    setIsModalVisible(false);
-    showToast(ToastType.success, "Journal gelöscht");
-    setTimeout(() => {
-      navigation.navigate("Journals");
-    }, 2000);
+  const deleteJournal = async () => {
+    try {
+      setIsDeletingJournal(true);
+      setIsModalVisible(false);
+      await deleteUserJournalRequest(todayJournal);
+      showToast(ToastType.success, "Journal gelöscht");
+      setTimeout(() => {
+        navigation.navigate("Journals");
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to delete journal", error);
+    } finally {
+      setIsDeletingJournal(false);
+    }
   };
 
   const navigateToJournalEditScreen = () => {
@@ -154,6 +163,7 @@ const JournalsScreen: React.FC = () => {
             />
           )}
         </View>
+        {isDeletingJournal && <FullscreenLoadingIndicator />}
         <EditDeleteModal
           title={t("modals.are-you-sure")}
           description={t("modals.journal")}

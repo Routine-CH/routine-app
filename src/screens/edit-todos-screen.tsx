@@ -151,7 +151,9 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
           />
         </>
       )}
-      {updatingTodo && <FullscreenLoadingIndicator />}
+      {updatingTodo && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
+      )}
     </ScrollViewScreenWrapper>
   );
 };
@@ -178,5 +180,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: AppColors.blue100,
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });
