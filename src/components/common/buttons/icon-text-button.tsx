@@ -16,6 +16,7 @@ interface ButtonProps {
   title: string;
   handleModalPress?: () => void;
   style?: StyleProp<ViewStyle>;
+  isEditable?: boolean;
 }
 
 const windowWidth = Dimensions.get("window").width;
@@ -26,9 +27,14 @@ const IconTextButton: React.FC<ButtonProps> = ({
   title,
   handleModalPress,
   style,
+  isEditable,
 }) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={handleModalPress}>
+    <TouchableOpacity
+      style={[styles.button, style]}
+      onPress={handleModalPress}
+      disabled={isEditable}
+    >
       <Icon
         name={iconName}
         size={size}
@@ -39,8 +45,8 @@ const IconTextButton: React.FC<ButtonProps> = ({
         }}
       />
       <AppText
-        fontStyle='body'
-        colorStyle='black70'
+        fontStyle="body"
+        colorStyle="black70"
         style={{ paddingVertical: 16 }}
       >
         {title}
