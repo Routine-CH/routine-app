@@ -15,6 +15,7 @@ type LabelInputFieldProps = {
   editText?: string;
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
+  isEditable?: boolean;
 } & TextInputProps;
 
 const LabelInputField: React.FC<LabelInputFieldProps> = ({
@@ -22,6 +23,7 @@ const LabelInputField: React.FC<LabelInputFieldProps> = ({
   editText,
   style,
   inputStyle,
+  isEditable,
   ...textInputProps
 }) => {
   return (
@@ -30,6 +32,7 @@ const LabelInputField: React.FC<LabelInputFieldProps> = ({
         style={[styles.inputStyle, inputStyle]}
         placeholder={placeholder}
         placeholderTextColor={AppColors.black70}
+        editable={isEditable}
         {...textInputProps}
       >
         {editText}
