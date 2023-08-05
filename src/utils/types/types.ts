@@ -219,6 +219,8 @@ export interface IFormTodoInputs {
 }
 
 export interface Image {
+  id?: string;
+  imageUrl?: string;
   uri: string;
   type?: string;
   filename?: string;

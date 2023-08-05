@@ -3,7 +3,7 @@ import {
   RouteProp,
   useNavigation,
 } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -14,6 +14,7 @@ import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wra
 import RoutineToast from "../components/common/toast/routine-toast";
 import { useNoteData } from "../hooks/notes/use-note-data";
 import { useNoteFormHandling } from "../hooks/notes/use-note-form-handling";
+import { useImageStore } from "../store/camera-image-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor } from "../utils/types/enums";
@@ -28,11 +29,6 @@ type NotesEditProps = {
   route: NotesEditScreenRouteProps;
 };
 
-type ImageItem = {
-  id: string;
-  imageUrl: string;
-};
-
 const windowWidth = Dimensions.get("window").width;
 
 const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
@@ -40,7 +36,8 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
   const { note } = useNoteData(noteId);
-  const [images, setImages] = useState<ImageItem[]>([]);
+  const images = useImageStore.getState().images;
+  const { removeImage, addImage, resetImages } = useImageStore();
 
   const { control, handleSubmit, handleUpdate, onErrors } = useNoteFormHandling(
     note,
@@ -48,15 +45,17 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
     noteId
   );
 
+  console.log(images);
+
   useEffect(() => {
     if (!note) return;
-    setImages(note.images);
+    note.images.map((image) => {
+      addImage(image);
+    });
   });
 
   const handleDelete = (imageId: string) => {
-    setImages((prevImages) =>
-      prevImages.filter((image) => image.id !== imageId)
-    );
+    removeImage(imageId);
   };
 
   return (
@@ -130,7 +129,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
                   name='close'
                   size={25}
                   color={AppColors.white}
-                  onPress={() => handleDelete(image.id)}
+                  onPress={() => handleDelete(image.id!)}
                 />
               </View>
               <Image
