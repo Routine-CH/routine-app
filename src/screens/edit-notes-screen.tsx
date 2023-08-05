@@ -9,6 +9,7 @@ import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -39,11 +40,14 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const images = useImageStore.getState().images;
   const { removeImage, addImage, resetImages } = useImageStore();
 
-  const { control, handleSubmit, handleUpdate, onErrors } = useNoteFormHandling(
-    note,
-    navigation,
-    noteId
-  );
+  const {
+    control,
+    handleSubmit,
+    handleUpdate,
+    onErrors,
+    isEditable,
+    updatingNote,
+  } = useNoteFormHandling(note, navigation, noteId);
 
   console.log(images);
 
@@ -60,7 +64,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor='white'
+      backgroundColor="white"
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -70,6 +74,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
           (data) => handleUpdate({ ...data, noteId }),
           onErrors
         )}
+        isEditable={!isEditable}
       />
       <View style={styles.contentContainer}>
         <Controller
@@ -81,9 +86,10 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='title'
+          name="title"
           rules={{
             required: "Bitte gib deiner Notiz einen Titel",
             minLength: {
@@ -101,9 +107,10 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='description'
+          name="description"
           rules={{
             required: "Bitte gib deiner Notiz eine Beschreibung",
             minLength: {
@@ -115,10 +122,10 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
       </View>
       <View style={styles.iconContainer}>
         <IconButton
-          iconName='camera'
+          iconName="camera"
           style={[styles.iconStyle, { marginRight: 15 }]}
         />
-        <IconButton iconName='images' style={styles.iconStyle} />
+        <IconButton iconName="images" style={styles.iconStyle} />
       </View>
       <View style={styles.imageContainer}>
         {images.length > 0 &&
@@ -126,10 +133,11 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
             <View key={image.id} style={{ marginBottom: 30 }}>
               <View style={styles.closeIcon}>
                 <Icon
-                  name='close'
+                  name="close"
                   size={25}
                   color={AppColors.white}
                   onPress={() => handleDelete(image.id!)}
+                  disabled={isEditable}
                 />
               </View>
               <Image
@@ -141,6 +149,9 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
           ))}
       </View>
       <RoutineToast />
+      {updatingNote && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
+      )}
     </ScrollViewScreenWrapper>
   );
 };
@@ -206,5 +217,8 @@ const styles = StyleSheet.create({
   iconStyle: {
     height: 58,
     width: 58,
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });
