@@ -2,8 +2,10 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { addDays, format, startOfDay } from "date-fns";
 import { de } from "date-fns/locale";
 import { useMemo, useState } from "react";
+import { StyleSheet } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -32,6 +34,7 @@ const TodosScreen: React.FC = () => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
+  const [isDeletingTodo, setIsDeletingTodo] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [manualDate, setManualDate] = useState<boolean>(false);
@@ -122,9 +125,16 @@ const TodosScreen: React.FC = () => {
   };
 
   const onDeleteTodo = async (todo: UserTodo) => {
-    deleteTodoRequest(todo);
-    setIsConfirmationModalVisible(false);
-    showToast(ToastType.success, "Todo wurde gelöscht.");
+    try {
+      setIsDeletingTodo(true);
+      await deleteTodoRequest(todo);
+      setIsConfirmationModalVisible(false);
+      showToast(ToastType.success, "Todo wurde gelöscht.");
+    } catch (error) {
+      console.error("Failed to delete todo", error);
+    } finally {
+      setIsDeletingTodo(false);
+    }
   };
 
   const onDayPress = (day: Day) => {
@@ -146,7 +156,7 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor='white'
+        backgroundColor="white"
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
@@ -181,6 +191,11 @@ const TodosScreen: React.FC = () => {
           onClose={closeTodoModal}
           todo={selectedTodo}
         />
+        {isDeletingTodo && (
+          <FullscreenLoadingIndicator
+            style={styles.fullscreenLoadingIndicator}
+          />
+        )}
       </ScrollViewScreenWrapper>
       <AddButton navigateTo={() => navigateToNewTodoScreen()} />
       <RoutineToast />
@@ -189,3 +204,9 @@ const TodosScreen: React.FC = () => {
 };
 
 export default TodosScreen;
+
+const styles = StyleSheet.create({
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
+  },
+});

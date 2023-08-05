@@ -8,6 +8,7 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import CalendarCardSimple from "../components/common/calendar/calendar-card-simple";
 import EmptyState from "../components/common/empty-state";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -27,6 +28,7 @@ const windowWidth = Dimensions.get("window").width;
 const JournalsScreen: React.FC = () => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDeletingJournal, setIsDeletingJournal] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
@@ -62,16 +64,22 @@ const JournalsScreen: React.FC = () => {
   });
 
   const deleteJournal = async () => {
-    const response = await deleteUserJournalRequest(todayJournal);
-    setIsModalVisible(false);
-    if (response!.status === 204) {
-      showToast(ToastType.success, "Journal gelöscht");
-      setDataUpdated(true);
-      setTimeout(() => {
-        navigation.navigate("Journals");
-      }, 2000);
-    } else {
-      showToast(ToastType.error, "Journal konnte nicht gelöscht werden");
+    try {
+      setIsDeletingJournal(true);
+      const response = await deleteUserJournalRequest(todayJournal);
+      if (response!.status === 204) {
+        showToast(ToastType.success, "Journal gelöscht");
+        setDataUpdated(true);
+        setTimeout(() => {
+          navigation.navigate("Journals");
+        }, 2000);
+      } else {
+        showToast(ToastType.error, "Journal konnte nicht gelöscht werden");
+      }
+    } catch (error) {
+      console.error("Failed to delete journal", error);
+    } finally {
+      setIsDeletingJournal(false);
     }
   };
 
@@ -171,6 +179,7 @@ const JournalsScreen: React.FC = () => {
             />
           )}
         </View>
+        {isDeletingJournal && <FullscreenLoadingIndicator />}
         <EditDeleteModal
           title={t("modals.are-you-sure")}
           description={t("modals.journal")}
