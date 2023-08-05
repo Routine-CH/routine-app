@@ -71,6 +71,8 @@ export type UserTodo = {
   createdAt: Date;
 };
 
+export type AllUserTodos = UserTodo[];
+
 export type UserPomodoroTimers = {
   id: string;
   totalDuration: number;

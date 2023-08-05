@@ -22,6 +22,7 @@ import {
   getFormattedWeekEnd,
   getFormattedWeekStart,
 } from "../lib/todos/todo-dates";
+import { useTodoStore } from "../store/todos-store";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -42,6 +43,9 @@ const TodosScreen: React.FC = () => {
 
   const { upcomingTodos, setUpcomingTodos, isLoadingUpcomingTodos } =
     useUserTodos();
+
+  const { userTodos, isLoading, loadUserTodos, dataUpdated, setDataUpdated } =
+    useTodoStore();
 
   const { initialDate, datesOfWeek, currentWeek } = useMemo(() => {
     const today = selectedDate;
@@ -157,7 +161,7 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor='white'
+        backgroundColor="white"
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >
