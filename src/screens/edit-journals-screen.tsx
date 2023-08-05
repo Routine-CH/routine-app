@@ -10,6 +10,7 @@ import { StyleSheet, View } from "react-native";
 import Chip from "../components/calendar/chip";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -50,6 +51,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     onErrors,
     handleDeleteMood,
     setSelectedMoods,
+    isEditable,
+    updatingJournal,
   } = useFormHandling(journal, navigation, journalId, setDataUpdated);
 
   const handleModalPress = () => {
@@ -72,6 +75,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
           (data) => handleUpdate({ ...data, journalId }),
           onErrors
         )}
+        isEditable={!isEditable}
       />
       <View style={styles.contentContainer}>
         <View>
@@ -91,6 +95,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
+                isEditable={isEditable}
               />
             )}
             name='title'
@@ -118,6 +123,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 text={selectedMood.type}
                 style={styles.chip}
                 onPress={() => handleDeleteMood(selectedMood.id)}
+                isEditable={!isEditable}
               />
             ))}
           </View>
@@ -125,6 +131,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             iconName='add'
             style={styles.iconButtonStyle}
             onPress={handleModalPress}
+            isEditable={!isEditable}
           />
         </View>
         <View>
@@ -144,6 +151,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
+                isEditable={isEditable}
               />
             )}
             name='moodDescription'
@@ -167,6 +175,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
+                isEditable={isEditable}
               />
             )}
             name='activity'
@@ -193,6 +202,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
+                isEditable={isEditable}
               />
             )}
             name='toImprove'
@@ -218,6 +228,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
+                isEditable={isEditable}
               />
             )}
             name='thoughtsAndIdeas'
@@ -244,6 +255,9 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         }}
       />
       <RoutineToast />
+      {updatingJournal && (
+        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
+      )}
     </ScrollViewScreenWrapper>
   ) : (
     <></>
@@ -282,5 +296,8 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.blue100Muted20,
     marginTop: 15,
     marginBottom: 30,
+  },
+  fullscreenLoadingIndicator: {
+    marginLeft: -20,
   },
 });
