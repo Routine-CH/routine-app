@@ -99,7 +99,6 @@ const NewTodosScreen = () => {
           render={({ field: { onChange, onBlur, value } }) => (
             <LabelInputField
               placeholder={t("journal.title")}
-              /* @ts-ignore: TODO: fix this */
               style={styles.inputField}
               multiline={true}
               onBlur={onBlur}
@@ -108,7 +107,7 @@ const NewTodosScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deinem Todo ein Titel",
             minLength: {
@@ -131,7 +130,7 @@ const NewTodosScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             minLength: {
               value: 5,
@@ -144,8 +143,8 @@ const NewTodosScreen = () => {
           disabled={!isEditable}
           style={styles.iconContainer}
         >
-          <Icon name="calendar" size={18} color={AppColors.white} />
-          <AppText fontStyle="filters" colorStyle="white">
+          <Icon name='calendar' size={18} color={AppColors.white} />
+          <AppText fontStyle='filters' colorStyle='white'>
             {isToday(selectedDate)
               ? t("todos.today")
               : format(selectedDate, "dd.MM.yy", { locale: de })}

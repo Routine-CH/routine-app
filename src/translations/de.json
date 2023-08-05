@@ -35,7 +35,9 @@
     "save": "Speichern"
   },
   "goals": {
-    "show-all": "Alle anzeigen"
+    "show-all": "Alle anzeigen",
+    "details": "Details",
+    "add-todo": "Todo hinzufügen"
   },
   "journal": {
     "activity": "Was hast du daraus gemacht?",

@@ -97,8 +97,6 @@ const NewNotesScreen: React.FC = () => {
     }
   };
 
-  console.log(images);
-
   return (
     <ScrollViewScreenWrapper
       statusBarColor={StatusBarColor.dark}

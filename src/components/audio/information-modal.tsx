@@ -7,7 +7,8 @@ import {
   View,
 } from "react-native";
 import AppColors from "../../utils/constants/colors";
-import Chip from "../calendar/chip";
+
+import Chip from "../common/calendar/chip";
 import AppText from "../common/typography/app-text";
 
 interface InformationModalProps {
@@ -30,13 +31,13 @@ const InformationModal: React.FC<InformationModalProps> = ({
           <TouchableWithoutFeedback>
             <View style={styles.modalContainer}>
               <View style={styles.line} />
-              <AppText fontStyle="body" colorStyle="black70">
+              <AppText fontStyle='body' colorStyle='black70'>
                 {audio.informationText}
               </AppText>
               <AppText
                 style={{ marginVertical: 30 }}
-                fontStyle="bodyMedium"
-                colorStyle="black70"
+                fontStyle='bodyMedium'
+                colorStyle='black70'
               >
                 {t("audio.toolsFor")}
               </AppText>

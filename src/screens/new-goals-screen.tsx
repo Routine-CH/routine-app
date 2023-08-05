@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import {
   Animated,
   Dimensions,
@@ -8,11 +9,11 @@ import {
   View,
 } from "react-native";
 import SaveButton from "../components/common/buttons/save-button";
-import GoalAddTodoView from "../components/common/goals/goal-add-todo-view";
-import GoalDetailView from "../components/common/goals/goal-detail-view";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
+import GoalAddTodoView from "../components/goals/goal-add-todo-view";
+import GoalDetailView from "../components/goals/goal-detail-view";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 
@@ -32,6 +33,8 @@ const NewGoalsScreen: React.FC = () => {
   const [isEditable, setIsEditable] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const { control, handleSubmit } = useForm();
+
+  const { t } = useTranslation();
 
   const handleNewGoal = async () => {};
 
@@ -116,7 +119,7 @@ const NewGoalsScreen: React.FC = () => {
             colorStyle='black70'
             style={styles.titleButton}
           >
-            Details
+            {t("goals.details")}
           </AppText>
           <View
             style={[
@@ -135,7 +138,7 @@ const NewGoalsScreen: React.FC = () => {
             colorStyle='black70'
             style={styles.titleButton}
           >
-            Todo hinzufügen
+            {t("goals.add-todo")}
           </AppText>
           <View
             style={[
@@ -157,10 +160,10 @@ const NewGoalsScreen: React.FC = () => {
       />
       <View style={styles.animatedContainer}>
         <Animated.View style={[styles.viewContainer, detailViewStyle]}>
-          <GoalDetailView />
+          <GoalDetailView control={control} isEditable={isEditable} />
         </Animated.View>
         <Animated.View style={[styles.viewContainer, addTodoViewStyle]}>
-          <GoalAddTodoView />
+          <GoalAddTodoView control={control} isEditable={isEditable} />
         </Animated.View>
       </View>
     </ScrollViewScreenWrapper>
@@ -189,15 +192,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 4,
     borderRadius: 50,
     borderBottomColor: AppColors.blue300,
-    width: windowWidth * 0.39,
+    width: windowWidth * 0.41,
   },
   selectedHorizontalLine: {
     borderBottomColor: AppColors.blue100,
   },
   animatedContainer: {
     flex: 1,
+    position: "relative",
   },
   viewContainer: {
     width: "100%",
+    position: "absolute",
   },
 });

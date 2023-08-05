@@ -1,7 +1,8 @@
 import { StyleSheet, View } from "react-native";
 import AudioContainer from "../components/audio/audio-container";
-import Chip from "../components/calendar/chip";
+
 import ToolsContainer from "../components/card/tools/tools-container";
+import Chip from "../components/common/calendar/chip";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
@@ -9,15 +10,15 @@ import { StatusBarColor } from "../utils/types/enums";
 const DiscoverScreen: React.FC = () => {
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
       <View style={styles.filterContainer}>
-        <Chip text="Produktivität" style={styles.filter} />
-        <Chip text="Achtsamkeit" style={styles.filter} />
-        <Chip text="Schlaf" style={styles.filter} />
-        <Chip text="Emotionen" style={styles.filter} />
+        <Chip text='Produktivität' style={styles.filter} />
+        <Chip text='Achtsamkeit' style={styles.filter} />
+        <Chip text='Schlaf' style={styles.filter} />
+        <Chip text='Emotionen' style={styles.filter} />
       </View>
       <ToolsContainer />
       <AudioContainer />
