@@ -22,7 +22,8 @@ import {
 } from "../lib/todos/todo-dates";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import { AuthenticatedStackParamList, UserTodo } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

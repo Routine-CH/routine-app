@@ -20,7 +20,7 @@ import AppText from "../components/common/typography/app-text";
 import useUserMe from "../hooks/use-user-me";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 const getIconComponent = (titleKey: string) => {
   switch (titleKey) {

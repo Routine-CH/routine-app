@@ -11,7 +11,8 @@ import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wra
 import { useUserNote } from "../hooks/notes/use-user-note";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList, UserNotes } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { UserNotes } from "../utils/types/types";
 
 const NotesScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -85,7 +86,7 @@ const NotesScreen: React.FC = () => {
           </>
         ) : (
           <EmptyState
-            type="notes"
+            type='notes'
             title={t("notes.no-notes-titles")}
             description={t("notes.no-notes-yet")}
           />

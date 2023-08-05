@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: windowWidth * 0.05,
-    paddingHorizontal: 30,
     justifyContent: "center",
   },
   saveButton: {

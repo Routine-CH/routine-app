@@ -13,7 +13,8 @@ import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import { AuthStackParamList, IFormLoginInputs } from "../utils/types/types";
+import { AuthStackParamList } from "../utils/types/routes/types";
+import { IFormLoginInputs } from "../utils/types/types";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;

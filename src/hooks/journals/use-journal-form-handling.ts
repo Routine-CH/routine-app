@@ -4,11 +4,8 @@ import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateUserJournalRequest } from "../../data/journal/update-request";
 import { ToastType } from "../../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormJournalInputs,
-  UserJournals,
-} from "../../utils/types/types";
+import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
+import { IFormJournalInputs, UserJournals } from "../../utils/types/types";
 
 export const useFormHandling = (
   journal: UserJournals | null,

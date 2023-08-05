@@ -4,11 +4,8 @@ import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateTodoRequest } from "../../data/todo/update-request";
 import { ToastType } from "../../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormTodoInputs,
-  UserTodo,
-} from "../../utils/types/types";
+import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
+import { IFormTodoInputs, UserTodo } from "../../utils/types/types";
 
 export const useTodoFormHandling = (
   todo: UserTodo | null,

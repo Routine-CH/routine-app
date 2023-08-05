@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Pressable, StyleSheet } from "react-native";
+import { Dimensions, Image, Pressable, StyleSheet } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 
@@ -9,6 +9,8 @@ interface MoodCardProps {
   onPress: () => void;
   isSelected: boolean;
 }
+
+const windowWidth = Dimensions.get("window").width;
 
 const MoodCard: React.FC<MoodCardProps> = ({
   title,
@@ -85,7 +87,7 @@ const MoodCard: React.FC<MoodCardProps> = ({
           style={styles.image}
         />
       )}
-      <AppText fontStyle="bodyMedium" style={textStyle}>
+      <AppText fontStyle='bodyMedium' style={textStyle}>
         {title}
       </AppText>
     </Pressable>
@@ -96,12 +98,12 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    height: 120,
-    width: 120,
+    height: windowWidth * 0.4,
+    width: windowWidth * 0.38,
   },
   image: {
-    height: 90,
-    width: 90,
+    height: windowWidth * 0.3,
+    width: windowWidth * 0.3,
   },
   isSelected: {
     backgroundColor: AppColors.blue200,

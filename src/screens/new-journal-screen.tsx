@@ -12,14 +12,13 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import EmotionModal from "../components/journal/emotion-modal";
 import { createUserJournalRequest } from "../data/journal/create-request";
+import { useJournalStore } from "../store/journal-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormJournalInputs,
-} from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { IFormJournalInputs } from "../utils/types/types";
 
-const NewJournalScreen = () => {
+const NewJournalScreen: React.FC = () => {
   const { t } = useTranslation();
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
@@ -28,6 +27,7 @@ const NewJournalScreen = () => {
     { id: string; type: string }[]
   >([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const { setDataUpdated } = useJournalStore();
 
   const { control, handleSubmit } = useForm<IFormJournalInputs>();
 
@@ -45,7 +45,6 @@ const NewJournalScreen = () => {
     activity,
     toImprove,
     thoughtsAndIdeas,
-    moods,
   }: IFormJournalInputs) => {
     const response = await createUserJournalRequest({
       title,
@@ -61,6 +60,7 @@ const NewJournalScreen = () => {
       setErrorMessage("");
     } else if (response && response.status === 201) {
       showToast(ToastType.success, "Journal gespeichert");
+      setDataUpdated(true);
       setTimeout(() => {
         navigation.navigate("Journals");
       }, 2000);

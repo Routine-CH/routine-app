@@ -4,11 +4,8 @@ import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateNoteRequest } from "../../data/note/update-request";
 import { ToastType } from "../../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormNoteInputs,
-  UserNotes,
-} from "../../utils/types/types";
+import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
+import { IFormNoteInputs, UserNotes } from "../../utils/types/types";
 
 export const useNoteFormHandling = (
   note: UserNotes | null,

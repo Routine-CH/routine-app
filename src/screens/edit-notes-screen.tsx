@@ -18,7 +18,7 @@ import { useImageStore } from "../store/camera-image-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 type NotesEditScreenRouteProps = RouteProp<
   AuthenticatedStackParamList,

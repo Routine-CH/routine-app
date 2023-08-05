@@ -17,10 +17,8 @@ import { createTodoRequest } from "../data/todo/create-request";
 import AppColors from "../utils/constants/colors";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormTodoInputs,
-} from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { IFormTodoInputs } from "../utils/types/types";
 
 const NewTodosScreen = () => {
   const { t } = useTranslation();

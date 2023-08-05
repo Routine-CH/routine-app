@@ -9,7 +9,7 @@ import ScreenWrapper from "../components/common/screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthStackParamList } from "../utils/types/types";
+import { AuthStackParamList } from "../utils/types/routes/types";
 
 const ForgotPasswordScreen: React.FC = () => {
   const navigation =

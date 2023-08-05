@@ -16,10 +16,8 @@ import { useImageStore } from "../store/camera-image-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormNoteInputs,
-} from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { IFormNoteInputs } from "../utils/types/types";
 
 const windowWidth = Dimensions.get("window").width;
 
