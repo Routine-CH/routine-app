@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.blueMuted20,
   },
   contentContainer: {
-    minHeight: 330,
+    minHeight: 300,
     marginVertical: 30,
     backgroundColor: AppColors.blueMuted20,
     borderRadius: 10,

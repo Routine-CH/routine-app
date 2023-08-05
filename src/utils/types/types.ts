@@ -92,11 +92,6 @@ export interface UserTool {
   titleKey: string;
 }
 
-export interface Image {
-  id: string;
-  imageUrl: string;
-}
-
 export interface UserNotes {
   id: string;
   title: string;
@@ -211,7 +206,7 @@ export interface IFormNoteInputs {
   noteId?: string;
   title: string;
   description: string;
-  images?: image[];
+  images?: Image[];
 }
 
 export interface IFormTodoInputs {
@@ -223,8 +218,12 @@ export interface IFormTodoInputs {
   completed?: boolean;
 }
 
-export interface image {
-  imageUrl: string;
+export interface Image {
+  id?: string;
+  imageUrl?: string;
+  uri: string;
+  type?: string;
+  filename?: string;
 }
 
 export type AxiosErrorWithData = AxiosError & {

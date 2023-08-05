@@ -3,7 +3,7 @@ import { Camera, CameraType, PermissionStatus } from "expo-camera";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useStore } from "../../../store/camera-image-store";
+import { useImageStore } from "../../../store/camera-image-store";
 import CameraBackButton from "./camera-back-button";
 import CaptureButton from "./capture-button";
 
@@ -11,7 +11,7 @@ export const CameraView: React.FC = () => {
   const [type, _] = useState(CameraType.back);
   const [permission, setPermission] = useState<PermissionStatus | null>(null);
   const cameraRef = useRef<Camera | null>(null);
-  const addImage = useStore((state) => state.addImage);
+  const addImage = useImageStore((state) => state.addImage);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -36,7 +36,13 @@ export const CameraView: React.FC = () => {
       const options = { quality: 0.5, base64: true };
       await cameraRef.current
         .takePictureAsync(options)
-        .then((data) => addImage(data.uri))
+        .then((data) => {
+          const image = {
+            uri: data.uri,
+          };
+
+          addImage(image);
+        })
         .finally(() => navigation.goBack());
     }
   };
