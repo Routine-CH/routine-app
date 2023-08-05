@@ -3,6 +3,7 @@ import {
   RouteProp,
   useNavigation,
 } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
@@ -39,8 +40,8 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const noteId = route.params.id;
   const { setDataUpdated, isLoading, getNoteById } = useNotesStore();
   const note = getNoteById(noteId);
-  const images = useImageStore.getState().images;
-  const { removeImage, addImage, resetImages } = useImageStore();
+  const { removeExistingImage, addImage, setImages, resetImages, images } =
+    useImageStore();
 
   const {
     control,
@@ -52,15 +53,42 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   } = useNoteFormHandling(note, navigation, noteId, setDataUpdated);
 
   useEffect(() => {
-    if (!note) return;
-    note.images.map((image) => {
-      addImage(image);
-    });
+    if (note && note.images) {
+      setImages(note.images);
+    } else {
+      resetImages();
+    }
   }, [note]);
 
-  const handleDelete = (imageId: string) => {
-    removeImage(imageId);
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need access to your photos to make this work!");
+    } else {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [9, 16],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        result.assets.forEach((asset) => {
+          if (asset.uri) {
+            const image = {
+              uri: asset.uri,
+              type: asset.type || "",
+              filename: asset.fileName || "",
+            };
+
+            addImage(image);
+          }
+        });
+      }
+    }
   };
+
+  console.log(images);
 
   return note ? (
     <ScrollViewScreenWrapper
@@ -134,29 +162,31 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
         <IconButton
           iconName='images'
           style={styles.iconStyle}
+          onPress={pickImage}
           isEditable={!isEditable}
         />
       </View>
       <View style={styles.imageContainer}>
-        {note.images.length > 0 &&
-          images.map((image) => (
-            <View key={image.id} style={{ marginBottom: 30 }}>
-              <View style={styles.closeIcon}>
-                <Icon
-                  name='close'
-                  size={25}
-                  color={AppColors.white}
-                  onPress={() => removeImage(image.uri)}
-                  disabled={isEditable}
+        {images.length > 0 &&
+          images.map((image) => {
+            return (
+              <View key={image.id || image.uri} style={{ marginBottom: 30 }}>
+                <View style={styles.closeIcon}>
+                  <Icon
+                    name='close'
+                    size={25}
+                    color={AppColors.white}
+                    onPress={() => removeExistingImage(image.imageUrl)}
+                  />
+                </View>
+                <Image
+                  key={image.id}
+                  source={{ uri: image.imageUrl || image.uri }}
+                  style={styles.image}
                 />
               </View>
-              <Image
-                key={image.id}
-                source={{ uri: image.imageUrl }}
-                style={styles.image}
-              />
-            </View>
-          ))}
+            );
+          })}
       </View>
       <RoutineToast />
       {updatingNote && (
