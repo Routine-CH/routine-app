@@ -20,6 +20,7 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import AppText from "../components/common/typography/app-text";
 import { useTodoData } from "../hooks/todos/use-todo-data";
 import { useTodoFormHandling } from "../hooks/todos/use-todo-form-handling";
+import { useTodoStore } from "../store/todos-store";
 import AppColors from "../utils/constants/colors";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
@@ -40,6 +41,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
   const id = route.params.id;
   const { todo, isLoading } = useTodoData(id);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const { setDataUpdated } = useTodoStore();
 
   useEffect(() => {
     if (todo?.plannedDate) {
@@ -59,7 +61,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
     onErrors,
     isEditable,
     updatingTodo,
-  } = useTodoFormHandling(todo, navigation, id, selectedDate);
+  } = useTodoFormHandling(todo, navigation, id, selectedDate, setDataUpdated);
 
   const handleModalPress = () => {
     setIsModalVisible(true);

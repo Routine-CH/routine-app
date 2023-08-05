@@ -16,6 +16,7 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { useNoteData } from "../hooks/notes/use-note-data";
 import { useNoteFormHandling } from "../hooks/notes/use-note-form-handling";
 import { useImageStore } from "../store/camera-image-store";
+import { useNotesStore } from "../store/notes-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor } from "../utils/types/enums";
@@ -36,6 +37,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
+  const { setDataUpdated } = useNotesStore();
   const { note } = useNoteData(noteId);
   const images = useImageStore.getState().images;
   const { removeImage, addImage, resetImages } = useImageStore();
@@ -47,7 +49,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
     onErrors,
     isEditable,
     updatingNote,
-  } = useNoteFormHandling(note, navigation, noteId);
+  } = useNoteFormHandling(note, navigation, noteId, setDataUpdated);
 
   console.log(images);
 
@@ -64,7 +66,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -89,7 +91,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
               isEditable={isEditable}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deiner Notiz einen Titel",
             minLength: {
@@ -110,7 +112,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
               isEditable={isEditable}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             required: "Bitte gib deiner Notiz eine Beschreibung",
             minLength: {
@@ -122,12 +124,12 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
       </View>
       <View style={styles.iconContainer}>
         <IconButton
-          iconName="camera"
+          iconName='camera'
           style={[styles.iconStyle, { marginRight: 15 }]}
           isEditable={!isEditable}
         />
         <IconButton
-          iconName="images"
+          iconName='images'
           style={styles.iconStyle}
           isEditable={!isEditable}
         />
@@ -138,7 +140,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
             <View key={image.id} style={{ marginBottom: 30 }}>
               <View style={styles.closeIcon}>
                 <Icon
-                  name="close"
+                  name='close'
                   size={25}
                   color={AppColors.white}
                   onPress={() => handleDelete(image.id!)}

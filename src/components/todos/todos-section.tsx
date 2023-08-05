@@ -31,8 +31,8 @@ const TodosSection: React.FC<TodosSectionProps> = ({
   return (
     <View>
       <AppText
-        fontStyle="heading3"
-        colorStyle="black64"
+        fontStyle='heading3'
+        colorStyle='black64'
         style={{ marginVertical: 30 }}
       >
         {t("todos.todays")} {t("profile.gamification.todos")}
@@ -56,7 +56,7 @@ const TodosSection: React.FC<TodosSectionProps> = ({
         ))
       ) : (
         <EmptyState
-          type="todo"
+          type='todo'
           title={t("todos.no-todos-title")}
           description={t("todos.no-todos")}
           style={{ backgroundColor: AppColors.blueMuted30 }}

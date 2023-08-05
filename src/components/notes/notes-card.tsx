@@ -38,7 +38,7 @@ const NotesCard: React.FC<NotesProps> = ({
             colorStyle='black70'
             numberOfLines={3}
             ellipsizeMode='tail'
-            style={{ lineHeight: 25 }}
+            style={{ lineHeight: 25, maxHeight: 75 }}
           >
             {description}
           </AppText>

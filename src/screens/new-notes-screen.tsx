@@ -14,6 +14,7 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import { createNoteRequest } from "../data/note/create-request";
 import { useImageStore } from "../store/camera-image-store";
+import { useNotesStore } from "../store/notes-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -27,6 +28,7 @@ const NewNotesScreen: React.FC = () => {
   const images = useImageStore.getState().images;
   const { control, handleSubmit } = useForm<IFormNoteInputs>();
   const [errorMessage, setErrorMessage] = useState("");
+  const { setDataUpdated } = useNotesStore();
   const { removeImage, addImage, resetImages } = useImageStore();
   const [creatingNote, setCreatingNote] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
@@ -45,6 +47,7 @@ const NewNotesScreen: React.FC = () => {
       setErrorMessage(response);
     } else if (response && response.status === 201) {
       setIsEditable(false);
+      setDataUpdated(true);
       showToast(ToastType.success, "Notiz gespeichert");
       resetImages();
       setTimeout(() => navigation.navigate("Notes"), 2000);
@@ -122,7 +125,7 @@ const NewNotesScreen: React.FC = () => {
               isEditable={isEditable}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deiner Notiz einen Titel",
             minLength: {
@@ -144,7 +147,7 @@ const NewNotesScreen: React.FC = () => {
               isEditable={isEditable}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             required: "Bitte gib deiner Notiz eine Beschreibung",
             minLength: {
@@ -156,7 +159,7 @@ const NewNotesScreen: React.FC = () => {
       </View>
       <View style={styles.iconContainer}>
         <IconButton
-          iconName="camera"
+          iconName='camera'
           style={[styles.iconStyle, { marginRight: 15 }]}
           onPress={() =>
             navigation.navigate("SubRoutes", {
@@ -166,7 +169,7 @@ const NewNotesScreen: React.FC = () => {
           isEditable={!isEditable}
         />
         <IconButton
-          iconName="images"
+          iconName='images'
           style={styles.iconStyle}
           onPress={pickImage}
           isEditable={!isEditable}
@@ -179,7 +182,7 @@ const NewNotesScreen: React.FC = () => {
               <View key={image.uri} style={{ marginBottom: 15 }}>
                 <View style={styles.closeIcon}>
                   <Icon
-                    name="close"
+                    name='close'
                     size={25}
                     color={AppColors.white}
                     onPress={() => removeImage(image.uri)}

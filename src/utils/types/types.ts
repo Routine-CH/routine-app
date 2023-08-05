@@ -61,6 +61,8 @@ export interface UserNotes {
   createdAt: Date;
 }
 
+export type AllUserNotes = UserNotes[];
+
 export type UserTodo = {
   id: string;
   goalId?: string;
@@ -70,6 +72,8 @@ export type UserTodo = {
   completed: boolean;
   createdAt: Date;
 };
+
+export type AllUserTodos = UserTodo[];
 
 export type UserPomodoroTimers = {
   id: string;

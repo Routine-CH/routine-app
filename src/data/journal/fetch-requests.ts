@@ -54,5 +54,5 @@ export const getUserJournals = async () => {
 
   const journalsData = response.data.data;
 
-  return journalsData.length > 0 ? journalsData : null;
+  return journalsData.length > 0 ? journalsData : [];
 };

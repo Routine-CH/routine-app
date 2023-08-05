@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { addDays, format, startOfDay } from "date-fns";
 import { de } from "date-fns/locale";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
@@ -15,13 +15,13 @@ import TodoModal from "../components/todos/todo-modal";
 import TodosSection from "../components/todos/todos-section";
 import { deleteTodoRequest } from "../data/todo/delete-request";
 import { updateUserTodoCompletedRequest } from "../data/todo/update-completed-request";
-import { useUserTodos } from "../hooks/todos/use-user-todos";
 import {
   filterAndFormatUpcomingTodos,
   getDatesOfWeek,
   getFormattedWeekEnd,
   getFormattedWeekStart,
 } from "../lib/todos/todo-dates";
+import { UpcomingTodos, useTodoStore } from "../store/todos-store";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -29,8 +29,7 @@ import { UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
-    useState(false);
+  const [_, setIsConfirmationModalVisible] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
@@ -40,8 +39,18 @@ const TodosScreen: React.FC = () => {
   const [manualDate, setManualDate] = useState<boolean>(false);
   const today = new Date().toDateString();
 
-  const { upcomingTodos, setUpcomingTodos, isLoadingUpcomingTodos } =
-    useUserTodos();
+  const {
+    userTodos,
+    isLoading,
+    loadUserTodos,
+    dataUpdated,
+    setDataUpdated,
+    setUserTodos,
+  } = useTodoStore();
+
+  useEffect(() => {
+    loadUserTodos();
+  }, [dataUpdated]);
 
   const { initialDate, datesOfWeek, currentWeek } = useMemo(() => {
     const today = selectedDate;
@@ -69,7 +78,7 @@ const TodosScreen: React.FC = () => {
     };
   }, [selectedDate, manualDate]);
 
-  const todaysTodo = Object.entries(upcomingTodos)
+  const todaysTodo = Object.entries(userTodos)
     .filter(([date]) => {
       const todoDate = new Date(date).toDateString();
       return todoDate === today;
@@ -78,8 +87,8 @@ const TodosScreen: React.FC = () => {
     .flat();
 
   const futureTodos = useMemo(() => {
-    return filterAndFormatUpcomingTodos(upcomingTodos, datesOfWeek);
-  }, [upcomingTodos, datesOfWeek]);
+    return filterAndFormatUpcomingTodos(userTodos, datesOfWeek);
+  }, [userTodos, datesOfWeek]);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -99,8 +108,8 @@ const TodosScreen: React.FC = () => {
       const updatedTodo = { ...todo, completed: !todo.completed };
       await updateUserTodoCompletedRequest(updatedTodo);
 
-      setUpcomingTodos((prevTodos) =>
-        Object.keys(prevTodos).reduce<{ [date: string]: UserTodo[] }>(
+      setUserTodos((prevTodos: UpcomingTodos) =>
+        Object.keys(prevTodos).reduce<UpcomingTodos>(
           (updatedUpcomingTodos, date) => {
             updatedUpcomingTodos[date] = prevTodos[date].map((t) =>
               t.id === updatedTodo.id ? updatedTodo : t
@@ -128,12 +137,13 @@ const TodosScreen: React.FC = () => {
     try {
       setIsDeletingTodo(true);
       await deleteTodoRequest(todo);
-      setIsConfirmationModalVisible(false);
+      setDataUpdated(true);
       showToast(ToastType.success, "Todo wurde gelöscht.");
     } catch (error) {
       console.error("Failed to delete todo", error);
       setIsDeletingTodo(false);
     } finally {
+      setIsConfirmationModalVisible(false);
       setIsDeletingTodo(false);
     }
   };
@@ -163,7 +173,7 @@ const TodosScreen: React.FC = () => {
       >
         <BackButton />
         <TodosSection
-          isLoading={isLoadingUpcomingTodos}
+          isLoading={isLoading}
           userTodos={todaysTodo}
           todaysTodo={todaysTodo}
           handleTodoModalPress={handleTodoModalPress}
@@ -174,7 +184,7 @@ const TodosScreen: React.FC = () => {
         <FutureTodosSection
           handleModalPress={handleModalPress}
           currentWeek={currentWeek}
-          isLoadingUpcomingTodos={isLoadingUpcomingTodos}
+          isLoadingUpcomingTodos={isLoading}
           upcomingTodos={futureTodos}
           handleTodoModalPress={handleTodoModalPress}
           handleIconPress={handleIconPress}

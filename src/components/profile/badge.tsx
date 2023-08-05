@@ -3,7 +3,7 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 
 const Badge = () => {
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.badgesContainer}>
         <Image
           style={[styles.image, { marginLeft: 20 }]}

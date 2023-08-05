@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
@@ -8,7 +8,7 @@ import EmptyState from "../components/common/empty-state";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import NotesCard from "../components/notes/notes-card";
-import { useUserNote } from "../hooks/notes/use-user-note";
+import { useNotesStore } from "../store/notes-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -16,10 +16,15 @@ import { UserNotes } from "../utils/types/types";
 
 const NotesScreen: React.FC = () => {
   const { t } = useTranslation();
-  const { userNotes, isLoading } = useUserNote();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [_, setIsModalVisible] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
+
+  const { userNotes, isLoading, dataUpdated, loadUserNotes } = useNotesStore();
+
+  useEffect(() => {
+    loadUserNotes();
+  }, [dataUpdated]);
 
   const navigateToNoteScreen = (note: UserNotes) => {
     if (note) {

@@ -11,7 +11,8 @@ export const useTodoFormHandling = (
   todo: UserTodo | null,
   navigation: NavigationProp<AuthenticatedStackParamList>,
   id: string,
-  selectedDate: Date
+  selectedDate: Date,
+  setDataUpdated: (updated: boolean) => void
 ) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [updatingTodo, setUpdatingTodo] = useState(false);
@@ -59,6 +60,7 @@ export const useTodoFormHandling = (
         setErrorMessage("Something went wrong");
       } else if (response && "status" in response && response.status === 200) {
         setIsEditable(false);
+        setDataUpdated(true);
         showToast(ToastType.success, "Todo gespeichert");
         setTimeout(() => {
           navigation.navigate("Todos");
