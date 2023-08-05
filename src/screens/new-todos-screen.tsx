@@ -15,6 +15,7 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { createTodoRequest } from "../data/todo/create-request";
+import { useTodoStore } from "../store/todos-store";
 import AppColors from "../utils/constants/colors";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -27,6 +28,7 @@ const NewTodosScreen = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [creatingTodo, setCreatingTodo] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const { setDataUpdated } = useTodoStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
@@ -52,6 +54,7 @@ const NewTodosScreen = () => {
     } else if (response && response.status === 201) {
       setIsEditable(false);
       showToast(ToastType.success, "Todo gespeichert");
+      setDataUpdated(true);
       setTimeout(() => {
         navigation.navigate("Todos");
       }, 2000);
@@ -107,7 +110,7 @@ const NewTodosScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deinem Todo ein Titel",
             minLength: {
@@ -130,7 +133,7 @@ const NewTodosScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             minLength: {
               value: 5,
@@ -143,8 +146,8 @@ const NewTodosScreen = () => {
           disabled={!isEditable}
           style={styles.iconContainer}
         >
-          <Icon name="calendar" size={18} color={AppColors.white} />
-          <AppText fontStyle="filters" colorStyle="white">
+          <Icon name='calendar' size={18} color={AppColors.white} />
+          <AppText fontStyle='filters' colorStyle='white'>
             {isToday(selectedDate)
               ? t("todos.today")
               : format(selectedDate, "dd.MM.yy", { locale: de })}

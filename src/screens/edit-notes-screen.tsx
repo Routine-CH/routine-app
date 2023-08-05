@@ -64,7 +64,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -89,7 +89,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
               isEditable={isEditable}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deiner Notiz einen Titel",
             minLength: {
@@ -110,7 +110,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
               isEditable={isEditable}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             required: "Bitte gib deiner Notiz eine Beschreibung",
             minLength: {
@@ -122,12 +122,12 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
       </View>
       <View style={styles.iconContainer}>
         <IconButton
-          iconName="camera"
+          iconName='camera'
           style={[styles.iconStyle, { marginRight: 15 }]}
           isEditable={!isEditable}
         />
         <IconButton
-          iconName="images"
+          iconName='images'
           style={styles.iconStyle}
           isEditable={!isEditable}
         />
@@ -138,7 +138,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
             <View key={image.id} style={{ marginBottom: 30 }}>
               <View style={styles.closeIcon}>
                 <Icon
-                  name="close"
+                  name='close'
                   size={25}
                   color={AppColors.white}
                   onPress={() => handleDelete(image.id!)}
