@@ -14,6 +14,8 @@ export const useTodoFormHandling = (
   selectedDate: Date
 ) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [updatingTodo, setUpdatingTodo] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
   const [plannedDate, setPlannedDate] = useState<Date | undefined>(
     selectedDate
   );
@@ -46,6 +48,7 @@ export const useTodoFormHandling = (
 
   const handleUpdate = async (data: IFormTodoInputs) => {
     try {
+      setUpdatingTodo(true);
       const response = await updateTodoRequest({
         ...data,
         id,
@@ -55,6 +58,7 @@ export const useTodoFormHandling = (
         showToast(ToastType.error, response);
         setErrorMessage("Something went wrong");
       } else if (response && "status" in response && response.status === 200) {
+        setIsEditable(false);
         showToast(ToastType.success, "Todo gespeichert");
         setTimeout(() => {
           navigation.navigate("Todos");
@@ -63,6 +67,7 @@ export const useTodoFormHandling = (
     } catch (error) {
       showToast(ToastType.error, errorMessage);
     }
+    setUpdatingTodo(false);
   };
 
   const onErrors = (errors: any) => {
@@ -85,5 +90,7 @@ export const useTodoFormHandling = (
     handleSubmit,
     handleUpdate,
     onErrors,
+    isEditable,
+    updatingTodo,
   };
 };
