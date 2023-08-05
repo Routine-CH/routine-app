@@ -14,10 +14,29 @@ interface GoalProps {
 
 const windowWidth = Dimensions.get("window").width;
 
-const GoalsCard: React.FC<GoalProps> = ({ title, description }) => {
+const GoalsCard: React.FC<GoalProps> = ({
+  title,
+  description,
+  displayHorizontalScroll = false,
+}) => {
   return (
-    <View style={[styles.container]}>
-      <View style={styles.card}>
+    <View
+      style={[
+        styles.container,
+        { marginRight: displayHorizontalScroll ? 15 : 0 },
+      ]}
+    >
+      <View
+        style={[
+          styles.card,
+          {
+            width: displayHorizontalScroll
+              ? windowWidth * 0.84
+              : windowWidth * 0.9,
+            marginBottom: displayHorizontalScroll ? 0 : windowWidth * 0.06,
+          },
+        ]}
+      >
         <Svg width='72' height='72'>
           <LinearGradient id='gradient' x1='0%' y1='0%' x2='0%' y2='100%'>
             <Stop offset='0%' stopColor='rgba(41, 104, 121, 1)' />
@@ -68,15 +87,14 @@ const GoalsCard: React.FC<GoalProps> = ({ title, description }) => {
 export default GoalsCard;
 
 const styles = StyleSheet.create({
-  container: { alignItems: "center", flex: 1, marginRight: 15 },
+  container: { alignItems: "center", flex: 1 },
   card: {
-    width: windowWidth * 0.84,
     backgroundColor: AppColors.blueMuted40,
     borderRadius: 13,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: windowWidth * 0.05,
-    paddingVertical: windowWidth * 0.05,
+    paddingHorizontal: windowWidth * 0.03,
+    paddingVertical: windowWidth * 0.04,
   },
   textfields: {
     marginLeft: 15,

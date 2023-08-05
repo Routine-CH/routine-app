@@ -67,6 +67,7 @@ const GoalsContainer: React.FC = () => {
               key={goal.id}
               title={goal.title}
               description={goal.description}
+              displayHorizontalScroll={true}
             />
           ))}
           {userGoals.length > 3 && (
