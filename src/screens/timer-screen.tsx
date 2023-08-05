@@ -6,15 +6,9 @@ import BreakSlide from "../components/timer/break-slide";
 import PauseSlide from "../components/timer/pause-slide";
 import RunningSlide from "../components/timer/running-slide";
 import StartSlide from "../components/timer/start-slide";
+import { TimerSlide } from "../store/pomodoro-timer-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-
-enum TimerSlide {
-  Start = "start",
-  Running = "running",
-  Pause = "pause",
-  Break = "break",
-}
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -62,12 +56,6 @@ const TimerScreen: React.FC = () => {
     setTimeRemaining(25 * 60); // Reset the timer to 25 minutes
   };
 
-  const adjustTime = (newTime: number) => {
-    if (slide === TimerSlide.Start || slide === TimerSlide.Pause) {
-      setTimeRemaining(newTime * 60); // Convert minutes to seconds
-    }
-  };
-
   return (
     <ScreenWrapper
       backgroundColor={AppColors.blue100}
@@ -82,9 +70,7 @@ const TimerScreen: React.FC = () => {
           marginTop: windowHeight * 0.1,
         }}
       >
-        {slide === TimerSlide.Start && (
-          <StartSlide onStartTimer={startTimer} onSetDuration={adjustTime} />
-        )}
+        {slide === TimerSlide.Start && <StartSlide onStartTimer={startTimer} />}
         {slide === TimerSlide.Running && (
           <RunningSlide
             timeRemaining={timeRemaining}
@@ -99,9 +85,7 @@ const TimerScreen: React.FC = () => {
             onCancelTimer={cancelTimer}
           />
         )}
-        {slide === TimerSlide.Break && (
-          <BreakSlide onStartTimer={startTimer} onSetDuration={adjustTime} />
-        )}
+        {slide === TimerSlide.Break && <BreakSlide onStartTimer={startTimer} />}
       </View>
     </ScreenWrapper>
   );
