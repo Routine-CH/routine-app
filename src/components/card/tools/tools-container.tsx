@@ -2,7 +2,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../../utils/constants/colors";
-import { AuthenticatedStackParamList } from "../../../utils/types/types";
+import { AuthenticatedStackParamList } from "../../../utils/types/routes/types";
 import { routineTools } from "../../../utils/utils";
 import RoutineTool from "./routine-tool";
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Dimensions,
   Modal,
   ScrollView,
   StyleSheet,
@@ -21,6 +22,8 @@ interface EmotionModalProps {
   }[];
   onMoodsSelect: (selectedMood: { id: string; type: string }[]) => void;
 }
+
+const windowWidth = Dimensions.get("window").width;
 
 const EmotionModal: React.FC<EmotionModalProps> = ({
   isVisible,
@@ -119,11 +122,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   moodContainer: {
-    width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 40,
-    paddingHorizontal: 30,
+    gap: windowWidth * 0.05,
     justifyContent: "center",
   },
   saveButton: {

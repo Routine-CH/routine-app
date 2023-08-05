@@ -22,7 +22,7 @@ import UserInformation from "../components/profile/profile-settings/user-informa
 import { useMinimalUser } from "../hooks/profile/use-minimal-user";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 type ProfileSettingsRouteProp = RouteProp<
   AuthenticatedStackParamList,
@@ -70,7 +70,7 @@ const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
               <View style={styles.pictureOuterStyle}>
                 <TouchableOpacity style={styles.button}>
                   <Icon
-                    name="pencil"
+                    name='pencil'
                     size={windowWidth * 0.055}
                     color={AppColors.white}
                   />

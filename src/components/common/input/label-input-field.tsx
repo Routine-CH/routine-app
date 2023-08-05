@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    padding: 15,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
   },
   inputStyle: {
     flex: 1,

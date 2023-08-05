@@ -17,14 +17,12 @@ import { useImageStore } from "../store/camera-image-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormNoteInputs,
-} from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { IFormNoteInputs } from "../utils/types/types";
 
 const windowWidth = Dimensions.get("window").width;
 
-const NewNotesScreen = () => {
+const NewNotesScreen: React.FC = () => {
   const { t } = useTranslation();
   const images = useImageStore.getState().images;
   const { control, handleSubmit } = useForm<IFormNoteInputs>();
@@ -98,8 +96,6 @@ const NewNotesScreen = () => {
       }
     }
   };
-
-  console.log(images);
 
   return (
     <ScrollViewScreenWrapper
@@ -204,6 +200,7 @@ const NewNotesScreen = () => {
 };
 
 export default NewNotesScreen;
+
 const styles = StyleSheet.create({
   backButtonStyle: {
     backgroundColor: AppColors.blue100,

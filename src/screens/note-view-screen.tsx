@@ -21,7 +21,7 @@ import { deleteNoteRequest } from "../data/note/delete-request";
 import { useNoteData } from "../hooks/notes/use-note-data";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 type NoteViewScreenRouteProps = RouteProp<
   AuthenticatedStackParamList,
@@ -99,17 +99,17 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
             </Pressable>
           </View>
           <View style={styles.contentContainer}>
-            <AppText fontStyle="toast" colorStyle="black70">
+            <AppText fontStyle='toast' colorStyle='black70'>
               {formattedDate}
             </AppText>
             <AppText
-              fontStyle="heading3"
-              colorStyle="black70"
+              fontStyle='heading3'
+              colorStyle='black70'
               style={{ marginVertical: 15 }}
             >
               {note?.title}
             </AppText>
-            <AppText fontStyle="body" colorStyle="black70">
+            <AppText fontStyle='body' colorStyle='black70'>
               {note?.description}
             </AppText>
           </View>

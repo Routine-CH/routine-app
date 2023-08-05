@@ -36,6 +36,7 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
     >
       <StatusBar style={statusBarColor ? statusBarColor : "auto"} />
       <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
           paddingVertical: 10,

@@ -12,7 +12,7 @@ import WeekView from "../components/profile/week-view";
 import YearCard from "../components/profile/year-card";
 import { useGamificationUser } from "../hooks/profile/use-gamification-user";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 const ProfileScreen = () => {
   const { t } = useTranslation();

@@ -1,5 +1,4 @@
 import { create } from "zustand";
-
 import { Image } from "../utils/types/types";
 
 export type ImageState = {

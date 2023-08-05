@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, TouchableOpacity } from "react-native";
 import AppFontStyle from "../../utils/constants/font-style";
-import { AuthenticatedStackParamList } from "../../utils/types/types";
+import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
 import AppText from "../common/typography/app-text";
 import AudioCard from "./audio-card";
 

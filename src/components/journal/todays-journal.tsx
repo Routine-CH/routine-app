@@ -5,7 +5,8 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import { UserJournals } from "../../utils/types/types";
-import Chip from "../calendar/chip";
+
+import Chip from "../common/calendar/chip";
 import AppText from "../common/typography/app-text";
 
 interface JournalProps {

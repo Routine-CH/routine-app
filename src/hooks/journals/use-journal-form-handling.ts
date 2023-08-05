@@ -4,16 +4,14 @@ import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateUserJournalRequest } from "../../data/journal/update-request";
 import { ToastType } from "../../utils/types/enums";
-import {
-      AuthenticatedStackParamList,
-      IFormJournalInputs,
-      UserJournals,
-} from "../../utils/types/types";
+import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
+import { IFormJournalInputs, UserJournals } from "../../utils/types/types";
 
 export const useFormHandling = (
   journal: UserJournals | null,
   navigation: NavigationProp<AuthenticatedStackParamList>,
-  journalId: string
+  journalId: string,
+  setDataUpdated: (updated: boolean) => void
 ) => {
   const [selectedMoods, setSelectedMoods] = useState<
     { id: string; type: string }[]
@@ -63,7 +61,7 @@ export const useFormHandling = (
 
   const handleUpdate = async (data: IFormJournalInputs) => {
     try {
-      setUpdatingJournal(true)
+      setUpdatingJournal(true);
       const response = await updateUserJournalRequest({
         ...data,
         journalId,
@@ -76,6 +74,7 @@ export const useFormHandling = (
       } else if (response && "status" in response && response.status === 200) {
         setIsEditable(false);
         showToast(ToastType.success, "Journal gespeichert");
+        setDataUpdated(true);
         setTimeout(() => {
           navigation.navigate("Journals");
         }, 2000);
@@ -85,7 +84,7 @@ export const useFormHandling = (
     } catch (error) {
       showToast(ToastType.error, errorMessage);
     }
-    setUpdatingJournal(false)
+    setUpdatingJournal(false);
   };
 
   const onErrors = (errors: any) => {
@@ -123,6 +122,7 @@ export const useFormHandling = (
     onErrors,
     handleDeleteMood,
     setSelectedMoods,
-    updatingJournal, isEditable
+    updatingJournal,
+    isEditable,
   };
 };

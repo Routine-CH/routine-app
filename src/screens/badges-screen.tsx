@@ -143,7 +143,7 @@ export default BadgesScreen;
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginVertical: 60,
+    marginVertical: 30,
     flexDirection: "row",
     justifyContent: "space-between",
   },

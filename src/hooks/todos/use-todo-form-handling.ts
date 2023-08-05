@@ -4,11 +4,8 @@ import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateTodoRequest } from "../../data/todo/update-request";
 import { ToastType } from "../../utils/types/enums";
-import {
-      AuthenticatedStackParamList,
-      IFormTodoInputs,
-      UserTodo,
-} from "../../utils/types/types";
+import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
+import { IFormTodoInputs, UserTodo } from "../../utils/types/types";
 
 export const useTodoFormHandling = (
   todo: UserTodo | null,
@@ -51,7 +48,7 @@ export const useTodoFormHandling = (
 
   const handleUpdate = async (data: IFormTodoInputs) => {
     try {
-      setUpdatingTodo(true)
+      setUpdatingTodo(true);
       const response = await updateTodoRequest({
         ...data,
         id,
@@ -70,7 +67,7 @@ export const useTodoFormHandling = (
     } catch (error) {
       showToast(ToastType.error, errorMessage);
     }
-    setUpdatingTodo(false)
+    setUpdatingTodo(false);
   };
 
   const onErrors = (errors: any) => {
@@ -93,7 +90,7 @@ export const useTodoFormHandling = (
     handleSubmit,
     handleUpdate,
     onErrors,
-    isEditable, 
-    updatingTodo
+    isEditable,
+    updatingTodo,
   };
 };

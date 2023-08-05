@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { format, getDate, parseISO } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -17,11 +17,11 @@ import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
 import { deleteUserJournalRequest } from "../data/journal/delete-request";
-import { useUserJournal } from "../hooks/journals/use-user-journal";
+import { useJournalStore } from "../store/journal-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -36,7 +36,17 @@ const JournalsScreen: React.FC = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  const { userJournals, isLoading } = useUserJournal();
+  const {
+    userJournals,
+    isLoading,
+    loadUserJournals,
+    dataUpdated,
+    setDataUpdated,
+  } = useJournalStore();
+
+  useEffect(() => {
+    loadUserJournals();
+  }, [dataUpdated]);
 
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
@@ -47,7 +57,7 @@ const JournalsScreen: React.FC = () => {
     return journalDate.getTime() === currentDate.getTime();
   });
 
-  const pastJournals = userJournals?.filter((journal) => {
+  const pastJournals = userJournals.filter((journal) => {
     const journalDate = new Date(journal.createdAt);
     journalDate.setHours(0, 0, 0, 0);
     return journalDate.getTime() !== currentDate.getTime();
@@ -56,13 +66,20 @@ const JournalsScreen: React.FC = () => {
   const deleteJournal = async () => {
     try {
       setIsDeletingJournal(true);
-      setIsModalVisible(false);
-      await deleteUserJournalRequest(todayJournal);
-      showToast(ToastType.success, "Journal gelöscht");
-      setTimeout(() => {
-        navigation.navigate("Journals");
-      }, 2000);
+      const response = await deleteUserJournalRequest(todayJournal);
+      if (response!.status === 204) {
+        setIsModalVisible(false);
+        showToast(ToastType.success, "Journal gelöscht");
+        setDataUpdated(true);
+        setTimeout(() => {
+          navigation.navigate("Journals");
+        }, 2000);
+      } else {
+        showToast(ToastType.error, "Journal konnte nicht gelöscht werden");
+      }
     } catch (error) {
+      setIsModalVisible(false);
+      setIsDeletingJournal(false);
       console.error("Failed to delete journal", error);
     } finally {
       setIsDeletingJournal(false);
@@ -81,7 +98,9 @@ const JournalsScreen: React.FC = () => {
 
   const navigateToNewJournalScreen = () => {
     setIsModalVisible(false);
-    navigation.navigate("SubRoutes", { screen: "JournalNew" });
+    navigation.navigate("SubRoutes", {
+      screen: "JournalNew",
+    });
   };
 
   return (
@@ -110,7 +129,7 @@ const JournalsScreen: React.FC = () => {
               <TodaysJournal userJournal={todayJournal} />
             ) : (
               <EmptyState
-                type="journal"
+                type='journal'
                 title={t("journal.no-entry-title")}
                 description={t("journal.no-entry-yet")}
                 style={{ backgroundColor: AppColors.blueMuted30 }}
@@ -128,7 +147,7 @@ const JournalsScreen: React.FC = () => {
           }}
         >
           <AppText
-            colorStyle="black64"
+            colorStyle='black64'
             style={{
               marginBottom: 30,
               fontSize: windowWidth * 0.07,
@@ -156,7 +175,7 @@ const JournalsScreen: React.FC = () => {
             })
           ) : (
             <EmptyState
-              type="journal"
+              type='journal'
               title={t("journal.no-entry-titles")}
               description={t("journal.no-entries-yet")}
               style={{ backgroundColor: AppColors.white }}

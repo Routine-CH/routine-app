@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import Chip from "../components/calendar/chip";
 import IconTextButton from "../components/common/buttons/icon-text-button";
 import SaveButton from "../components/common/buttons/save-button";
+import Chip from "../components/common/calendar/chip";
 import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -13,14 +13,13 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import EmotionModal from "../components/journal/emotion-modal";
 import { createUserJournalRequest } from "../data/journal/create-request";
+import { useJournalStore } from "../store/journal-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import {
-  AuthenticatedStackParamList,
-  IFormJournalInputs,
-} from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { IFormJournalInputs } from "../utils/types/types";
 
-const NewJournalScreen = () => {
+const NewJournalScreen: React.FC = () => {
   const { t } = useTranslation();
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
@@ -29,6 +28,7 @@ const NewJournalScreen = () => {
     { id: string; type: string }[]
   >([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const { setDataUpdated } = useJournalStore();
   const [creatingJournal, setCreatingJournal] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
 
@@ -48,7 +48,6 @@ const NewJournalScreen = () => {
     activity,
     toImprove,
     thoughtsAndIdeas,
-    moods,
   }: IFormJournalInputs) => {
     setCreatingJournal(true);
     const response = await createUserJournalRequest({
@@ -66,6 +65,7 @@ const NewJournalScreen = () => {
     } else if (response && response.status === 201) {
       setIsEditable(false);
       showToast(ToastType.success, "Journal gespeichert");
+      setDataUpdated(true);
       setTimeout(() => {
         navigation.navigate("Journals");
       }, 2000);
@@ -128,7 +128,7 @@ const NewJournalScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deinem Journal einen Titel",
             minLength: {
@@ -153,7 +153,7 @@ const NewJournalScreen = () => {
           ))}
         </View>
         <IconTextButton
-          iconName="add-outline"
+          iconName='add-outline'
           size={30}
           title={t("journal.mood")}
           style={styles.iconTextButton}
@@ -174,7 +174,7 @@ const NewJournalScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="moodDescription"
+          name='moodDescription'
           rules={{
             required: "Bitte beschreibe deine Gefühle.",
           }}
@@ -193,7 +193,7 @@ const NewJournalScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="activity"
+          name='activity'
           rules={{
             required: "Bitte beschreibe, was du anders machen hättest können.",
           }}
@@ -212,7 +212,7 @@ const NewJournalScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="toImprove"
+          name='toImprove'
           rules={{
             required: "Bitte beschreibe, was du noch verbessern könntest.",
           }}
@@ -231,7 +231,7 @@ const NewJournalScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="thoughtsAndIdeas"
+          name='thoughtsAndIdeas'
         />
         <EmotionModal
           isVisible={isModalVisible}

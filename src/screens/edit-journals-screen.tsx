@@ -7,9 +7,10 @@ import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import Chip from "../components/calendar/chip";
+
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
+import Chip from "../components/common/calendar/chip";
 import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -18,9 +19,10 @@ import AppText from "../components/common/typography/app-text";
 import EmotionModal from "../components/journal/emotion-modal";
 import { useJournalData } from "../hooks/journals/use-journal-data";
 import { useFormHandling } from "../hooks/journals/use-journal-form-handling";
+import { useJournalStore } from "../store/journal-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 type EditJournalScreenRouteProp = RouteProp<
   AuthenticatedStackParamList,
@@ -38,7 +40,9 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const { t } = useTranslation();
   const journalId = route.params.id;
 
-  const { journal, isLoading } = useJournalData(journalId);
+  const { journal } = useJournalData(journalId);
+
+  const { setDataUpdated } = useJournalStore();
 
   const {
     control,
@@ -50,7 +54,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     setSelectedMoods,
     isEditable,
     updatingJournal,
-  } = useFormHandling(journal, navigation, journalId);
+  } = useFormHandling(journal, navigation, journalId, setDataUpdated);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -62,7 +66,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
 
   return journal ? (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -77,8 +81,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
       <View style={styles.contentContainer}>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.title")}
@@ -95,7 +99,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 isEditable={isEditable}
               />
             )}
-            name="title"
+            name='title'
             rules={{
               required: "Bitte gib deinem Journal einen Titel",
               minLength: {
@@ -107,8 +111,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.mood")}
@@ -125,7 +129,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             ))}
           </View>
           <IconButton
-            iconName="add"
+            iconName='add'
             style={styles.iconButtonStyle}
             onPress={handleModalPress}
             isEditable={!isEditable}
@@ -133,8 +137,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.mood-description")}
@@ -151,14 +155,14 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 isEditable={isEditable}
               />
             )}
-            name="moodDescription"
+            name='moodDescription'
             rules={{ required: "Bitte beschreibe deine Gefühle." }}
           />
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.activity")}
@@ -175,7 +179,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 isEditable={isEditable}
               />
             )}
-            name="activity"
+            name='activity'
             rules={{
               required:
                 "Bitte beschreibe, was du anders machen hättest können.",
@@ -184,8 +188,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.to-improve")}
@@ -202,7 +206,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 isEditable={isEditable}
               />
             )}
-            name="toImprove"
+            name='toImprove'
             rules={{
               required: "Bitte beschreibe, was du noch verbessern könntest.",
             }}
@@ -210,8 +214,8 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         </View>
         <View>
           <AppText
-            fontStyle="body"
-            colorStyle="black70"
+            fontStyle='body'
+            colorStyle='black70'
             style={styles.labelStyle}
           >
             {t("journal.thoughts-and-ideas")}
@@ -228,7 +232,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 isEditable={isEditable}
               />
             )}
-            name="thoughtsAndIdeas"
+            name='thoughtsAndIdeas'
           />
         </View>
       </View>

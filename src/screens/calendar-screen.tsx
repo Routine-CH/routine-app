@@ -2,8 +2,9 @@ import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
 import { de } from "date-fns/locale";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import CalendarData from "../components/calendar/calendar-data";
-import ChipContainer from "../components/calendar/chip-container";
+
+import CalendarData from "../components/common/calendar/calendar-data";
+import ChipContainer from "../components/common/calendar/chip-container";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -52,7 +53,7 @@ const CalendarScreen: React.FC = () => {
 
   return (
     <ScrollViewScreenWrapper
-      backgroundColor="white"
+      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
       defaultPadding
     >
@@ -63,7 +64,7 @@ const CalendarScreen: React.FC = () => {
       <TouchableOpacity onPress={handleModalPress}>
         <AppText
           fontStyle={"body"}
-          colorStyle="black64"
+          colorStyle='black64'
           style={styles.calendarText}
         >
           {currentWeek}

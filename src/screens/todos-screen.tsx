@@ -24,7 +24,8 @@ import {
 } from "../lib/todos/todo-dates";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
-import { AuthenticatedStackParamList, UserTodo } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { UserTodo } from "../utils/types/types";
 
 const TodosScreen: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -131,6 +132,7 @@ const TodosScreen: React.FC = () => {
       showToast(ToastType.success, "Todo wurde gelöscht.");
     } catch (error) {
       console.error("Failed to delete todo", error);
+      setIsDeletingTodo(false);
     } finally {
       setIsDeletingTodo(false);
     }
@@ -155,7 +157,7 @@ const TodosScreen: React.FC = () => {
   return (
     <>
       <ScrollViewScreenWrapper
-        backgroundColor="white"
+        backgroundColor='white'
         statusBarColor={StatusBarColor.dark}
         defaultPadding
       >

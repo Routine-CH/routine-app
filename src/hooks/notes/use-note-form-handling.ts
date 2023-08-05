@@ -4,11 +4,8 @@ import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateNoteRequest } from "../../data/note/update-request";
 import { ToastType } from "../../utils/types/enums";
-import {
-      AuthenticatedStackParamList,
-      IFormNoteInputs,
-      UserNotes,
-} from "../../utils/types/types";
+import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
+import { IFormNoteInputs, UserNotes } from "../../utils/types/types";
 
 export const useNoteFormHandling = (
   note: UserNotes | null,
@@ -38,7 +35,7 @@ export const useNoteFormHandling = (
 
   const handleUpdate = async (data: IFormNoteInputs) => {
     try {
-      setUpdatingNote(true)
+      setUpdatingNote(true);
       const response = await updateNoteRequest({
         ...data,
         noteId,
@@ -57,7 +54,7 @@ export const useNoteFormHandling = (
     } catch (error) {
       showToast(ToastType.error, errorMessage);
     }
-    setUpdatingNote(false)
+    setUpdatingNote(false);
   };
 
   const onErrors = (errors: any) => {
@@ -81,6 +78,6 @@ export const useNoteFormHandling = (
     handleUpdate,
     onErrors,
     updatingNote,
-    isEditable
+    isEditable,
   };
 };

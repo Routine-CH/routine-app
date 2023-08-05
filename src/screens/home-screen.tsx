@@ -14,13 +14,13 @@ import NotesIcon from "../components/card/tools/tools-svg/notes-icon";
 import SelectIcon from "../components/card/tools/tools-svg/select-icon";
 import TimerIcon from "../components/card/tools/tools-svg/timer-icon";
 import TodoIcon from "../components/card/tools/tools-svg/todo-icon";
-import GoalsContainer from "../components/common/goals/goals-container";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
+import GoalsContainer from "../components/goals/goals-container";
 import useUserMe from "../hooks/use-user-me";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
-import { AuthenticatedStackParamList } from "../utils/types/types";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 const getIconComponent = (titleKey: string) => {
   switch (titleKey) {
