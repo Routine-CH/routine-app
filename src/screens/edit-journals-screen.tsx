@@ -17,6 +17,7 @@ import AppText from "../components/common/typography/app-text";
 import EmotionModal from "../components/journal/emotion-modal";
 import { useJournalData } from "../hooks/journals/use-journal-data";
 import { useFormHandling } from "../hooks/journals/use-journal-form-handling";
+import { useJournalStore } from "../store/journal-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -37,7 +38,9 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const { t } = useTranslation();
   const journalId = route.params.id;
 
-  const { journal, isLoading } = useJournalData(journalId);
+  const { journal } = useJournalData(journalId);
+
+  const { setDataUpdated } = useJournalStore();
 
   const {
     control,
@@ -47,7 +50,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     onErrors,
     handleDeleteMood,
     setSelectedMoods,
-  } = useFormHandling(journal, navigation, journalId);
+  } = useFormHandling(journal, navigation, journalId, setDataUpdated);
 
   const handleModalPress = () => {
     setIsModalVisible(true);

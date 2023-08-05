@@ -20,7 +20,7 @@ export const deleteUserJournalRequest = async (
             },
           }
         );
-        return response.data;
+        return response;
       }
     }
   } catch (error) {

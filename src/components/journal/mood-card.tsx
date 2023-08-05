@@ -107,10 +107,9 @@ const styles = StyleSheet.create({
   },
   isSelected: {
     backgroundColor: AppColors.blue200,
-    padding: 5,
     borderRadius: 5,
-    height: 120,
-    width: 120,
+    height: windowWidth * 0.4,
+    width: windowWidth * 0.38,
   },
   text: {
     color: AppColors.blue100,

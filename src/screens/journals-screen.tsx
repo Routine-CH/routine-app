@@ -34,8 +34,13 @@ const JournalsScreen: React.FC = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  const { userJournals, isLoading, loadUserJournals, dataUpdated } =
-    useJournalStore();
+  const {
+    userJournals,
+    isLoading,
+    loadUserJournals,
+    dataUpdated,
+    setDataUpdated,
+  } = useJournalStore();
 
   useEffect(() => {
     loadUserJournals();
@@ -56,13 +61,18 @@ const JournalsScreen: React.FC = () => {
     return journalDate.getTime() !== currentDate.getTime();
   });
 
-  const deleteJournal = () => {
-    deleteUserJournalRequest(todayJournal);
+  const deleteJournal = async () => {
+    const response = await deleteUserJournalRequest(todayJournal);
     setIsModalVisible(false);
-    showToast(ToastType.success, "Journal gelöscht");
-    setTimeout(() => {
-      navigation.navigate("Journals");
-    }, 2000);
+    if (response!.status === 204) {
+      showToast(ToastType.success, "Journal gelöscht");
+      setDataUpdated(true);
+      setTimeout(() => {
+        navigation.navigate("Journals");
+      }, 2000);
+    } else {
+      showToast(ToastType.error, "Journal konnte nicht gelöscht werden");
+    }
   };
 
   const navigateToJournalEditScreen = () => {

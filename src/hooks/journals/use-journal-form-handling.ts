@@ -10,7 +10,8 @@ import { IFormJournalInputs, UserJournals } from "../../utils/types/types";
 export const useFormHandling = (
   journal: UserJournals | null,
   navigation: NavigationProp<AuthenticatedStackParamList>,
-  journalId: string
+  journalId: string,
+  setDataUpdated: (updated: boolean) => void
 ) => {
   const [selectedMoods, setSelectedMoods] = useState<
     { id: string; type: string }[]
@@ -69,6 +70,7 @@ export const useFormHandling = (
         setErrorMessage("Something went wrong");
       } else if (response && "status" in response && response.status === 200) {
         showToast(ToastType.success, "Journal gespeichert");
+        setDataUpdated(true);
         setTimeout(() => {
           navigation.navigate("Journals");
         }, 2000);
