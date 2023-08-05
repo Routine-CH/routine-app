@@ -10,7 +10,8 @@ import { IFormNoteInputs, UserNotes } from "../../utils/types/types";
 export const useNoteFormHandling = (
   note: UserNotes | null,
   navigation: NavigationProp<AuthenticatedStackParamList>,
-  noteId: string
+  noteId: string,
+  setDataUpdated: (updated: boolean) => void
 ) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [updatingNote, setUpdatingNote] = useState(false);
@@ -46,6 +47,7 @@ export const useNoteFormHandling = (
         setErrorMessage("Something went wrong");
       } else if (response && "status" in response && response.status === 200) {
         setIsEditable(false);
+        setDataUpdated(true);
         showToast(ToastType.success, "Notiz gespeichert");
         setTimeout(() => {
           navigation.navigate("Notes");
@@ -53,8 +55,9 @@ export const useNoteFormHandling = (
       }
     } catch (error) {
       showToast(ToastType.error, errorMessage);
+    } finally {
+      setUpdatingNote(false);
     }
-    setUpdatingNote(false);
   };
 
   const onErrors = (errors: any) => {

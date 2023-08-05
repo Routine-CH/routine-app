@@ -16,6 +16,7 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { useNoteData } from "../hooks/notes/use-note-data";
 import { useNoteFormHandling } from "../hooks/notes/use-note-form-handling";
 import { useImageStore } from "../store/camera-image-store";
+import { useNotesStore } from "../store/notes-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor } from "../utils/types/enums";
@@ -36,6 +37,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
+  const { setDataUpdated } = useNotesStore();
   const { note } = useNoteData(noteId);
   const images = useImageStore.getState().images;
   const { removeImage, addImage, resetImages } = useImageStore();
@@ -47,7 +49,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
     onErrors,
     isEditable,
     updatingNote,
-  } = useNoteFormHandling(note, navigation, noteId);
+  } = useNoteFormHandling(note, navigation, noteId, setDataUpdated);
 
   console.log(images);
 

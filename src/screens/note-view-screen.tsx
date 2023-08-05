@@ -19,6 +19,7 @@ import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { deleteNoteRequest } from "../data/note/delete-request";
 import { useNoteData } from "../hooks/notes/use-note-data";
+import { useNotesStore } from "../store/notes-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -36,6 +37,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   const { t } = useTranslation();
   const noteId = route.params.id;
   const { note, isLoading } = useNoteData(noteId);
+  const { setDataUpdated } = useNotesStore();
   const [isDeletingNote, setIsDeletingNote] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const createdAt = note?.createdAt ? new Date(note.createdAt) : null;
@@ -56,6 +58,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
       setIsModalVisible(false);
       await deleteNoteRequest(note);
       showToast(ToastType.success, "Notiz wurde gelöscht.");
+      setDataUpdated(true);
       setTimeout(() => {
         navigation.navigate("SubRoutes", {
           screen: "Notes",

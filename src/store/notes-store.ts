@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { useUserNote } from "../hooks/notes/use-user-note";
+import { getUserNotes } from "../data/note/fetch-request";
 import { AllUserNotes } from "../utils/types/types";
 
 export type NotesState = {
@@ -23,7 +23,7 @@ export const useNotesStore = create<NotesState & NotesAction>((set) => ({
   loadUserNotes: async () => {
     set({ isLoading: true });
     try {
-      const notes = await useUserNote();
+      const notes = await getUserNotes();
       set({ userNotes: notes, dataUpdated: false });
     } catch (error) {
       console.error("Failed to get user notes", error);
