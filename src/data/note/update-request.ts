@@ -3,10 +3,10 @@ import { showToast } from "../../components/common/toast/show-toast";
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
 import { ToastType } from "../../utils/types/enums";
-import { IFormNoteInputs } from "../../utils/types/types";
+import { AxiosErrorWithData, IFormNoteInputs } from "../../utils/types/types";
 
 export const updateNoteRequest = async ({
- noteId,
+  noteId,
   title,
   description,
   images = [],
@@ -21,14 +21,22 @@ export const updateNoteRequest = async ({
         newNoteData.append("title", title);
         newNoteData.append("description", description);
 
+        console.log("images", images);
+
+        // Check if images are available before adding to newNoteData
         if (images && images.length > 0) {
-          images.forEach((image, index) => {
-            newNoteData.append(`images[${index}][id]`, image.id);
-            newNoteData.append(`images[${index}][imageUrl]`, image.imageUrl);
+          images.forEach((image) => {
+            const randomIndex = Math.floor(Math.random() * 500);
+            // @ts-ignore: Unreachable code error
+            newNoteData.append("images", {
+              uri: image.uri.replace("file://", ""),
+              type: image.type || "image/jpeg",
+              name: `image${randomIndex}.jpg`,
+            });
           });
         }
 
-        const response = await apiClient.patch(
+        const response = await apiClient.put(
           `${API_BASE_URL}notes/${noteId}`,
           newNoteData,
           {
@@ -38,6 +46,8 @@ export const updateNoteRequest = async ({
             },
           }
         );
+
+        // console.log("response", response);
 
         if (response.status !== 200) {
           showToast(
@@ -54,6 +64,9 @@ export const updateNoteRequest = async ({
       console.log("Some data is empty");
     }
   } catch (error) {
-    console.log(error);
+    const axiosError = error as AxiosErrorWithData;
+    console.log("headers", axiosError.response.headers);
+    console.log("data", axiosError.response.data);
+    console.log("response", axiosError.response);
   }
 };

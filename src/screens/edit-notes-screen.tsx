@@ -88,8 +88,6 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
     }
   };
 
-  console.log(images);
-
   return note ? (
     <ScrollViewScreenWrapper
       backgroundColor='white'
