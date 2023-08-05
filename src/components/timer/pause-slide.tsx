@@ -1,14 +1,20 @@
-import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../utils/constants/colors";
 import Circle from "./circle";
 
-const PauseSlide: React.FC<{
+type StartSlideProps = {
   onStartTimer: () => void;
   onCancelTimer: () => void;
-}> = ({ onStartTimer, onCancelTimer }) => {
-  const { t } = useTranslation();
+  timeRemaining: number;
+};
+
+const PauseSlide: React.FC<StartSlideProps> = ({
+  onStartTimer,
+  onCancelTimer,
+  timeRemaining,
+}) => {
+  const isEditable = false;
 
   return (
     <View style={styles.container}>
@@ -18,7 +24,7 @@ const PauseSlide: React.FC<{
         color={AppColors.white}
         onPress={onCancelTimer}
       />
-      <Circle />
+      <Circle timeRemaining={timeRemaining} isEditable={isEditable} />
       <Icon
         name={"play"}
         size={60}
@@ -33,8 +39,6 @@ export default PauseSlide;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 80,
-    height: "100%",
     alignItems: "center",
   },
 });

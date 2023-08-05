@@ -5,21 +5,36 @@ import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
 import Circle from "./circle";
 
-const StartSlide: React.FC<{ onStartTimer: () => void }> = ({
+type StartSlideProps = {
+  onStartTimer: () => void;
+  onSetDuration: (newTime: number) => void;
+};
+
+const StartSlide: React.FC<StartSlideProps> = ({
   onStartTimer,
+  onSetDuration,
 }) => {
   const { t } = useTranslation();
+  const isEditable = true;
+
+  const handleDurationChange = (newTime: number) => {
+    onSetDuration(newTime);
+  };
 
   return (
     <View style={styles.container}>
       <AppText
-        fontStyle="heading3"
-        colorStyle="white"
+        fontStyle='heading3'
+        colorStyle='white'
         style={{ textAlign: "center" }}
       >
         {t("timer.start-working")}
       </AppText>
-      <Circle />
+      <Circle
+        timeRemaining={25 * 60}
+        onChangeTime={handleDurationChange}
+        isEditable={isEditable}
+      />
       <Icon
         name={"play"}
         size={60}
@@ -34,8 +49,6 @@ export default StartSlide;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 80,
-    height: "100%",
     alignItems: "center",
   },
 });

@@ -33,6 +33,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
             flex: 1,
             backgroundColor: backgroundColor,
             paddingHorizontal: defaultPadding ? windowWidth * 0.05 : 0,
+            position: "relative",
           },
           style,
         ]}
