@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { getUserNotes } from "../data/note/fetch-request";
-import { AllUserNotes } from "../utils/types/types";
+import { AllUserNotes, UserNotes } from "../utils/types/types";
 
 export type NotesState = {
   userNotes: AllUserNotes;
@@ -12,9 +12,10 @@ type NotesAction = {
   setUserNotes: (notes: AllUserNotes) => void;
   loadUserNotes: () => Promise<void>;
   setDataUpdated: (updated: boolean) => void;
+  getNoteById: (id: string) => UserNotes | undefined;
 };
 
-export const useNotesStore = create<NotesState & NotesAction>((set) => ({
+export const useNotesStore = create<NotesState & NotesAction>((set, get) => ({
   userNotes: [],
   isLoading: false,
   dataUpdated: false,
@@ -30,5 +31,9 @@ export const useNotesStore = create<NotesState & NotesAction>((set) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+  getNoteById: (id: string) => {
+    const notes = get().userNotes;
+    return notes.find((note) => note.id === id);
   },
 }));

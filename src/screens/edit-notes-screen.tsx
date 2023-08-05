@@ -11,9 +11,9 @@ import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
 import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { useNoteData } from "../hooks/notes/use-note-data";
 import { useNoteFormHandling } from "../hooks/notes/use-note-form-handling";
 import { useImageStore } from "../store/camera-image-store";
 import { useNotesStore } from "../store/notes-store";
@@ -37,8 +37,8 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
-  const { setDataUpdated } = useNotesStore();
-  const { note } = useNoteData(noteId);
+  const { setDataUpdated, isLoading, getNoteById } = useNotesStore();
+  const note = getNoteById(noteId);
   const images = useImageStore.getState().images;
   const { removeImage, addImage, resetImages } = useImageStore();
 
@@ -51,20 +51,18 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
     updatingNote,
   } = useNoteFormHandling(note, navigation, noteId, setDataUpdated);
 
-  console.log(images);
-
   useEffect(() => {
     if (!note) return;
     note.images.map((image) => {
       addImage(image);
     });
-  });
+  }, [note]);
 
   const handleDelete = (imageId: string) => {
     removeImage(imageId);
   };
 
-  return (
+  return note ? (
     <ScrollViewScreenWrapper
       backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
@@ -126,6 +124,11 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
         <IconButton
           iconName='camera'
           style={[styles.iconStyle, { marginRight: 15 }]}
+          onPress={() =>
+            navigation.navigate("SubRoutes", {
+              screen: "CameraView",
+            })
+          }
           isEditable={!isEditable}
         />
         <IconButton
@@ -135,7 +138,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
         />
       </View>
       <View style={styles.imageContainer}>
-        {images.length > 0 &&
+        {note.images.length > 0 &&
           images.map((image) => (
             <View key={image.id} style={{ marginBottom: 30 }}>
               <View style={styles.closeIcon}>
@@ -143,7 +146,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
                   name='close'
                   size={25}
                   color={AppColors.white}
-                  onPress={() => handleDelete(image.id!)}
+                  onPress={() => removeImage(image.uri)}
                   disabled={isEditable}
                 />
               </View>
@@ -160,6 +163,8 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
         <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
       )}
     </ScrollViewScreenWrapper>
+  ) : (
+    <LoadingIndicator />
   );
 };
 

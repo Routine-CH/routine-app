@@ -8,7 +8,7 @@ import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
 import { IFormNoteInputs, UserNotes } from "../../utils/types/types";
 
 export const useNoteFormHandling = (
-  note: UserNotes | null,
+  note: UserNotes | undefined,
   navigation: NavigationProp<AuthenticatedStackParamList>,
   noteId: string,
   setDataUpdated: (updated: boolean) => void
