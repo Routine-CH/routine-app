@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,10 +11,13 @@ import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wra
 import AppText from "../components/common/typography/app-text";
 import { API_BASE_URL } from "../utils/config/config";
 import { StatusBarColor } from "../utils/types/enums";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 import { UserGoals } from "../utils/types/types";
 
 const GoalsScreen: React.FC = () => {
   const [userGoals, setUserGoals] = useState<UserGoals[]>([]);
+  const navigation =
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -36,6 +40,10 @@ const GoalsScreen: React.FC = () => {
 
     getUserGoals();
   }, []);
+
+  const navigateToNewGoalsScreen = () => {
+    navigation.navigate("SubRoutes", { screen: "GoalsNew" });
+  };
 
   return (
     <>
@@ -66,7 +74,7 @@ const GoalsScreen: React.FC = () => {
             })}
         </View>
       </ScrollViewScreenWrapper>
-      <AddButton />
+      <AddButton navigateTo={() => navigateToNewGoalsScreen()} />
     </>
   );
 };

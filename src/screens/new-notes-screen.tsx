@@ -22,7 +22,7 @@ import { IFormNoteInputs } from "../utils/types/types";
 
 const windowWidth = Dimensions.get("window").width;
 
-const NewNotesScreen = () => {
+const NewNotesScreen: React.FC = () => {
   const { t } = useTranslation();
   const images = useImageStore.getState().images;
   const { control, handleSubmit } = useForm<IFormNoteInputs>();
@@ -124,7 +124,7 @@ const NewNotesScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="title"
+          name='title'
           rules={{
             required: "Bitte gib deiner Notiz einen Titel",
             minLength: {
@@ -146,7 +146,7 @@ const NewNotesScreen = () => {
               isEditable={isEditable}
             />
           )}
-          name="description"
+          name='description'
           rules={{
             required: "Bitte gib deiner Notiz eine Beschreibung",
             minLength: {
@@ -158,7 +158,7 @@ const NewNotesScreen = () => {
       </View>
       <View style={styles.iconContainer}>
         <IconButton
-          iconName="camera"
+          iconName='camera'
           style={[styles.iconStyle, { marginRight: 15 }]}
           onPress={() =>
             navigation.navigate("SubRoutes", {
@@ -168,7 +168,7 @@ const NewNotesScreen = () => {
           isEditable={!isEditable}
         />
         <IconButton
-          iconName="images"
+          iconName='images'
           style={styles.iconStyle}
           onPress={pickImage}
           isEditable={!isEditable}
@@ -181,7 +181,7 @@ const NewNotesScreen = () => {
               <View key={image.uri} style={{ marginBottom: 15 }}>
                 <View style={styles.closeIcon}>
                   <Icon
-                    name="close"
+                    name='close'
                     size={25}
                     color={AppColors.white}
                     onPress={() => removeImage(image.uri)}
@@ -202,6 +202,7 @@ const NewNotesScreen = () => {
 };
 
 export default NewNotesScreen;
+
 const styles = StyleSheet.create({
   backButtonStyle: {
     backgroundColor: AppColors.blue100,

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   Animated,
   Dimensions,
@@ -7,28 +7,36 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import BackButton from "../components/common/buttons/back-button";
+import SaveButton from "../components/common/buttons/save-button";
+import GoalAddTodoView from "../components/common/goals/goal-add-todo-view";
+import GoalDetailView from "../components/common/goals/goal-detail-view";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
-import AllBadgesView from "../components/profile/all-badges-view";
-import LevelsView from "../components/profile/levels-view";
 import AppColors from "../utils/constants/colors";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
 
 const { width: screenWidth } = Dimensions.get("window");
-const MAX_TRANSLATION_PERCENT = -50; // Adjust this value as needed
-const MIN_TRANSLATION_PERCENT = 42; // Adjust this value as needed
-
 const windowWidth = Dimensions.get("window").width;
+const MAX_TRANSLATION_PERCENT = -50; // Adjust this value as needed
+const MIN_TRANSLATION_PERCENT = 0; // Adjust this value as needed
 
-const BadgesScreen = () => {
-  const [selectedView, setSelectedView] = useState<"badges" | "levels">(
-    "badges"
-  );
+enum ViewType {
+  DETAILS = "Details",
+  ADDTODO = "Todo hinzufügen",
+}
+
+const NewGoalsScreen: React.FC = () => {
+  const [selectedView, setSelectedView] = useState<ViewType>(ViewType.DETAILS);
   const [slideAnimation] = useState(new Animated.Value(0));
+  const [isEditable, setIsEditable] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const { control, handleSubmit } = useForm();
 
-  const handleViewChange = (view: "badges" | "levels") => {
-    if (view === "levels") {
+  const handleNewGoal = async () => {};
+
+  const handleViewChange = (view: ViewType) => {
+    if (view === ViewType.ADDTODO) {
       Animated.timing(slideAnimation, {
         toValue: 1,
         duration: 300,
@@ -44,7 +52,22 @@ const BadgesScreen = () => {
     setSelectedView(view);
   };
 
-  const badgesViewStyle = {
+  const onErrors = (errors: any) => {
+    if (errors.title) {
+      setErrorMessage(errors.title.message);
+    } else if (errors.description) {
+      setErrorMessage(errors.description.message);
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
+
+  const detailViewStyle = {
     transform: [
       {
         translateX: slideAnimation.interpolate({
@@ -58,7 +81,7 @@ const BadgesScreen = () => {
     ],
   };
 
-  const levelsViewStyle = {
+  const addTodoViewStyle = {
     transform: [
       {
         translateX: slideAnimation.interpolate({
@@ -72,76 +95,85 @@ const BadgesScreen = () => {
     ],
   };
 
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    Animated.timing(slideAnimation, {
-      toValue: 0,
-      duration: 0,
-      useNativeDriver: true,
-    }).start();
-  }, []);
-
   return (
     <ScrollViewScreenWrapper
-      backgroundColor='white'
       statusBarColor={StatusBarColor.dark}
+      backgroundColor={AppColors.white}
       defaultPadding
     >
-      <BackButton />
+      <SaveButton
+        backButtonStyle={styles.backButtonStyle}
+        onPress={handleSubmit(handleNewGoal, onErrors)}
+        isEditable={!isEditable}
+      />
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => handleViewChange("badges")}
+          onPress={() => handleViewChange(ViewType.DETAILS)}
         >
           <AppText
             fontStyle='body'
             colorStyle='black70'
             style={styles.titleButton}
           >
-            {t("profile.gamification.badges")}
+            Details
           </AppText>
           <View
             style={[
               styles.horizontalLine,
-              selectedView === "badges" && styles.selectedHorizontalLine,
+              selectedView === ViewType.DETAILS &&
+                styles.selectedHorizontalLine,
             ]}
           />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => handleViewChange("levels")}
+          onPress={() => handleViewChange(ViewType.ADDTODO)}
         >
           <AppText
             fontStyle='body'
             colorStyle='black70'
             style={styles.titleButton}
           >
-            {t("profile.gamification.levels")}
+            Todo hinzufügen
           </AppText>
           <View
             style={[
               styles.horizontalLine,
-              selectedView === "levels" && styles.selectedHorizontalLine,
+              selectedView === ViewType.ADDTODO &&
+                styles.selectedHorizontalLine,
             ]}
           />
         </TouchableOpacity>
       </View>
+      <View
+        style={{
+          position: "relative",
+          height: 1,
+          width: windowWidth * 1.5,
+          marginLeft: -20,
+          backgroundColor: "rgba(0, 0, 0, 0.20)",
+        }}
+      />
       <View style={styles.animatedContainer}>
-        <Animated.View style={[styles.viewContainer, badgesViewStyle]}>
-          <AllBadgesView />
+        <Animated.View style={[styles.viewContainer, detailViewStyle]}>
+          <GoalDetailView />
         </Animated.View>
-        <Animated.View style={[styles.viewContainer, levelsViewStyle]}>
-          <LevelsView />
+        <Animated.View style={[styles.viewContainer, addTodoViewStyle]}>
+          <GoalAddTodoView />
         </Animated.View>
       </View>
     </ScrollViewScreenWrapper>
   );
 };
 
-export default BadgesScreen;
+export default NewGoalsScreen;
 
 const styles = StyleSheet.create({
+  backButtonStyle: {
+    backgroundColor: AppColors.blue100,
+    color: AppColors.white,
+  },
   buttonContainer: {
     marginVertical: 30,
     flexDirection: "row",
@@ -163,13 +195,9 @@ const styles = StyleSheet.create({
     borderBottomColor: AppColors.blue100,
   },
   animatedContainer: {
-    flexDirection: "row",
     flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
   },
   viewContainer: {
     width: "100%",
-    alignItems: "center",
   },
 });

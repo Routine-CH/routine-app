@@ -17,7 +17,6 @@ import { UserNotes } from "../utils/types/types";
 const NotesScreen: React.FC = () => {
   const { t } = useTranslation();
   const { userNotes, isLoading } = useUserNote();
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();

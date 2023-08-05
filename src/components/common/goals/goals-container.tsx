@@ -53,6 +53,10 @@ const GoalsContainer: React.FC = () => {
     navigation.navigate("SubRoutes", { screen: "Goals" });
   };
 
+  const navigateToNewGoalsScreen = () => {
+    navigation.navigate("SubRoutes", { screen: "GoalsNew" });
+  };
+
   return (
     <View style={styles.relativeContainer}>
       {userGoals.length === 0 ? (
@@ -89,7 +93,10 @@ const GoalsContainer: React.FC = () => {
           )}
         </GoalsScrollView>
       )}
-      <AddButton style={styles.buttonStyles} />
+      <AddButton
+        style={styles.buttonStyles}
+        navigateTo={() => navigateToNewGoalsScreen()}
+      />
     </View>
   );
 };
