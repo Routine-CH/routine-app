@@ -31,6 +31,7 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
         flex: 1,
         backgroundColor,
         paddingTop: statusBarHeight,
+        position: "relative",
       }}
     >
       <StatusBar style={statusBarColor ? statusBarColor : "auto"} />

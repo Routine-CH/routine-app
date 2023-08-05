@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import SaveButton from "../components/common/buttons/save-button";
+import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import SimpleCalendarModal from "../components/common/modals/simple-calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
@@ -24,10 +25,12 @@ const NewTodosScreen = () => {
   const { t } = useTranslation();
   const { control, handleSubmit } = useForm<IFormTodoInputs>();
   const [errorMessage, setErrorMessage] = useState("");
+  const [creatingTodo, setCreatingTodo] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
+  const [isEditable, setIsEditable] = useState(true);
 
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
@@ -35,6 +38,7 @@ const NewTodosScreen = () => {
   };
 
   const handleNewTodo = async ({ title, description }: IFormTodoInputs) => {
+    setCreatingTodo(true);
     const plannedDate = new Date(selectedDate);
     const response = await createTodoRequest({
       title,
@@ -46,6 +50,7 @@ const NewTodosScreen = () => {
       showToast(ToastType.error, response);
       setErrorMessage("");
     } else if (response && response.status === 201) {
+      setIsEditable(false);
       showToast(ToastType.success, "Todo gespeichert");
       setTimeout(() => {
         navigation.navigate("Todos");
@@ -55,6 +60,7 @@ const NewTodosScreen = () => {
       showToast(ToastType.error, errorMessage);
       setErrorMessage("");
     }
+    setCreatingTodo(false);
   };
 
   const onErrors = (errors: any) => {
@@ -85,6 +91,7 @@ const NewTodosScreen = () => {
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
         onPress={handleSubmit(handleNewTodo, onErrors)}
+        isEditable={!isEditable}
       />
       <View style={styles.formContainer}>
         <Controller
@@ -98,9 +105,10 @@ const NewTodosScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='title'
+          name="title"
           rules={{
             required: "Bitte gib deinem Todo ein Titel",
             minLength: {
@@ -120,9 +128,10 @@ const NewTodosScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
+              isEditable={isEditable}
             />
           )}
-          name='description'
+          name="description"
           rules={{
             minLength: {
               value: 5,
@@ -132,10 +141,11 @@ const NewTodosScreen = () => {
         />
         <TouchableOpacity
           onPress={handleModalPress}
+          disabled={!isEditable}
           style={styles.iconContainer}
         >
-          <Icon name='calendar' size={18} color={AppColors.white} />
-          <AppText fontStyle='filters' colorStyle='white'>
+          <Icon name="calendar" size={18} color={AppColors.white} />
+          <AppText fontStyle="filters" colorStyle="white">
             {isToday(selectedDate)
               ? t("todos.today")
               : format(selectedDate, "dd.MM.yy", { locale: de })}
@@ -148,6 +158,7 @@ const NewTodosScreen = () => {
         selectedDate={selectedDate}
         onDayPress={onDayPress}
       />
+      {creatingTodo && <FullscreenLoadingIndicator />}
     </ScrollViewScreenWrapper>
   );
 };
