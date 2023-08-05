@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 15,
-    paddingVertical: 15,
+    paddingHorizontal: windowWidth * 0.05,
+    paddingVertical: windowWidth * 0.05,
   },
   textfields: {
     marginLeft: 15,

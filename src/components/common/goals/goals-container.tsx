@@ -1,10 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import { API_BASE_URL } from "../../../utils/config/config";
+import AppColors from "../../../utils/constants/colors";
+import AppFontStyle from "../../../utils/constants/font-style";
 import { UserGoals } from "../../../utils/types/types";
 import AddButton from "../buttons/add-button";
+import AppText from "../typography/app-text";
 import GoalsCard from "./goals-card";
 import GoalsScrollView from "./goals-container/goals-scroll-view";
 import NoGoalsCard from "./goals-container/no-goals-card";
@@ -14,6 +18,7 @@ const windowWidth = Dimensions.get("window").width;
 const GoalsContainer: React.FC = () => {
   const [userGoals, setUserGoals] = useState<UserGoals[]>([]);
   const [_, setIsDisplayHorizontalScroll] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function getUserGoals() {
@@ -49,13 +54,27 @@ const GoalsContainer: React.FC = () => {
         </View>
       ) : (
         <GoalsScrollView>
-          {userGoals.map((goal) => (
+          {userGoals.slice(0, 3).map((goal) => (
             <GoalsCard
               key={goal.id}
               title={goal.title}
               description={goal.description}
             />
           ))}
+          {userGoals.length > 3 && (
+            <Pressable style={styles.showAllButton}>
+              <AppText
+                colorStyle='white'
+                style={{
+                  fontFamily: AppFontStyle.body.fontFamily,
+                  fontSize: AppFontStyle.bodyMedium.fontSize,
+                  textAlign: "center",
+                }}
+              >
+                {t("goals.show-all")}
+              </AppText>
+            </Pressable>
+          )}
         </GoalsScrollView>
       )}
       <AddButton style={styles.buttonStyles} />
@@ -77,5 +96,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: -30,
     right: windowWidth * 0.06,
+  },
+  showAllButton: {
+    backgroundColor: AppColors.blue200,
+    borderRadius: 13,
+    paddingHorizontal: windowWidth * 0.05,
+    paddingVertical: windowWidth * 0.05,
+    alignItems: "center",
+    justifyContent: "center",
+    maxWidth: windowWidth * 0.35,
   },
 });

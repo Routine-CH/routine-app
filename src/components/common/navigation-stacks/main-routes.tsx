@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Dimensions } from "react-native";
 import { SvgXml } from "react-native-svg";
 import Icon from "react-native-vector-icons/Ionicons";
 import CalendarScreen from "../../../screens/calendar-screen";
@@ -15,6 +16,8 @@ const CalendarClearSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M480,128a64,64,0,0,0-64-64H400V48.45c0-8.61-6.62-16-15.23-16.43A16,16,0,0,0,368,48V64H144V48.45c0-8.61-6.62-16-15.23-16.43A16,16,0,0,0,112,48V64H96a64,64,0,0,0-64,64v12a4,4,0,0,0,4,4H476a4,4,0,0,0,4-4Z"/><path d="M32,416a64,64,0,0,0,64,64H416a64,64,0,0,0,64-64V180a4,4,0,0,0-4-4H36a4,4,0,0,0-4,4Z"/></svg>
 `;
 
+const windowHeight = Dimensions.get("window").height;
+
 const MainRoutes: React.FC = () => {
   const MainStack = createBottomTabNavigator();
 
@@ -25,8 +28,8 @@ const MainRoutes: React.FC = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 85,
-          paddingTop: 20,
+          height: windowHeight * 0.11,
+          paddingTop: windowHeight * 0.02,
           paddingHorizontal: 20,
           shadowColor: "#959DA5",
           shadowOffset: { width: 0, height: 9 } as {
@@ -47,7 +50,7 @@ const MainRoutes: React.FC = () => {
           tabBarIcon: ({ focused, color }) => (
             <Icon
               name={focused ? "home" : "home-outline"}
-              size={35}
+              size={windowHeight * 0.045}
               color={color}
             />
           ),
@@ -59,7 +62,14 @@ const MainRoutes: React.FC = () => {
         options={{
           tabBarIcon: ({ focused, color }) => {
             const xml = focused ? CalendarClearSvg : CalendarClearOutlineSvg;
-            return <SvgXml xml={xml} width={35} height={35} fill={color} />;
+            return (
+              <SvgXml
+                xml={xml}
+                width={windowHeight * 0.045}
+                height={windowHeight * 0.045}
+                fill={color}
+              />
+            );
           },
         }}
       />
@@ -70,7 +80,7 @@ const MainRoutes: React.FC = () => {
           tabBarIcon: ({ focused, color }) => (
             <Icon
               name={focused ? "search" : "search-outline"}
-              size={35}
+              size={windowHeight * 0.045}
               color={color}
             />
           ),
@@ -83,7 +93,7 @@ const MainRoutes: React.FC = () => {
           tabBarIcon: ({ focused, color }) => (
             <Icon
               name={focused ? "person" : "person-outline"}
-              size={35}
+              size={windowHeight * 0.045}
               color={color}
             />
           ),

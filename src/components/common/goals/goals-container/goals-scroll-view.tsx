@@ -7,7 +7,11 @@ type GoalsScrollViewProps = {
 
 const GoalsScrollView: React.FC<GoalsScrollViewProps> = ({ children }) => {
   return (
-    <ScrollView horizontal style={styles.horizontalScroll}>
+    <ScrollView
+      horizontal
+      style={styles.horizontalScroll}
+      showsHorizontalScrollIndicator={false}
+    >
       {children}
     </ScrollView>
   );
