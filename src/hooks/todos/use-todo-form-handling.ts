@@ -61,7 +61,7 @@ export const useTodoFormHandling = (
         showToast(ToastType.error, response);
         setErrorMessage("Something went wrong");
       } else if (response && "status" in response && response.status === 200) {
-            setIsEditable(false);
+        setIsEditable(false);
         showToast(ToastType.success, "Todo gespeichert");
         setTimeout(() => {
           navigation.navigate("Todos");
