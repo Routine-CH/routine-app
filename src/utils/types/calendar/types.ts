@@ -1,6 +1,7 @@
 type GoalTodoJournal = {
   id: string;
   title: string;
+  description?: string;
   createdAt?: string;
   plannedDate?: string;
   completed?: boolean;

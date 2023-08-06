@@ -17,6 +17,7 @@ type SaveButtonProps = {
   onPress: () => void;
   backButtonStyle?: StyleProp<ViewStyle>;
   type?: boolean;
+  editable?: boolean;
   isEditable?: boolean;
 };
 
@@ -26,6 +27,7 @@ const SaveButton: React.FC<SaveButtonProps> = ({
   onPress,
   backButtonStyle,
   type,
+  editable,
   isEditable,
 }) => {
   const { t } = useTranslation();
@@ -36,14 +38,16 @@ const SaveButton: React.FC<SaveButtonProps> = ({
         type={type}
         isEditable={isEditable}
       />
-      <Pressable
-        style={styles.saveButton}
-        onPress={onPress}
-        disabled={isEditable}
-      >
-        <Icon name="checkmark-outline" size={22} color={AppColors.white} />
-        <AppText style={[styles.textStyle]}>{t("general.save")}</AppText>
-      </Pressable>
+      {editable !== false && (
+        <Pressable
+          style={styles.saveButton}
+          onPress={onPress}
+          disabled={isEditable}
+        >
+          <Icon name='checkmark-outline' size={22} color={AppColors.white} />
+          <AppText style={[styles.textStyle]}>{t("general.save")}</AppText>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -64,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    height: 32,
+    height: 40,
     width: windowWidth * 0.35,
     borderRadius: 50,
     backgroundColor: AppColors.blue100,

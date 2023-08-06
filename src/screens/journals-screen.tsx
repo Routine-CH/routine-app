@@ -86,12 +86,17 @@ const JournalsScreen: React.FC = () => {
     }
   };
 
-  const navigateToJournalEditScreen = () => {
+  const navigateToJournalEditScreen = (journalId?: string) => {
     setIsModalVisible(false);
     if (todayJournal) {
       navigation.navigate("SubRoutes", {
         screen: "JournalEdit",
-        params: { id: todayJournal.id },
+        params: { id: !journalId ? todayJournal.id : journalId },
+      });
+    } else {
+      navigation.navigate("SubRoutes", {
+        screen: "JournalEdit",
+        params: { id: journalId, editable: false },
       });
     }
   };
@@ -149,7 +154,7 @@ const JournalsScreen: React.FC = () => {
           <AppText
             colorStyle='black64'
             style={{
-              marginBottom: 30,
+              marginBottom: 25,
               fontSize: windowWidth * 0.07,
               fontFamily: AppFontStyle.heading3.fontFamily,
             }}
@@ -166,10 +171,12 @@ const JournalsScreen: React.FC = () => {
               return (
                 <CalendarCardSimple
                   key={journal.id}
+                  id={journal.id}
                   date={day}
                   month={month}
                   title={journal.title}
                   journalStyles={styles.journal}
+                  navigateTo={() => navigateToJournalEditScreen(journal.id)}
                 />
               );
             })

@@ -1,4 +1,10 @@
-import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+import {
+  Dimensions,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
 import AppText from "../typography/app-text";
@@ -8,7 +14,7 @@ interface ChipProps {
   title: string;
   icon?: string;
   iconStyle?: any;
-  cardStyle?: any;
+  cardStyle?: StyleProp<ViewStyle>;
 }
 
 const windowWidth = Dimensions.get("window").width;
@@ -21,7 +27,7 @@ const CardContent: React.FC<ChipProps> = ({
   cardStyle,
 }) => {
   return (
-    <Pressable style={[styles.container, cardStyle]}>
+    <View style={[styles.container, cardStyle]}>
       <View style={{ width: "100%", maxWidth: "90%" }}>
         {type && (
           <AppText
@@ -46,7 +52,7 @@ const CardContent: React.FC<ChipProps> = ({
           <Icon name={icon} size={24} style={iconStyle} />
         </View>
       )}
-    </Pressable>
+    </View>
   );
 };
 
@@ -59,7 +65,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 15,
     marginLeft: 5,
-    marginBottom: 15,
     backgroundColor: AppColors.blueMuted20,
     flexDirection: "row",
     alignItems: "center",

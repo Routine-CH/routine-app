@@ -137,10 +137,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const login = async (username: string, password: string) => {
-    console.log("username", username);
-    console.log("password", password);
     try {
-      console.log("Attempting to reach:", `${API_BASE_URL}auth/login`); // Add this
       const response = await apiClient.post(`${API_BASE_URL}auth/login`, {
         username,
         password,

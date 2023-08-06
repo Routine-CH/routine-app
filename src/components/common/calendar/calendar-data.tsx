@@ -1,20 +1,28 @@
+import { Dispatch, SetStateAction } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import AppColors from "../../../utils/constants/colors";
 import {
   CalendarDataTypes,
   CalendarItems,
 } from "../../../utils/types/calendar/types";
+import { UserTodo } from "../../../utils/types/types";
 import EmptyState from "../empty-state";
 import CalendarCard from "./calendar-card";
 import DateCard from "./date-card";
 
 type CalendarDataProps = {
   calendar: CalendarItems[] | null;
+  setSelectedTodo?: Dispatch<SetStateAction<UserTodo | null>>;
+  setIsModalVisible?: Dispatch<SetStateAction<boolean>>;
 };
 
 const windowWidth = Dimensions.get("window").width;
 
-const CalendarData: React.FC<CalendarDataProps> = ({ calendar }) => {
+const CalendarData: React.FC<CalendarDataProps> = ({
+  calendar,
+  setSelectedTodo,
+  setIsModalVisible,
+}) => {
   if (!calendar || calendar.length === 0) {
     return (
       <View
@@ -61,7 +69,10 @@ const CalendarData: React.FC<CalendarDataProps> = ({ calendar }) => {
               {items.map((item) => (
                 <CalendarCard
                   key={item.id}
+                  id={item.id}
                   title={item.title}
+                  description={item.description}
+                  plannedDate={item.plannedDate}
                   type={item.type}
                   icon={
                     item.type === CalendarDataTypes.JOURNALS
@@ -77,7 +88,10 @@ const CalendarData: React.FC<CalendarDataProps> = ({ calendar }) => {
                       ? styles.reached
                       : styles.notReached
                   }
+                  style={{ marginBottom: 10 }}
                   journalStyles={{ marginLeft: windowWidth * 0.045 }}
+                  setSelectedTodo={setSelectedTodo}
+                  setIsModalVisible={setIsModalVisible}
                 />
               ))}
             </View>

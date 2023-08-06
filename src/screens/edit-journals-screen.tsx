@@ -39,6 +39,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
   const journalId = route.params.id;
+  const editable = route.params.editable;
 
   const { journal } = useJournalData(journalId);
 
@@ -76,6 +77,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
           (data) => handleUpdate({ ...data, journalId }),
           onErrors
         )}
+        editable={editable}
         isEditable={!isEditable}
       />
       <View style={styles.contentContainer}>
@@ -273,7 +275,7 @@ const styles = StyleSheet.create({
     color: AppColors.white,
   },
   contentContainer: {
-    marginVertical: 60,
+    marginVertical: 30,
   },
   labelStyle: {
     marginBottom: 15,
