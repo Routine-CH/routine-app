@@ -69,6 +69,7 @@ const GoalsContainer: React.FC = () => {
           {userGoals.slice(0, 3).map((goal) => (
             <GoalsCard
               key={goal.id}
+              id={goal.id}
               title={goal.title}
               description={goal.description}
               displayHorizontalScroll={true}

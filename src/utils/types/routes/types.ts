@@ -32,6 +32,7 @@ export type AuthenticatedStackParamList = {
   TodosEdit: { id: string };
   TodosNew: undefined;
   Goals: undefined;
+  GoalsView: { id: string };
   GoalsEdit: { id: string };
   GoalsNew: undefined;
   Timer: undefined;

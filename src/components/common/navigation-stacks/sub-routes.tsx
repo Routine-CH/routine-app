@@ -6,6 +6,7 @@ import EditNotesScreen from "../../../screens/edit-notes-screen";
 import EditTodosScreen from "../../../screens/edit-todos-screen";
 import EditToolsScreen from "../../../screens/edit-tools-screen";
 import GoalsScreen from "../../../screens/goals-screen";
+import GoalViewScreen from "../../../screens/goals-view-screen";
 import JournalsScreen from "../../../screens/journals-screen";
 import NewGoalsScreen from "../../../screens/new-goals-screen";
 import NewJournalScreen from "../../../screens/new-journal-screen";
@@ -90,6 +91,11 @@ const SubRoutes: React.FC = () => {
       <SubRoutesStack.Screen
         name='GoalsNew'
         component={NewGoalsScreen}
+        options={{ headerShown: false }}
+      />
+      <SubRoutesStack.Screen
+        name='GoalsView'
+        component={GoalViewScreen}
         options={{ headerShown: false }}
       />
       <SubRoutesStack.Screen
