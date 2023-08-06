@@ -17,6 +17,7 @@ interface EditDeleteModalProps {
   description?: string | null;
   actionText?: string | null;
   isVisible: boolean;
+  setIsVisible: (isVisible: boolean) => void;
   onConfirm: () => void;
   navigateTo: () => void;
 }
@@ -26,6 +27,7 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
   description,
   actionText,
   isVisible,
+  setIsVisible,
   onConfirm,
   navigateTo,
 }) => {
@@ -40,11 +42,19 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
     setIsModalVisible(false);
   };
 
+  const handleClickedOnLayout = () => {
+    setIsVisible(false);
+  };
+
+  const stopPropagation = (event: any) => {
+    event.stopPropagation();
+  };
+
   return (
     <Modal visible={isVisible} transparent>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={handleClickedOnLayout}>
         <View style={styles.overlay}>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={stopPropagation}>
             <View style={styles.modalContainer}>
               <View style={styles.line} />
               <View style={styles.buttonContainer}>
@@ -52,10 +62,10 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
                   onPress={navigateTo}
                   style={styles.optionsContainer}
                 >
-                  <IconButton iconName="pencil" />
+                  <IconButton iconName='pencil' />
                   <AppText
-                    fontStyle="heading4"
-                    colorStyle="black70"
+                    fontStyle='heading4'
+                    colorStyle='black70'
                     style={{ marginLeft: 55 }}
                   >
                     {t("general.edit")}
@@ -65,10 +75,10 @@ const EditDeleteModal: React.FC<EditDeleteModalProps> = ({
                   style={styles.optionsContainer}
                   onPress={handleModalPress}
                 >
-                  <IconButton iconName="trash" />
+                  <IconButton iconName='trash' />
                   <AppText
-                    fontStyle="heading4"
-                    colorStyle="black70"
+                    fontStyle='heading4'
+                    colorStyle='black70'
                     style={{ marginLeft: 55 }}
                   >
                     {t("general.delete")}

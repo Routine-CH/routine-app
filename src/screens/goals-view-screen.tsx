@@ -8,7 +8,9 @@ import BackButton from "../components/common/buttons/back-button";
 import FlatButton from "../components/common/buttons/flat-button";
 import WorldIcon from "../components/common/icons-svg/world-icon";
 import { LoadingIndicator } from "../components/common/loading-indicator";
+import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
 import AppText from "../components/common/typography/app-text";
 import Todo from "../components/todos/todo";
 import { useGoalStore } from "../store/goals-store";
@@ -57,6 +59,10 @@ const GoalViewScreen: React.FC<GoalsViewProps> = ({ route }) => {
   const handleCloseGoal = async () => {
     console.log("pressed");
   };
+
+  const deleteNote = async () => {};
+
+  const navigateToGoalEditScreen = () => {};
 
   return !isLoading && goal ? (
     <ScrollViewScreenWrapper
@@ -175,6 +181,16 @@ const GoalViewScreen: React.FC<GoalsViewProps> = ({ route }) => {
           </AppText>
         )}
       </View>
+      <EditDeleteModal
+        title={t("modals.are-you-sure")}
+        description={t("modals.notes")}
+        actionText={t("modals.delete")}
+        isVisible={isModalVisible}
+        setIsVisible={setIsModalVisible}
+        onConfirm={deleteNote}
+        navigateTo={() => navigateToGoalEditScreen()}
+      />
+      <RoutineToast />
     </ScrollViewScreenWrapper>
   ) : (
     <LoadingIndicator />

@@ -195,6 +195,7 @@ const JournalsScreen: React.FC = () => {
           description={t("modals.journal")}
           actionText={t("modals.delete")}
           isVisible={isModalVisible}
+          setIsVisible={setIsModalVisible}
           onConfirm={deleteJournal}
           navigateTo={() => navigateToJournalEditScreen()}
         />
