@@ -1,12 +1,15 @@
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import Svg, { LinearGradient, Rect, Stop } from "react-native-svg";
 import AppColors from "../../utils/constants/colors";
 import AppFontStyle from "../../utils/constants/font-style";
+import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
 import WorldIcon from "../common/icons-svg/world-icon";
 import AppText from "../common/typography/app-text";
 
 interface GoalProps {
+  id: string;
   title: string;
   description: string;
   displayHorizontalScroll?: boolean;
@@ -15,16 +18,28 @@ interface GoalProps {
 const windowWidth = Dimensions.get("window").width;
 
 const GoalsCard: React.FC<GoalProps> = ({
+  id,
   title,
   description,
   displayHorizontalScroll = false,
 }) => {
+  const navigation =
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
+
+  const navigateToGoalDetailView = () => {
+    navigation.navigate("SubRoutes", {
+      screen: "GoalsView",
+      params: { id: id },
+    });
+  };
+
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.container,
         { marginRight: displayHorizontalScroll ? 15 : 0 },
       ]}
+      onPress={navigateToGoalDetailView}
     >
       <View
         style={[
@@ -80,7 +95,7 @@ const GoalsCard: React.FC<GoalProps> = ({
           </AppText>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

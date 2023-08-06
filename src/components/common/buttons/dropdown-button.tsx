@@ -1,30 +1,33 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
+import { UserTodo } from "../../../utils/types/types";
 import AppText from "../typography/app-text";
 
 interface DropdownButtonProps {
   title: string;
-  options: string[];
   onSelect: (option: string) => void;
+  allTodos: UserTodo[];
   hasMarginTop: boolean;
 }
 
 const DropdownButton: React.FC<DropdownButtonProps> = ({
   title,
-  options,
   onSelect,
+  allTodos,
   hasMarginTop,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <View style={{ marginTop: hasMarginTop ? 15 : 0 }}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setIsOpen(!isOpen)}
-      >
+    <View
+      style={{
+        marginTop: hasMarginTop ? 15 : 0,
+        position: "relative",
+      }}
+    >
+      <Pressable style={styles.button} onPress={() => setIsOpen(!isOpen)}>
         <AppText fontStyle='body' colorStyle='black70'>
           {title}
         </AppText>
@@ -34,23 +37,27 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
           color={AppColors.blue100}
           style={styles.iconPlacement}
         />
-      </TouchableOpacity>
-
+      </Pressable>
       {isOpen && (
-        <View style={styles.dropdown}>
-          {options.map((option, index) => (
-            <TouchableOpacity
+        <ScrollView
+          style={styles.dropdown}
+          showsVerticalScrollIndicator={false}
+        >
+          {allTodos.map((option, index) => (
+            <Pressable
               key={index}
               style={styles.option}
               onPress={() => {
-                onSelect(option);
+                onSelect(option.id);
                 setIsOpen(false);
               }}
             >
-              <Text style={styles.text}>{option}</Text>
-            </TouchableOpacity>
+              <AppText fontStyle='body' colorStyle='black70'>
+                {option.title}
+              </AppText>
+            </Pressable>
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   );
@@ -76,13 +83,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   dropdown: {
-    borderWidth: 1,
-    borderColor: "#ccc",
+    marginTop: 5,
+    borderRadius: 10,
+    width: "100%",
+    maxHeight: 200,
+    backgroundColor: AppColors.blue300,
   },
   option: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    padding: 15,
   },
   iconPlacement: {
     position: "absolute",

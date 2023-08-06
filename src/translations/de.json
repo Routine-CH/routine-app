@@ -35,9 +35,12 @@
     "save": "Speichern"
   },
   "goals": {
+    "description": "Beschreibe dein Ziel und wieso du es erreichen möchtest",
+    "finish-goal": "Ziel erreichen",
     "show-all": "Alle anzeigen",
     "details": "Details",
-    "add-todo": "Todo hinzufügen"
+    "add-todo": "Todo hinzufügen",
+    "complete-all-todos": "Um dieses Ziel abzuschliessen, musst du alle Todos abschliessen."
   },
   "journal": {
     "activity": "Was hast du daraus gemacht?",

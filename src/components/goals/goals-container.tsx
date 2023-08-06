@@ -1,15 +1,13 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
-import { API_BASE_URL } from "../../utils/config/config";
+import { useGoalStore } from "../../store/goals-store";
 import AppColors from "../../utils/constants/colors";
 import AppFontStyle from "../../utils/constants/font-style";
 import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
-import { UserGoals } from "../../utils/types/types";
 import AddButton from "../common/buttons/add-button";
+import { LoadingIndicator } from "../common/loading-indicator";
 import AppText from "../common/typography/app-text";
 import GoalsCard from "./goals-card";
 import GoalsScrollView from "./goals-container/goals-scroll-view";
@@ -18,32 +16,15 @@ import NoGoalsCard from "./goals-container/no-goals-card";
 const windowWidth = Dimensions.get("window").width;
 
 const GoalsContainer: React.FC = () => {
-  const [userGoals, setUserGoals] = useState<UserGoals[]>([]);
+  const { userGoals, loadUserGoals, dataUpdated, isLoading } = useGoalStore();
   const [_, setIsDisplayHorizontalScroll] = useState<boolean>(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
 
   useEffect(() => {
-    async function getUserGoals() {
-      try {
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
-          const response = await axios.get(`${API_BASE_URL}goals`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          setUserGoals(response.data.data);
-        }
-      } catch (error) {
-        console.error("Failed to get user goals", error);
-      }
-    }
-
-    getUserGoals();
-  }, []);
+    loadUserGoals();
+  }, [dataUpdated]);
 
   useEffect(() => {
     setIsDisplayHorizontalScroll(userGoals.length > 0);
@@ -57,7 +38,9 @@ const GoalsContainer: React.FC = () => {
     navigation.navigate("SubRoutes", { screen: "GoalsNew" });
   };
 
-  return (
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : (
     <View style={styles.relativeContainer}>
       {userGoals.length === 0 ? (
         <View style={styles.container}>
@@ -69,6 +52,7 @@ const GoalsContainer: React.FC = () => {
           {userGoals.slice(0, 3).map((goal) => (
             <GoalsCard
               key={goal.id}
+              id={goal.id}
               title={goal.title}
               description={goal.description}
               displayHorizontalScroll={true}

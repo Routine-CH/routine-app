@@ -131,6 +131,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
             description={t("modals.notes")}
             actionText={t("modals.delete")}
             isVisible={isModalVisible}
+            setIsVisible={setIsModalVisible}
             onConfirm={deleteNote}
             navigateTo={() => navigateToNoteEditScreen()}
           />
