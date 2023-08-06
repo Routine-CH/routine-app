@@ -15,21 +15,27 @@ export const updateNoteRequest = async ({
     if (noteId && title && description) {
       const token = await AsyncStorage.getItem("access_token");
       if (token) {
-        console.log("Token available");
-
         const newNoteData = new FormData();
         newNoteData.append("title", title);
         newNoteData.append("description", description);
 
-        console.log("images", images);
-
-        // Check if images are available before adding to newNoteData
+        // check if images are available before adding to newNoteData
         if (images && images.length > 0) {
           images.forEach((image) => {
             const randomIndex = Math.floor(Math.random() * 500);
+
+            let imageUri = image.uri;
+
+            // if imageUrl exists, use it. Otherwise, stick to existing logic for URI.
+            if (image.imageUrl) {
+              imageUri = image.imageUrl;
+            } else {
+              imageUri = imageUri.replace("file://", "");
+            }
+
             // @ts-ignore: Unreachable code error
             newNoteData.append("images", {
-              uri: image.uri.replace("file://", ""),
+              uri: imageUri,
               type: image.type || "image/jpeg",
               name: `image${randomIndex}.jpg`,
             });
@@ -47,8 +53,6 @@ export const updateNoteRequest = async ({
           }
         );
 
-        // console.log("response", response);
-
         if (response.status !== 200) {
           showToast(
             ToastType.error,
@@ -56,12 +60,10 @@ export const updateNoteRequest = async ({
           );
           throw new Error("Note update failed");
         }
-
-        console.log("Note updated successfully", response);
         return response;
       }
     } else {
-      console.log("Some data is empty");
+      console.error("Some data is empty");
     }
   } catch (error) {
     const axiosError = error as AxiosErrorWithData;

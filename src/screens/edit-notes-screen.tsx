@@ -4,8 +4,8 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import React, { useEffect } from "react";
-import { Controller } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconButton from "../components/common/buttons/icon-button";
@@ -15,13 +15,15 @@ import LabelInputField from "../components/common/input/label-input-field";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { useNoteFormHandling } from "../hooks/notes/use-note-form-handling";
+import { showToast } from "../components/common/toast/show-toast";
+import { updateNoteRequest } from "../data/note/update-request";
 import { useImageStore } from "../store/camera-image-store";
 import { useNotesStore } from "../store/notes-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
-import { StatusBarColor } from "../utils/types/enums";
+import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+import { IFormNoteInputs } from "../utils/types/types";
 
 type NotesEditScreenRouteProps = RouteProp<
   AuthenticatedStackParamList,
@@ -42,15 +44,9 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const note = getNoteById(noteId);
   const { removeExistingImage, addImage, setImages, resetImages, images } =
     useImageStore();
-
-  const {
-    control,
-    handleSubmit,
-    handleUpdate,
-    onErrors,
-    isEditable,
-    updatingNote,
-  } = useNoteFormHandling(note, navigation, noteId, setDataUpdated);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [updatingNote, setUpdatingNote] = useState(false);
+  const [isEditable, setIsEditable] = useState(true);
 
   useEffect(() => {
     if (note && note.images) {
@@ -87,6 +83,65 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
       }
     }
   };
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<IFormNoteInputs>({
+    defaultValues: {
+      title: note?.title || "",
+      description: note?.description || "",
+    },
+  });
+
+  useEffect(() => {
+    setValue("title", note?.title || "");
+    setValue("description", note?.description || "");
+  }, [note, setValue]);
+
+  const handleUpdate = async (data: IFormNoteInputs) => {
+    try {
+      setUpdatingNote(true);
+      const response = await updateNoteRequest({
+        ...data,
+        noteId,
+        images,
+      });
+
+      if (typeof response === "string") {
+        showToast(ToastType.error, response);
+        setErrorMessage("Something went wrong");
+      } else if (response && "status" in response && response.status === 200) {
+        setIsEditable(false);
+        setDataUpdated(true);
+        showToast(ToastType.success, "Notiz gespeichert");
+        setTimeout(() => {
+          navigation.navigate("Notes");
+        }, 2000);
+      }
+    } catch (error) {
+      showToast(ToastType.error, errorMessage);
+    } finally {
+      setUpdatingNote(false);
+    }
+  };
+
+  const onErrors = (errors: any) => {
+    if (errors.title) {
+      setErrorMessage(errors.title.message);
+    } else if (errors.description) {
+      setErrorMessage(errors.description.message);
+    }
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      showToast(ToastType.error, errorMessage);
+      setErrorMessage("");
+    }
+  }, [errorMessage]);
 
   return note ? (
     <ScrollViewScreenWrapper
