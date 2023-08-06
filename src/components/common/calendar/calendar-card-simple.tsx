@@ -1,10 +1,11 @@
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import Todo from "../../todos/todo";
 
 import CardContent from "./card-content";
 import DateCardSimple from "./date-card-simple";
 
-interface DateProps {
+interface CalendarCardSimpleProps {
+  id: string;
   date: number;
   month: string;
   type?: string;
@@ -13,11 +14,13 @@ interface DateProps {
   iconStyle?: any;
   journalStyles?: any;
   displayTodoCard?: boolean;
+  navigateTo?: () => void;
 }
 
 const windowWidth = Dimensions.get("window").width;
 
-const CalendarCardSimple: React.FC<DateProps> = ({
+const CalendarCardSimple: React.FC<CalendarCardSimpleProps> = ({
+  id,
   date,
   month,
   type,
@@ -26,9 +29,10 @@ const CalendarCardSimple: React.FC<DateProps> = ({
   iconStyle,
   journalStyles,
   displayTodoCard = false,
+  navigateTo,
 }) => {
   return (
-    <View style={styles.calendarContainer}>
+    <TouchableOpacity style={styles.calendarContainer} onPress={navigateTo}>
       <View>
         <DateCardSimple date={date} month={month} />
       </View>
@@ -44,7 +48,7 @@ const CalendarCardSimple: React.FC<DateProps> = ({
           />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -56,5 +60,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     width: "100%",
     justifyContent: "center",
+    marginVertical: 5,
   },
 });
