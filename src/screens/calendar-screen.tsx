@@ -9,15 +9,18 @@ import { LoadingIndicator } from "../components/common/loading-indicator";
 import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
+import TodoModal from "../components/todos/todo-modal";
 import { useCalendarData } from "../hooks/calendar/use-calendar-data";
 import { CalendarDataTypes, Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
+import { UserTodo } from "../utils/types/types";
 
 const CalendarScreen: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedChip, setSelectedChip] = useState<CalendarDataTypes>();
-
+  const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
+  const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
   const startDateOfWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const endDateOfWeek = endOfWeek(selectedDate, { weekStartsOn: 1 });
   const datesOfWeek = eachDayOfInterval({
@@ -51,6 +54,10 @@ const CalendarScreen: React.FC = () => {
     setIsModalVisible(true);
   };
 
+  const closeTodoModal = () => {
+    setIsTodoModalVisible(false);
+  };
+
   return (
     <ScrollViewScreenWrapper
       backgroundColor='white'
@@ -74,13 +81,22 @@ const CalendarScreen: React.FC = () => {
         {isLoading ? (
           <LoadingIndicator />
         ) : (
-          <CalendarData calendar={weekData} />
+          <CalendarData
+            calendar={weekData}
+            setSelectedTodo={setSelectedTodo}
+            setIsModalVisible={setIsTodoModalVisible}
+          />
         )}
       </View>
       <CalendarModal
         isVisible={isModalVisible}
         datesOfWeek={datesOfWeek}
         onDayPress={onDayPress}
+      />
+      <TodoModal
+        isVisible={isTodoModalVisible}
+        onClose={closeTodoModal}
+        todo={selectedTodo}
       />
     </ScrollViewScreenWrapper>
   );

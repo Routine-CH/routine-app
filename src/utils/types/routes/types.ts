@@ -12,7 +12,7 @@ export type AuthenticatedStackParamList = {
   Home: undefined;
   Journals: undefined;
   EditTools: undefined;
-  JournalEdit: { id: string };
+  JournalEdit: { id: string; editable?: boolean };
   JournalNew: undefined;
   Calendar: undefined;
   CameraView: undefined;
@@ -21,6 +21,7 @@ export type AuthenticatedStackParamList = {
     params?: {
       id?: string;
       DiscoverAudio?: any;
+      editable?: boolean;
     };
   };
   Notes: undefined;

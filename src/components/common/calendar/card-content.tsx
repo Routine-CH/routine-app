@@ -1,4 +1,10 @@
-import { Dimensions, StyleSheet, View } from "react-native";
+import {
+  Dimensions,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
 import AppText from "../typography/app-text";
@@ -8,7 +14,7 @@ interface ChipProps {
   title: string;
   icon?: string;
   iconStyle?: any;
-  cardStyle?: any;
+  cardStyle?: StyleProp<ViewStyle>;
 }
 
 const windowWidth = Dimensions.get("window").width;

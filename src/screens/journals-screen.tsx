@@ -96,7 +96,7 @@ const JournalsScreen: React.FC = () => {
     } else {
       navigation.navigate("SubRoutes", {
         screen: "JournalEdit",
-        params: { id: journalId },
+        params: { id: journalId, editable: false },
       });
     }
   };
