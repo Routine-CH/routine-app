@@ -68,6 +68,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
       console.error("Failed to delete note", error);
     } finally {
       setIsDeletingNote(false);
+      setIsModalVisible(false);
     }
   };
 
