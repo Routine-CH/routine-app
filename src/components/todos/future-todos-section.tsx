@@ -33,25 +33,32 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  // filter out all todos which are completed
+  const filteredTodos = Object.fromEntries(
+    Object.entries(upcomingTodos).filter(([_, todos]) =>
+      todos.some((todo: UserTodo) => !todo.completed)
+    )
+  );
+
   return (
     <View style={styles.container}>
       <AppText
-        fontStyle="heading3"
-        colorStyle="black64"
+        fontStyle='heading3'
+        colorStyle='black64'
         style={{ marginTop: 60, marginBottom: 30 }}
       >
         {t("todos.future")} {t("profile.gamification.todos")}
       </AppText>
       <TouchableWithoutFeedback onPress={handleModalPress}>
-        <AppText fontStyle={"body"} colorStyle="black64">
+        <AppText fontStyle={"body"} colorStyle='black64'>
           {currentWeek}
         </AppText>
       </TouchableWithoutFeedback>
       <View style={[styles.calendarContainer, { marginTop: 30 }]}>
         {isLoadingUpcomingTodos ? (
           <LoadingIndicator />
-        ) : upcomingTodos && Object.keys(upcomingTodos).length > 0 ? (
-          Object.entries(upcomingTodos).map(([date, todos]) => (
+        ) : filteredTodos && Object.keys(filteredTodos).length > 0 ? (
+          Object.entries(filteredTodos).map(([date, todos]) => (
             <View
               key={date}
               style={{ flexDirection: "row", gap: 30, width: "100%" }}
@@ -77,7 +84,7 @@ const FutureTodosSection: React.FC<FutureTodosSectionProps> = ({
           ))
         ) : (
           <EmptyState
-            type="todo"
+            type='todo'
             title={t("todos.no-todos-title")}
             description={t("todos.no-future-todos")}
             style={{ backgroundColor: AppColors.greenMuted30 }}
