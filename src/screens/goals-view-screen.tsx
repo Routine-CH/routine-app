@@ -1,4 +1,8 @@
-import { RouteProp } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
@@ -39,6 +43,8 @@ const GoalViewScreen: React.FC<GoalsViewProps> = ({ route }) => {
   const { getGoalById, isLoading } = useGoalStore();
   const { getTodosByGoalId } = useTodoStore();
   const goal = getGoalById(goalId);
+  const navigation =
+    useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -62,7 +68,13 @@ const GoalViewScreen: React.FC<GoalsViewProps> = ({ route }) => {
 
   const deleteNote = async () => {};
 
-  const navigateToGoalEditScreen = () => {};
+  const navigateToGoalEditScreen = () => {
+    setIsModalVisible(false);
+    navigation.navigate("SubRoutes", {
+      screen: "GoalsEdit",
+      params: { id: goalId },
+    });
+  };
 
   return !isLoading && goal ? (
     <ScrollViewScreenWrapper

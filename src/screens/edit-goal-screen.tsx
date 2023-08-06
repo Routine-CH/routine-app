@@ -1,3 +1,4 @@
+import { RouteProp } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -9,29 +10,42 @@ import {
   View,
 } from "react-native";
 import SaveButton from "../components/common/buttons/save-button";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
+import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import GoalAddTodoView from "../components/goals/goal-add-todo-view";
 import GoalDetailView from "../components/goals/goal-detail-view";
+import { useGoalStore } from "../store/goals-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType, ViewType } from "../utils/types/enums";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+
+type EditGoalsScreenRouteProps = RouteProp<
+  AuthenticatedStackParamList,
+  "GoalsEdit"
+>;
+
+type EditGoalScreenProps = {
+  route: EditGoalsScreenRouteProps;
+};
 
 const { width: screenWidth } = Dimensions.get("window");
 const windowWidth = Dimensions.get("window").width;
 const MAX_TRANSLATION_PERCENT = -50;
 const MIN_TRANSLATION_PERCENT = 0;
 
-const NewGoalsScreen: React.FC = () => {
+const EditGoalScreen: React.FC<EditGoalScreenProps> = ({ route }) => {
   const [selectedView, setSelectedView] = useState<ViewType>(ViewType.DETAILS);
   const [slideAnimation] = useState(new Animated.Value(0));
-  const [isEditable, setIsEditable] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isEditable, setIsEditable] = useState(true);
   const { control, handleSubmit } = useForm();
-
+  const goalId = route.params.id;
+  const { getGoalById, isLoading } = useGoalStore();
+  const goal = getGoalById(goalId);
   const { t } = useTranslation();
-
-  const handleNewGoal = async () => {};
 
   const handleViewChange = (view: ViewType) => {
     if (view === ViewType.ADDTODO) {
@@ -93,7 +107,7 @@ const NewGoalsScreen: React.FC = () => {
     ],
   };
 
-  return (
+  return !isLoading && goal ? (
     <ScrollViewScreenWrapper
       statusBarColor={StatusBarColor.dark}
       backgroundColor={AppColors.white}
@@ -101,7 +115,7 @@ const NewGoalsScreen: React.FC = () => {
     >
       <SaveButton
         backButtonStyle={styles.backButtonStyle}
-        onPress={handleSubmit(handleNewGoal, onErrors)}
+        onPress={handleSubmit(onErrors)}
         isEditable={!isEditable}
       />
       <View style={styles.buttonContainer}>
@@ -155,17 +169,28 @@ const NewGoalsScreen: React.FC = () => {
       />
       <View style={styles.animatedContainer}>
         <Animated.View style={[styles.viewContainer, detailViewStyle]}>
-          <GoalDetailView control={control} isEditable={isEditable} />
+          <GoalDetailView
+            control={control}
+            isEditable={isEditable}
+            goal={goal}
+          />
         </Animated.View>
         <Animated.View style={[styles.viewContainer, addTodoViewStyle]}>
-          <GoalAddTodoView control={control} isEditable={isEditable} />
+          <GoalAddTodoView
+            control={control}
+            isEditable={isEditable}
+            goal={goal}
+          />
         </Animated.View>
       </View>
+      <RoutineToast />
     </ScrollViewScreenWrapper>
+  ) : (
+    <LoadingIndicator />
   );
 };
 
-export default NewGoalsScreen;
+export default EditGoalScreen;
 
 const styles = StyleSheet.create({
   backButtonStyle: {
@@ -189,9 +214,6 @@ const styles = StyleSheet.create({
     borderBottomColor: AppColors.blue300,
     width: windowWidth * 0.41,
   },
-  selectedHorizontalLine: {
-    borderBottomColor: AppColors.blue100,
-  },
   animatedContainer: {
     flex: 1,
     position: "relative",
@@ -199,5 +221,8 @@ const styles = StyleSheet.create({
   viewContainer: {
     width: "100%",
     position: "absolute",
+  },
+  selectedHorizontalLine: {
+    borderBottomColor: AppColors.blue100,
   },
 });

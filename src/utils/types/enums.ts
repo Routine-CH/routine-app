@@ -11,3 +11,8 @@ export enum ToastType {
   success = "successToast",
   error = "errorToast",
 }
+
+export enum ViewType {
+  DETAILS = "Details",
+  ADDTODO = "Todo hinzufügen",
+}

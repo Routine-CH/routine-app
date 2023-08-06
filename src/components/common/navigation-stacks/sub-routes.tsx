@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AudioScreen from "../../../screens/audio-screen";
 import BadgesScreen from "../../../screens/badges-screen";
+import EditGoalScreen from "../../../screens/edit-goal-screen";
 import EditJournalScreen from "../../../screens/edit-journals-screen";
 import EditNotesScreen from "../../../screens/edit-notes-screen";
 import EditTodosScreen from "../../../screens/edit-todos-screen";
@@ -95,7 +96,14 @@ const SubRoutes: React.FC = () => {
       />
       <SubRoutesStack.Screen
         name='GoalsView'
+        /* @ts-ignore: TODO: fix this */
         component={GoalViewScreen}
+        options={{ headerShown: false }}
+      />
+      <SubRoutesStack.Screen
+        name='GoalsEdit'
+        /* @ts-ignore: TODO: fix this */
+        component={EditGoalScreen}
         options={{ headerShown: false }}
       />
       <SubRoutesStack.Screen

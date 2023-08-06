@@ -1,16 +1,19 @@
 import { Control, Controller, FieldValues } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import AppColors from "../../utils/constants/colors";
+import { UserGoals } from "../../utils/types/types";
 import LabelInputField from "../common/input/label-input-field";
 
 type GoalDetailViewProps = {
   control: Control<FieldValues, any>;
   isEditable: boolean;
+  goal?: UserGoals | undefined;
 };
 
 const GoalDetailView: React.FC<GoalDetailViewProps> = ({
   control,
   isEditable,
+  goal,
 }) => {
   return (
     <View style={styles.container}>
@@ -27,6 +30,7 @@ const GoalDetailView: React.FC<GoalDetailViewProps> = ({
           />
         )}
         name='title'
+        defaultValue={goal?.title || ""}
         rules={{
           required: "Bitte gib dem Ziel einen Titel",
           minLength: {
@@ -49,6 +53,7 @@ const GoalDetailView: React.FC<GoalDetailViewProps> = ({
           />
         )}
         name='description'
+        defaultValue={goal?.description || ""}
         rules={{
           required: "Bitte beschreibe dein Ziel",
           minLength: {
