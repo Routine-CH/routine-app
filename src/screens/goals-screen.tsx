@@ -1,51 +1,34 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import GoalsCard from "../components/goals/goals-card";
-import { API_BASE_URL } from "../utils/config/config";
+import { useGoalStore } from "../store/goals-store";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
-import { UserGoals } from "../utils/types/types";
 
 const GoalsScreen: React.FC = () => {
-  const [userGoals, setUserGoals] = useState<UserGoals[]>([]);
+  const { userGoals, loadUserGoals, dataUpdated, isLoading } = useGoalStore();
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const { t } = useTranslation();
 
   useEffect(() => {
-    async function getUserGoals() {
-      try {
-        const token = await AsyncStorage.getItem("access_token");
-        if (token) {
-          const response = await axios.get(`${API_BASE_URL}goals`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          setUserGoals(response.data.data);
-        }
-      } catch (error) {
-        console.error("Failed to get user goals", error);
-      }
-    }
-
-    getUserGoals();
-  }, []);
+    loadUserGoals();
+  }, [dataUpdated]);
 
   const navigateToNewGoalsScreen = () => {
     navigation.navigate("SubRoutes", { screen: "GoalsNew" });
   };
 
-  return (
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : (
     <>
       <ScrollViewScreenWrapper
         backgroundColor='white'
@@ -66,6 +49,7 @@ const GoalsScreen: React.FC = () => {
               return (
                 <View key={goal.id} style={styles.goalContainer}>
                   <GoalsCard
+                    id={goal.id}
                     title={goal.title}
                     description={goal.description}
                   />

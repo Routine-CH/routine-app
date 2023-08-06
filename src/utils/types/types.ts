@@ -47,6 +47,8 @@ export type UserGoals = {
   createdAt: Date;
 };
 
+export type AllUserGoals = UserGoals[];
+
 export interface UserTool {
   id: string;
   screenName: string;
