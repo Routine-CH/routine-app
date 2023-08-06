@@ -14,6 +14,7 @@ import AppText from "../common/typography/app-text";
 type CreateAndLinkTodoModalProps = {
   isEditable: boolean;
   isModalVisible: boolean;
+  setIsModalVisible: (isVisible: boolean) => void;
 };
 
 const windowWidth = Dimensions.get("window").width;
@@ -21,91 +22,98 @@ const windowWidth = Dimensions.get("window").width;
 const CreateAndLinkTodoModal: React.FC<CreateAndLinkTodoModalProps> = ({
   isEditable,
   isModalVisible,
+  setIsModalVisible,
 }) => {
   const { control, handleSubmit } = useForm();
 
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <Modal visible={isModalVisible}>
-      <View style={styles.overlay}>
-        <TouchableWithoutFeedback>
-          <View style={styles.modalContainer}>
-            <View style={styles.line} />
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <LabelInputField
-                  placeholder='Titel'
-                  style={styles.inputField}
-                  onBlur={onBlur}
-                  onChangeText={(value) => onChange(value)}
-                  value={value}
-                  isEditable={isEditable}
-                />
-              )}
-              name='todo-title'
-              rules={{
-                required: "Bitte gib dem Ziel einen Titel",
-                minLength: {
-                  value: 5,
-                  message: "Der Titel muss mindestens 5 Zeichen lang sein",
-                },
-              }}
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <LabelInputField
-                  placeholder='Notizen'
-                  style={styles.inputField}
-                  onBlur={onBlur}
-                  onChangeText={(value) => onChange(value)}
-                  value={value}
-                  isEditable={isEditable}
-                />
-              )}
-              name='todo-notes'
-              rules={{
-                required: "Bitte gib dem Ziel einen Titel",
-                minLength: {
-                  value: 5,
-                  message: "Der Titel muss mindestens 5 Zeichen lang sein",
-                },
-              }}
-            />
-            <Calendar
-              style={styles.calendar}
-              firstDay={1}
-              monthFormat='MMMM yyyy'
-              enableSwipeMonths={true}
-              allowSelectionOutOfRange={false}
-              theme={{
-                textSectionTitleColor: AppColors.black70,
-                textSectionTitleDisabledColor: AppColors.black70,
-                selectedDayBackgroundColor: AppColors.blue100Muted20,
-                selectedDayTextColor: AppColors.black70,
-                todayTextColor: AppColors.black70,
-                dayTextColor: AppColors.black70,
-                textDisabledColor: AppColors.grey,
-                dotColor: AppColors.blue100Muted20,
-                selectedDotColor: AppColors.blue100Muted20,
-                arrowColor: AppColors.blue100,
-                disabledArrowColor: AppColors.blue300,
-              }}
-            />
-            <TouchableWithoutFeedback>
-              <View style={styles.addButton}>
-                <AppText
-                  colorStyle='white'
-                  fontStyle='body'
-                  style={{ textTransform: "uppercase" }}
-                >
-                  Hinzufügen
-                </AppText>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
+      <TouchableWithoutFeedback onPress={closeModal}>
+        <View style={styles.overlay}>
+          <TouchableWithoutFeedback>
+            <View style={styles.modalContainer}>
+              <View style={styles.line} />
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <LabelInputField
+                    placeholder='Titel'
+                    style={styles.inputField}
+                    onBlur={onBlur}
+                    onChangeText={(value) => onChange(value)}
+                    value={value}
+                    isEditable={isEditable}
+                  />
+                )}
+                name='todo-title'
+                rules={{
+                  required: "Bitte gib dem Ziel einen Titel",
+                  minLength: {
+                    value: 5,
+                    message: "Der Titel muss mindestens 5 Zeichen lang sein",
+                  },
+                }}
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <LabelInputField
+                    placeholder='Notizen'
+                    style={styles.inputField}
+                    onBlur={onBlur}
+                    onChangeText={(value) => onChange(value)}
+                    value={value}
+                    isEditable={isEditable}
+                  />
+                )}
+                name='todo-notes'
+                rules={{
+                  required: "Bitte gib dem Ziel einen Titel",
+                  minLength: {
+                    value: 5,
+                    message: "Der Titel muss mindestens 5 Zeichen lang sein",
+                  },
+                }}
+              />
+              <Calendar
+                style={styles.calendar}
+                firstDay={1}
+                monthFormat='MMMM yyyy'
+                enableSwipeMonths={true}
+                allowSelectionOutOfRange={false}
+                theme={{
+                  textSectionTitleColor: AppColors.black70,
+                  textSectionTitleDisabledColor: AppColors.black70,
+                  selectedDayBackgroundColor: AppColors.blue100Muted20,
+                  selectedDayTextColor: AppColors.black70,
+                  todayTextColor: AppColors.black70,
+                  dayTextColor: AppColors.black70,
+                  textDisabledColor: AppColors.grey,
+                  dotColor: AppColors.blue100Muted20,
+                  selectedDotColor: AppColors.blue100Muted20,
+                  arrowColor: AppColors.blue100,
+                  disabledArrowColor: AppColors.blue300,
+                }}
+              />
+              <TouchableWithoutFeedback>
+                <View style={styles.addButton}>
+                  <AppText
+                    colorStyle='white'
+                    fontStyle='body'
+                    style={{ textTransform: "uppercase" }}
+                  >
+                    Hinzufügen
+                  </AppText>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };

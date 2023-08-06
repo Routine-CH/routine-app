@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import {
+  getAllUserTodos,
   getUpcomingTodos,
   getUserTodosByGoalId,
 } from "../data/todo/fetch-requests";
@@ -22,6 +23,7 @@ type TodoActions = {
   loadUserTodos: () => Promise<void>;
   setDataUpdated: (updated: boolean) => void;
   getTodosByGoalId: (goalId: string) => Promise<UserTodo[]>;
+  getAllTodos: () => Promise<UserTodo[]>;
 };
 
 export const useTodoStore = create<TodoState & TodoActions>((set, get) => ({
@@ -53,6 +55,10 @@ export const useTodoStore = create<TodoState & TodoActions>((set, get) => ({
   },
   getTodosByGoalId: async (goalId: string) => {
     const todos = await getUserTodosByGoalId(goalId);
+    return todos;
+  },
+  getAllTodos: async () => {
+    const todos = await getAllUserTodos();
     return todos;
   },
 }));

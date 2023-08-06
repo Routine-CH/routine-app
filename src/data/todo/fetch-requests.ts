@@ -35,3 +35,20 @@ export const getUserTodosByGoalId = async (goalId: string) => {
 
   return todosData;
 };
+
+export const getAllUserTodos = async () => {
+  const token = await AsyncStorage.getItem("access_token");
+  if (!token) {
+    throw new Error("No access token found.");
+  }
+
+  const response = await axios.get(`${API_BASE_URL}todos`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const todosData = response.data.data;
+
+  return todosData;
+};

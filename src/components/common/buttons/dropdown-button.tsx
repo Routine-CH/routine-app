@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppColors from "../../../utils/constants/colors";
+import { UserTodo } from "../../../utils/types/types";
 import AppText from "../typography/app-text";
 
 interface DropdownButtonProps {
   title: string;
-  options: string[];
   onSelect: (option: string) => void;
+  allTodos: UserTodo[];
   hasMarginTop: boolean;
 }
 
 const DropdownButton: React.FC<DropdownButtonProps> = ({
   title,
-  options,
   onSelect,
+  allTodos,
   hasMarginTop,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,22 +39,25 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
         />
       </Pressable>
       {isOpen && (
-        <View style={styles.dropdown}>
-          {options.map((option, index) => (
+        <ScrollView
+          style={styles.dropdown}
+          showsVerticalScrollIndicator={false}
+        >
+          {allTodos.map((option, index) => (
             <Pressable
               key={index}
               style={styles.option}
               onPress={() => {
-                onSelect(option);
+                onSelect(option.id);
                 setIsOpen(false);
               }}
             >
               <AppText fontStyle='body' colorStyle='black70'>
-                {option}
+                {option.title}
               </AppText>
             </Pressable>
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   );
@@ -82,6 +86,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderRadius: 10,
     width: "100%",
+    maxHeight: 200,
     backgroundColor: AppColors.blue300,
   },
   option: {

@@ -24,8 +24,10 @@ const GoalAddTodoView: React.FC<GoalAddTodoViewProps> = ({
   goal,
 }) => {
   const [todos, setTodos] = useState<UserTodo[]>([]);
+  const [allTodos, setAllTodos] = useState<UserTodo[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { getTodosByGoalId } = useTodoStore();
+  const { getAllTodos } = useTodoStore();
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -37,9 +39,16 @@ const GoalAddTodoView: React.FC<GoalAddTodoViewProps> = ({
       const todos = await getTodosByGoalId(goal.id);
       setTodos(todos);
     }
-
     fetchData();
   }, [goal]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const allTodos = await getAllTodos();
+      setAllTodos(allTodos);
+    }
+    fetchData();
+  }, []);
 
   const handleSelect = (option: string) => {
     console.log(`Selected: ${option}`);
@@ -58,8 +67,8 @@ const GoalAddTodoView: React.FC<GoalAddTodoViewProps> = ({
       />
       <DropdownButton
         title='Existierendes Todo verknüpfen'
-        options={["Option 1", "Option 2", "Option 3"]}
         onSelect={handleSelect}
+        allTodos={allTodos}
         hasMarginTop={true}
       />
       {todos.length > 0 && (
@@ -81,7 +90,6 @@ const GoalAddTodoView: React.FC<GoalAddTodoViewProps> = ({
           </AppText>
           <View style={{ marginTop: 20 }}>
             {todos.map((todo) => {
-              console.log(todo);
               return (
                 <View key={todo.id} style={styles.todoContainer}>
                   <AppText
@@ -115,6 +123,7 @@ const GoalAddTodoView: React.FC<GoalAddTodoViewProps> = ({
       )}
       <CreateAndLinkTodoModal
         isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
         isEditable={isEditable}
       />
     </View>
