@@ -22,6 +22,7 @@ type TodoActions = {
   ) => void;
   loadUserTodos: () => Promise<void>;
   setDataUpdated: (updated: boolean) => void;
+  getTodoById: (id: string) => UserTodo | undefined;
   getTodosByGoalId: (goalId: string) => Promise<UserTodo[]>;
   getAllTodos: () => Promise<UserTodo[]>;
 };
@@ -52,6 +53,14 @@ export const useTodoStore = create<TodoState & TodoActions>((set, get) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+  getTodoById: (id: string) => {
+    const todos = get().userTodos;
+    for (const date in todos) {
+      const todoFound = todos[date].find((todo) => todo.id === id);
+      if (todoFound) return todoFound;
+    }
+    return undefined;
   },
   getTodosByGoalId: async (goalId: string) => {
     const todos = await getUserTodosByGoalId(goalId);

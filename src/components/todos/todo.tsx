@@ -1,6 +1,7 @@
 import { t } from "i18next";
 import { useRef, useState } from "react";
 import {
+  Dimensions,
   StyleProp,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -29,6 +30,8 @@ interface TodoProps {
   onDeleteTodo?: () => void;
   onEditTodo?: () => void;
 }
+
+const windowWidth = Dimensions.get("window").width;
 
 const Todo: React.FC<TodoProps> = ({
   completed,
@@ -173,7 +176,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textStyle: {
-    maxWidth: 250,
+    maxWidth: windowWidth * 0.65,
   },
   futureTodoTextStyle: { maxWidth: 150 },
   rightAction: {

@@ -88,7 +88,7 @@ const JournalsScreen: React.FC = () => {
 
   const navigateToJournalEditScreen = (journalId?: string) => {
     setIsModalVisible(false);
-    if (todayJournal) {
+    if (todayJournal && !journalId) {
       navigation.navigate("SubRoutes", {
         screen: "JournalEdit",
         params: { id: !journalId ? todayJournal.id : journalId },

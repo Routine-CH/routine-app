@@ -18,7 +18,7 @@ import SimpleCalendarModal from "../components/common/modals/simple-calendar-mod
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
 import AppText from "../components/common/typography/app-text";
-import { useTodoData } from "../hooks/todos/use-todo-data";
+
 import { useTodoFormHandling } from "../hooks/todos/use-todo-form-handling";
 import { useTodoStore } from "../store/todos-store";
 import AppColors from "../utils/constants/colors";
@@ -39,9 +39,10 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const id = route.params.id;
-  const { todo, isLoading } = useTodoData(id);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const { setDataUpdated } = useTodoStore();
+  const { setDataUpdated, getTodoById, isLoading } = useTodoStore();
+
+  const todo = getTodoById(id);
 
   useEffect(() => {
     if (todo?.plannedDate) {

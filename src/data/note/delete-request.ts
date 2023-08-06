@@ -3,7 +3,7 @@ import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
 import { UserNotes } from "../../utils/types/types";
 
-export const deleteNoteRequest = async (note: UserNotes | null) => {
+export const deleteNoteRequest = async (note: UserNotes | undefined) => {
   try {
     if (note) {
       const token = await AsyncStorage.getItem("access_token");

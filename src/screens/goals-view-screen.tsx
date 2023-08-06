@@ -187,6 +187,7 @@ const GoalViewScreen: React.FC<GoalsViewProps> = ({ route }) => {
               textAlign: "center",
               marginTop: windowWidth * 0.03,
               maxWidth: windowWidth * 0.8,
+              marginBottom: 60,
             }}
           >
             {t("goals.complete-all-todos")}

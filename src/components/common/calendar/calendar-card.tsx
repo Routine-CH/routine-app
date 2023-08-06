@@ -66,6 +66,11 @@ const CalendarCard: React.FC<DateProps> = ({
           plannedDate: plannedDate,
         });
       setIsModalVisible && setIsModalVisible(true);
+    } else if (type === CalendarCardType.GOALS) {
+      navigation.navigate("SubRoutes", {
+        screen: "GoalsEdit",
+        params: { id: id },
+      });
     }
   };
 

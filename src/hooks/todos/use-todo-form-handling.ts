@@ -8,7 +8,7 @@ import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
 import { IFormTodoInputs, UserTodo } from "../../utils/types/types";
 
 export const useTodoFormHandling = (
-  todo: UserTodo | null,
+  todo: UserTodo | undefined,
   navigation: NavigationProp<AuthenticatedStackParamList>,
   id: string,
   selectedDate: Date,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Control, FieldValues } from "react-hook-form";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import { useTodoStore } from "../../store/todos-store";
 import AppColors from "../../utils/constants/colors";
 import AppFontStyle from "../../utils/constants/font-style";
@@ -88,7 +88,10 @@ const GoalAddTodoView: React.FC<GoalAddTodoViewProps> = ({
           >
             Verknüpfte todos
           </AppText>
-          <View style={{ marginTop: 20 }}>
+          <ScrollView
+            style={{ marginTop: 20, maxHeight: 200 }}
+            showsVerticalScrollIndicator={false}
+          >
             {todos.map((todo) => {
               return (
                 <View key={todo.id} style={styles.todoContainer}>
@@ -118,7 +121,7 @@ const GoalAddTodoView: React.FC<GoalAddTodoViewProps> = ({
                 </View>
               );
             })}
-          </View>
+          </ScrollView>
         </View>
       )}
       <CreateAndLinkTodoModal
@@ -135,7 +138,9 @@ export default GoalAddTodoView;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    height: "100%",
     marginVertical: 30,
+    marginBottom: 100,
   },
   iconTextButton: {
     backgroundColor: AppColors.blue100Muted20,

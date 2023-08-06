@@ -18,7 +18,6 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { deleteNoteRequest } from "../data/note/delete-request";
-import { useNoteData } from "../hooks/notes/use-note-data";
 import { useNotesStore } from "../store/notes-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -36,10 +35,10 @@ type NoteViewProps = {
 const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   const { t } = useTranslation();
   const noteId = route.params.id;
-  const { note, isLoading } = useNoteData(noteId);
-  const { setDataUpdated } = useNotesStore();
+  const { setDataUpdated, getNoteById, isLoading } = useNotesStore();
   const [isDeletingNote, setIsDeletingNote] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const note = getNoteById(noteId);
   const createdAt = note?.createdAt ? new Date(note.createdAt) : null;
   const formattedDate = createdAt
     ? format(createdAt, "dd. MMMM yyyy", { locale: de })

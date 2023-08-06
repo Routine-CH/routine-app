@@ -18,3 +18,20 @@ export const getUserNotes = async () => {
 
   return notesData.length > 0 ? notesData : [];
 };
+
+export const getNoteById = async (noteId: string) => {
+  try {
+    const token = await AsyncStorage.getItem("access_token");
+    if (token) {
+      const response = await axios.get(`${API_BASE_URL}notes/${noteId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data.data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
