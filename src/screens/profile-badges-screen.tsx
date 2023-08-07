@@ -1,3 +1,4 @@
+import { RouteProp } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -14,6 +15,16 @@ import AllBadgesView from "../components/profile/all-badges-view";
 import LevelsView from "../components/profile/levels-view";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
+import { AuthenticatedStackParamList } from "../utils/types/routes/types";
+
+type ProfileBadgesScreenRouteProps = RouteProp<
+  AuthenticatedStackParamList,
+  "ProfileBadges"
+>;
+
+type ProfileBadgesScreenProps = {
+  route: ProfileBadgesScreenRouteProps;
+};
 
 const { width: screenWidth } = Dimensions.get("window");
 const MAX_TRANSLATION_PERCENT = -50; // Adjust this value as needed
@@ -21,11 +32,14 @@ const MIN_TRANSLATION_PERCENT = 42; // Adjust this value as needed
 
 const windowWidth = Dimensions.get("window").width;
 
-const BadgesScreen = () => {
+const ProfileBadgesScreen: React.FC<ProfileBadgesScreenProps> = ({ route }) => {
   const [selectedView, setSelectedView] = useState<"badges" | "levels">(
     "badges"
   );
   const [slideAnimation] = useState(new Animated.Value(0));
+
+  // @ts-ignore: Unreachable code error
+  const profileBadges = route.params.badges;
 
   const handleViewChange = (view: "badges" | "levels") => {
     if (view === "levels") {
@@ -129,7 +143,7 @@ const BadgesScreen = () => {
       </View>
       <View style={styles.animatedContainer}>
         <Animated.View style={[styles.viewContainer, badgesViewStyle]}>
-          <AllBadgesView />
+          <AllBadgesView profileBadges={profileBadges} />
         </Animated.View>
         <Animated.View style={[styles.viewContainer, levelsViewStyle]}>
           <LevelsView />
@@ -139,7 +153,7 @@ const BadgesScreen = () => {
   );
 };
 
-export default BadgesScreen;
+export default ProfileBadgesScreen;
 
 const styles = StyleSheet.create({
   buttonContainer: {

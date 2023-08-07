@@ -23,8 +23,11 @@ const ProfileScreen = () => {
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const defaultAvatar = "../assets/misc/stones.jpg";
-  const navigateToScreen = (screenName: string) => {
-    navigation.navigate("SubRoutes", { screen: screenName });
+  const navigateToBadgesScreen = () => {
+    navigation.navigate("SubRoutes", {
+      screen: "ProfileBadges",
+      params: { badges: userProfileData && userProfileData.badges },
+    });
   };
 
   const navigateToProfileSettingsScreen = () => {
@@ -82,7 +85,7 @@ const ProfileScreen = () => {
           badgesCount={userProfileData.badges.length}
           streakCount={userProfileData.userStreakCount}
         />
-        <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
+        <BadgesView navigateTo={navigateToBadgesScreen} />
       </View>
       <Badge badges={userProfileData.badges} />
       <View style={styles.wrapper}>

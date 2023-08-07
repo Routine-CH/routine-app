@@ -90,10 +90,10 @@ const GamificationModal: React.FC = () => {
               marginTop: 15,
             }}
           >
-            With an astonishing 100 logins, you've become a true legend in your
-            pursuit of self-improvement. Your dedication and consistency serve
-            as an inspiration to us all. Continue to forge ahead and conquer new
-            heights.
+            Mit 75 friedlichen Begegnungen mit den Troopers hast du die Kunst
+            der Strategie und Diplomatie beim Schreiben unter Beweis gestellt.
+            Dein Engagement für harmonische Lösungen und Selbstreflexion ist
+            wirklich lobenswert.
           </AppText>
           <FlatButton
             colorStyle='white'

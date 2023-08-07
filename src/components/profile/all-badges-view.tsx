@@ -1,34 +1,33 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, Pressable, StyleSheet, View } from "react-native";
+import { UserBadge } from "../../utils/types/profile/types";
 
-const AllBadgesView = () => {
-  return (
+type AllBadgesViewProps = {
+  profileBadges: UserBadge[] | [];
+};
+
+const windowWidth = Dimensions.get("window").width;
+
+const AllBadgesView: React.FC<AllBadgesViewProps> = ({ profileBadges }) => {
+  return profileBadges.length > 0 ? (
     <View style={styles.badgesContainer}>
-      <Image
-        style={styles.image}
-        source={require("../../assets/misc/badge.png")}
-      />
-      <Image
-        style={styles.image}
-        source={require("../../assets/misc/badge.png")}
-      />
-      <Image
-        style={[styles.image, styles.badgeNotYetCollected]}
-        source={require("../../assets/misc/badge.png")}
-      />
-      <Image
-        style={[styles.image, styles.badgeNotYetCollected]}
-        source={require("../../assets/misc/badge.png")}
-      />
-      <Image
-        style={[styles.image, styles.badgeNotYetCollected]}
-        source={require("../../assets/misc/badge.png")}
-      />
-      <Image
-        style={[styles.image, styles.badgeNotYetCollected]}
-        source={require("../../assets/misc/badge.png")}
-      />
+      {profileBadges.map((badge) => {
+        return (
+          <Pressable
+            key={badge.badge.id}
+            style={styles.badgePressable}
+            onPress={() => console.log(badge.badge.id)}
+          >
+            <Image
+              style={styles.image}
+              source={{ uri: badge.badge.imageUrl }}
+            />
+          </Pressable>
+        );
+      })}
     </View>
+  ) : (
+    <></>
   );
 };
 
@@ -38,12 +37,15 @@ const styles = StyleSheet.create({
   badgesContainer: {
     flexWrap: "wrap",
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    gap: 15,
+    justifyContent: "space-between",
+  },
+  badgePressable: {
+    width: "50%",
+    alignItems: "center",
   },
   image: {
-    height: 90,
-    width: 90,
+    height: windowWidth * 0.4,
+    width: windowWidth * 0.4,
   },
   badgeNotYetCollected: {
     opacity: 0.5,
