@@ -7,6 +7,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LoadingIndicator } from "./src/components/common/loading-indicator";
 import AuthenticatedNavigator from "./src/components/common/navigation-stacks/authenticated-navigator";
 import UnauthenticatedNavigator from "./src/components/common/navigation-stacks/unauthenticated-navigator";
+import GamificationModal from "./src/components/gamification/gamification-modal";
 import AuthProvider, { AuthContext } from "./src/contexts/auth-context";
 import useUbuntuFont from "./src/hooks/use-fonts";
 import "./src/i18n/config";
@@ -56,6 +57,7 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <MainApp />
+      <GamificationModal />
     </AuthProvider>
   );
 };
