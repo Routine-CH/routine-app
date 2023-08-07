@@ -76,7 +76,7 @@ const GamificationModal: React.FC = () => {
             style={{
               fontFamily: AppFontStyle.heading2.fontFamily,
               fontSize: windowWidth * 0.09,
-              marginTop: 20,
+              marginTop: 10,
             }}
           >
             Login Legend
@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
     marginTop: windowWidth * 0.07,
   },
   image: {
-    width: windowWidth * 0.43,
-    height: windowHeight * 0.2,
+    width: windowWidth * 0.5,
+    height: windowWidth * 0.5,
   },
   button: {
     backgroundColor: AppColors.blue100,
