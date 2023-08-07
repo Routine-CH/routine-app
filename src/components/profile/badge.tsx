@@ -1,10 +1,12 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { UserBadge } from "../../utils/types/profile/types";
 
 type BadgeProps = {
   badges: UserBadge[];
 };
+
+const windowWidth = Dimensions.get("window").width;
 
 const Badge: React.FC<BadgeProps> = ({ badges }) => {
   return (
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   image: {
-    height: 130,
-    width: 130,
+    height: windowWidth * 0.35,
+    width: windowWidth * 0.35,
   },
 });

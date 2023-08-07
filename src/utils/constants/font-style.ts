@@ -20,7 +20,7 @@ const AppFontStyle = {
     fontSize: 18,
   },
   bodyMedium: {
-    fontFamily: "Ubuntu_500Medium",
+    fontFamily: "Ubuntu_400Regular",
     fontSize: 18,
   },
   bodyBold: {

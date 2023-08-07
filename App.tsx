@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import React, { useContext, useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
+import { LogBox } from "react-native";
 import "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LoadingIndicator } from "./src/components/common/loading-indicator";
@@ -12,6 +13,11 @@ import AuthProvider, { AuthContext } from "./src/contexts/auth-context";
 import useUbuntuFont from "./src/hooks/use-fonts";
 import "./src/i18n/config";
 import i18n from "./src/i18n/config";
+
+LogBox.ignoreLogs([
+  'fontFamily "Ubuntu_400Regular" is not a system font and has not been loaded through Font.loadAsync.',
+  'fontFamily "Ubuntu_700Bold" is not a system font and has not been loaded through Font.loadAsync.',
+]);
 
 const MainApp: React.FC = () => {
   const { userIsAuthenticated } = useContext(AuthContext);

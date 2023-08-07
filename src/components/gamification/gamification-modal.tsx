@@ -10,7 +10,7 @@ const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
 
 const GamificationModal: React.FC = () => {
-  const slideAnim = useRef(new Animated.Value(-0.65 * windowHeight)).current;
+  const slideAnim = useRef(new Animated.Value(-0.7 * windowHeight)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
   const showGamificationModal = useGamificationStore(
     (state) => state.showGamificationModal
@@ -76,7 +76,6 @@ const GamificationModal: React.FC = () => {
             style={{
               fontFamily: AppFontStyle.heading2.fontFamily,
               fontSize: windowWidth * 0.09,
-              marginTop: 10,
             }}
           >
             Login Legend
@@ -85,7 +84,7 @@ const GamificationModal: React.FC = () => {
             colorStyle='black70'
             style={{
               fontFamily: AppFontStyle.body.fontFamily,
-              fontSize: windowWidth * 0.04,
+              fontSize: windowWidth * 0.045,
               textAlign: "center",
               lineHeight: 20,
               marginTop: 15,
@@ -125,7 +124,7 @@ const styles = StyleSheet.create({
     left: windowWidth * 0.025,
     flex: 1,
     width: windowWidth * 0.95,
-    height: windowHeight * 0.65,
+    height: windowHeight * 0.7,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingHorizontal: windowWidth * 0.05,
@@ -144,7 +143,6 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     alignItems: "center",
-    marginTop: windowWidth * 0.07,
   },
   image: {
     width: windowWidth * 0.5,
@@ -156,6 +154,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 13,
     position: "absolute",
-    bottom: windowHeight * 0.07,
+    bottom: windowHeight * 0.03,
   },
 });
