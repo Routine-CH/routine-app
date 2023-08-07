@@ -3,6 +3,7 @@ import { format, parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import AchievementCard from "../components/profile/achievement-card";
@@ -83,14 +84,14 @@ const ProfileScreen = () => {
         />
         <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
       </View>
-      <Badge />
+      <Badge badges={userProfileData.badges} />
       <View style={styles.wrapper}>
         <YearCard currentUser={userProfileData} />
       </View>
       <WeekView journalDays={userProfileData.journalDaysThisWeek} />
     </ScrollViewScreenWrapper>
   ) : (
-    <></>
+    <LoadingIndicator />
   );
 };
 

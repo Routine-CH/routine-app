@@ -19,7 +19,7 @@ type GamificationActions = {
 export const useGamificationStore = create<
   GamificationState & GamificationActions
 >((set) => ({
-  showGamificationModal: true,
+  showGamificationModal: false,
   modalContent: null,
   onOpenGamificationModal: (content) =>
     set({ showGamificationModal: true, modalContent: content }),
