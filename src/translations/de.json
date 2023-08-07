@@ -28,6 +28,8 @@
     "send-email": "E-Mail schicken"
   },
   "gamification": {
+    "earned-badge-text": "Du hast dir diesen badge am",
+    "earned-badge-date": "{{date}} verdient.",
     "badge-desc": {
       "streak-starter-desc": "Du hast dich an 7 aufeinanderfolgenden Tagen eingeloggt und damit gezeigt, dass du dich für dein persönliches Wachstum einsetzt. Halte den Schwung aufrecht und erreiche weiterhin neue Höhen.",
       "fortnight-fanatic-desc": "Deine 14-tägige Anmeldestrecke zeigt, dass du dich unermüdlich für den Fortschritt einsetzt. Fördere weiterhin dein Potenzial und inspiriere andere mit deinem Engagement.",

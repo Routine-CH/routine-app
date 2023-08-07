@@ -18,6 +18,7 @@ import ProfileBadgesScreen from "../../../screens/profile-badges-screen";
 import ProfileSettingsScreen from "../../../screens/profile-settings-screen";
 import TimerScreen from "../../../screens/timer-screen";
 import TodosScreen from "../../../screens/todos-screen";
+import BadgesDetailView from "../../gamification/badges-detail-view";
 import { CameraView } from "../camera/camera-view";
 
 const SubRoutes: React.FC = () => {
@@ -126,6 +127,12 @@ const SubRoutes: React.FC = () => {
         name='ProfileBadges'
         /* @ts-ignore: TODO: fix this */
         component={ProfileBadgesScreen}
+        options={{ headerShown: false }}
+      />
+      <SubRoutesStack.Screen
+        name='ProfileBadgesDetailView'
+        /* @ts-ignore: TODO: fix this */
+        component={BadgesDetailView}
         options={{ headerShown: false }}
       />
       <SubRoutesStack.Screen

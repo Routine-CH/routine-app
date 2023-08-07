@@ -39,6 +39,7 @@ export type AuthenticatedStackParamList = {
   GoalsNew: undefined;
   Timer: undefined;
   ProfileBadges: undefined;
+  ProfileBadgesDetailView: undefined;
   Profile: undefined;
   ProfileNotifications: { notificationSettings: NotificationSettings };
   ProfileSettings: { id: string };
