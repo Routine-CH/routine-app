@@ -14,6 +14,7 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import { createNoteRequest } from "../data/note/create-request";
 import { useImageStore } from "../store/camera-image-store";
+import { useGamificationStore } from "../store/gamification-store";
 import { useNotesStore } from "../store/notes-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
@@ -50,6 +51,14 @@ const NewNotesScreen: React.FC = () => {
       setDataUpdated(true);
       showToast(ToastType.success, "Notiz gespeichert");
       resetImages();
+
+      if (response.data.earnedBadge) {
+        useGamificationStore.getState().onOpenGamificationModal({
+          title: response.data.earnedBadge.title,
+          description: response.data.earnedBadge.description,
+          imageUrl: response.data.earnedBadge.imageUrl,
+        });
+      }
       setTimeout(() => navigation.navigate("Notes"), 2000);
     } else {
       setErrorMessage("Something is wrong");

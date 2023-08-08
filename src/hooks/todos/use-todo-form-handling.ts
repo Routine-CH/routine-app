@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { showToast } from "../../components/common/toast/show-toast";
 import { updateTodoRequest } from "../../data/todo/update-request";
+import { useGamificationStore } from "../../store/gamification-store";
 import { ToastType } from "../../utils/types/enums";
 import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
 import { IFormTodoInputs, UserTodo } from "../../utils/types/types";
@@ -62,6 +63,14 @@ export const useTodoFormHandling = (
         setIsEditable(false);
         setDataUpdated(true);
         showToast(ToastType.success, "Todo gespeichert");
+
+        if (response.data.earnedBadge) {
+          useGamificationStore.getState().onOpenGamificationModal({
+            title: response.data.earnedBadge.title,
+            description: response.data.earnedBadge.description,
+            imageUrl: response.data.earnedBadge.imageUrl,
+          });
+        }
         setTimeout(() => {
           navigation.navigate("Todos");
         }, 2000);

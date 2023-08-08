@@ -39,7 +39,7 @@ const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const userId = route.params.id;
-  const { user, isLoading } = useMinimalUser(userId);
+  const { user, isLoading, setDataUpdated } = useMinimalUser(userId);
 
   const navigateToProfileNotifications = () => {
     if (!user) return;
@@ -81,7 +81,12 @@ const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
           <UserInformation username={user.username} email={user.email} />
           <ResetPassword />
           <Notifications
+            id={user.id}
+            setDataUpdated={setDataUpdated}
             navigateTo={navigateToProfileNotifications}
+            gamificationNotifications={
+              user.notificationSettings.muteGamification
+            }
             mutedAllNotifications={
               user.notificationSettings.muteAllNotifications
             }

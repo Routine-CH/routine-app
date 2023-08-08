@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AudioScreen from "../../../screens/audio-screen";
-import BadgesScreen from "../../../screens/badges-screen";
 import EditGoalScreen from "../../../screens/edit-goal-screen";
 import EditJournalScreen from "../../../screens/edit-journals-screen";
 import EditNotesScreen from "../../../screens/edit-notes-screen";
@@ -15,9 +14,11 @@ import NewNotesScreen from "../../../screens/new-notes-screen";
 import NewTodosScreen from "../../../screens/new-todos-screen";
 import NoteViewScreen from "../../../screens/note-view-screen";
 import NotesScreen from "../../../screens/notes-screen";
+import ProfileBadgesScreen from "../../../screens/profile-badges-screen";
 import ProfileSettingsScreen from "../../../screens/profile-settings-screen";
 import TimerScreen from "../../../screens/timer-screen";
 import TodosScreen from "../../../screens/todos-screen";
+import BadgesDetailView from "../../gamification/badges-detail-view";
 import { CameraView } from "../camera/camera-view";
 
 const SubRoutes: React.FC = () => {
@@ -124,7 +125,14 @@ const SubRoutes: React.FC = () => {
       />
       <SubRoutesStack.Screen
         name='ProfileBadges'
-        component={BadgesScreen}
+        /* @ts-ignore: TODO: fix this */
+        component={ProfileBadgesScreen}
+        options={{ headerShown: false }}
+      />
+      <SubRoutesStack.Screen
+        name='ProfileBadgesDetailView'
+        /* @ts-ignore: TODO: fix this */
+        component={BadgesDetailView}
         options={{ headerShown: false }}
       />
       <SubRoutesStack.Screen

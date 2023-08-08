@@ -1,4 +1,4 @@
-type Badge = {
+export type UserBadge = {
   userId: string;
   badgeId: string;
   assignedAt: string;
@@ -6,7 +6,7 @@ type Badge = {
     id: string;
     title: string;
     description: string;
-    imageUrl: string | null;
+    imageUrl: string;
     activityType: string;
     requiredCountOrDuration: number;
     createdAt: string;
@@ -24,7 +24,7 @@ export type UserGamification = {
   avatarUrl: string | null;
   createdAt: Date;
   badgeCount: number;
-  badges: Badge[];
+  badges: UserBadge[];
   experience: number;
   userStreakCount: number;
   completedTodoCount: number;

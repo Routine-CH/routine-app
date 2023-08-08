@@ -1,3 +1,4 @@
+import { UserBadge } from "../profile/types";
 import { NotificationSettings } from "../types";
 
 // types for Authentication Stack Navigation
@@ -22,6 +23,7 @@ export type AuthenticatedStackParamList = {
       id?: string;
       DiscoverAudio?: any;
       editable?: boolean;
+      badges?: UserBadge[] | null;
     };
   };
   Notes: undefined;
@@ -36,7 +38,8 @@ export type AuthenticatedStackParamList = {
   GoalsEdit: { id: string };
   GoalsNew: undefined;
   Timer: undefined;
-  ProfileBadges?: undefined;
+  ProfileBadges: undefined;
+  ProfileBadgesDetailView: undefined;
   Profile: undefined;
   ProfileNotifications: { notificationSettings: NotificationSettings };
   ProfileSettings: { id: string };

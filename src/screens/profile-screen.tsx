@@ -3,6 +3,7 @@ import { format, parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
+import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import AppText from "../components/common/typography/app-text";
 import AchievementCard from "../components/profile/achievement-card";
@@ -22,8 +23,11 @@ const ProfileScreen = () => {
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
 
   const defaultAvatar = "../assets/misc/stones.jpg";
-  const navigateToScreen = (screenName: string) => {
-    navigation.navigate("SubRoutes", { screen: screenName });
+  const navigateToBadgesScreen = () => {
+    navigation.navigate("SubRoutes", {
+      screen: "ProfileBadges",
+      params: { badges: userProfileData && userProfileData.badges },
+    });
   };
 
   const navigateToProfileSettingsScreen = () => {
@@ -81,16 +85,16 @@ const ProfileScreen = () => {
           badgesCount={userProfileData.badges.length}
           streakCount={userProfileData.userStreakCount}
         />
-        <BadgesView navigateTo={() => navigateToScreen("ProfileBadges")} />
+        <BadgesView navigateTo={navigateToBadgesScreen} />
       </View>
-      <Badge />
+      <Badge badges={userProfileData.badges} />
       <View style={styles.wrapper}>
         <YearCard currentUser={userProfileData} />
       </View>
       <WeekView journalDays={userProfileData.journalDaysThisWeek} />
     </ScrollViewScreenWrapper>
   ) : (
-    <></>
+    <LoadingIndicator />
   );
 };
 

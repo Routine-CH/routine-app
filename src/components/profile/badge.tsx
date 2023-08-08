@@ -1,32 +1,26 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { UserBadge } from "../../utils/types/profile/types";
 
-const Badge = () => {
+type BadgeProps = {
+  badges: UserBadge[];
+};
+
+const windowWidth = Dimensions.get("window").width;
+
+const Badge: React.FC<BadgeProps> = ({ badges }) => {
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View style={styles.badgesContainer}>
-        <Image
-          style={[styles.image, { marginLeft: 20 }]}
-          source={require("../../assets/misc/badge.png")}
-        />
-        <Image
-          style={styles.image}
-          source={require("../../assets/misc/badge.png")}
-        />
-        <Image
-          style={styles.image}
-          source={require("../../assets/misc/badge.png")}
-        />
-        <Image
-          style={styles.image}
-          source={require("../../assets/misc/badge.png")}
-        />
-        <Image
-          style={[styles.image, { marginRight: 20 }]}
-          source={require("../../assets/misc/badge.png")}
-        />
-      </View>
-    </ScrollView>
+    <View style={styles.badgesContainer}>
+      {badges.slice(0, 3).map((badge) => {
+        return (
+          <Image
+            key={badge.badge.id}
+            style={[styles.image]}
+            source={{ uri: badge.badge.imageUrl }}
+          />
+        );
+      })}
+    </View>
   );
 };
 
@@ -35,11 +29,12 @@ export default Badge;
 const styles = StyleSheet.create({
   badgesContainer: {
     flexDirection: "row",
-    marginTop: 30,
+    width: "100%",
+    marginTop: 15,
+    justifyContent: "space-around",
   },
   image: {
-    height: 90,
-    width: 90,
-    marginHorizontal: 12.5,
+    height: windowWidth * 0.35,
+    width: windowWidth * 0.35,
   },
 });
