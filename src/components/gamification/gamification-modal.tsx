@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Animated, Dimensions, Image, StyleSheet, View } from "react-native";
 import { useGamificationStore } from "../../store/gamification-store";
 import AppColors from "../../utils/constants/colors";
@@ -19,6 +20,7 @@ const GamificationModal: React.FC = () => {
   const closeGamificationModal = useGamificationStore(
     (state) => state.closeGamificationModal
   );
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (showGamificationModal) {
@@ -50,6 +52,10 @@ const GamificationModal: React.FC = () => {
     }
   }, [showGamificationModal]);
 
+  if (!modalContent) {
+    return null;
+  }
+
   return (
     <>
       <Animated.View
@@ -67,18 +73,16 @@ const GamificationModal: React.FC = () => {
       />
       <Animated.View style={[styles.modalContainer, { bottom: slideAnim }]}>
         <View style={styles.contentContainer}>
-          <Image
-            source={require("../../assets/badges/test-badge-1.png")}
-            style={styles.image}
-          />
+          <Image source={{ uri: modalContent.imageUrl }} style={styles.image} />
           <AppText
             colorStyle='black70'
             style={{
               fontFamily: AppFontStyle.heading2.fontFamily,
               fontSize: windowWidth * 0.09,
+              textAlign: "center",
             }}
           >
-            Login Legend
+            {modalContent.title}
           </AppText>
           <AppText
             colorStyle='black70'
@@ -90,10 +94,7 @@ const GamificationModal: React.FC = () => {
               marginTop: 15,
             }}
           >
-            Mit 75 friedlichen Begegnungen mit den Troopers hast du die Kunst
-            der Strategie und Diplomatie beim Schreiben unter Beweis gestellt.
-            Dein Engagement für harmonische Lösungen und Selbstreflexion ist
-            wirklich lobenswert.
+            {t(`gamification.badge-desc.${modalContent.description}`)}
           </AppText>
           <FlatButton
             colorStyle='white'

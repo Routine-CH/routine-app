@@ -13,6 +13,7 @@ import RoutineToast from "../components/common/toast/routine-toast";
 import { showToast } from "../components/common/toast/show-toast";
 import EmotionModal from "../components/journal/emotion-modal";
 import { createUserJournalRequest } from "../data/journal/create-request";
+import { useGamificationStore } from "../store/gamification-store";
 import { useJournalStore } from "../store/journal-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -66,6 +67,14 @@ const NewJournalScreen: React.FC = () => {
       setIsEditable(false);
       showToast(ToastType.success, "Journal gespeichert");
       setDataUpdated(true);
+
+      if (response.data.earnedBadge) {
+        useGamificationStore.getState().onOpenGamificationModal({
+          title: response.data.earnedBadge.title,
+          description: response.data.earnedBadge.description,
+          imageUrl: response.data.earnedBadge.imageUrl,
+        });
+      }
       setTimeout(() => {
         navigation.navigate("Journals");
       }, 2000);

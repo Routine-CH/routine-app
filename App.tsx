@@ -16,6 +16,7 @@ import i18n from "./src/i18n/config";
 
 LogBox.ignoreLogs([
   'fontFamily "Ubuntu_400Regular" is not a system font and has not been loaded through Font.loadAsync.',
+  'fontFamily "Ubuntu_500Medium" is not a system font and has not been loaded through Font.loadAsync.',
   'fontFamily "Ubuntu_700Bold" is not a system font and has not been loaded through Font.loadAsync.',
 ]);
 
