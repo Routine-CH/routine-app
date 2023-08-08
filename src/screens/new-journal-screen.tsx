@@ -79,9 +79,7 @@ const NewJournalScreen: React.FC = () => {
         navigation.navigate("Journals");
       }, 2000);
     } else {
-      setErrorMessage("Something is wrong");
       showToast(ToastType.error, errorMessage);
-      setErrorMessage("");
     }
     setCreatingJournal(false);
   };
