@@ -177,6 +177,7 @@
       "new": "Neues",
       "notifications": {
         "activate-all-notifications": "Alle Benachrichtigungen aktivieren",
+        "gamification-notification": "Schalte die Gamification ein oder aus.",
         "change-notifications": "Benachrichtigungen anpassen",
         "email": "E-Mail",
         "email_in-app_combo": "E-Mail, In-App",

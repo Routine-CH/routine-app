@@ -6,6 +6,7 @@ import { UserSettings } from "../../utils/types/types";
 export const useMinimalUser = (userId: string) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserSettings | null>(null);
+  const [dataUpdated, setDataUpdated] = useState(false);
 
   useEffect(() => {
     async function getUserById() {
@@ -21,13 +22,16 @@ export const useMinimalUser = (userId: string) => {
           const data = await response.json();
           setUser(data.data);
           setIsLoading(false);
+          setDataUpdated(false);
         }
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
+        setDataUpdated(false);
       }
     }
     getUserById();
-  }, [userId]);
+  }, [userId, isLoading, dataUpdated]);
 
-  return { user, isLoading };
+  return { user, isLoading, setDataUpdated };
 };
