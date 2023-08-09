@@ -1,0 +1,25 @@
+{
+  "cli": {
+    "version": ">= 4.1.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_DEV_AP": "http://localhost:3000/"
+      }
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_PROD_API": "https://routine-backend-a2ydj.ondigitalocean.app/"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

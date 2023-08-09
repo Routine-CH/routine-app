@@ -22,3 +22,12 @@ web-build/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# build files
+eas.json
+app.json
+./eas.json
+./app.json
+# Ignore eas.json and app.json
+**/eas.json
+**/app.json
