@@ -27,7 +27,15 @@
     },
     "owner": "abeerance",
     "runtimeVersion": {
-      "policy": "appVersion"
+      "policy": "1.0.2"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "59a62d1e-5bd0-4730-911e-39f95a999807"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/59a62d1e-5bd0-4730-911e-39f95a999807"
     }
   }
 }

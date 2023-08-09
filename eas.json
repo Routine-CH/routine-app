@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 4.1.1"
+  },
+  "build": {
+    "development": {
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "env": {
+        "EXPO_PUBLIC_DEV_AP": "http://localhost:3000/"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      }
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_PROD_API": "https://routine-backend-a2ydj.ondigitalocean.app/"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
