@@ -1,9 +1,9 @@
 import { NavigationProp } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { showToast } from "../../components/common/toast/show-toast";
 import { updateTodoRequest } from "../../data/todo/update-request";
 import { useGamificationStore } from "../../store/gamification-store";
+import { useToastMessageStore } from "../../store/toast-messages-store";
 import { ToastType } from "../../utils/types/enums";
 import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
 import { IFormTodoInputs, UserTodo } from "../../utils/types/types";
@@ -16,11 +16,12 @@ export const useTodoFormHandling = (
   setDataUpdated: (updated: boolean) => void
 ) => {
   const [errorMessage, setErrorMessage] = useState("");
-  const [updatingTodo, setUpdatingTodo] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
   const [plannedDate, setPlannedDate] = useState<Date | undefined>(
     selectedDate
   );
+  const showToast = useToastMessageStore((state) => state.showToast);
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   const {
     control,
@@ -50,7 +51,7 @@ export const useTodoFormHandling = (
 
   const handleUpdate = async (data: IFormTodoInputs) => {
     try {
-      setUpdatingTodo(true);
+      startLoading();
       const response = await updateTodoRequest({
         ...data,
         id,
@@ -77,8 +78,9 @@ export const useTodoFormHandling = (
       }
     } catch (error) {
       showToast(ToastType.error, errorMessage);
+      stopLoading();
     }
-    setUpdatingTodo(false);
+    stopLoading();
   };
 
   const onErrors = (errors: any) => {
@@ -102,6 +104,5 @@ export const useTodoFormHandling = (
     handleUpdate,
     onErrors,
     isEditable,
-    updatingTodo,
   };
 };

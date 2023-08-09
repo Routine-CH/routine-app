@@ -36,7 +36,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onErrors, onSubmit }) => {
             />
           )}
           name='username'
-          rules={{ required: "Username is required." }}
+          rules={{ required: "Username ist erforderlich" }}
         />
         <Controller
           control={control}
@@ -53,10 +53,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onErrors, onSubmit }) => {
           )}
           name='email'
           rules={{
-            required: "Email is required.",
+            required: "Email ist erforderlich",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: "Invalid email address",
+              message: "Ungültige E-Mail Adresse",
             },
           }}
         />
@@ -78,7 +78,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onErrors, onSubmit }) => {
             />
           )}
           name='password'
-          rules={{ required: "Password is required." }}
+          rules={{ required: "Passwort ist erforderlich" }}
         />
         <Controller
           control={control}
@@ -98,7 +98,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onErrors, onSubmit }) => {
             />
           )}
           name='repeatPassword'
-          rules={{ required: "Password is required." }}
+          rules={{ required: "Bitte wiederholen sie das Passwort" }}
         />
         <Controller
           control={control}
@@ -115,7 +115,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onErrors, onSubmit }) => {
             </View>
           )}
           name='agreeTerms'
-          rules={{ required: "You must accept the terms and conditions" }}
+          rules={{ required: "Benutzerbestimmungen müssen angenommen werden" }}
         />
       </View>
       <FlatButton

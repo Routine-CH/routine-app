@@ -1,8 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { showToast } from "../../components/common/toast/show-toast";
+
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
-import { ToastType } from "../../utils/types/enums";
 import {
   AxiosErrorWithData,
   IFormNoteInputs,
@@ -48,10 +47,6 @@ export const createNoteRequest = async ({
         );
 
         if (response.status !== 201) {
-          showToast(
-            ToastType.error,
-            response.data?.message || "Note creation failed"
-          );
           throw new Error("Note creation failed");
         }
 

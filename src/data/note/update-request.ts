@@ -1,8 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { showToast } from "../../components/common/toast/show-toast";
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
-import { ToastType } from "../../utils/types/enums";
 import { AxiosErrorWithData, IFormNoteInputs } from "../../utils/types/types";
 
 export const updateNoteRequest = async ({
@@ -54,10 +52,6 @@ export const updateNoteRequest = async ({
         );
 
         if (response.status !== 200) {
-          showToast(
-            ToastType.error,
-            response.data?.message || "Note update failed"
-          );
           throw new Error("Note update failed");
         }
         return response;

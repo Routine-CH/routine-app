@@ -1,9 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { showToast } from "../../components/common/toast/show-toast";
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
-import { ToastType } from "../../utils/types/enums";
-import { IFormJournalInputs } from "../../utils/types/types";
+import {
+  AxiosErrorWithData,
+  IFormJournalInputs,
+} from "../../utils/types/types";
 
 export const createUserJournalRequest = async ({
   title,
@@ -13,8 +14,6 @@ export const createUserJournalRequest = async ({
   thoughtsAndIdeas,
   moods,
 }: IFormJournalInputs) => {
-  let errorMessage = "";
-
   try {
     if (title && moodDescription && activity && toImprove && moods) {
       const token = await AsyncStorage.getItem("access_token");
@@ -39,17 +38,15 @@ export const createUserJournalRequest = async ({
         );
 
         if (response.status !== 201) {
-          showToast(ToastType.error, response.data.message);
           throw new Error("Journal Creation failed");
         }
         return response;
       }
     } else {
-      console.log("Some data is empty");
+      return "Please fill in all the fields";
     }
-  } catch (error: any) {
-    errorMessage = error;
-    console.log(error);
-    return errorMessage;
+  } catch (error) {
+    const errorMessage = error as AxiosErrorWithData;
+    return errorMessage.response.data.message;
   }
 };

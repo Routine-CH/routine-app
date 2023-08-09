@@ -1,8 +1,8 @@
 import { NavigationProp } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { showToast } from "../../components/common/toast/show-toast";
 import { updateUserJournalRequest } from "../../data/journal/update-request";
+import { useToastMessageStore } from "../../store/toast-messages-store";
 import { ToastType } from "../../utils/types/enums";
 import { AuthenticatedStackParamList } from "../../utils/types/routes/types";
 import { IFormJournalInputs, UserJournals } from "../../utils/types/types";
@@ -21,9 +21,10 @@ export const useFormHandling = (
       type: journalMood.mood.type,
     })) || []
   );
-  const [updatingJournal, setUpdatingJournal] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const showToast = useToastMessageStore((state) => state.showToast);
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   const {
     control,
@@ -61,7 +62,7 @@ export const useFormHandling = (
 
   const handleUpdate = async (data: IFormJournalInputs) => {
     try {
-      setUpdatingJournal(true);
+      startLoading();
       const response = await updateUserJournalRequest({
         ...data,
         journalId,
@@ -81,10 +82,11 @@ export const useFormHandling = (
       } else {
         showToast(ToastType.error, "Bitte wähle mindestens eine Gefühl aus.");
       }
+      stopLoading();
     } catch (error) {
       showToast(ToastType.error, errorMessage);
+      stopLoading();
     }
-    setUpdatingJournal(false);
   };
 
   const onErrors = (errors: any) => {
@@ -122,7 +124,6 @@ export const useFormHandling = (
     onErrors,
     handleDeleteMood,
     setSelectedMoods,
-    updatingJournal,
     isEditable,
   };
 };

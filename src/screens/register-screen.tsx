@@ -5,9 +5,10 @@ import RegisterForm from "../components/auth/register-form";
 import BackButton from "../components/common/buttons/back-button";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
+
 import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -20,6 +21,7 @@ const RegisterScreen: React.FC = () => {
   const { register } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const { t } = useTranslation();
+  const showToast = useToastMessageStore((state) => state.showToast);
 
   // submit register credentials
   const onSubmit = async ({

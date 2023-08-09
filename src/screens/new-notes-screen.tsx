@@ -7,15 +7,14 @@ import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
 import { createNoteRequest } from "../data/note/create-request";
 import { useImageStore } from "../store/camera-image-store";
 import { useGamificationStore } from "../store/gamification-store";
 import { useNotesStore } from "../store/notes-store";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -31,13 +30,14 @@ const NewNotesScreen: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { setDataUpdated } = useNotesStore();
   const { removeImage, addImage, resetImages } = useImageStore();
-  const [creatingNote, setCreatingNote] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
+  const showToast = useToastMessageStore((state) => state.showToast);
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   const handleNewNote = async ({ title, description }: IFormNoteInputs) => {
-    setCreatingNote(true);
+    startLoading();
     const response = await createNoteRequest({
       title,
       description,
@@ -63,7 +63,7 @@ const NewNotesScreen: React.FC = () => {
     } else {
       setErrorMessage("Something is wrong");
     }
-    setCreatingNote(false);
+    stopLoading();
   };
 
   const onErrors = (errors: any) => {
@@ -203,9 +203,6 @@ const NewNotesScreen: React.FC = () => {
             );
           })}
       </View>
-      {creatingNote && (
-        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
-      )}
       <RoutineToast />
     </ScrollViewScreenWrapper>
   );
@@ -263,8 +260,5 @@ const styles = StyleSheet.create({
     height: windowWidth * 0.43,
     width: windowWidth * 0.43,
     borderRadius: 10,
-  },
-  fullscreenLoadingIndicator: {
-    marginLeft: -20,
   },
 });

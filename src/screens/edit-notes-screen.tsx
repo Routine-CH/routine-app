@@ -10,15 +10,14 @@ import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
 import { updateNoteRequest } from "../data/note/update-request";
 import { useImageStore } from "../store/camera-image-store";
 import { useNotesStore } from "../store/notes-store";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -40,13 +39,14 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const noteId = route.params.id;
-  const { setDataUpdated, isLoading, getNoteById } = useNotesStore();
+  const { setDataUpdated, getNoteById } = useNotesStore();
   const note = getNoteById(noteId);
   const { removeExistingImage, addImage, setImages, resetImages, images } =
     useImageStore();
   const [errorMessage, setErrorMessage] = useState("");
-  const [updatingNote, setUpdatingNote] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
+  const showToast = useToastMessageStore((state) => state.showToast);
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   useEffect(() => {
     if (note && note.images) {
@@ -84,12 +84,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
     }
   };
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<IFormNoteInputs>({
+  const { control, handleSubmit, setValue } = useForm<IFormNoteInputs>({
     defaultValues: {
       title: note?.title || "",
       description: note?.description || "",
@@ -103,7 +98,7 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
 
   const handleUpdate = async (data: IFormNoteInputs) => {
     try {
-      setUpdatingNote(true);
+      startLoading();
       const response = await updateNoteRequest({
         ...data,
         noteId,
@@ -123,8 +118,11 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
       }
     } catch (error) {
       showToast(ToastType.error, errorMessage);
+      stopLoading();
+      resetImages();
     } finally {
-      setUpdatingNote(false);
+      stopLoading();
+      resetImages();
     }
   };
 
@@ -242,9 +240,6 @@ const EditNotesScreen: React.FC<NotesEditProps> = ({ route }) => {
           })}
       </View>
       <RoutineToast />
-      {updatingNote && (
-        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
-      )}
     </ScrollViewScreenWrapper>
   ) : (
     <LoadingIndicator />
@@ -312,8 +307,5 @@ const styles = StyleSheet.create({
   iconStyle: {
     height: 58,
     width: 58,
-  },
-  fullscreenLoadingIndicator: {
-    marginLeft: -20,
   },
 });

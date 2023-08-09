@@ -90,6 +90,7 @@ const CalendarScreen: React.FC = () => {
       </View>
       <CalendarModal
         isVisible={isModalVisible}
+        setIsVisible={setIsModalVisible}
         datesOfWeek={datesOfWeek}
         onDayPress={onDayPress}
       />

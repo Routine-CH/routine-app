@@ -1,11 +1,27 @@
+import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import Icon from "react-native-vector-icons/Ionicons";
+import { useToastMessageStore } from "../../../store/toast-messages-store";
 import AppColors from "../../../utils/constants/colors";
 import { ToastType } from "../../../utils/types/enums";
 import AppText from "../typography/app-text";
 
 const RoutineToast: React.FC = () => {
+  const { isVisible, message, type, hideToast } = useToastMessageStore();
+
+  useEffect(() => {
+    if (isVisible) {
+      Toast.show({
+        type,
+        props: {
+          message,
+        },
+      });
+      hideToast();
+    }
+  }, [isVisible, message, type, hideToast]);
+
   const toastConfig: Record<
     ToastType,
     ({ props }: { props: { message: string } }) => JSX.Element
@@ -56,9 +72,11 @@ const RoutineToast: React.FC = () => {
             name='ios-information'
             color={AppColors.red}
             size={35}
-            style={{ position: "relative", bottom: 5 }}
+            style={{ position: "relative" }}
           />
-          <AppText fontStyle='toast'>{props.message}</AppText>
+          <AppText fontStyle='toast' style={{ width: "85%" }}>
+            {props.message}
+          </AppText>
         </View>
       </View>
     ),
@@ -71,6 +89,8 @@ export default RoutineToast;
 
 const styles = StyleSheet.create({
   toastContainer: {
+    position: "relative",
+    zIndex: 9999999,
     width: "95%",
     backgroundColor: AppColors.white,
     borderRadius: 10,
@@ -82,11 +102,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 11.9,
     paddingVertical: 15,
-    paddingHorizontal: 25,
+    paddingHorizontal: 15,
   },
   innerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingRight: 25,
   },
 });

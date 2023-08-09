@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import SaveButton from "../components/common/buttons/save-button";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
-import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import GoalAddTodoView from "../components/goals/goal-add-todo-view";
 import GoalDetailView from "../components/goals/goal-detail-view";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType, ViewType } from "../utils/types/enums";
 
@@ -28,6 +28,7 @@ const NewGoalsScreen: React.FC = () => {
   const [isEditable, setIsEditable] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const { control, handleSubmit } = useForm();
+  const showToast = useToastMessageStore((state) => state.showToast);
 
   const { t } = useTranslation();
 

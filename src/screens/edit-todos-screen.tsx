@@ -11,14 +11,12 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import SaveButton from "../components/common/buttons/save-button";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import SimpleCalendarModal from "../components/common/modals/simple-calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
 import AppText from "../components/common/typography/app-text";
-
 import { useTodoFormHandling } from "../hooks/todos/use-todo-form-handling";
 import { useTodoStore } from "../store/todos-store";
 import AppColors from "../utils/constants/colors";
@@ -55,14 +53,8 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
     setIsModalVisible(false);
   };
 
-  const {
-    control,
-    handleSubmit,
-    handleUpdate,
-    onErrors,
-    isEditable,
-    updatingTodo,
-  } = useTodoFormHandling(todo, navigation, id, selectedDate, setDataUpdated);
+  const { control, handleSubmit, handleUpdate, onErrors, isEditable } =
+    useTodoFormHandling(todo, navigation, id, selectedDate, setDataUpdated);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -149,13 +141,11 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
           <RoutineToast />
           <SimpleCalendarModal
             isVisible={isModalVisible}
+            setIsVisible={setIsModalVisible}
             selectedDate={selectedDate}
             onDayPress={onDayPress}
           />
         </>
-      )}
-      {updatingTodo && (
-        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
       )}
     </ScrollViewScreenWrapper>
   );
@@ -183,8 +173,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: AppColors.blue100,
-  },
-  fullscreenLoadingIndicator: {
-    marginLeft: -20,
   },
 });

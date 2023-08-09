@@ -11,7 +11,6 @@ import { StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
 import Chip from "../components/common/calendar/chip";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
@@ -40,9 +39,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const { t } = useTranslation();
   const journalId = route.params.id;
   const editable = route.params.editable;
-
   const { journal } = useJournalData(journalId);
-
   const { setDataUpdated } = useJournalStore();
 
   const {
@@ -54,7 +51,6 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
     handleDeleteMood,
     setSelectedMoods,
     isEditable,
-    updatingJournal,
   } = useFormHandling(journal, navigation, journalId, setDataUpdated);
 
   const handleModalPress = () => {
@@ -258,9 +254,6 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
         }}
       />
       <RoutineToast />
-      {updatingJournal && (
-        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
-      )}
     </ScrollViewScreenWrapper>
   ) : (
     <></>
@@ -299,8 +292,5 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.blue100Muted20,
     marginTop: 15,
     marginBottom: 30,
-  },
-  fullscreenLoadingIndicator: {
-    marginLeft: -20,
   },
 });

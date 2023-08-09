@@ -7,14 +7,13 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import SaveButton from "../components/common/buttons/save-button";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import SimpleCalendarModal from "../components/common/modals/simple-calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { createTodoRequest } from "../data/todo/create-request";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import { useTodoStore } from "../store/todos-store";
 import AppColors from "../utils/constants/colors";
 import { Day } from "../utils/types/calendar/types";
@@ -26,13 +25,14 @@ const NewTodosScreen = () => {
   const { t } = useTranslation();
   const { control, handleSubmit } = useForm<IFormTodoInputs>();
   const [errorMessage, setErrorMessage] = useState("");
-  const [creatingTodo, setCreatingTodo] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { setDataUpdated } = useTodoStore();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const [isEditable, setIsEditable] = useState(true);
+  const showToast = useToastMessageStore((state) => state.showToast);
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
@@ -40,7 +40,7 @@ const NewTodosScreen = () => {
   };
 
   const handleNewTodo = async ({ title, description }: IFormTodoInputs) => {
-    setCreatingTodo(true);
+    startLoading();
     const plannedDate = new Date(selectedDate);
     const response = await createTodoRequest({
       title,
@@ -63,7 +63,7 @@ const NewTodosScreen = () => {
       showToast(ToastType.error, errorMessage);
       setErrorMessage("");
     }
-    setCreatingTodo(false);
+    stopLoading();
   };
 
   const onErrors = (errors: any) => {
@@ -157,12 +157,10 @@ const NewTodosScreen = () => {
       <RoutineToast />
       <SimpleCalendarModal
         isVisible={isModalVisible}
+        setIsVisible={setIsModalVisible}
         selectedDate={selectedDate}
         onDayPress={onDayPress}
       />
-      {creatingTodo && (
-        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
-      )}
     </ScrollViewScreenWrapper>
   );
 };
@@ -189,8 +187,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: AppColors.blue100,
-  },
-  fullscreenLoadingIndicator: {
-    marginLeft: -20,
   },
 });
