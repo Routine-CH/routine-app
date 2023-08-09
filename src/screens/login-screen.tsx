@@ -38,7 +38,7 @@ const LoginScreen: React.FC = () => {
   // onErrors is a function passed to the LoginForm component
   const onErrors = (errors: any) => {
     if (errors.username && errors.password) {
-      setErrorMessage("Both username and password are required.");
+      setErrorMessage("Username und Passwort sind erforderlich");
     } else if (errors.username) {
       setErrorMessage(errors.username.message);
     } else if (errors.password) {

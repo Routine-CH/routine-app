@@ -34,7 +34,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onErrors, onSubmit }) => {
           />
         )}
         name='username'
-        rules={{ required: "Username is required." }}
+        rules={{ required: "Username ist erforderlich" }}
       />
       <Controller
         control={control}
@@ -54,7 +54,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onErrors, onSubmit }) => {
           />
         )}
         name='password'
-        rules={{ required: "Password is required." }}
+        rules={{ required: "Passwort ist erforderlich" }}
       />
       <FlatButton
         fontStyle='bodyMedium'

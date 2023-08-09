@@ -72,9 +72,11 @@ const RoutineToast: React.FC = () => {
             name='ios-information'
             color={AppColors.red}
             size={35}
-            style={{ position: "relative", bottom: 5 }}
+            style={{ position: "relative" }}
           />
-          <AppText fontStyle='toast'>{props.message}</AppText>
+          <AppText fontStyle='toast' style={{ width: "85%" }}>
+            {props.message}
+          </AppText>
         </View>
       </View>
     ),
@@ -100,11 +102,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 11.9,
     paddingVertical: 15,
-    paddingHorizontal: 25,
+    paddingHorizontal: 15,
   },
   innerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingRight: 25,
   },
 });
