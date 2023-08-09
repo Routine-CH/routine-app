@@ -1,8 +1,6 @@
 {
   "cli": {
-    "version": ">= 4.1.1",
-    "promptToConfigurePushNotifications": false,
-    "appVersionSource": "remote"
+    "version": ">= 4.1.1"
   },
   "build": {
     "development": {
@@ -15,13 +13,13 @@
     "preview": {
       "distribution": "internal"
     },
+    "production": {}
+  },
+  "submit": {
     "production": {
       "env": {
         "EXPO_PUBLIC_PROD_API": "https://routine-backend-a2ydj.ondigitalocean.app/"
       }
     }
-  },
-  "submit": {
-    "production": {}
   }
 }
