@@ -1,20 +1,18 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import IconTextButton from "../components/common/buttons/icon-text-button";
 import SaveButton from "../components/common/buttons/save-button";
 import Chip from "../components/common/calendar/chip";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
-import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
 import EmotionModal from "../components/journal/emotion-modal";
 import { createUserJournalRequest } from "../data/journal/create-request";
 import { useGamificationStore } from "../store/gamification-store";
 import { useJournalStore } from "../store/journal-store";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -28,12 +26,11 @@ const NewJournalScreen: React.FC = () => {
   const [selectedMoods, setSelectedMoods] = useState<
     { id: string; type: string }[]
   >([]);
-  const [errorMessage, setErrorMessage] = useState("");
   const { setDataUpdated } = useJournalStore();
-  const [creatingJournal, setCreatingJournal] = useState(false);
   const [isEditable, setIsEditable] = useState(true);
-
+  const showToast = useToastMessageStore((state) => state.showToast);
   const { control, handleSubmit } = useForm<IFormJournalInputs>();
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -50,7 +47,7 @@ const NewJournalScreen: React.FC = () => {
     toImprove,
     thoughtsAndIdeas,
   }: IFormJournalInputs) => {
-    setCreatingJournal(true);
+    startLoading();
     const response = await createUserJournalRequest({
       title,
       moodDescription,
@@ -60,14 +57,11 @@ const NewJournalScreen: React.FC = () => {
       moods: selectedMoods,
     });
     if (typeof response === "string") {
-      setErrorMessage(response);
       showToast(ToastType.error, response);
-      setErrorMessage("");
     } else if (response && response.status === 201) {
       setIsEditable(false);
       showToast(ToastType.success, "Journal gespeichert");
       setDataUpdated(true);
-
       if (response.data.earnedBadge) {
         useGamificationStore.getState().onOpenGamificationModal({
           title: response.data.earnedBadge.title,
@@ -79,36 +73,29 @@ const NewJournalScreen: React.FC = () => {
         navigation.navigate("Journals");
       }, 2000);
     } else {
-      showToast(ToastType.error, errorMessage);
+      showToast(ToastType.error, "Journal konnte nicht gespeichert werden");
     }
-    setCreatingJournal(false);
+    stopLoading();
   };
-
-  const onErrors = (errors: any) => {
-    if (errors.title) {
-      setErrorMessage(errors.title.message);
-    } else if (errors.moodDescription) {
-      setErrorMessage(errors.moodDescription.message);
-    } else if (errors.activity) {
-      setErrorMessage(errors.activity.message);
-    } else if (errors.toImprove) {
-      setErrorMessage(errors.toImprove.message);
-    } else if (errors.moods?.length > 0) {
-      setErrorMessage("Bitte wähle mindestens eine Emotion aus");
-    }
-  };
-
-  useEffect(() => {
-    if (errorMessage) {
-      showToast(ToastType.error, errorMessage);
-      setErrorMessage("");
-    }
-  }, [errorMessage]);
 
   const handleDeleteMood = (moodId: string) => {
     setSelectedMoods((prevSelectedMoods) =>
       prevSelectedMoods.filter((selectedMood) => selectedMood.id !== moodId)
     );
+  };
+
+  const onErrors = (errors: any) => {
+    if (errors.title) {
+      showToast(ToastType.error, errors.title.message);
+    } else if (!selectedMoods.length) {
+      showToast(ToastType.error, "Bitte wähle mindestens eine Emotion aus");
+    } else if (errors.moodDescription) {
+      showToast(ToastType.error, errors.moodDescription.message);
+    } else if (errors.activity) {
+      showToast(ToastType.error, errors.activity.message);
+    } else if (errors.toImprove) {
+      showToast(ToastType.error, errors.toImprove.message);
+    }
   };
 
   return (
@@ -260,10 +247,6 @@ const NewJournalScreen: React.FC = () => {
           }}
         />
       </View>
-      {creatingJournal && (
-        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
-      )}
-      <RoutineToast />
     </ScrollViewScreenWrapper>
   );
 };
