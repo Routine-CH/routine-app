@@ -118,6 +118,7 @@ const TodosScreen: React.FC = () => {
           {}
         )
       );
+      setDataUpdated(true);
     } catch (error) {
       console.error("Something is wrong: ", error);
     }
@@ -192,6 +193,7 @@ const TodosScreen: React.FC = () => {
         />
         <CalendarModal
           isVisible={isModalVisible}
+          setIsVisible={setIsModalVisible}
           datesOfWeek={datesOfWeek}
           onDayPress={onDayPress}
           initialDate={initialDate}

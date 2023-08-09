@@ -141,6 +141,7 @@ const EditTodosScreen: React.FC<TodosEditProps> = ({ route }) => {
           <RoutineToast />
           <SimpleCalendarModal
             isVisible={isModalVisible}
+            setIsVisible={setIsModalVisible}
             selectedDate={selectedDate}
             onDayPress={onDayPress}
           />

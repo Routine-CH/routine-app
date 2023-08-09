@@ -17,7 +17,7 @@ type ToastMessageAction = {
 
 export const useToastMessageStore = create<
   ToastMessageState & ToastMessageAction
->((set) => ({
+>((set, get) => ({
   isLoading: false,
   isVisible: false,
   message: "",

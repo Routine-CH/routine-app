@@ -1,8 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useToastMessageStore } from "../../store/toast-messages-store";
 import apiClient from "../../utils/config/api-client";
 import { API_BASE_URL } from "../../utils/config/config";
-import { ToastType } from "../../utils/types/enums";
 import { IFormTodoInputs } from "../../utils/types/types";
 
 export const createTodoRequest = async ({
@@ -10,7 +8,6 @@ export const createTodoRequest = async ({
   description,
   plannedDate,
 }: IFormTodoInputs) => {
-  const showToast = useToastMessageStore((state) => state.showToast);
   let errorMessage = "";
 
   try {
@@ -36,10 +33,6 @@ export const createTodoRequest = async ({
         );
 
         if (response.status !== 201) {
-          showToast(
-            ToastType.error,
-            response.data?.message || "Todo creation failed"
-          );
           throw new Error("Todo creation failed");
         }
 
