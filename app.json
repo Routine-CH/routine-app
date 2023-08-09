@@ -2,7 +2,7 @@
   "expo": {
     "name": "Routine App",
     "slug": "routine-adhd-app-bachelor",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,21 +14,23 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.abeerance.routineadhdappbachelor"
+      "bundleIdentifier": "com.abeerance.routineadhdappbachelor",
+      "runtimeVersion": "1.0.3",
+      "buildNumber": "1.0.3"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "runtimeVersion": {
+        "policy": "appVersion"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "owner": "abeerance",
-    "runtimeVersion": {
-      "policy": "1.0.2"
-    },
     "extra": {
       "eas": {
         "projectId": "59a62d1e-5bd0-4730-911e-39f95a999807"
