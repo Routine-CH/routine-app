@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "routine-app",
-    "slug": "routine-app",
-    "version": "1.0.0",
+    "name": "Routine App",
+    "slug": "routine-adhd-app",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,7 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.abeerance.routineapp"
+      "bundleIdentifier": "com.abeerance.routine-adhd-app"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +27,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "f9aeac0a-d67a-49b7-a772-81c0aebf8294"
+        "projectId": "f00e8b0f-b6de-4acf-8751-050002bdc131"
       }
     }
   }
