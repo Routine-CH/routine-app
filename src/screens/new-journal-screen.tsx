@@ -279,7 +279,4 @@ const styles = StyleSheet.create({
   chip: {
     width: "47%",
   },
-  fullscreenLoadingIndicator: {
-    marginLeft: -20,
-  },
 });

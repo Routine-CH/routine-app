@@ -8,9 +8,9 @@ import RegisterNavigation from "../components/auth/register-navigation";
 import FlatButton from "../components/common/buttons/flat-button";
 import ScreenWrapper from "../components/common/screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthStackParamList } from "../utils/types/routes/types";
@@ -25,6 +25,7 @@ const LoginScreen: React.FC = () => {
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState("");
+  const showToast = useToastMessageStore((state) => state.showToast);
 
   // submit login credentials
   const onSubmit = async ({ username, password }: IFormLoginInputs) => {

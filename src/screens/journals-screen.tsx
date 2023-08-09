@@ -8,16 +8,15 @@ import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
 import CalendarCardSimple from "../components/common/calendar/calendar-card-simple";
 import EmptyState from "../components/common/empty-state";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
 import { deleteUserJournalRequest } from "../data/journal/delete-request";
 import { useJournalStore } from "../store/journal-store";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import AppFontStyle from "../utils/constants/font-style";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -28,9 +27,10 @@ const windowWidth = Dimensions.get("window").width;
 const JournalsScreen: React.FC = () => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isDeletingJournal, setIsDeletingJournal] = useState(false);
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
+  const showToast = useToastMessageStore((state) => state.showToast);
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   const handleModalPress = () => {
     setIsModalVisible(!isModalVisible);
@@ -65,7 +65,7 @@ const JournalsScreen: React.FC = () => {
 
   const deleteJournal = async () => {
     try {
-      setIsDeletingJournal(true);
+      startLoading();
       const response = await deleteUserJournalRequest(todayJournal);
       if (response!.status === 204) {
         setIsModalVisible(false);
@@ -79,10 +79,10 @@ const JournalsScreen: React.FC = () => {
       }
     } catch (error) {
       setIsModalVisible(false);
-      setIsDeletingJournal(false);
+      stopLoading();
       console.error("Failed to delete journal", error);
     } finally {
-      setIsDeletingJournal(false);
+      stopLoading();
     }
   };
 
@@ -189,7 +189,6 @@ const JournalsScreen: React.FC = () => {
             />
           )}
         </View>
-        {isDeletingJournal && <FullscreenLoadingIndicator />}
         <EditDeleteModal
           title={t("modals.are-you-sure")}
           description={t("modals.journal")}

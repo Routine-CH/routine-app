@@ -2,14 +2,11 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { addDays, format, startOfDay } from "date-fns";
 import { de } from "date-fns/locale";
 import { useEffect, useMemo, useState } from "react";
-import { StyleSheet } from "react-native";
 import AddButton from "../components/common/buttons/add-button";
 import BackButton from "../components/common/buttons/back-button";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import CalendarModal from "../components/common/modals/calendar-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
 import FutureTodosSection from "../components/todos/future-todos-section";
 import TodoModal from "../components/todos/todo-modal";
 import TodosSection from "../components/todos/todos-section";
@@ -21,6 +18,7 @@ import {
   getFormattedWeekEnd,
   getFormattedWeekStart,
 } from "../lib/todos/todo-dates";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import { UpcomingTodos, useTodoStore } from "../store/todos-store";
 import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
@@ -33,11 +31,12 @@ const TodosScreen: React.FC = () => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
-  const [isDeletingTodo, setIsDeletingTodo] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [manualDate, setManualDate] = useState<boolean>(false);
   const today = new Date().toDateString();
+  const showToast = useToastMessageStore((state) => state.showToast);
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   const {
     userTodos,
@@ -135,16 +134,16 @@ const TodosScreen: React.FC = () => {
 
   const onDeleteTodo = async (todo: UserTodo) => {
     try {
-      setIsDeletingTodo(true);
+      startLoading();
       await deleteTodoRequest(todo);
       setDataUpdated(true);
       showToast(ToastType.success, "Todo wurde gelöscht.");
     } catch (error) {
       console.error("Failed to delete todo", error);
-      setIsDeletingTodo(false);
+      stopLoading();
     } finally {
       setIsConfirmationModalVisible(false);
-      setIsDeletingTodo(false);
+      stopLoading();
     }
   };
 
@@ -202,11 +201,6 @@ const TodosScreen: React.FC = () => {
           onClose={closeTodoModal}
           todo={selectedTodo}
         />
-        {isDeletingTodo && (
-          <FullscreenLoadingIndicator
-            style={styles.fullscreenLoadingIndicator}
-          />
-        )}
       </ScrollViewScreenWrapper>
       <AddButton navigateTo={() => navigateToNewTodoScreen()} />
       <RoutineToast />
@@ -215,9 +209,3 @@ const TodosScreen: React.FC = () => {
 };
 
 export default TodosScreen;
-
-const styles = StyleSheet.create({
-  fullscreenLoadingIndicator: {
-    marginLeft: -20,
-  },
-});

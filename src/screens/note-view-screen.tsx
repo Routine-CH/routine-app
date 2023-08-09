@@ -10,15 +10,15 @@ import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import BackButton from "../components/common/buttons/back-button";
-import { FullscreenLoadingIndicator } from "../components/common/fullscreen-loading-indicator";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
+
 import AppText from "../components/common/typography/app-text";
 import { deleteNoteRequest } from "../data/note/delete-request";
 import { useNotesStore } from "../store/notes-store";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -36,13 +36,14 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
   const { t } = useTranslation();
   const noteId = route.params.id;
   const { setDataUpdated, getNoteById, isLoading } = useNotesStore();
-  const [isDeletingNote, setIsDeletingNote] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const note = getNoteById(noteId);
   const createdAt = note?.createdAt ? new Date(note.createdAt) : null;
   const formattedDate = createdAt
     ? format(createdAt, "dd. MMMM yyyy", { locale: de })
     : "";
+  const showToast = useToastMessageStore((state) => state.showToast);
+  const { startLoading, stopLoading } = useToastMessageStore();
 
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
@@ -53,7 +54,7 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
 
   const deleteNote = async () => {
     try {
-      setIsDeletingNote(true);
+      startLoading();
       setIsModalVisible(false);
       await deleteNoteRequest(note);
       showToast(ToastType.success, "Notiz wurde gelöscht.");
@@ -65,8 +66,9 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
       }, 2000);
     } catch (error) {
       console.error("Failed to delete note", error);
+      stopLoading();
     } finally {
-      setIsDeletingNote(false);
+      stopLoading();
       setIsModalVisible(false);
     }
   };
@@ -137,9 +139,6 @@ const NoteViewScreen: React.FC<NoteViewProps> = ({ route }) => {
           <RoutineToast />
         </>
       )}
-      {isDeletingNote && (
-        <FullscreenLoadingIndicator style={styles.fullscreenLoadingIndicator} />
-      )}
     </ScrollViewScreenWrapper>
   );
 };
@@ -167,8 +166,5 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
     marginBottom: 15,
-  },
-  fullscreenLoadingIndicator: {
-    marginLeft: -20,
   },
 });

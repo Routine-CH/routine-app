@@ -13,11 +13,12 @@ import SaveButton from "../components/common/buttons/save-button";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
-import { showToast } from "../components/common/toast/show-toast";
+
 import AppText from "../components/common/typography/app-text";
 import GoalAddTodoView from "../components/goals/goal-add-todo-view";
 import GoalDetailView from "../components/goals/goal-detail-view";
 import { useGoalStore } from "../store/goals-store";
+import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor, ToastType, ViewType } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -46,6 +47,7 @@ const EditGoalScreen: React.FC<EditGoalScreenProps> = ({ route }) => {
   const { getGoalById, isLoading } = useGoalStore();
   const goal = getGoalById(goalId);
   const { t } = useTranslation();
+  const showToast = useToastMessageStore((state) => state.showToast);
 
   const handleViewChange = (view: ViewType) => {
     if (view === ViewType.ADDTODO) {
