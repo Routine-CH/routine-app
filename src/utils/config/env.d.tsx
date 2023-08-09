@@ -1,4 +1,4 @@
 declare module "@env" {
-  export const DEV_URL: string;
-  export const PROD_URL: string;
+  export const EXPO_DEV_URL: string;
+  export const EXPO_PROD_URL: string;
 }
