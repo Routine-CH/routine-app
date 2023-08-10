@@ -50,6 +50,7 @@ export const useCalendarData = (
       console.error(error);
     }
   };
+
   const weekData = useMemo(() => {
     if (calendar && selectedWeek.length > 0) {
       let filteredCalendar = calendar.filter((item) =>
@@ -93,5 +94,5 @@ export const useCalendarData = (
     }
   }, [selectedDate]);
 
-  return { weekData, isLoading };
+  return { weekData, isLoading, refetchData: getCalendarData };
 };

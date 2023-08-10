@@ -229,6 +229,7 @@ const NewJournalScreen: React.FC = () => {
         />
         <EmotionModal
           isVisible={isModalVisible}
+          setIsVisible={setIsModalVisible}
           onClose={closeModal}
           initialSelectedMoods={selectedMoods}
           onMoodsSelect={(moodIds) => {

@@ -11,7 +11,6 @@ import EmptyState from "../components/common/empty-state";
 import { LoadingIndicator } from "../components/common/loading-indicator";
 import EditDeleteModal from "../components/common/modals/edit-delete-modal";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
-import RoutineToast from "../components/common/toast/routine-toast";
 import AppText from "../components/common/typography/app-text";
 import TodaysJournal from "../components/journal/todays-journal";
 import { deleteUserJournalRequest } from "../data/journal/delete-request";
@@ -72,7 +71,7 @@ const JournalsScreen: React.FC = () => {
         showToast(ToastType.success, "Journal gelöscht");
         setDataUpdated(true);
         setTimeout(() => {
-          navigation.navigate("Journals");
+          navigation.goBack();
         }, 2000);
       } else {
         showToast(ToastType.error, "Journal konnte nicht gelöscht werden");
@@ -86,26 +85,29 @@ const JournalsScreen: React.FC = () => {
     }
   };
 
-  const navigateToJournalEditScreen = (journalId?: string) => {
-    setIsModalVisible(false);
-    if (todayJournal && !journalId) {
-      navigation.navigate("SubRoutes", {
-        screen: "JournalEdit",
-        params: { id: !journalId ? todayJournal.id : journalId },
-      });
-    } else {
-      navigation.navigate("SubRoutes", {
-        screen: "JournalEdit",
-        params: { id: journalId, editable: false },
-      });
-    }
-  };
-
   const navigateToNewJournalScreen = () => {
     setIsModalVisible(false);
     navigation.navigate("SubRoutes", {
       screen: "JournalNew",
     });
+  };
+
+  const navigateToJournalViewScreen = (journalId: string) => {
+    setIsModalVisible(false);
+    navigation.navigate("SubRoutes", {
+      screen: "JournalView",
+      params: { id: journalId },
+    });
+  };
+
+  const navigateToJournalEditScreen = () => {
+    setIsModalVisible(false);
+    if (todayJournal) {
+      navigation.navigate("SubRoutes", {
+        screen: "JournalEdit",
+        params: { id: todayJournal.id },
+      });
+    }
   };
 
   return (
@@ -176,7 +178,7 @@ const JournalsScreen: React.FC = () => {
                   month={month}
                   title={journal.title}
                   journalStyles={styles.journal}
-                  navigateTo={() => navigateToJournalEditScreen(journal.id)}
+                  navigateTo={() => navigateToJournalViewScreen(journal.id)}
                 />
               );
             })
@@ -198,7 +200,6 @@ const JournalsScreen: React.FC = () => {
           onConfirm={deleteJournal}
           navigateTo={() => navigateToJournalEditScreen()}
         />
-        <RoutineToast />
       </ScrollViewScreenWrapper>
       {!todayJournal ? (
         <AddButton navigateTo={() => navigateToNewJournalScreen()} />

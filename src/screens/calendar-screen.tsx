@@ -1,8 +1,7 @@
 import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
 import { de } from "date-fns/locale";
-import { useState } from "react";
+import { useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-
 import CalendarData from "../components/common/calendar/calendar-data";
 import ChipContainer from "../components/common/calendar/chip-container";
 import { LoadingIndicator } from "../components/common/loading-indicator";
@@ -11,16 +10,26 @@ import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wra
 import AppText from "../components/common/typography/app-text";
 import TodoModal from "../components/todos/todo-modal";
 import { useCalendarData } from "../hooks/calendar/use-calendar-data";
-import { CalendarDataTypes, Day } from "../utils/types/calendar/types";
+import { useCalendarStore } from "../store/calendar-store";
+import { Day } from "../utils/types/calendar/types";
 import { StatusBarColor } from "../utils/types/enums";
-import { UserTodo } from "../utils/types/types";
 
 const CalendarScreen: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedChip, setSelectedChip] = useState<CalendarDataTypes>();
-  const [selectedTodo, setSelectedTodo] = useState<UserTodo | null>(null);
-  const [isTodoModalVisible, setIsTodoModalVisible] = useState(false);
+  const {
+    selectedDate,
+    setSelectedDate,
+    isModalVisible,
+    toggleModalVisibility,
+    selectedChip,
+    setSelectedChip,
+    calendarDataUpdated,
+    setCalendarDataUpdated,
+    selectedTodo,
+    setSelectedTodo,
+    isTodoModalVisible,
+    toggleTodoModalVisibility,
+  } = useCalendarStore();
+
   const startDateOfWeek = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const endDateOfWeek = endOfWeek(selectedDate, { weekStartsOn: 1 });
   const datesOfWeek = eachDayOfInterval({
@@ -39,7 +48,7 @@ const CalendarScreen: React.FC = () => {
     return format(date, "yyyy-MM-dd");
   });
 
-  const { weekData, isLoading } = useCalendarData(
+  const { weekData, isLoading, refetchData } = useCalendarData(
     selectedDate,
     selectedWeek,
     selectedChip
@@ -47,16 +56,23 @@ const CalendarScreen: React.FC = () => {
 
   const onDayPress = (day: Day) => {
     setSelectedDate(new Date(day.dateString));
-    setIsModalVisible(false);
+    toggleModalVisibility();
   };
 
   const handleModalPress = () => {
-    setIsModalVisible(true);
+    toggleModalVisibility();
   };
 
   const closeTodoModal = () => {
-    setIsTodoModalVisible(false);
+    toggleTodoModalVisibility();
   };
+
+  useEffect(() => {
+    if (calendarDataUpdated) {
+      refetchData();
+      setCalendarDataUpdated(false);
+    }
+  }, [calendarDataUpdated, refetchData, setCalendarDataUpdated]);
 
   return (
     <ScrollViewScreenWrapper
@@ -84,13 +100,13 @@ const CalendarScreen: React.FC = () => {
           <CalendarData
             calendar={weekData}
             setSelectedTodo={setSelectedTodo}
-            setIsModalVisible={setIsTodoModalVisible}
+            setIsModalVisible={toggleTodoModalVisibility}
           />
         )}
       </View>
       <CalendarModal
         isVisible={isModalVisible}
-        setIsVisible={setIsModalVisible}
+        setIsVisible={toggleModalVisibility}
         datesOfWeek={datesOfWeek}
         onDayPress={onDayPress}
       />

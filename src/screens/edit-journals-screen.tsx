@@ -13,7 +13,6 @@ import SaveButton from "../components/common/buttons/save-button";
 import Chip from "../components/common/calendar/chip";
 import LabelInputField from "../components/common/input/label-input-field";
 import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
-import RoutineToast from "../components/common/toast/routine-toast";
 import AppText from "../components/common/typography/app-text";
 import EmotionModal from "../components/journal/emotion-modal";
 import { useJournalData } from "../hooks/journals/use-journal-data";
@@ -236,6 +235,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
       </View>
       <EmotionModal
         isVisible={isModalVisible}
+        setIsVisible={setIsModalVisible}
         onClose={closeModal}
         initialSelectedMoods={selectedMoods}
         onMoodsSelect={(moodIds) => {
@@ -253,7 +253,6 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
           ]);
         }}
       />
-      <RoutineToast />
     </ScrollViewScreenWrapper>
   ) : (
     <></>

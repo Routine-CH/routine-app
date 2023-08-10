@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -7,7 +6,7 @@ import Chip from "./chip";
 
 type ChipContainerProps = {
   selectedChip: CalendarDataTypes | undefined;
-  setSelectedChip: Dispatch<SetStateAction<CalendarDataTypes | undefined>>;
+  setSelectedChip: (chip: CalendarDataTypes | undefined) => void;
 };
 
 const ChipContainer: React.FC<ChipContainerProps> = ({

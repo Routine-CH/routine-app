@@ -15,6 +15,7 @@ import MoodCard from "./mood-card";
 
 interface EmotionModalProps {
   isVisible: boolean;
+  setIsVisible: (isVisible: boolean) => void;
   onClose: () => void;
   initialSelectedMoods: {
     id: string;
@@ -27,6 +28,7 @@ const windowWidth = Dimensions.get("window").width;
 
 const EmotionModal: React.FC<EmotionModalProps> = ({
   isVisible,
+  setIsVisible,
   onClose,
   initialSelectedMoods,
   onMoodsSelect,
@@ -56,11 +58,19 @@ const EmotionModal: React.FC<EmotionModalProps> = ({
     onClose();
   };
 
+  const handleClickedOnLayout = () => {
+    setIsVisible(false);
+  };
+
+  const stopPropagation = (event: any) => {
+    event.stopPropagation();
+  };
+
   return moods ? (
     <Modal visible={isVisible} transparent>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={handleClickedOnLayout}>
         <View style={styles.overlay}>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={stopPropagation}>
             <View style={styles.modalContainer}>
               <View style={styles.line} />
               <ScrollView

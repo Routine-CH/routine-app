@@ -22,6 +22,19 @@
     "10-00": "10:00",
     "15-00": "15:00"
   },
+  "emotions": {
+    "rage": "Frustriert",
+    "curiosity": "Neugierig",
+    "excitement": "Aufgeregt",
+    "sadness": "Bedrückt",
+    "frustration": "Traurig",
+    "fear": "Ängstlich",
+    "anger": "Wütend",
+    "pride": "Stolz",
+    "joy": "Glücklich",
+    "calm": "Ruhig",
+    "bored": "Gelangweilt"
+  },
   "forgot-pw": {
     "dont-worry": "Keine Sorge!",
     "description": "Wir schicken dir eine E-Mail, um dein Passwort zurückzusetzen.",
@@ -85,8 +98,11 @@
   },
   "journal": {
     "activity": "Was hast du daraus gemacht?",
+    "activity-past": "Was du daraus gemacht hast",
     "mood": "Wie fühlst du dich heute?",
+    "mood-past": "Wie du dich gefühlt hast",
     "mood-description": "Wieso fühlst du dich so?",
+    "mood-description-past": "Wieso du dich so gefühlt hast",
     "no-entry-title": "Keinen Journal-Eintrag",
     "no-entry-titles": "Keine Journal-Einträge",
     "no-entry-yet": "Du hast heute noch keinen Journal-Eintrag erstellt.",

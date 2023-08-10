@@ -42,15 +42,15 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
               <View style={styles.line} />
               <View style={styles.textContainer}>
                 <AppText
-                  fontStyle="bodyMedium"
-                  colorStyle="black70"
+                  fontStyle='bodyMedium'
+                  colorStyle='black70'
                   style={{ marginVertical: 30 }}
                 >
                   {title}
                 </AppText>
                 <AppText
-                  fontStyle="heading4"
-                  colorStyle="black70"
+                  fontStyle='heading4'
+                  colorStyle='black70'
                   style={{ marginBottom: 30 }}
                 >
                   {description}
@@ -62,8 +62,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                   onPress={onConfirm}
                 >
                   <AppText
-                    fontStyle="heading4"
-                    colorStyle="red"
+                    fontStyle='heading4'
+                    colorStyle='red'
                     style={styles.text}
                   >
                     {actionText}
@@ -74,8 +74,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                   onPress={handleOverlayPress}
                 >
                   <AppText
-                    fontStyle="heading4"
-                    colorStyle="black70"
+                    fontStyle='heading4'
+                    colorStyle='black70'
                     style={styles.text}
                   >
                     {t("modals.cancel")}
