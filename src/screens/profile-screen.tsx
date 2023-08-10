@@ -85,7 +85,10 @@ const ProfileScreen = () => {
           badgesCount={userProfileData.badges.length}
           streakCount={userProfileData.userStreakCount}
         />
-        <BadgesView navigateTo={navigateToBadgesScreen} />
+        <BadgesView
+          navigateTo={navigateToBadgesScreen}
+          badges={userProfileData.badges}
+        />
       </View>
       <Badge badges={userProfileData.badges} />
       <View style={styles.wrapper}>

@@ -7,6 +7,7 @@ import EditTodosScreen from "../../../screens/edit-todos-screen";
 import EditToolsScreen from "../../../screens/edit-tools-screen";
 import GoalsScreen from "../../../screens/goals-screen";
 import GoalViewScreen from "../../../screens/goals-view-screen";
+import JournalViewScreen from "../../../screens/journal-view-screen";
 import JournalsScreen from "../../../screens/journals-screen";
 import NewGoalsScreen from "../../../screens/new-goals-screen";
 import NewJournalScreen from "../../../screens/new-journal-screen";
@@ -39,6 +40,12 @@ const SubRoutes: React.FC = () => {
       <SubRoutesStack.Screen
         name='JournalNew'
         component={NewJournalScreen}
+        options={{ headerShown: false }}
+      />
+      <SubRoutesStack.Screen
+        name='JournalView'
+        /* @ts-ignore: TODO: fix this */
+        component={JournalViewScreen}
         options={{ headerShown: false }}
       />
       <SubRoutesStack.Screen

@@ -52,8 +52,8 @@ const CalendarCard: React.FC<DateProps> = ({
   const navigateToDetailView = () => {
     if (type === CalendarCardType.JOURNAL) {
       navigation.navigate("SubRoutes", {
-        screen: "JournalEdit",
-        params: { id: id, editable: false },
+        screen: "JournalView",
+        params: { id: id },
       });
     } else if (type === CalendarCardType.TODOS) {
       setSelectedTodo &&

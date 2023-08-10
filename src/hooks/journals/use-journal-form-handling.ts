@@ -77,7 +77,7 @@ export const useFormHandling = (
         showToast(ToastType.success, "Journal gespeichert");
         setDataUpdated(true);
         setTimeout(() => {
-          navigation.navigate("Journals");
+          navigation.goBack();
         }, 2000);
       } else {
         showToast(ToastType.error, "Bitte wähle mindestens eine Gefühl aus.");

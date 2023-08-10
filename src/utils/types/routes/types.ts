@@ -11,10 +11,7 @@ export type AuthStackParamList = {
 // types for Main Stack Navigation
 export type AuthenticatedStackParamList = {
   Home: undefined;
-  Journals: undefined;
   EditTools: undefined;
-  JournalEdit: { id: string; editable?: boolean };
-  JournalNew: undefined;
   Calendar: undefined;
   CameraView: undefined;
   SubRoutes: {
@@ -26,6 +23,10 @@ export type AuthenticatedStackParamList = {
       badges?: UserBadge[] | null;
     };
   };
+  Journals: undefined;
+  JournalNew: undefined;
+  JournalView: { id: string };
+  JournalEdit: { id: string; editable?: boolean };
   Notes: undefined;
   NoteView: { id: string };
   NotesEdit: { id: string };
