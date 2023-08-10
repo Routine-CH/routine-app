@@ -2,7 +2,7 @@
   "expo": {
     "name": "Routine App",
     "slug": "routine-adhd-app-bachelor",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,8 +15,8 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.abeerance.routineadhdappbachelor",
-      "runtimeVersion": "1.0.4",
-      "buildNumber": "1.0.4"
+      "runtimeVersion": "1.0.5",
+      "buildNumber": "1.0.5"
     },
     "android": {
       "adaptiveIcon": {
