@@ -236,6 +236,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
       </View>
       <EmotionModal
         isVisible={isModalVisible}
+        setIsVisible={setIsModalVisible}
         onClose={closeModal}
         initialSelectedMoods={selectedMoods}
         onMoodsSelect={(moodIds) => {
