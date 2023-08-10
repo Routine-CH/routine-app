@@ -106,6 +106,6 @@ const styles = StyleSheet.create({
   calendar: {
     marginVertical: 30,
     width: windowWidth * 0.9,
-    height: 320,
+    height: 380,
   },
 });

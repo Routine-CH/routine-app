@@ -28,7 +28,7 @@ interface DateProps {
   style?: StyleProp<ViewStyle>;
   journalStyles?: StyleProp<ViewStyle>;
   displayTodoCard?: boolean;
-  setSelectedTodo?: Dispatch<SetStateAction<UserTodo | null>>;
+  setSelectedTodo?: (todo: UserTodo | null) => void;
   setIsModalVisible?: Dispatch<SetStateAction<boolean>>;
 }
 

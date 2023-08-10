@@ -12,7 +12,7 @@ import DateCard from "./date-card";
 
 type CalendarDataProps = {
   calendar: CalendarItems[] | null;
-  setSelectedTodo?: Dispatch<SetStateAction<UserTodo | null>>;
+  setSelectedTodo?: (todo: UserTodo | null) => void;
   setIsModalVisible?: Dispatch<SetStateAction<boolean>>;
 };
 

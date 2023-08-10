@@ -16,6 +16,7 @@ import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wra
 import AppText from "../components/common/typography/app-text";
 import { deleteUserJournalRequest } from "../data/journal/delete-request";
 import { useJournalData } from "../hooks/journals/use-journal-data";
+import { useCalendarStore } from "../store/calendar-store";
 import { useJournalStore } from "../store/journal-store";
 import { useToastMessageStore } from "../store/toast-messages-store";
 import AppColors from "../utils/constants/colors";
@@ -43,6 +44,7 @@ const JournalViewScreen: React.FC<JournalViewProps> = ({ route }) => {
   const showToast = useToastMessageStore((state) => state.showToast);
   const { startLoading, stopLoading } = useToastMessageStore();
   const { t } = useTranslation();
+  const { setCalendarDataUpdated } = useCalendarStore();
 
   const { loadUserJournals, dataUpdated, setDataUpdated } = useJournalStore();
 
@@ -62,6 +64,7 @@ const JournalViewScreen: React.FC<JournalViewProps> = ({ route }) => {
         setIsModalVisible(false);
         showToast(ToastType.success, "Journal gelöscht");
         setDataUpdated(true);
+        setCalendarDataUpdated(true);
         setTimeout(() => {
           navigation.goBack();
         }, 2000);
