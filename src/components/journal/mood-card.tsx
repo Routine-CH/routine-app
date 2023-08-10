@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Dimensions, Image, Pressable, StyleSheet } from "react-native";
 import AppColors from "../../utils/constants/colors";
 import AppText from "../common/typography/app-text";
@@ -18,6 +19,7 @@ const MoodCard: React.FC<MoodCardProps> = ({
   onPress,
   isSelected,
 }) => {
+  const { t } = useTranslation();
   const handlePress = () => {
     onPress();
   };
@@ -88,7 +90,7 @@ const MoodCard: React.FC<MoodCardProps> = ({
         />
       )}
       <AppText fontStyle='bodyMedium' style={textStyle}>
-        {title}
+        {t(`emotions.${title}`)}
       </AppText>
     </Pressable>
   );

@@ -22,6 +22,19 @@
     "10-00": "10:00",
     "15-00": "15:00"
   },
+  "emotions": {
+    "rage": "Frustriert",
+    "curiosity": "Neugierig",
+    "excitement": "Aufgeregt",
+    "sadness": "Bedrückt",
+    "frustration": "Traurig",
+    "fear": "Ängstlich",
+    "anger": "Wütend",
+    "pride": "Stolz",
+    "joy": "Glücklich",
+    "calm": "Ruhig",
+    "bored": "Gelangweilt"
+  },
   "forgot-pw": {
     "dont-worry": "Keine Sorge!",
     "description": "Wir schicken dir eine E-Mail, um dein Passwort zurückzusetzen.",
