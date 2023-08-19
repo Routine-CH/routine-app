@@ -118,7 +118,7 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             {selectedMoods.map((selectedMood, index) => (
               <Chip
                 key={`${selectedMood.id}-${index}`}
-                text={selectedMood.type}
+                text={t(`emotions.${selectedMood.type}`)}
                 style={styles.chip}
                 onPress={() => handleDeleteMood(selectedMood.id)}
                 isEditable={!isEditable}

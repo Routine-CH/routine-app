@@ -135,7 +135,9 @@ const NewJournalScreen: React.FC = () => {
           {selectedMoods.map((mood, index) => (
             <Chip
               key={index}
-              text={typeof mood === "string" ? mood : mood.type}
+              text={
+                typeof mood === "string" ? mood : t(`emotions.${mood.type}`)
+              }
               style={styles.chip}
               onPress={() => {
                 if (typeof mood === "object") {

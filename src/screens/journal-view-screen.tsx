@@ -129,7 +129,7 @@ const JournalViewScreen: React.FC<JournalViewProps> = ({ route }) => {
           {journal.journalMoods.map((mood) => (
             <Chip
               key={mood.mood.id}
-              text={mood.mood.type}
+              text={t(`emotions.${mood.mood.type}`)}
               style={styles.chip}
               isEditable={false}
             />
