@@ -35,57 +35,57 @@ const MoodCard: React.FC<MoodCardProps> = ({
     <Pressable style={containerStyle} onPress={handlePress}>
       {type === "rage" ? (
         <Image
-          source={require("../../assets/moods/mood-rage.png")}
+          source={require("../../assets/moods/mood-rage.webp")}
           style={styles.image}
         />
       ) : type === "curiosity" ? (
         <Image
-          source={require("../../assets/moods/mood-curios.png")}
+          source={require("../../assets/moods/mood-curios.webp")}
           style={styles.image}
         />
       ) : type === "excitement" ? (
         <Image
-          source={require("../../assets/moods/mood-excitement.png")}
+          source={require("../../assets/moods/mood-excitement.webp")}
           style={styles.image}
         />
       ) : type === "sadness" ? (
         <Image
-          source={require("../../assets/moods/mood-sadness.png")}
+          source={require("../../assets/moods/mood-sadness.webp")}
           style={styles.image}
         />
       ) : type === "frustration" ? (
         <Image
-          source={require("../../assets/moods/mood-frustration.png")}
+          source={require("../../assets/moods/mood-frustration.webp")}
           style={styles.image}
         />
       ) : type === "fear" ? (
         <Image
-          source={require("../../assets/moods/mood-fear.png")}
+          source={require("../../assets/moods/mood-fear.webp")}
           style={styles.image}
         />
       ) : type === "anger" ? (
         <Image
-          source={require("../../assets/moods/mood-anger.png")}
+          source={require("../../assets/moods/mood-anger.webp")}
           style={styles.image}
         />
       ) : type === "pride" ? (
         <Image
-          source={require("../../assets/moods/mood-pride.png")}
+          source={require("../../assets/moods/mood-pride.webp")}
           style={styles.image}
         />
       ) : type === "joy" ? (
         <Image
-          source={require("../../assets/moods/mood-joy.png")}
+          source={require("../../assets/moods/mood-joy.webp")}
           style={styles.image}
         />
       ) : type === "calm" ? (
         <Image
-          source={require("../../assets/moods/mood-calm.png")}
+          source={require("../../assets/moods/mood-calm.webp")}
           style={styles.image}
         />
       ) : (
         <Image
-          source={require("../../assets/moods/mood-bored.png")}
+          source={require("../../assets/moods/mood-bored.webp")}
           style={styles.image}
         />
       )}
