@@ -1,3 +1,4 @@
+import React from "react";
 import {
   StyleProp,
   StyleSheet,
@@ -16,30 +17,39 @@ type LabelInputFieldProps = {
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   isEditable?: boolean;
+  onSubmitEditing?: () => void;
 } & TextInputProps;
 
-const LabelInputField: React.FC<LabelInputFieldProps> = ({
-  placeholder,
-  editText,
-  style,
-  inputStyle,
-  isEditable,
-  ...textInputProps
-}) => {
-  return (
-    <View style={[styles.inputContainer, style]}>
-      <TextInput
-        style={[styles.inputStyle, inputStyle]}
-        placeholder={placeholder}
-        placeholderTextColor={AppColors.black70}
-        editable={isEditable}
-        {...textInputProps}
-      >
-        {editText}
-      </TextInput>
-    </View>
-  );
-};
+const LabelInputField = React.forwardRef<TextInput, LabelInputFieldProps>(
+  (
+    {
+      placeholder,
+      editText,
+      style,
+      inputStyle,
+      isEditable,
+      onSubmitEditing,
+      ...textInputProps
+    },
+    ref
+  ) => {
+    return (
+      <View style={[styles.inputContainer, style]}>
+        <TextInput
+          ref={ref}
+          onSubmitEditing={onSubmitEditing}
+          style={[styles.inputStyle, inputStyle]}
+          placeholder={placeholder}
+          placeholderTextColor={AppColors.black70}
+          editable={isEditable}
+          {...textInputProps}
+        >
+          {editText}
+        </TextInput>
+      </View>
+    );
+  }
+);
 
 export default LabelInputField;
 

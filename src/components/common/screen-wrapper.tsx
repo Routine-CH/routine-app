@@ -1,7 +1,13 @@
 // src/components/ScreenWrapper.tsx
 import { StatusBar } from "expo-status-bar";
 import { ReactNode } from "react";
-import { Dimensions, LayoutChangeEvent, ViewStyle } from "react-native";
+import {
+  Dimensions,
+  KeyboardAvoidingView,
+  LayoutChangeEvent,
+  Platform,
+  ViewStyle,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBarColor } from "../../utils/types/enums";
 
@@ -25,7 +31,10 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   onLayout,
 }) => {
   return (
-    <>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
       <StatusBar style={statusBarColor} />
       <SafeAreaView
         style={[
@@ -40,7 +49,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
       >
         {children}
       </SafeAreaView>
-    </>
+    </KeyboardAvoidingView>
   );
 };
 

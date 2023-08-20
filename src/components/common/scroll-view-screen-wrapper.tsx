@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React, { ReactNode } from "react";
-import { Dimensions, ScrollView, View, ViewStyle } from "react-native";
+import {
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  View,
+  ViewStyle,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { StatusBarColor } from "../../utils/types/enums";
@@ -26,28 +33,33 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
   const statusBarHeight = Math.max(getStatusBarHeight(), 40);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor,
-        paddingTop: statusBarHeight,
-        position: "relative",
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
-      <StatusBar style={statusBarColor ? statusBarColor : "auto"} />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
+      <View
         style={{
           flex: 1,
-          paddingVertical: 10,
-          paddingHorizontal: defaultPadding ? windowWidth * 0.05 : 0,
-          ...style,
+          backgroundColor,
+          paddingTop: statusBarHeight,
+          position: "relative",
         }}
       >
-        {/* implement safeareview to respect the safearea without the padding top  */}
-        <SafeAreaView edges={["right", "left"]}>{children}</SafeAreaView>
-      </ScrollView>
-    </View>
+        <StatusBar style={statusBarColor ? statusBarColor : "auto"} />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{
+            flex: 1,
+            paddingVertical: 10,
+            paddingHorizontal: defaultPadding ? windowWidth * 0.05 : 0,
+            ...style,
+          }}
+        >
+          {/* implement safeareview to respect the safearea without the padding top  */}
+          <SafeAreaView edges={["right", "left"]}>{children}</SafeAreaView>
+        </ScrollView>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
