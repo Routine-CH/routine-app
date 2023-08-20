@@ -5,11 +5,9 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  View,
   ViewStyle,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getStatusBarHeight } from "react-native-status-bar-height";
 import { StatusBarColor } from "../../utils/types/enums";
 
 type ScrollViewScreenWrapperProps = {
@@ -29,21 +27,18 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
   defaultPadding,
   children,
 }) => {
-  // get current status bar height of device to add it as a padding in the view
-  const statusBarHeight = Math.max(getStatusBarHeight(), 40);
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <View
+      <SafeAreaView
         style={{
           flex: 1,
           backgroundColor,
-          paddingTop: statusBarHeight,
           position: "relative",
         }}
+        edges={["top", "right", "left"]}
       >
         <StatusBar style={statusBarColor ? statusBarColor : "auto"} />
         <ScrollView
@@ -55,10 +50,9 @@ const ScrollViewScreenWrapper: React.FC<ScrollViewScreenWrapperProps> = ({
             ...style,
           }}
         >
-          {/* implement safeareview to respect the safearea without the padding top  */}
-          <SafeAreaView edges={["right", "left"]}>{children}</SafeAreaView>
+          {children}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };

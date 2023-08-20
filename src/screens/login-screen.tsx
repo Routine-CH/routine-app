@@ -103,15 +103,14 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   outerContainer1: {
     backgroundColor: AppColors.blue100,
-    height: windowHeight * 0.03,
+    height: windowHeight * 0.02,
   },
   outerContainer2: {
     backgroundColor: AppColors.blue100,
-    height: windowHeight * 0.1,
   },
   innerContainer: {
     backgroundColor: AppColors.white,
-    height: windowHeight * 0.8,
+    height: windowHeight * 0.75,
     borderRadius: 20,
     paddingHorizontal: windowWidth * 0.06,
     width: "100%",
