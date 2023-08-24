@@ -3,6 +3,7 @@ import {
   RouteProp,
   useNavigation,
 } from "@react-navigation/native";
+import { useEffect } from "react";
 import {
   Dimensions,
   Image,
@@ -19,7 +20,7 @@ import LogOut from "../components/profile/profile-settings/log-out";
 import Notifications from "../components/profile/profile-settings/notifications";
 import ResetPassword from "../components/profile/profile-settings/reset-password";
 import UserInformation from "../components/profile/profile-settings/user-information";
-import { useMinimalUser } from "../hooks/profile/use-minimal-user";
+import { useUserStore } from "../store/user-store";
 import AppColors from "../utils/constants/colors";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
@@ -39,7 +40,11 @@ const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
   const userId = route.params.id;
-  const { user, isLoading, setDataUpdated } = useMinimalUser(userId);
+  const { user, isLoading, fetchUser, dataUpdated } = useUserStore();
+
+  useEffect(() => {
+    fetchUser(userId);
+  }, [userId, dataUpdated]);
 
   const navigateToProfileNotifications = () => {
     if (!user) return;
@@ -82,7 +87,6 @@ const ProfileSettingsScreen: React.FC<ProfileSettingsProps> = ({ route }) => {
           <ResetPassword />
           <Notifications
             id={user.id}
-            setDataUpdated={setDataUpdated}
             navigateTo={navigateToProfileNotifications}
             gamificationNotifications={
               user.notificationSettings.muteGamification

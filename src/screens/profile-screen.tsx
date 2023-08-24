@@ -1,5 +1,6 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { format, parseISO } from "date-fns";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import IconButton from "../components/common/buttons/icon-button";
@@ -12,12 +13,18 @@ import BadgesView from "../components/profile/badges-view";
 import WeekView from "../components/profile/week-view";
 import YearCard from "../components/profile/year-card";
 import { useGamificationUser } from "../hooks/profile/use-gamification-user";
+import { useUserStore } from "../store/user-store";
 import { StatusBarColor } from "../utils/types/enums";
 import { AuthenticatedStackParamList } from "../utils/types/routes/types";
 
 const ProfileScreen = () => {
   const { t } = useTranslation();
   const { userProfileData } = useGamificationUser();
+  const { user, fetchUser } = useUserStore();
+
+  useEffect(() => {
+    fetchUser(userProfileData && userProfileData.id);
+  }, [userProfileData]);
 
   const navigation =
     useNavigation<NavigationProp<AuthenticatedStackParamList>>();
@@ -80,17 +87,21 @@ const ProfileScreen = () => {
             </AppText>
           </View>
         </View>
-        <AchievementCard
-          exp={userProfileData.experience}
-          badgesCount={userProfileData.badges.length}
-          streakCount={userProfileData.userStreakCount}
-        />
-        <BadgesView
-          navigateTo={navigateToBadgesScreen}
-          badges={userProfileData.badges}
-        />
+        {user?.notificationSettings.muteGamification && (
+          <>
+            <AchievementCard
+              exp={userProfileData.experience}
+              badgesCount={userProfileData.badges.length}
+              streakCount={userProfileData.userStreakCount}
+            />
+            <BadgesView
+              navigateTo={navigateToBadgesScreen}
+              badges={userProfileData.badges}
+            />
+            <Badge badges={userProfileData.badges} />
+          </>
+        )}
       </View>
-      <Badge badges={userProfileData.badges} />
       <View style={styles.wrapper}>
         <YearCard currentUser={userProfileData} />
       </View>

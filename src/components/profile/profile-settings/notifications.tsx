@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -6,6 +5,7 @@ import {
   adjustAllNotifications,
   adjustGamificationNotification,
 } from "../../../data/notifications/update-request";
+import { useUserStore } from "../../../store/user-store";
 import AppColors from "../../../utils/constants/colors";
 import AppFontStyle from "../../../utils/constants/font-style";
 import { AxiosErrorWithData } from "../../../utils/types/types";
@@ -14,7 +14,6 @@ import IndividualNotifications from "./individual-notifications";
 
 type NotificationsProp = {
   id: string;
-  setDataUpdated: Dispatch<SetStateAction<boolean>>;
   navigateTo: () => void;
   gamificationNotifications: boolean;
   mutedAllNotifications: boolean;
@@ -24,17 +23,19 @@ const windowWidth = Dimensions.get("window").width;
 
 const Notifications: React.FC<NotificationsProp> = ({
   id,
-  setDataUpdated,
   navigateTo,
   gamificationNotifications,
   mutedAllNotifications,
 }) => {
   const { t } = useTranslation();
 
+  const { setDataUpdated } = useUserStore();
+
   const handleAllNotificationToggle = async () => {
     try {
-      setDataUpdated(true);
-      await adjustAllNotifications(id, !mutedAllNotifications);
+      await adjustAllNotifications(id, !mutedAllNotifications).then(() =>
+        setDataUpdated(true)
+      );
     } catch (error) {
       const axiosError = error as AxiosErrorWithData;
       console.error(axiosError.response);
@@ -43,8 +44,9 @@ const Notifications: React.FC<NotificationsProp> = ({
 
   const handleGamificationToggle = async () => {
     try {
-      setDataUpdated(true);
-      await adjustGamificationNotification(id, !gamificationNotifications);
+      await adjustGamificationNotification(id, !gamificationNotifications).then(
+        () => setDataUpdated(true)
+      );
     } catch (error) {
       const axiosError = error as AxiosErrorWithData;
       console.error(axiosError.response);
