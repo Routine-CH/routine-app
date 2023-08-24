@@ -166,8 +166,6 @@ const NewJournalScreen: React.FC = () => {
             <LabelInputField
               placeholder={t("journal.mood-description")}
               style={styles.inputField}
-              numberOfLines={5}
-              multiline={true}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
@@ -194,8 +192,6 @@ const NewJournalScreen: React.FC = () => {
             <LabelInputField
               placeholder={t("journal.activity")}
               style={styles.inputField}
-              numberOfLines={5}
-              multiline={true}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
@@ -222,8 +218,6 @@ const NewJournalScreen: React.FC = () => {
             <LabelInputField
               placeholder={t("journal.to-improve")}
               style={styles.inputField}
-              numberOfLines={5}
-              multiline={true}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
@@ -250,8 +244,6 @@ const NewJournalScreen: React.FC = () => {
             <LabelInputField
               placeholder={t("journal.thoughts-and-ideas")}
               style={styles.inputField}
-              numberOfLines={5}
-              multiline={true}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}

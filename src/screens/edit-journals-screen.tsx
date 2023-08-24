@@ -3,11 +3,12 @@ import {
   RouteProp,
   useNavigation,
 } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Keyboard, StyleSheet, View } from "react-native";
 
+import { TextInput } from "react-native-gesture-handler";
 import IconButton from "../components/common/buttons/icon-button";
 import SaveButton from "../components/common/buttons/save-button";
 import Chip from "../components/common/calendar/chip";
@@ -40,6 +41,10 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
   const editable = route.params.editable;
   const { journal } = useJournalData(journalId);
   const { setDataUpdated } = useJournalStore();
+  const moodDescriptionRef = useRef<TextInput>(null);
+  const activityRef = useRef<TextInput>(null);
+  const toImproveRef = useRef<TextInput>(null);
+  const thoughtsAndIdeasRef = useRef<TextInput>(null);
 
   const {
     control,
@@ -89,7 +94,6 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             render={({ field: { onChange, onBlur, value } }) => (
               <LabelInputField
                 style={styles.inputStyle}
-                multiline={true}
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
@@ -145,11 +149,19 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             render={({ field: { onChange, onBlur, value } }) => (
               <LabelInputField
                 style={styles.inputStyle}
-                multiline={true}
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
                 isEditable={isEditable}
+                ref={moodDescriptionRef}
+                returnKeyType='next'
+                onSubmitEditing={() => activityRef.current!.focus()}
+                onKeyPress={({ nativeEvent }) => {
+                  if (nativeEvent.key === "Enter") {
+                    activityRef.current!.focus();
+                    return false;
+                  }
+                }}
               />
             )}
             name='moodDescription'
@@ -169,11 +181,19 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             render={({ field: { onChange, onBlur, value } }) => (
               <LabelInputField
                 style={styles.inputStyle}
-                multiline={true}
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
                 isEditable={isEditable}
+                ref={activityRef}
+                returnKeyType='next'
+                onSubmitEditing={() => toImproveRef.current!.focus()}
+                onKeyPress={({ nativeEvent }) => {
+                  if (nativeEvent.key === "Enter") {
+                    toImproveRef.current!.focus();
+                    return false;
+                  }
+                }}
               />
             )}
             name='activity'
@@ -196,11 +216,19 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
             render={({ field: { onChange, onBlur, value } }) => (
               <LabelInputField
                 style={styles.inputStyle}
-                multiline={true}
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
                 isEditable={isEditable}
+                ref={toImproveRef}
+                returnKeyType='next'
+                onSubmitEditing={() => thoughtsAndIdeasRef.current!.focus()}
+                onKeyPress={({ nativeEvent }) => {
+                  if (nativeEvent.key === "Enter") {
+                    thoughtsAndIdeasRef.current!.focus();
+                    return false;
+                  }
+                }}
               />
             )}
             name='toImprove'
@@ -227,6 +255,14 @@ const EditJournalScreen: React.FC<EditJournalProps> = ({ route }) => {
                 onChangeText={(value) => onChange(value)}
                 value={value}
                 isEditable={isEditable}
+                ref={thoughtsAndIdeasRef}
+                onKeyPress={({ nativeEvent }) => {
+                  if (nativeEvent.key === "Enter") {
+                    Keyboard.dismiss();
+                    return false;
+                  }
+                }}
+                returnKeyType='done'
               />
             )}
             name='thoughtsAndIdeas'
