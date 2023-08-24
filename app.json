@@ -25,7 +25,8 @@
       },
       "runtimeVersion": {
         "policy": "appVersion"
-      }
+      },
+      "package": "com.abeerance.routineadhdappbachelor"
     },
     "web": {
       "favicon": "./assets/favicon.png"
