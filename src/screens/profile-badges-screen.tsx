@@ -70,6 +70,8 @@ const ProfileBadgesScreen: React.FC<ProfileBadgesScreenProps> = ({ route }) => {
         }),
       },
     ],
+    position: "relative" as "relative",
+    left: windowWidth * 0.03,
   };
 
   const levelsViewStyle = {
@@ -84,6 +86,8 @@ const ProfileBadgesScreen: React.FC<ProfileBadgesScreenProps> = ({ route }) => {
         }),
       },
     ],
+    position: "relative" as "relative",
+    right: windowWidth * 0.03,
   };
 
   const { t } = useTranslation();

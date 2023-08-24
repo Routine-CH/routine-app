@@ -1,8 +1,8 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Keyboard, StyleSheet, TextInput, View } from "react-native";
 import IconTextButton from "../components/common/buttons/icon-text-button";
 import SaveButton from "../components/common/buttons/save-button";
 import Chip from "../components/common/calendar/chip";
@@ -31,6 +31,10 @@ const NewJournalScreen: React.FC = () => {
   const showToast = useToastMessageStore((state) => state.showToast);
   const { control, handleSubmit } = useForm<IFormJournalInputs>();
   const { startLoading, stopLoading } = useToastMessageStore();
+  const moodDescriptionRef = useRef<TextInput>(null);
+  const activityRef = useRef<TextInput>(null);
+  const toImproveRef = useRef<TextInput>(null);
+  const thoughtsAndIdeasRef = useRef<TextInput>(null);
 
   const handleModalPress = () => {
     setIsModalVisible(true);
@@ -135,7 +139,9 @@ const NewJournalScreen: React.FC = () => {
           {selectedMoods.map((mood, index) => (
             <Chip
               key={index}
-              text={typeof mood === "string" ? mood : mood.type}
+              text={
+                typeof mood === "string" ? mood : t(`emotions.${mood.type}`)
+              }
               style={styles.chip}
               onPress={() => {
                 if (typeof mood === "object") {
@@ -160,12 +166,19 @@ const NewJournalScreen: React.FC = () => {
             <LabelInputField
               placeholder={t("journal.mood-description")}
               style={styles.inputField}
-              numberOfLines={5}
-              multiline={true}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
               isEditable={isEditable}
+              ref={moodDescriptionRef}
+              returnKeyType='next'
+              onSubmitEditing={() => activityRef.current!.focus()}
+              onKeyPress={({ nativeEvent }) => {
+                if (nativeEvent.key === "Enter") {
+                  activityRef.current!.focus();
+                  return false;
+                }
+              }}
             />
           )}
           name='moodDescription'
@@ -179,12 +192,19 @@ const NewJournalScreen: React.FC = () => {
             <LabelInputField
               placeholder={t("journal.activity")}
               style={styles.inputField}
-              numberOfLines={5}
-              multiline={true}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
               isEditable={isEditable}
+              ref={activityRef}
+              returnKeyType='next'
+              onSubmitEditing={() => toImproveRef.current!.focus()}
+              onKeyPress={({ nativeEvent }) => {
+                if (nativeEvent.key === "Enter") {
+                  toImproveRef.current!.focus();
+                  return false;
+                }
+              }}
             />
           )}
           name='activity'
@@ -198,12 +218,19 @@ const NewJournalScreen: React.FC = () => {
             <LabelInputField
               placeholder={t("journal.to-improve")}
               style={styles.inputField}
-              numberOfLines={5}
-              multiline={true}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
               isEditable={isEditable}
+              ref={toImproveRef}
+              returnKeyType='next'
+              onSubmitEditing={() => thoughtsAndIdeasRef.current!.focus()}
+              onKeyPress={({ nativeEvent }) => {
+                if (nativeEvent.key === "Enter") {
+                  thoughtsAndIdeasRef.current!.focus();
+                  return false;
+                }
+              }}
             />
           )}
           name='toImprove'
@@ -217,12 +244,18 @@ const NewJournalScreen: React.FC = () => {
             <LabelInputField
               placeholder={t("journal.thoughts-and-ideas")}
               style={styles.inputField}
-              numberOfLines={5}
-              multiline={true}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
               isEditable={isEditable}
+              ref={thoughtsAndIdeasRef}
+              onKeyPress={({ nativeEvent }) => {
+                if (nativeEvent.key === "Enter") {
+                  Keyboard.dismiss();
+                  return false;
+                }
+              }}
+              returnKeyType='done'
             />
           )}
           name='thoughtsAndIdeas'

@@ -6,7 +6,7 @@ import { Dimensions, Image, StyleSheet, View } from "react-native";
 import LoginForm from "../components/auth/login-form";
 import RegisterNavigation from "../components/auth/register-navigation";
 import FlatButton from "../components/common/buttons/flat-button";
-import ScreenWrapper from "../components/common/screen-wrapper";
+import ScrollViewScreenWrapper from "../components/common/scroll-view-screen-wrapper";
 import RoutineToast from "../components/common/toast/routine-toast";
 import AppText from "../components/common/typography/app-text";
 import { AuthContext } from "../contexts/auth-context";
@@ -63,7 +63,7 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <ScreenWrapper
+    <ScrollViewScreenWrapper
       backgroundColor={AppColors.blue100}
       statusBarColor={StatusBarColor.light}
     >
@@ -94,7 +94,7 @@ const LoginScreen: React.FC = () => {
         <RegisterNavigation onPress={navigateToRegisterScreen} />
       </View>
       <RoutineToast />
-    </ScreenWrapper>
+    </ScrollViewScreenWrapper>
   );
 };
 
@@ -103,15 +103,14 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   outerContainer1: {
     backgroundColor: AppColors.blue100,
-    height: windowHeight * 0.03,
+    height: windowHeight * 0.02,
   },
   outerContainer2: {
     backgroundColor: AppColors.blue100,
-    height: windowHeight * 0.1,
   },
   innerContainer: {
     backgroundColor: AppColors.white,
-    flex: 18,
+    height: windowHeight * 0.75,
     borderRadius: 20,
     paddingHorizontal: windowWidth * 0.06,
     width: "100%",
